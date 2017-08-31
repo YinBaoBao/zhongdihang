@@ -1,0 +1,83 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <!--<span><img alt="image" class="img-circle"-->
+                               <!--width="64px" height="64px"/></span>-->
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                       <span class="block m-t-xs"><strong class="font-bold" id="user-name"></strong></span>
+                        <span class="text-muted text-xs block" id="role-name"><b class="caret"></b></span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a class="J_menuItem" href="/mgr/user_info">个人资料</a></li>
+                        <li><a class="J_menuItem" href="/mgr/user_chpwd">修改密码</a></li>
+                        <li class="divider"></li>
+                        <li><a href="${ctxPath}/logout">安全退出</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-element">Mx
+                </div>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa ${title.icon}"></i>
+                    <span class="nav-label">系统管理</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="#" name="tabMenuItem">菜单管理</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="#" name="tabMenuItem">权限管理</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="#" name="tabMenuItem">字典表管理</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa ${title.icon}"></i>
+                    <span class="nav-label">业务管理</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="#" name="tabMenuItem">银行管理</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="#" name="tabMenuItem">评估机构管理</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="#" name="tabMenuItem">用户管理</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa ${title.icon}"></i>
+                    <span class="nav-label">派单管理</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="#" name="tabMenuItem">派单</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="#" name="tabMenuItem">派单统计</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="#" name="tabMenuItem">评分</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

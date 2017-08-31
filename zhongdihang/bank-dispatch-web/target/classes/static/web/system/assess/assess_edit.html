@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit"/><!-- 让360浏览器默认选择webkit内核 -->
+    <!-- 全局css -->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/css/plugins/validate/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/_fstyle.css" rel="stylesheet">
+    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/css/plugins/webuploader/webuploader.css" rel="stylesheet">
+    <link href="/css/plugins/ztree/zTreeStyle.css" rel="stylesheet">
+    <link href="/css/plugins/jquery-treegrid/css/jquery.treegrid.css" rel="stylesheet"/>
+    <link href="/css/ui-choose.css" rel="stylesheet"/>
+    <!-- 全局js -->
+    <script src="/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/js/plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="/js/plugins/validate/bootstrapValidator.min.js"></script>
+    <script src="/js/plugins/validate/zh_CN.js"></script>
+    <script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="/js/plugins/jquery-treegrid/js/jquery.treegrid.min.js"></script>
+    <script src="/js/plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+    <script src="/js/plugins/jquery-treegrid/extension/jquery.treegrid.extension.js"></script>
+    <script src="/js/plugins/layer/layer.min.js"></script>
+    <script src="/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="/js/plugins/webuploader/webuploader.min.js"></script>
+    <script src="/js/plugins/vue/vue.min.js"></script>
+    <script src="/js/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/js/common/ajax-object.js"></script>
+    <script src="/js/common/bootstrap-table-object.js"></script>
+    <script src="/js/common/tree-table-object.js"></script>
+    <script src="/js/common/web-upload-object.js"></script>
+    <script src="/js/common/ztree-object.js"></script>
+    <script src="/js/common/Bank.js"></script>
+    <script src="/js/ui-choose.js"></script>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="form-horizontal" id="assessInfoForm">
+                <input type="hidden" id="id" :value="assess.id">
+                <div class="row">
+                    <div class="col-sm-6 b-r">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">机构名称</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" id="name" name="name" :value="assess.name">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">电话</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" id="telephone" name="telephone" :value="assess.telephone">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">评估类型</label>
+                            <div class="col-sm-9">
+                                <select class="ui-choose" multiple="multiple" id="guarantyType">
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">联系人</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" id="linkMen" name="linkMen" :value="assess.linkMen">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">地址</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" id="address" name="address" :value="assess.address">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                    </div>
+                </div>
+                <div class="row btn-group-m-t">
+                    <div class="col-sm-10 text-right">
+                        <button type="button" class="btn btn-info"  id="ensure" onclick="AssessInfoDlg.editSubmit()" style="margin-right:20px">
+                            <i class="fa fa-check"></i>&nbsp;提交
+                        </button>
+                        <button type="button" class="btn btn-danger"  id="cancel" onclick="AssessInfoDlg.close()">
+                            <i class="fa fa-eraser"></i>&nbsp;取消
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/modular/system/assess/assess_info.js"></script>
+</div>
+<script src="/js/content.js?v=1.0.0"></script>
+<script>
+    $(function () {
+        // 将所有.ui-choose实例化
+        $('.ui-choose').ui_choose();
+        var uc_04 = $('#guarantyType').ui_choose();
+        uc_04.click = function(value, item) {
+            //console.log('click', value);
+        };
+        uc_04.change = function(value, item) {
+            //console.log('change', value);
+        };
+    });
+</script>
+</body>
+</html>

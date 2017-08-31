@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue 树</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <style type="text/css">
+        a{color: #333; text-decoration: none;}
+        ul{padding-left: 15px;}
+    </style>
+</head>
+<body>
+<div class="tree">
+    <nav class='navbar'>
+        <ul class='nav nav-stacked'>
+            <template>
+                <li>
+                    <div @click='toggle'>
+                        <i v-if='isFolder' class="fa " :class="[open?'fa-folder-open':'fa-folder']"></i>
+                        <!--isFolder判断是否存在子级改变图标-->
+                        <i v-if='!isFolder' class="fa fa-file-text"></i> {{model.data.menuName}}
+                    </div>
+                    <ul v-show="open" v-if='isFolder'>
+                        <items v-for='cel in model.childTreeNode' :model='cel'></items>
+                    </ul>
+                </li>
+            </template>
+            <items  :model='model' v-for='model in data'></items>
+        </ul>
+    </nav>
+</div>
+<script>
+
+</script>
+</body>
+</html>

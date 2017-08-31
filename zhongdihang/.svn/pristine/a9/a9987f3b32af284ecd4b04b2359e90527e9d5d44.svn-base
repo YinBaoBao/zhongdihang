@@ -1,0 +1,66 @@
+package com.zhongdihang.bankdispatch.modular.controller;
+
+import com.zhongdihang.bankdispatch.core.controoller.BaseController;
+import com.zhongdihang.bankdispatch.modular.domain.Bank;
+import com.zhongdihang.bankdispatch.modular.domain.Dispatch;
+import com.zhongdihang.bankdispatch.modular.domain.DispatchTrack;
+import com.zhongdihang.bankdispatch.modular.domain.User;
+import com.zhongdihang.bankdispatch.modular.service.DispatchService;
+import com.zhongdihang.bankdispatch.modular.service.DispatchTrackService;
+import com.zhongdihang.bankdispatch.modular.service.dto.DispatchDto;
+import com.zhongdihang.bankdispatch.modular.service.form.newGUarantyForm;
+import com.zhongdihang.bankdispatch.rest.ResultModel;
+import com.zhongdihang.bankdispatch.rest.ResultStatus;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+/**
+ * Created by win10 on 2017/08/17.
+ */
+@RestController
+@RequestMapping("/dispatch")
+@Api(description = "派单控制器")
+public class DispatchController extends BaseController{
+    @Autowired
+    private DispatchService dispatchService;
+    @Autowired
+    private DispatchTrackService dispatchTrackService;
+
+    private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(DispatchController.class);
+
+    @ApiOperation("按权重派单")
+    @RequestMapping(value = "/randomDispatch", method = RequestMethod.POST)
+    public ResultModel randomDispatch(@RequestBody List<newGUarantyForm> gUarantyFormList){
+        Bank bank = getUser().getBank();
+        Long bankId = 0L;
+        if (bank!=null){
+            bankId = bank.getId();
+        }else {
+            //当前用户非银行用户
+            return ResultModel.error(ResultStatus.FAILURE,"当前用户非银行用户");
+        }
+        return ResultModel.ok(dispatchService.randomDispatch(bankId,getUser(),gUarantyFormList));
+    }
+
+
+    @ApiOperation("完成单据")
+    @RequestMapping(value = "/dispatchUpdate", method = RequestMethod.POST)
+    public ResultModel dispatchUpdate(@RequestParam int Status,Long dispatchId,Long fileId){
+        Dispatch dispatch = dispatchTrackService.dispatchUpdate(Status,dispatchId,fileId);
+
+        return  ResultModel.ok(dispatch);
+    }
+
+    @ApiOperation("查询当前机构订单")
+    @RequestMapping(value = "/dispatchById", method = RequestMethod.GET)
+    public @ResponseBody ResultModel dispatchUpdate(@RequestParam Long dispatchId){
+        List<DispatchDto> dispatchdto = dispatchService.findDispatch(dispatchId);
+
+        return  ResultModel.ok(dispatchdto);
+    }
+}

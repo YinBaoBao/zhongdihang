@@ -1,0 +1,10 @@
+package com.zhongdihang.bankdispatch.modular.service;
+
+
+import com.zhongdihang.bankdispatch.modular.domain.User;
+
+public interface AuthService {
+    String login(String username, String password);
+
+    String loginOut(String token);
+}

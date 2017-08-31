@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bank-dispatch-rest/bank-dispatch-rest.iml" filepath="$PROJECT_DIR$/bank-dispatch-rest/bank-dispatch-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bank-dispatch-web/bank-dispatch-web.iml" filepath="$PROJECT_DIR$/bank-dispatch-web/bank-dispatch-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bankdiaptch.iml" filepath="$PROJECT_DIR$/bankdiaptch.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit"/><!-- 让360浏览器默认选择webkit内核 -->
+
+    <!-- 全局css -->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/css/plugins/validate/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/_fstyle.css" rel="stylesheet">
+    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/css/plugins/webuploader/webuploader.css" rel="stylesheet">
+    <link href="/css/plugins/ztree/zTreeStyle.css" rel="stylesheet">
+    <link href="/css/plugins/jquery-treegrid/css/jquery.treegrid.css" rel="stylesheet"/>
+    <!-- 全局js -->
+    <script src="/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/js/plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="/js/plugins/validate/bootstrapValidator.min.js"></script>
+    <script src="/js/plugins/validate/zh_CN.js"></script>
+    <script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="/js/plugins/jquery-treegrid/js/jquery.treegrid.min.js"></script>
+    <script src="/js/plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+    <script src="/js/plugins/jquery-treegrid/extension/jquery.treegrid.extension.js"></script>
+    <script src="/js/plugins/layer/layer.min.js"></script>
+    <script src="/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="/js/plugins/webuploader/webuploader.min.js"></script>
+    <script src="/js/plugins/vue/vue.min.js"></script>
+    <script src="/js/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/js/common/ajax-object.js"></script>
+    <script src="/js/common/bootstrap-table-object.js"></script>
+    <script src="/js/common/tree-table-object.js"></script>
+    <script src="/js/common/web-upload-object.js"></script>
+    <script src="/js/common/ztree-object.js"></script>
+    <script src="/js/common/Bank.js"></script>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>用户管理</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row row-lg">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-2 col-sm-3" id="deptTree">
+                                    <div class="panel-group table-responsive" role="tablist">
+                                        <div class="panel panel-primary leftMenu">
+                                            <!-- 利用data-target指定要折叠的分组列表 -->
+                                            <div class="panel-heading" id="collapseBankGroupHeading" data-toggle="collapse" data-target="#collapseBankGroup" role="tab" >
+                                                <h4 class="panel-title">
+                                                    银行
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </h4>
+                                            </div>
+                                            <!-- .panel-collapse和.collapse标明折叠元素 .in表示要显示出来 -->
+                                            <div id="collapseBankGroup" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseBankGroupHeading">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item" v-for="bank in banks"  :data-type="bank.type" :data-deptId="bank.deptId" @click="dept(bank.type,bank.deptId)"  v-cloak >
+                                                        {{ bank.deptName }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div><!--panel end-->
+                                        <div class="panel panel-primary leftMenu">
+                                            <div class="panel-heading" id="collapseAssessGroupHeading" data-toggle="collapse" data-target="#collapseAssessGroup" role="tab" >
+                                                <h4 class="panel-title">
+                                                    评估机构
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseAssessGroup" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseAssessGroupHeading">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item" v-for="assess in assesses" :data-type="assess.type" :data-deptId="assess.deptId" @click="dept(assess.type,assess.deptId)"  v-cloak >
+                                                        {{ assess.deptName }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-10 col-sm-9">
+                                    <div class="row">
+                                        <div class="col-lg-10 col-sm-9">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-sm-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle"
+                                                                    type="button">用户名称
+                                                            </button>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="name" placeholder="帐号/姓名/手机号" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle"
+                                                                    type="button">注册开始日期
+                                                            </button>
+                                                        </div>
+                                                        <input type="text" class="form-control layer-date"
+                                                               onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" id="beginTime"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-sm-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle"
+                                                                    type="button">注册结束日期
+                                                            </button>
+                                                        </div>
+                                                        <input type="text" class="form-control layer-date"
+                                                               onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" id="endTime"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-3">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-sm-12">
+                                                    <button type="button" class="btn btn-primary" onclick="MgrUser.search()">
+                                                        <i class="fa fa-search"></i>&nbsp;搜索
+                                                    </button>
+                                                    <button type="button" class="btn btn-trash button-margin" onclick="MgrUser.resetSearch()">
+                                                    <i class="fa fa-search"></i>&nbsp;重置
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hidden-xs" id="managerTableToolbar" role="group">
+                                        <button type="button" class="btn btn-primary"  onclick="MgrUser.openAddMgr()" permission="user:add">
+                                            <i class="fa fa-plus"></i>&nbsp;添加
+                                        </button>
+                                        <button type="button" class="btn btn-primary button-margin" onclick="MgrUser.openChangeUser()" permission="user:update">
+                                            <i class="fa fa-edit"></i>&nbsp;修改
+                                        </button>
+                                        <button type="button" class="btn btn-primary button-margin" onclick="MgrUser.delMgrUser()" permission="user:delete">
+                                            <i class="fa fa-remove"></i>&nbsp;删除
+                                        </button>
+                                        <button type="button" class="btn btn-primary button-margin" onclick="MgrUser.resetPwd()" permission="user:password:force">
+                                            <i class="fa fa-refresh"></i>&nbsp;重置密码
+                                        </button>
+                                        <button type="button" class="btn btn-primary button-margin" onclick="MgrUser.freezeAccount()" permission="user:disable">
+                                            <i class="fa fa-warning"></i>&nbsp;冻结
+                                        </button>
+                                        <button type="button" class="btn btn-primary button-margin" onclick="MgrUser.unfreeze()" permission="user:enable">
+                                            <i class="fa fa-check-circle"></i>&nbsp;解除冻结
+                                        </button>
+                                        <button type="button" class="btn btn-primary button-margin" onclick="MgrUser.roleAssign()" permission="user:role">
+                                            <i class="fa fa-user-secret"></i>&nbsp;角色分配
+                                        </button>
+                                    </div>
+                                    <table id="managerTable" data-mobile-responsive="true" data-click-to-select="true">
+                                        <thead>
+                                        <tr>
+                                            <th data-field="selectItem" data-checkbox="true"></th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/modular/system/user/user.js"></script>
+</div>
+<script src="/js/content.js?v=1.0.0"></script>
+</body>
+</html>
