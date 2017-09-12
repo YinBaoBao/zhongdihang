@@ -19,7 +19,7 @@ var BankInfoDlg = {
                 }
             }
         },
-        AreaCode: {
+        area: {
             validators: {
                 notEmpty: {
                     message: '区号不能为空'
@@ -37,16 +37,25 @@ var BankInfoDlg = {
             validators: {
                 notEmpty: {
                     message : '手机号码不能为空'
+                },
+                stringLength: {
+                    min: 11,
+                    max: 11,
+                    message: '请输入11位手机号码'
+                },
+                regexp: {
+                    regexp: /^1[3|5|8]{1}[0-9]{9}$/,
+                    message: '请输入正确的手机号码'
                 }
             }
         },
         type: {
             validators: {
                 notEmpty: {
-                    message : '状态不能为空'
+                    message : '类型不能为空'
                 }
             }
-        },
+        }
     }
 };
 
@@ -86,13 +95,15 @@ BankInfoDlg.get = function (key) {
  * 收集数据
  */
 BankInfoDlg.collectData = function () {
-    this.set('Address').set('Name').set('AreaCode').set('LinkMen').set('Telephone').set('type').set('id');
+    this.set('Address').set('Name').set('area').set('LinkMen').set('Telephone').set('type').set('id');
 };
 
-Bank.init = function () {
+BankInfoDlg.init = function () {
     //初始化下拉框
     var data=selectData("type");
     Bank.initSelect("type",data);
+    var data=selectData("area");
+    Bank.initSelect("area",data);
 
     var id = Bank.getQueryString("id");
     if (id) {
@@ -148,14 +159,12 @@ BankInfoDlg.addSubmit = function () {
  * 提交修改
  */
 BankInfoDlg.editSubmit = function () {
-
     this.clearData();
     this.collectData();
 
     if (!this.validate()) {
         return;
     }
-
     //提交信息
     var ajax = new $ax(Bank.api.bank_edit, function (data) {
         Bank.success("修改成功!");
@@ -167,7 +176,6 @@ BankInfoDlg.editSubmit = function () {
     ajax.set(this.bankInfoData);
     ajax.start();
 };
-
 
 
 /**
@@ -184,6 +192,6 @@ $(function () {
     }else{
         $("#isbank").val($("#isbankValue").val());
     }
-    Bank.init();
+    BankInfoDlg.init();
     Bank.initValidator("bankInfoForm", BankInfoDlg.validateFields);
 });

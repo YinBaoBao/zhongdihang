@@ -24,6 +24,15 @@ var AssessInfoDlg = {
             validators: {
                 notEmpty: {
                     message: '电话不能为空'
+                },
+                stringLength: {
+                    min: 11,
+                    max: 11,
+                    message: '请输入11位手机号码'
+                },
+                regexp: {
+                    regexp: /^1[3|5|8]{1}[0-9]{9}$/,
+                    message: '请输入正确的手机号码'
                 }
             }
         },

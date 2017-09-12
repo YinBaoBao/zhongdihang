@@ -1,0 +1,51 @@
+/**
+ * Created by YINBAOBAO on 2017/9/7.
+ */
+/**
+ * 角色管理的单例
+ */
+var Dispatchcount_manager = {
+    id: "count_managerTable",	//表格id
+    seItem: null,		//选中的条目
+    table: null,
+    layerIndex: -1
+};
+
+/**
+ * 初始化表格的列
+ */
+Dispatchcount_manager.initColumn = function () {
+    var columns = [
+        {field: 'selectItem', radio: true},
+        {title: '经理', field: 'id', visible: false, align: 'center', valign: 'middle',width:'150px'},
+        {title: '菜单名称', field: 'menuName', align: 'center', valign: 'middle', sortable: true,width:'17%'},
+        {title: '客户', field: 'pMenuName', align: 'center', valign: 'middle', sortable: true,width:'12%'}
+    ];
+    return columns;
+};
+
+/**
+ * 检查是否选中
+ */
+Dispatchcount_manager.check = function () {
+    var selected = $('#' + this.id).bootstrapTreeTable('getSelections');
+    if (selected.length == 0) {
+        Bank.info("请先选中表格中的某一记录！");
+        return false;
+    } else {
+        Dispatchcount_manager.seItem = selected[0];
+        return true;
+    }
+};
+
+$(function () {
+    var defaultColunms = Dispatchcount_manager.initColumn();
+    var table = new BSTreeTable(Dispatchcount_manager.id, Bank.api.menu_list, defaultColunms);
+    table.setExpandColumn(2);
+    table.setIdField("id");
+    table.setCodeField("id");
+    table.setParentCodeField("pId");
+    table.setExpandAll(true);
+    table.init();
+    Dispatchcount_manager.table = table;
+});

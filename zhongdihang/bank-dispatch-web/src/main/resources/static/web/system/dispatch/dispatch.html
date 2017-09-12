@@ -72,17 +72,20 @@
                                 </div>
                             </div>
                             <div class="hidden-xs" id="DispatchTableToolbar" role="group">
-                                <button type="button" class="btn btn-primary" onclick="Dispatch.openAddDict()">
-                                    <i class="fa fa-plus"></i>&nbsp;查看
+                                <button type="button" class="btn btn-primary" onclick="DispatchAssess.openAddDispatch()">
+                                    <i class="fa fa-plus"></i>&nbsp;接单
                                 </button>
-                                <button type="button" class="btn btn-primary button-margin" onclick="Dispatch.openDictDetail()">
-                                    <i class="fa fa-edit"></i>&nbsp;完成
+                                <button type="button" class="btn btn-primary button-margin" onclick="DispatchAssess.openDispatchDetail()">
+                                    <i class="fa fa-edit"></i>&nbsp;查看
                                 </button>
-                                <!--<button type="button" class="btn btn-primary button-margin" onclick="Dispatch.delete()">
-                                    <i class="fa fa-remove"></i>&nbsp;删除
-                                </button>-->
+                                <button type="button" class="btn btn-primary button-margin" onclick="DispatchAssess.ycomplete()">
+                                    <i class="fa fa-remove"></i>&nbsp;预评估完成
+                                </button>
+                                <button type="button" class="btn btn-primary button-margin" onclick="DispatchAssess.zcomplete()">
+                                    <i class="fa fa-cogs"></i>&nbsp;正式评估完成
+                                </button>
                             </div>
-                            <table id="DispatchTable" data-mobile-responsive="true" data-click-to-select="true">
+                            <table id="DispatchAssessTable" data-mobile-responsive="true" data-click-to-select="true">
                                 <thead>
                                 <tr>
                                     <th data-field="selectItem" data-checkbox="true"></th>

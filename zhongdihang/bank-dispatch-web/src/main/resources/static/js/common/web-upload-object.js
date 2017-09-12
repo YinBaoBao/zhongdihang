@@ -64,7 +64,7 @@
 		bindEvent : function(bindedObj) {
 			var me =  this;
 			bindedObj.on('fileQueued', function(file) {
-				var $li = $('<div><img width="100px" height="100px"></div>');
+				var $li = $('<div><img width="150px" height="150px"></div>');
 				var $img = $li.find('img');
 
 				$("#" + me.uploadPreId).html($li);
@@ -96,16 +96,41 @@
 			bindedObj.on('uploadSuccess', function(file,response) {
 				if(response.code==1000){
 					Bank.success("上传成功");
+					var $li = $("#"+me.uploadBarId);
+					var $info = $li.find('div.info');
+					$li.css('background-color','#23c6c8')
+					// 避免重复创建
+					if ( !$info.length ) {
+						$info = $('<div class="info"></div>').appendTo( $li );
+					}
+					$info.text('上传成功');
 					$("#" + me.pictureId).val(response.content.id);
+					$('#'+me.uploadPreId).find("img").attr('src',response.content.relativePath);
 				}else {
-					$('#'+this.uploadPreId).find('img').attr('src',this.defaultimg);
+					$('#'+me.uploadPreId).find('img').attr('src',this.defaultimg);
+					var $li = $("#"+me.uploadBarId);
+					var $info = $li.find('div.info');
+					$li.css('background-color','#ed5565')
+					// 避免重复创建
+					if ( !$info.length ) {
+						$info = $('<div class="info"></div>').appendTo( $li );
+					}
+					$info.text('上传失败');
 					Bank.error(response.message);
 				}
 			});
 
 			// 文件上传失败，显示上传出错。
 			bindedObj.on('uploadError', function(file) {
-				Bank.error("上传失败");
+				$('#'+me.uploadPreId).find('img').attr('src',this.defaultimg);
+				var $li = $("#"+me.uploadBarId),
+					$info = $li.find('div.info');
+				$li.css('background-color','#ed5565')
+				// 避免重复创建
+				if ( !$info.length ) {
+					$info = $('<div class="info"></div>').appendTo( $li );
+				}
+				$info.text('上传失败');
 			});
 
 			// 其他错误

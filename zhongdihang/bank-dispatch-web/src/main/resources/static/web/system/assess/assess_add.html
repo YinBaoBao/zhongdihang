@@ -60,24 +60,6 @@
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">电话</label>
-                            <div class="col-sm-9">
-                                <input class="form-control" id="telephone" name="telephone">
-                            </div>
-                        </div>
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">评估类型</label>
-                            <div class="col-sm-9">
-                            <select class="ui-choose" multiple="multiple" id="guarantyType">
-
-                            </select>
-                            </div>
-                        </div>
-                        <div class="hr-line-dashed"></div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
                             <label class="col-sm-3 control-label">联系人</label>
                             <div class="col-sm-9">
                                 <input class="form-control" id="linkMen" name="linkMen" >
@@ -85,17 +67,34 @@
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">评估类型</label>
+                            <div class="col-sm-9">
+                            <select class="ui-choose" multiple="multiple" id="guarantyType">
+                            </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">地址</label>
                             <div class="col-sm-9">
                                 <input class="form-control" id="address" name="address">
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">电话</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" id="telephone" name="telephone">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
                     </div>
                 </div>
                 <div class="row btn-group-m-t">
-                    <div class="col-sm-10 text-right">
-                        <button type="button" class="btn btn-info"  id="ensure" onclick="AssessInfoDlg.addSubmit()" style="margin-right:20px">
+                    <div class="col-sm-12 text-right">
+                        <button type="button" class="btn btn-info"  id="ensure" onclick="AssessInfoDlg.addSubmit()">
                             <i class="fa fa-check"></i>&nbsp;提交
                         </button>
                         <button type="button" class="btn btn-danger"  id="cancel" onclick="AssessInfoDlg.close()">

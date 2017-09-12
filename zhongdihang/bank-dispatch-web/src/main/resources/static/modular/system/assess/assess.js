@@ -52,7 +52,7 @@ Assess.openAddAssess = function () {
     var index = layer.open({
         type: 2,
         title: '添加评估机构',
-        area: ['800px', '520px'], //宽高
+        area: ['800px', '400px'], //宽高
         fix: false, //不固定
         maxmin: true,
         offset: '8px',
@@ -70,7 +70,7 @@ Assess.openChangeAssess = function () {
         var index = layer.open({
             type: 2,
             title: '编辑评估机构',
-            area: ['800px', '450px'], //宽高
+            area: ['800px', '400px'], //宽高
             fix: false, //不固定
             maxmin: true,
             content: Bank.htmlPage(Bank.page.assess_edit,{id:this.seItem.id})

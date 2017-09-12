@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit"/><!-- 让360浏览器默认选择webkit内核 -->
+
+    <!-- 全局css -->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/css/plugins/validate/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/_fstyle.css" rel="stylesheet">
+    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/css/plugins/webuploader/webuploader.css" rel="stylesheet">
+    <link href="/css/plugins/ztree/zTreeStyle.css" rel="stylesheet">
+    <link href="/css/plugins/jquery-treegrid/css/jquery.treegrid.css" rel="stylesheet"/>
+    <link href="/js/plugins/wizard/wizard.css" rel="stylesheet"/>
+    <!-- 全局js -->
+    <script src="/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/js/plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="/js/plugins/validate/bootstrapValidator.min.js"></script>
+    <script src="/js/plugins/validate/zh_CN.js"></script>
+    <script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="/js/plugins/jquery-treegrid/js/jquery.treegrid.min.js"></script>
+    <script src="/js/plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+    <script src="/js/plugins/jquery-treegrid/extension/jquery.treegrid.extension.js"></script>
+    <script src="/js/plugins/layer/layer.min.js"></script>
+    <script src="/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="/js/plugins/webuploader/webuploader.min.js"></script>
+    <script src="/js/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/js/plugins/wizard/wizard.js"></script>
+    <script src="/js/common/ajax-object.js"></script>
+    <script src="/js/common/bootstrap-table-object.js"></script>
+    <script src="/js/common/tree-table-object.js"></script>
+    <script src="/js/common/web-upload-object.js"></script>
+    <script src="/js/common/ztree-object.js"></script>
+    <script src="/js/common/Bank.js"></script>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div id="wizard" class="wizard" data-target="#wizard-steps" style="border-left: none; border-top: none; border-right: none;">
+        <ul class="steps">
+            <li data-target="#step-1" class="active"><span class="step">1</span>借款信息<span class="chevron"></span></li>
+            <li data-target="#step-2"><span class="step">2</span>抵押物信息<span class="chevron"></span></li>
+        </ul>
+    </div>
+    <div class="step-content" id="wizard-steps" style="border-left: none; border-bottom: none; border-right: none;">
+        <div class="step-pane active" id="step-1" style="margin: 10px; margin-bottom: 0px;">
+            <div class="alert alert-danger" style="text-align: left; margin-bottom: 10px;">
+                <i class="fa fa-warning alert-dismissible" style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+                请填写抵押相关信息，以便分配评估公司！
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="form-horizontal" id="dispatchForm">
+                        <div class="row">
+                            <div class="col-sm-6 b-r">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">借款人姓名:</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="borrowerName" name="borrowerName" type="text">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">评估类型:</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="dispatchType" name="dispatchType" >
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">抵押物区域:</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="area" name="area" >
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">借款人电话:</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="borrowerPhone" name="borrowerPhone" type="text">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">抵押物类型:</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="guarantyType" name="guarantyType">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">评估时限:</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input class="form-control" id="timeLimit" name="timeLimit" type="text">
+                                            <span class="input-group-addon">天</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="step-pane" id="step-2">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-sm-12" id="dispatchArea">
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-info " onclick="DispatchBankInfoDlg.addItem()" id="">
+                                            <i class="fa fa-plus"></i>&nbsp;增加
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/template" id="itemTemplate">
+                        <div id="guarantyItem" name="guarantyItem" class="row">
+                            <div class="col-sm-6 b-r" >
+                                    <div class="form-group">
+                                        <div class="col-sm-1 control-label head-scu-label">
+                                            <span style="writing-mode: vertical-rl;font-size: large;letter-spacing: 6px;">产证图片</span>
+                                        </div>
+                                        <div class="col-sm-10" style="text-align: center">
+                                            <div id="PreId">
+                                                <div><img width="150px" height="150px" src="" style="border-radius:6px;"></div>
+                                            </div>
+                                            <div style="width: 150px;margin: auto">
+                                                <div class="progress" style="display: none">
+                                                    <input type="hidden" id="guaranty" name="guaranty" value=""/>
+                                                    <div class="progress progress-striped" id="progressTipArea" >
+                                                        <div id="progressBar"   aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" role="progressbar" class="progress-bar progress-bar-info">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="head-scu-btn upload-btn" id="BtnId" style="text-align:center;margin-top: 5px; ">
+                                                <i class="fa fa-upload"></i>&nbsp;上传
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">联系人:</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" name="contactName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" >联系电话:</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" name="contactPhone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12" style="text-align: center">
+                                        <button type="button" class="btn btn-danger " onclick="DispatchBankInfoDlg.deleteItem(event)" id="cancel">
+                                            <i class="fa fa-remove"></i>&nbsp;删除
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="row btn-group-m-t" id="wizard-actions">
+            <div class="col-sm-12" style="text-align: right">
+                <button type="button" class="btn btn-info btn-prev"  id="btn_last" style="display: none">
+                    <i class="fa fa-check"></i>&nbsp;上一步
+                </button>
+                <button type="button" class="btn btn-info btn-next"  id="btn_next">
+                    <i class="fa fa-check"></i>&nbsp;下一步
+                </button>
+                <button type="button" class="btn btn-info " onclick="DispatchBankInfoDlg.addSubmit()" id="ensure" style="display: none">
+                    <i class="fa fa-check"></i>&nbsp;提交
+                </button>
+                <button type="button" class="btn btn-danger"  id="close" onclick="DispatchBankInfoDlg.close()">
+                    <i class="fa fa-eraser"></i>&nbsp;取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/modular/system/dispatchbank/dispatchbank_add.js"></script>
+<script src="/js/content.js?v=1.0.0"></script>
+</body>
+<script type="text/javascript">
+</script>
+</html>

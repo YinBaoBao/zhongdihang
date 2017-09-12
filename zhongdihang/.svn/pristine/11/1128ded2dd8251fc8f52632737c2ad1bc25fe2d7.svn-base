@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit"/><!-- 让360浏览器默认选择webkit内核 -->
+
+    <!-- 全局css -->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/css/plugins/validate/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/_fstyle.css" rel="stylesheet">
+    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/css/plugins/webuploader/webuploader.css" rel="stylesheet">
+    <link href="/css/plugins/ztree/zTreeStyle.css" rel="stylesheet">
+    <link href="/css/plugins/jquery-treegrid/css/jquery.treegrid.css" rel="stylesheet"/>
+    <link href="/css/plugins/timeline/history.css" rel="stylesheet"/>
+    <link href="/js/plugins/wizard/wizard.css" rel="stylesheet"/>
+    <link href="/js/plugins/data_h/data_h.css" rel="stylesheet"/>
+    <!-- 全局js -->
+    <script src="/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/js/plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="/js/plugins/validate/bootstrapValidator.min.js"></script>
+    <script src="/js/plugins/validate/zh_CN.js"></script>
+    <script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="/js/plugins/jquery-treegrid/js/jquery.treegrid.min.js"></script>
+    <script src="/js/plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+    <script src="/js/plugins/jquery-treegrid/extension/jquery.treegrid.extension.js"></script>
+    <script src="/js/plugins/layer/layer.min.js"></script>
+    <script src="/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="/js/plugins/webuploader/webuploader.min.js"></script>
+    <script src="/js/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/js/plugins/wizard/wizard.js"></script>
+    <script src="/js/plugins/timeline/history.js"></script>
+    <script src="/js/plugins/timeline/jquery.easing.js"></script>
+    <script src="/js/plugins/timeline/jquery.mousewheel.js"></script>
+    <script src="/js/plugins/data_h/data_h.js"></script>
+    <script src="/js/plugins/vue/vue.min.js"></script>
+    <script src="/js/common/ajax-object.js"></script>
+    <script src="/js/common/tree-table-object.js"></script>
+    <script src="/js/common/web-upload-object.js"></script>
+    <script src="/js/common/ztree-object.js"></script>
+    <script src="/js/common/Bank.js"></script>
+    <style type="text/css">
+        .demo {
+            background: #25303b;
+            padding: 2em 0;
+        }
+
+        .main-timeline {
+            width: 80%;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .main-timeline:before {
+            content: "";
+            display: block;
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 0 0 -1px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+        }
+
+        .main-timeline .timeline {
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .main-timeline .timeline:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .main-timeline .timeline-content {
+            width: 40%;
+            float: left;
+            margin: 5px 0 0 0;
+            border-radius: 6px;
+        }
+
+        .main-timeline .date {
+            display: block;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #25303b;
+            padding: 5px 0;
+            margin: 0 0 0 -36px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 7px #25303b;
+        }
+
+        .main-timeline .date span {
+            display: block;
+            text-align: center;
+        }
+
+        .main-timeline .day,
+        .main-timeline .year {
+            font-size: 10px;
+        }
+
+        .main-timeline .month {
+            font-size: 18px;
+        }
+
+        .main-timeline .title {
+            padding: 15px;
+            margin: 0;
+            font-size: 20px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            border-radius: 6px 6px 0 0;
+            position: relative;
+        }
+
+        .main-timeline .title:after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            top: 20px;
+            right: -5px;
+            transform: rotate(-45deg);
+        }
+
+        .main-timeline .description {
+            padding: 15px;
+            margin: 0;
+            font-size: 14px;
+            color: #656565;
+            background: #fff;
+            border-radius: 0 0 6px 6px;
+        }
+
+        .main-timeline .timeline:nth-child(2n+2) .timeline-content {
+            float: right;
+        }
+
+        .main-timeline .timeline:nth-child(2n+2) .title:after {
+            left: -5px;
+        }
+
+        .main-timeline .timeline:nth-child(1) .title,
+        .main-timeline .timeline:nth-child(1) .title:after {
+            background: #9f84c4;
+        }
+
+        .main-timeline .timeline:nth-child(2) .title,
+        .main-timeline .timeline:nth-child(2) .title:after {
+            background: #02a2dd;
+        }
+
+        .main-timeline .timeline:nth-child(3) .title,
+        .main-timeline .timeline:nth-child(3) .title:after {
+            background: #58b25e;
+        }
+
+        .main-timeline .timeline:nth-child(4) .title,
+        .main-timeline .timeline:nth-child(4) .title:after {
+            background: #eab715;
+        }
+
+        @media only screen and (max-width: 990px) {
+            .main-timeline {
+                width: 100%;
+            }
+        }
+
+        @media only screen and (max-width: 767px) {
+            .main-timeline:before,
+            .main-timeline .date {
+                left: 6%;
+            }
+
+            .main-timeline .timeline-content {
+                width: 85%;
+                float: right;
+            }
+
+            .main-timeline .title:after {
+                left: -5px;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .main-timeline:before,
+            .main-timeline .date {
+                left: 12%;
+            }
+
+            .main-timeline .timeline-content {
+                width: 75%;
+            }
+
+            .main-timeline .date {
+                width: 60px;
+                height: 60px;
+                margin-left: -30px;
+            }
+
+            .main-timeline .month {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="alert alert-info" style="text-align: left; margin-bottom: 10px;">
+        <i class="fa fa-warning alert-dismissible"
+           style="position: relative; top: 1px; font-size: 15px; padding-right: 5px;"></i>
+        借款信息
+    </div>
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="form-horizontal" id="borrow-info">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        借款信息
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <ul class="lend">
+                                        <li style="overflow: hidden;padding-bottom:6px;">
+                                            <div class="col-sm-4 text-right">借款人:</div>
+                                            <div class="col-sm-8"><input style="border:0;" name="a" readonly="readonly" :value="dispatch.guarantyDtoList[0].contactName"/></div>
+                                        </li>
+                                        <li style="overflow: hidden;padding-bottom:6px;">
+                                            <div class="col-sm-4 text-right">联系电话:</div>
+                                            <div class="col-sm-8"><input style="border:0;" name="a" readonly="readonly" :value="dispatch.guarantyDtoList[0].contactPhone"/></div>
+                                        </li>
+                                        <li style="overflow: hidden;padding-bottom:6px;">
+                                            <div class="col-sm-4 text-right">抵押物类型:</div>
+                                            <div class="col-sm-8"><input style="border:0;" name="a" readonly="readonly" :value="dispatch.guarantyType"/></div>
+                                        </li>
+                                        <li style="overflow: hidden;padding-bottom:6px;">
+                                            <div class="col-sm-4 text-right">评估类型:</div>
+                                            <div class="col-sm-8"><input style="border:0;" name="a" readonly="readonly" :value="dispatch.dispatchType"/></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        评估信息
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li style="overflow: hidden;padding-bottom:6px;">
+                                            <div class="col-sm-4 text-right">评估公司:</div>
+                                            <div class="col-sm-8"><input style="border:0;" name="a" readonly="readonly" :value="dispatch.assessName"/></div>
+                                        </li>
+                                        <li style="overflow: hidden;padding-bottom:6px;">
+                                            <div class="col-sm-4 text-right">联系人:</div>
+                                            <div class="col-sm-8"><input style="border:0;" name="a" readonly="readonly" :value="dispatch.assessUserName"/></div>
+                                        </li>
+                                        <li style="overflow: hidden;padding-bottom:6px;">
+                                            <div class="col-sm-4 text-right">联系电话:</div>
+                                            <div class="col-sm-8"><input style="border:0;" name="a" readonly="readonly" :value="dispatch.assessUserPhone"/></div>
+                                        </li>
+                                        <li style="overflow: hidden;padding-bottom:6px;">
+                                            <div class="col-sm-4 text-right">评估类型:</div>
+                                            <div class="col-sm-8"><input style="border:0;" name="a" readonly="readonly" :value="dispatch.dispatchType"/></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="panel panel-default" v-if="dispatch.status=='已完成'">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        评估结果（已完成）
+                                    </h3>
+                                </div>
+                                <div class="panel-body" id="dispatchtrackl">
+                                    <ul>
+                                        <li style="overflow: hidden;padding-bottom:6px;">
+                                            <div class="col-sm-4 text-right">评估函:</div>
+                                            <div class="col-sm-8"><img :src="guaranty.filePath" title="产证图片"></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" v-else>
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        评估结果（{{dispatch.status}}）
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    抵押物详情
+                                </h3>
+                            </div>
+                            <div class="panel-body" id="guarantyhtml" >
+                                <ul>
+                                    <li v-for ="guaranty in guarantyList">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h3 class="panel-title">
+                                                            产证图片
+                                                        </h3>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <div class="col-sm-3">
+                                                            <div>
+                                                                <img class="img-responsive" :src="guaranty.filePath"
+                                                                     title="产证图片">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <ul>
+                                                                <li>
+                                                                    <div class="col-sm-4 text-right">联系人:</div>
+                                                                    <div class="col-sm-8">{{ guaranty.contactName}}</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="col-sm-4 text-right">联系电话:</div>
+                                                                    <div class="col-sm-8">{{ guaranty.contactPhone}}</div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    派单流程
+                                </h3>
+                            </div>
+                            <div class="data_h">
+                                <div class="history">
+                                    <div class="history-date" id="dispatchTrack">
+                                        <ul>
+                                            <h6 class="date02"><a href="#nogo">2016年</a></h6>
+                                            <li v-for="dispatchTrack:dispatchTrackDtoList">
+                                                <img src="/js/plugins/data_h/icon07.gif" alt="">
+                                                <h3>12.13<span>2016</span></h3>
+                                                <dl>
+                                                    <dt>{{dispatchTrack.title}}<span>{{dispatchTrack.subTitle}}</span></dt>
+                                                </dl>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/modular/system/dispatch/dispatch_info.js"></script>
+<script>
+    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+    $("#btn_close").bind("click", function () {
+        parent.layer.close(index);
+    });
+    $('#wizard').wizard().on('change', function (e, data) {
+        var $prev = $("#btn_last");
+        var $next = $("#btn_next");
+        if (data.direction == "next") {
+            switch (data.step) {
+                case 1:
+                    $next.show();
+                    $prev.show();
+                    break;
+                case 2:
+                    $next.show();
+                    $prev.show();
+                    break;
+                case 3:
+                    $next.hide();
+                    $prev.show();
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            switch (data.step) {
+                case 2:
+                    $next.show();
+                    $prev.hide();
+                    break;
+                case 3:
+                    $next.show();
+                    $prev.show();
+                    break;
+                case 4:
+                    $next.show();
+                    $prev.show();
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+</script>
+</html>

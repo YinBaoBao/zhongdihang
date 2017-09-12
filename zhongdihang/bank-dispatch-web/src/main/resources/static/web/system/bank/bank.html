@@ -54,14 +54,18 @@
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <div class="col-lg-6">
-                                        <div class="input-group" style="width: 1000px">
-                                            <input id="name" type="text" class="form-control" placeholder="请输入机构名称">
-                                            <button type="button" class="btn btn-primary" onclick="Banks.search()" style="margin-right: -1000px">
-                                                <i class="fa fa-search"></i>&nbsp;搜索
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button">银行名称
                                             </button>
                                         </div>
+                                        <input type="text" class="form-control" id="bankName" placeholder="银行名称">
                                     </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="button" class="btn btn-primary " onclick="Banks.search()">
+                                        <i class="fa fa-search"></i>&nbsp;搜索
+                                    </button>
                                 </div>
                             </div>
                             <div class="hidden-xs" id="managerTableToolbar" role="group">
@@ -73,6 +77,9 @@
                                 </button>
                                 <button type="button" class="btn btn-primary button-margin" onclick="Banks.delBanks()" permission="bank:delete">
                                     <i class="fa fa-remove"></i>&nbsp;删除
+                                </button>
+                                <button type="button" class="btn btn-primary button-margin" onclick="Banks.assessAssign()" permission="bank:assign">
+                                    <i class="fa fa-anchor"></i>&nbsp;入围评估机构
                                 </button>
                             </div>
                             <table id="managerTable" data-mobile-responsive="true" data-click-to-select="true">

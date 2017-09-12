@@ -11,13 +11,15 @@ var Bank = {
     },
     api : {
         login : {url:"/auth",method:"post"},
-        logout : {url:"/logout",method:"post"},
+        login_out : {url:"/loginOut",method:"post"},
         user_list : {url:"/user/list",method:"get"},
         user_dept : {url:"/user/dept",method:"get"},
         user_info : {url:"/user/info",method:"get"},
+        user_current_info : {url:"/user/currentUserInfo",method:"get"},
         user_authInfo : {url:"/user/authInfo",method:"get"},
         user_add : {url:"/user/add",method:"post"},
         user_edit : {url:"/user/edit",method:"post"},
+        user_infoedit: {url:"/user/infoedit",method:"post"},
         user_disable : {url:"/user/disable",method:"post"},
         user_delete : {url:"/user/delete",method:"post"},
         user_enable : {url:"/user/enable",method:"post"},
@@ -54,7 +56,8 @@ var Bank = {
         bank_edit: {url:"/bank/edit",method:"post"},
         bank_bankbyname:{url:"/bank/bankbyname",method:"get"},
         bank_delete: {url:"/bank/delete",method:"post"},
-        bank_assess: {url:"bank/assess",method:"post"},
+        bank_assess: {url:"/bank/assess",method:"post"},
+        bank_bankAssessTree: {url:"/bank/bankAssessTree",method:"get"},
         assess_list: {url:"/assess/list",method:"get"},
         assess_select: {url:"/assess/select",method:"get"},
         assess_info: {url:"/assess/info",method:"get"},
@@ -63,7 +66,19 @@ var Bank = {
         assess_delete: {url:"/assess/delete",method:"post"},
         dispatch_Assess:{url:"/dispatch/finddispatch",method:"get"},
         dispatch_Bank:{url:"/dispatch/finddispatch",method:"get"},
-        dispatch:{url:"/assess/delete",method:"post"}
+        dispatch:{url:"/dispatch/release",method:"post"},
+        dispatch_delete:{url:"/dispatch/deleteDispatch",method:"get"},
+        dispatch_formal:{url:"/dispatch/dispatchFormal",method:"get"},
+        dispatch_findbyid:{url:"/dispatch/finddispatchbyid",method:"get"},
+        dispatch_orders:{url:"/dispatch/dispatchOrders",method:"get"},
+        dispatch_update:{url:"/dispatch/dispatchUpdate",method:"post"},
+        dispatch_UpdateZ:{url:"/dispatch/dispatchUpdateZ",method:"get"},
+        dispatch_Statistics:{url:"/dispatch/dispatchStatistics",method:"get"},
+        bank_Search:{url:"/dispatch/bankSearch",method:"get"},
+        dispatch_status:{url:"/dispatch/dispatchbystatus",method:"get"},
+        assess_count:{url:"/dispatch/assessCount",method:"get"},
+        assessCount_user:{url:"/dispatch/assessCountByUser",method:"get"},
+        file_up:{url:"/file/upload",method:"post"}
     },
     page : {
         login : "/login.html",
@@ -80,9 +95,14 @@ var Bank = {
         dispatch:"/web/system/dispatch/dispatch.html",
         dispatch_add:"/web/system/dispatch/dispatch_add.html",
         dispatch_edit:"/web/system/dispatch/dispatch_edit.html",
-        dispatchBank:"/web/system/dispatcgbank/dispatcgbank.html",
-        dispatchBank_add:"/web/system/dispatcgbank/dispatcgbank_add.html",
-        dispatchBank_edit:"/web/system/dispatcgbank/dispatcgbank_edit.html",
+        dispatchBank:"/web/system/dispatchbank/dispatchbank.html",
+        dispatchBank_add:"/web/system/dispatchbank/dispatchbank_add.html",
+        dispatchBank_edit:"/web/system/dispatchbank/dispatchbank_edit.html",
+        dispatchBank_info:"/web/system/dispatchbank/dispatchbank_info.html",
+        dispatch_info:"/web/system/dispatch/dispatch_info.html",
+        dispatch_complete:"/web/system/dispatch/dispatch_complete.html",
+        dispatchcount_bank:"/web/system/dispatchcount/dispatchcount_bank.html",
+        dispatchcount_manager:"/web/system/dispatchcount/dispatchcount_manager.html",
         menu:"/web/system/menu/menu.html",
         menu_add:"/web/system/menu/menu_add.html",
         menu_edit:"/web/system/menu/menu_edit.html",
@@ -93,6 +113,7 @@ var Bank = {
         bank:"/web/system/bank/bank.html",
         bank_add:"/web/system/bank/bank_add.html",
         bank_edit:"/web/system/bank/bank_edit.html",
+        bank_assessassign:"/web/system/bank/bank_assessassign.html",
         assess:"/web/system/assess/assess.html",
         assess_add:"/web/system/assess/assess_add.html",
         assess_edit:"/web/system/assess/assess_edit.html"
@@ -265,11 +286,11 @@ var Bank = {
     zTreeCheckedNodes: function (zTreeId) {
         var zTree = $.fn.zTree.getZTreeObj(zTreeId);
         var nodes = zTree.getCheckedNodes();
-        var ids = "";
+        var ids = new Array();　;
         for (var i = 0, l = nodes.length; i < l; i++) {
-            ids += "," + nodes[i].id;
+            ids.push(nodes[i].id);
         }
-        return ids.substring(1);
+        return ids;
     },
     eventParseObject: function (event) {//获取点击事件的源对象
         event = event ? event : window.event;
@@ -302,10 +323,10 @@ var Bank = {
         });
     },
     setHeader:function (value){
-        localStorage.setItem(Bank.header.token,Bank.header.bank+value);
+        $.cookie(Bank.header.token,Bank.header.bank+value);
     },
     getHeader:function (){
-        return localStorage.getItem(Bank.header.token);
+        return $.cookie(Bank.header.token);
     },
     timeFormat:function(timeStamp,format){
         if(!format){

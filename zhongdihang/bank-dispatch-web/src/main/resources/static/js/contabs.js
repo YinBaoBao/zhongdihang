@@ -309,5 +309,16 @@ $(function () {
         });
         $('.page-tabs-content').css("margin-left", "0");
     });
-
+    $("body").bind("keydown", function(event) {
+        if(event.keyCode == 116){
+            event.preventDefault(); //阻止默认刷新
+            var target =$('.J_iframe[data-id="' + $('.J_menuTab.active').data('id') + '"]');
+            var url = target.attr('src');
+            //显示loading提示
+            //var loading = layer.load();
+            //target.attr('src', url).load(function () {
+            //    layer.close(loading);
+            //});
+        }
+    });
 });

@@ -1,0 +1,75 @@
+package com.zhongdihang.bankdispatch.modular.service;
+
+import com.zhongdihang.bankdispatch.modular.domain.Assess;
+import com.zhongdihang.bankdispatch.modular.domain.Bank;
+import com.zhongdihang.bankdispatch.modular.domain.Dispatch;
+import com.zhongdihang.bankdispatch.modular.domain.User;
+import com.zhongdihang.bankdispatch.modular.service.dto.*;
+import com.zhongdihang.bankdispatch.modular.service.form.newGUarantyForm;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by win10 on 2017/08/16.
+ */
+public interface DispatchService {
+    Dispatch save(Dispatch dispatch);
+
+    String generatDispacthNo(Dispatch dispatch);
+
+    Assess dispatchAssess(Dispatch dispatch);
+
+    //=====================================
+    //按权重派单
+    //=====================================
+    AssessDto randomDispatch(Long bankId, User user, List<newGUarantyForm> gUarantyFormList);
+    //==========================================
+    //查询当前机构订单
+    //==========================================
+    Page<Dispatch> findDispatch(String status, Bank bank_, Assess assess_,  String dispatchNo, PageRequest page);
+    //==========================================
+    //转为正式评估
+    //==========================================
+    Dispatch dispatchByFormal(Long dispatchId,User user);
+    //==========================================
+    //取消派单
+    //==========================================
+    Dispatch deleteLispatch(Long dispatchId,User user);
+    //===========================================
+    //根据订单号查询订单
+    //===========================================
+    DispatchDto findDispatchById(Long dispatchId);
+    //===========================================
+    //接单
+    //===========================================
+    Dispatch dispatchOrders(Long dispatchId);
+    //===========================================
+    //正式评估完成
+    //===========================================
+    Dispatch dispatchUpdateZ(Long dispatchId);
+    //===========================================
+    //统计银行派单数据
+    //===========================================
+    StatisticsDto dispatchStatistics();
+    //===========================================
+    //根据状态查询单据
+    //===========================================
+    List<DispatchDto> dispatchByStatus(String status);
+    //===========================================
+    //根据银行查询各个机构单据总数
+    //===========================================
+    List<BankDispatchCountDto> assessCountByBank();
+    //===========================================
+    //根据User查询各个机构单据总数
+    //===========================================
+    List<ManagerCountDto> assessCountByUser();
+    //===========================================
+    //银行派单页面搜索框
+    //===========================================
+    Page<Dispatch> bankSearch(String startDate,String endDate,String search,PageRequest page);
+
+
+}

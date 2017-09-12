@@ -18,10 +18,10 @@ Banks.initColumn = function () {
         {title: 'Id', field: 'id', visible: false, align: 'center', valign: 'middle'},
         {title: '机构名称', field: 'name', align: 'center', valign: 'middle', sortable: false},
         {title: '地址', field: 'address', align: 'center', valign: 'middle', sortable: true},
-        {title: '区号', field: 'areaCode', align: 'center', valign: 'middle', sortable: true},
+        {title: '区域', field: 'area', align: 'center', valign: 'middle', sortable: true},
         {title: '负责人', field: 'linkMen', align: 'center', valign: 'middle', sortable: true},
         {title: '手机号码', field: 'telephone', align: 'center', valign: 'middle', sortable: false},
-        {title: '状态', field: 'type', align: 'center', valign: 'middle', sortable: true}
+        {title: '类型', field: 'type', align: 'center', valign: 'middle', sortable: true}
         ];
     return columns;
 };
@@ -47,7 +47,7 @@ Banks.openAddMgr = function () {
     var index = layer.open({
         type: 2,
         title: '添加银行',
-        area: ['800px', '500px'], //宽高
+        area: ['800px', '400px'], //宽高
         fix: false, //不固定
         maxmin: true,
         offset: '8px',
@@ -65,7 +65,7 @@ Banks.openChangeUser = function () {
         var index = layer.open({
             type: 2,
             title: '银行修改',
-            area: ['800px', '450px'], //宽高
+            area: ['800px', '400px'], //宽高
             fix: false, //不固定
             maxmin: true,
             content: Bank.htmlPage(Bank.page.bank_edit,{id:this.seItem.id})
@@ -95,6 +95,24 @@ Banks.delBanks = function () {
     }
 };
 
+/**
+ * 入围评估机构
+ * @param
+ */
+Banks.assessAssign = function () {
+    if (this.check()) {
+        var index = layer.open({
+            type: 2,
+            title: '入围评估机构',
+            area: ['400px', '500px'], //宽高
+            fix: false, //不固定
+            maxmin: true,
+            content: Bank.htmlPage(Bank.page.bank_assessassign,{bankId:this.seItem.id,bankName:this.seItem.name})
+        });
+        this.layerIndex = index;
+    }
+};
+
 
 /**
  * 搜索
@@ -108,9 +126,8 @@ Banks.resetSearch = function () {
 
 Banks.search = function () {
     var queryData = {};
-    queryData['Name'] = $("#name").val();
-
-    Banks.table.refresh({url: Bank.route(Bank.api.bank_bankbyname),query: queryData});
+    queryData['bankName'] = $("#bankName").val();
+    Banks.table.refresh({url: Bank.route(Bank.api.bank_list),query: queryData});
 }
 
 $(function () {

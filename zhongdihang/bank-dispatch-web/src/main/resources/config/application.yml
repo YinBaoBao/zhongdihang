@@ -1,6 +1,12 @@
 spring:
   mvc:
     static-path-pattern: /**
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,
+                        classpath:/static/,classpath:/public/,file:${upLoad.FilePath}
 
 server:
   port: 8082
+
+upLoad:
+  FilePath: E:/bank/upload/img/

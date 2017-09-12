@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit"/><!-- 让360浏览器默认选择webkit内核 -->
+    <title>派单统计</title>
+    <!-- 全局css -->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/css/plugins/validate/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/_fstyle.css" rel="stylesheet">
+    <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="/css/plugins/webuploader/webuploader.css" rel="stylesheet">
+    <link href="/css/plugins/ztree/zTreeStyle.css" rel="stylesheet">
+    <link href="/css/plugins/jquery-treegrid/css/jquery.treegrid.css" rel="stylesheet"/>
+    <!-- 全局js -->
+    <script src="/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/js/plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="/js/plugins/validate/bootstrapValidator.min.js"></script>
+    <script src="/js/plugins/validate/zh_CN.js"></script>
+    <script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="/js/plugins/jquery-treegrid/js/jquery.treegrid.min.js"></script>
+    <script src="/js/plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+    <script src="/js/plugins/jquery-treegrid/extension/jquery.treegrid.extension.js"></script>
+    <script src="/js/plugins/layer/layer.min.js"></script>
+    <script src="/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/js/plugins/layer/laydate/laydate.js"></script>
+    <script src="/js/plugins/webuploader/webuploader.min.js"></script>
+    <script src="/js/plugins/vue/vue.min.js"></script>
+    <script src="/js/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/js/common/ajax-object.js"></script>
+    <script src="/js/common/bootstrap-table-object.js"></script>
+    <script src="/js/common/tree-table-object.js"></script>
+    <script src="/js/common/web-upload-object.js"></script>
+    <script src="/js/common/ztree-object.js"></script>
+    <script src="/js/common/Bank.js"></script>
+    <style>
+        .count {
+            position: relative;
+            float: left;
+            width: 200px;
+            height: 110px;
+            margin: 0 0 8px 15px;
+            border-radius: 5px;
+            background: #1AB394;
+            cursor: pointer;
+        }
+
+        .active1 {
+            background-color: #5bc0de;
+            border-color: #46b8da;
+        }
+
+        .active1:hover {
+            background-color: #31b0d5;
+            border-color: #269abc;
+        }
+
+        .active2 {
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+        }
+
+        .active2:hover {
+            background-color: #449d44;
+            border-color: #398439;
+        }
+
+        .active3 {
+            background-color: #f0ad4e;
+            border-color: #eea236;
+        }
+
+        .active3:hover {
+            background-color: #ec971f;
+            border-color: #d58512;
+        }
+
+        .active4 {
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+
+        .active4:hover {
+            background-color: #286090;
+            border-color: #204d74;
+        }
+
+        .Num {
+            position: absolute;
+            left: 44px;
+            top: 20px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bolder;
+        }
+
+        .count .text {
+            position: absolute;
+            right: 20px;
+            bottom: 8px;
+            font-size: 16px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>派单统计</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row row-lg">
+                        <div class="col-sm-12">
+                            <div class="row text-left">
+                                <div style="display: inline-block;">
+                                    <div class="text-center count active1">
+                                        <span class="Num"><span class="fa fa-home"
+                                                                aria-hidden="true"></span>&nbsp;1</span>
+                                        <span class="text"><i class="fa fa-edit"></i>&nbsp;未统计</span>
+                                    </div>
+                                    <div class="text-center count active2">
+                                       <span class="Num"><span class="fa fa-home"
+                                                               aria-hidden="true"></span>&nbsp;2</span>
+                                        <span class="text"><i class="fa fa-edit"></i>&nbsp;待统计</span>
+                                    </div>
+                                    <div class="text-center count active3">
+                                        <span class="Num"><span class="fa fa-home"
+                                                                aria-hidden="true"></span>&nbsp;3</span>
+                                        <span class="text"><i class="fa fa-edit"></i>&nbsp;统计完成</span>
+                                    </div>
+                                    <div class="text-center count active4">
+                                        <span class="Num"><span class="fa fa-home"
+                                                                aria-hidden="true"></span>&nbsp;4</span>
+                                        <span class="text"><i class="fa fa-edit"></i>&nbsp;总数</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hidden-xs" id="countTableToolbar" role="group">
+                                <button type="button" class="btn btn-primary " onclick="Menu.openAddMenu()"
+                                        permission="menu:add">
+                                    <i class="fa fa-plus"></i>&nbsp;添加
+                                </button>
+                                <button type="button" class="btn btn-primary button-margin"
+                                        onclick="Menu.openChangeMenu()" permission="menu:update">
+                                    <i class="fa fa-edit"></i>&nbsp;查看
+                                </button>
+                                <button type="button" class="btn btn-primary button-margin" onclick="Menu.delMenu()"
+                                        permission="menu:delete">
+                                    <i class="fa fa-remove"></i>&nbsp;删除
+                                </button>
+                                <div style="height: 22px;display: inline-block;">
+                                    <div class="input-group" style="width:300px;margin-left: 15px;">
+                                        <div class="input-group-btn">
+                                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle"
+                                                    type="button">时间 :
+                                            </button>
+                                        </div>
+                                        <input type="text" class="form-control layer-date"
+                                               onclick="laydate({istime: false, format: 'YYYY-MM-DD'})" id="endTime"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="countTable" data-mobile-responsive="true" data-click-to-select="true">
+                                <thead>
+                                <tr>
+                                    <th data-field="selectItem" data-checkbox="true"></th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/modular/system/dispatchcount/dispatchcount.js"></script>
+<script src="/js/content.js?v=1.0.0"></script>
+</html>

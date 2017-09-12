@@ -1,0 +1,500 @@
+package com.zhongdihang.bankdispatch.modular.service.impl;
+
+import com.alibaba.fastjson.JSON;
+import com.zhongdihang.bankdispatch.common.constant.SMSTemplateEnum;
+import com.zhongdihang.bankdispatch.common.exceptions.BusinessException;
+import com.zhongdihang.bankdispatch.common.sms.DispatchSMSTemplate;
+import com.zhongdihang.bankdispatch.common.sms.SendMsgUtil;
+import com.zhongdihang.bankdispatch.common.util.RandomUtil;
+import com.zhongdihang.bankdispatch.modular.dao.*;
+import com.zhongdihang.bankdispatch.modular.domain.*;
+import com.zhongdihang.bankdispatch.modular.service.BankService;
+import com.zhongdihang.bankdispatch.modular.service.DispatchService;
+import com.zhongdihang.bankdispatch.modular.service.dto.*;
+import com.zhongdihang.bankdispatch.modular.service.form.newGUarantyForm;
+import com.zhongdihang.bankdispatch.rest.ResultStatus;
+import com.zhongdihang.framework.biz.jpa.service.impl.ServiceBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.criteria.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
+
+/**
+ * Created by win10 on 2017/08/16.
+ */
+@Service
+public class DispatchServiceImpl extends ServiceBean<Long, Dispatch, DispatchDao> implements DispatchService {
+
+    @Autowired
+    private AssessDao assessDao;
+    @Autowired
+    private DispatchTrackDao dispatchTrackDao;
+    @Autowired
+    private DispatchDao dispatchDao;
+    @Autowired
+    private FileDao fileDao;
+    @Autowired
+    private GuarantyDao guarantyDao;
+    @Autowired
+    private BankService bankService;
+    @Autowired
+    private PreReportDao preReportDao;
+
+    @Override
+    public Dispatch save(Dispatch dispatch){
+        dispatch= getDao().save(dispatch);
+        dispatch.setDispatchNo(generatDispacthNo(dispatch));
+        dispatch= getDao().save(dispatch);
+        return dispatch;
+    }
+
+    @Override
+    public String generatDispacthNo(Dispatch dispatch){
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyyMMddHHmmss");
+        String dateStr=simpleDateFormat.format(new Date());
+        String typeStr=dispatch.getDispatchType();
+        String idStr=dispatch.getId().toString();
+        idStr=idStr.substring(idStr.length()-4,idStr.length());
+        return typeStr+dateStr+idStr;
+    }
+
+    /**
+     * @Author: Arthur Han
+     * @CreateTime: 2017/8/31 19:42
+     * @MenthodName: dispatchAssess
+     * @Description:派单选择评估公司
+     * @param dispatch
+     * @Return: com.zhongdihang.bankdispatch.modular.domain.Assess
+     */
+    @Override
+    public Assess dispatchAssess(Dispatch dispatch){
+        Bank bank=dispatch.getBank();
+        if (bank==null){
+            throw new BusinessException(ResultStatus.FAILURE,"无派单银行");
+        }
+        //可选评估公司
+        Set<Assess> assesses=new HashSet<>();
+        //判断抵押物区域
+        if(!bank.getArea().equals(dispatch.getArea())){
+            Bank topBank=bankService.getTopBank();
+            if (topBank!=null){
+                if ((bank.getAssesses()==null||bank.getAssesses().size()<=0)
+                        &&(topBank.getAssesses()==null||topBank.getAssesses().size()<=0)){
+                    throw new BusinessException(ResultStatus.FAILURE,"派单银行暂无入围的评估机构");
+                }
+                assesses.addAll(topBank.getAssesses()
+                        .stream()
+                        .filter(t->t.getGuarantyType().contains(dispatch.getGuarantyType()))
+                        .collect(Collectors.toSet()));
+            }
+        }
+        Set<Assess> bankAssess=bank.getAssesses();
+        if (bankAssess!=null&&bankAssess.size()>0){
+            assesses.addAll(bankAssess
+                    .stream()
+                    .filter(t->t.getGuarantyType().contains(dispatch.getGuarantyType()))
+                    .collect(Collectors.toSet()));
+        }
+        return randomAssess(assesses);
+    }
+
+    /**
+     * @Author: Arthur Han
+     * @CreateTime: 2017/8/31 19:31
+     * @MenthodName: randomAssess
+     * @Description: 选择派单的评估公司
+     * @param assesses 可选择的评估公司
+     * @Return: com.zhongdihang.bankdispatch.modular.domain.Assess
+     */
+    private Assess randomAssess(Set<Assess> assesses){
+
+        if (assesses==null||assesses.size()<=0){
+            throw new BusinessException(ResultStatus.FAILURE,"派单银行暂无符合要求的入围评估机构");
+        }
+        Integer totalWeight=assesses.stream().mapToInt(t->t.getWeight()).sum();
+        int scoreWeight = RandomUtil.getRandom(0,totalWeight);
+        int tmpWeight=0;
+        for (Assess assess : assesses) {
+            tmpWeight+=assess.getWeight();
+            if (tmpWeight>=scoreWeight){
+                return assess;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public AssessDto randomDispatch(Long bankId,User user,List<newGUarantyForm> gUarantyFormList)
+    {
+        //======================================
+        // 生成订单
+        //======================================
+        DispatchTrack dispatchTrack = new DispatchTrack();
+        Dispatch dispatch = new Dispatch();
+        if (user!=null)
+        {
+            dispatch.setBankUser(user);
+            dispatch.setBank(user.getBank());
+            //======================================
+            //1.进行中2.已完成，3.有问题
+            //======================================
+            dispatch.setStatus("1");
+            dispatch.setDispatchType("1");
+            dispatch.setCreateTime(new Date());
+            dispatch.setCreateUser(user);
+            dispatch.setDispatchNo("112233");
+            dispatchTrack.setCreateUser(user);
+            dispatchTrack.setCreateTime(new Date());
+            dispatchTrack.setRemark("remark");
+        }
+
+        //=============================================================
+        // 派单流程
+        //=============================================================
+        int weight=0;
+        AssessDto assessDto = new AssessDto();
+        List<AssessDto> assessDtoList = new ArrayList<>();
+        int guarantyType = Integer.valueOf(gUarantyFormList.get(0).getGuarantyType());
+        List<Assess> assessList = assessDao.findAssessByBankId(bankId,guarantyType);
+        //================================================
+        //计算总权重
+        //================================================
+        for (Assess assess:assessList)
+        {
+            weight+=assess.getWeight();
+        }
+        //================================================
+        //获取随机数
+        //================================================
+        int s = RandomUtil.getRandom(0,weight);
+        //================================================
+        //判断是否有评级机构
+        //================================================
+        if (assessList.size()==0)
+        {
+            return null;
+        }
+        else if (assessList.size()==1)
+        {
+            //================================================
+            //设置选中的评估机构id及名称
+            //================================================
+            assessDto.setId(assessList.get(0).getId().toString());
+            assessDto.setName(assessList.get(0).getName());
+            assessDtoList.add(assessDto);
+        }
+        else
+        {
+            int d1=0;
+            int d2=0;
+            for (Assess assess:assessList)
+            {
+                d2 = d1 + assess.getWeight();
+                if (d1 <= s && s <= d2)
+                {
+                    assessDto.setId(assess.getId().toString());
+                    assessDto.setName(assess.getName());
+                    assessDtoList.add(assessDto);
+                    break;
+                }
+                d1 += assess.getWeight();
+            }
+            //================================================
+            //判断是否是唯一的评级机构，若不是则重新随机
+            //================================================
+            if (assessDtoList.size()>=2)
+            {
+                assessDto =  assessDtoList.get(RandomUtil.getRandom(0,assessDtoList.size()));
+            }
+            else
+            {
+                assessDto = assessDtoList.get(0);
+            }
+        }
+
+        Assess assess_ = assessDao.findOne(Long.valueOf(assessDto.getId()));
+        if (assess_!=null){
+            dispatch .setAssess(assess_);
+            dispatch.setAssessUser(user);
+        }
+
+        dispatchDao.save(dispatch);
+        //===================================================
+        //生成单据号
+        //===================================================
+        if (dispatch!=null)
+        {
+            SimpleDateFormat sf=new SimpleDateFormat("yyyyMMddHHmmss");
+            String date=sf.format(new Date());
+            String dispatchId = dispatch.getId().toString();
+            dispatchId.substring(dispatchId.length()-4,dispatchId.length());
+            String dispatchNo = dispatch.getDispatchType()+date+dispatchId;
+            dispatch.setDispatchNo(dispatchNo);
+        }
+
+        //====================================================
+        //抵押物
+        //====================================================
+        if (gUarantyFormList!=null)
+        {
+            for (newGUarantyForm gUarantyForm:gUarantyFormList)
+            {
+                Guaranty guaranty =  new Guaranty();
+                guaranty.setFile(fileDao.findOne(gUarantyForm.getFileId()));
+                guaranty.setContactName(gUarantyForm.getHandlerName());
+                guaranty.setContactPhone(gUarantyForm.getHandler_telephone());
+                guaranty.setDispatch(dispatch);
+                guaranty.setCreateTime(new Date());
+                guarantyDao.save(guaranty);
+            }
+        }
+
+        //====================================================
+        // 发送短信
+        //====================================================
+        String bankName = user.getBank().getName();
+        String contact = user.getUserName();//客户经理
+        String contactPhone = user.getTelephone();
+
+        DispatchSMSTemplate dispatchSMSTemplate=new DispatchSMSTemplate(bankName,dispatch.getDispatchNo(),contact,contactPhone);
+        SendMsgUtil.sendMsg(assess_.getTelephone(), JSON.toJSONString(dispatchSMSTemplate),
+                SMSTemplateEnum.DISPATCH.getTemplate());
+
+        dispatchDao.save(dispatch);
+        dispatchTrackDao.save(dispatchTrack);
+        return assessDto;
+    }
+
+    @Override
+    public Page<Dispatch> findDispatch(String status_, Bank bank_, Assess assess_, String dispatchNo_, PageRequest page)
+    {
+        Pageable pageable = page;
+        Page<Dispatch> Dispatchs= dispatchDao.findAll(new Specification<Dispatch>()
+        {
+            @Override
+            public Predicate toPredicate(Root<Dispatch> root, CriteriaQuery<?> query, CriteriaBuilder cb)
+            {
+                Path<String> status = root.get("status");
+                Path<Bank> bank = root.get("bank");
+                Path<Assess> assess = root.get("assess");
+                Path<String> dispatchNo = root.get("dispatchNo");
+                List<Predicate> list = new ArrayList<Predicate>();
+                if (!org.springframework.util.StringUtils.isEmpty(status_))
+                {
+                    list.add(cb.and(cb.and(cb.equal(status,status_),
+                            cb.and(cb.equal(bank,bank_)))));
+                }
+                else if (!org.springframework.util.StringUtils.isEmpty(dispatchNo_))
+                {
+                    list.add(cb.and(cb.and(cb.equal(bank,bank_)),
+                            cb.and(cb.equal(dispatchNo,dispatchNo_))));
+                }
+                if (bank_!=null)
+                {
+                    list.add(cb.and(cb.and(cb.equal(bank,bank_))));
+                }
+                else if (assess_!=null)
+                {
+                    list.add(cb.and(cb.and(cb.equal(assess,assess_))));
+                }
+                Predicate[] p = new Predicate[list.size()];
+                return cb.and(list.toArray(p));
+            }
+        },pageable);
+        return Dispatchs;
+    }
+
+    @Override
+    public Dispatch dispatchByFormal(Long dispatchId,User user) {
+        Dispatch dispatch = dispatchDao.findOne(dispatchId);
+        Dispatch dispatch_ = new Dispatch();
+        DispatchTrack dispatchTrack = new DispatchTrack();
+        if (dispatch!=null&&!dispatch.getDispatchType().equals("2"))
+        {
+            dispatch.setDispatchType("2");
+            dispatch.setStatus("1");
+            dispatchTrack.setRemark("转正式评估");
+            dispatchTrack.setCreateTime(new Date());
+            dispatchTrack.setCreateUser(user);
+            dispatchTrack.setDispatch(dispatch);
+            dispatchTrack.setNode("转正式评估");
+            dispatchTrackDao.save(dispatchTrack);
+            dispatch_ =  dispatchDao.save(dispatch);
+        }
+        else
+        {
+            return null;
+        }
+        return dispatch_;
+    }
+
+    @Override
+    public Dispatch deleteLispatch(Long dispatchId,User user) {
+        Dispatch dispatch = dispatchDao.findOne(dispatchId);
+        Dispatch dispatch_ = new Dispatch();
+        DispatchTrack dispatchTrack = new DispatchTrack();
+        if (dispatch!=null&&!dispatch.getStatus().equals("3"))
+        {
+            dispatch.setStatus("4");
+            dispatchTrack.setRemark("取消订单");
+            dispatchTrack.setCreateTime(new Date());
+            dispatchTrack.setCreateUser(user);
+            dispatchTrack.setDispatch(dispatch);
+            dispatchTrack.setNode("取消订单");
+            dispatchTrackDao.save(dispatchTrack);
+            dispatch_ = dispatchDao.save(dispatch);
+        }
+        return dispatch_;
+    }
+
+    @Override
+    public DispatchDto findDispatchById(Long dispatchId) {
+        Dispatch dispatch  =dispatchDao.findOne(dispatchId);
+        List<DispatchTrack> dispatchTrackList = dispatchTrackDao.findByDispatchId(dispatch.getId());
+        List<Guaranty> guarantyList = guarantyDao.findByDispatchId(dispatch.getId());
+
+        DispatchDto dispatchDto = new DispatchDto();
+        dispatchDto.setId(dispatch.getId().toString());
+        dispatchDto.setAssessName(dispatch.getAssess().getName());
+        dispatchDto.setBankName(dispatch.getBank().getName());
+        dispatchDto.setStatus(dispatch.getStatus());
+        dispatchDto.setDispatchType(dispatch.getDispatchType());
+        dispatchDto.setCreateDate(dispatch.getCreateTime());
+        dispatchDto.setTermDate(dispatch.getTimeLimit()+"");
+        dispatchDto.setDispatchNo(dispatch.getDispatchNo());
+        dispatchDto.setAssessUserName(dispatch.getAssess().getLinkMen());
+        dispatchDto.setAssessUserPhone(dispatch.getAssess().getTelephone());
+        dispatchDto.setBankUserName(dispatch.getBank().getLinkMen());
+        dispatchDto.setGuarantyType(dispatch.getGuarantyType());
+        dispatchDto.setBankUserPhone(dispatch.getBank().getTelephone());
+        List<DispatchTrackDto> dispatchTrackDtoList = new ArrayList<>();
+        for (DispatchTrack dispatchTrack:dispatchTrackList)
+        {
+            DispatchTrackDto dispatchTrackDto = new DispatchTrackDto();
+            dispatchTrackDto.setDate(dispatchTrack.getCreateTime());
+            dispatchTrackDto.setSubTitle(dispatchTrack.getRemark());
+            dispatchTrackDto.setTitle(dispatchTrack.getNode());
+            dispatchTrackDto.setSelected(true);
+            dispatchTrackDtoList.add(dispatchTrackDto);
+        }
+        dispatchDto.setDispatchTrackDtoList(dispatchTrackDtoList);
+        List<GuarantyDto> guarantyDtoList = new ArrayList<>();
+        for (Guaranty guaranty:guarantyList){
+            GuarantyDto guarantyDto = new GuarantyDto();
+            guarantyDto.setContactName(guaranty.getContactName());
+            guarantyDto.setContactPhone(guaranty.getContactPhone());
+            guarantyDto.setFilePath(guaranty.getFile().getRelativePath());
+            guarantyDtoList.add(guarantyDto);
+        }
+        dispatchDto.setGuarantyDtoList(guarantyDtoList);
+        if(dispatch.getStatus().equals("3")){
+            PreReport preReport =preReportDao.findPreReportByDispatchId(dispatch.getId());
+            dispatchDto.setDispatchCompleteFile(preReport.getFile().getRelativePath());
+        }
+
+        return dispatchDto;
+    }
+
+    @Override
+    public Dispatch dispatchOrders(Long dispatchId) {
+        Dispatch dispatch = dispatchDao.findOne(dispatchId);
+        if (dispatch!=null){
+            dispatch.setStatus("2");
+        }
+        return dispatchDao.save(dispatch);
+    }
+
+    @Override
+    public Dispatch dispatchUpdateZ(Long dispatchId) {
+        Dispatch dispatch = dispatchDao.findOne(dispatchId);
+        if (dispatch!=null){
+            dispatch.setStatus("3");
+        }
+        return dispatchDao.save(dispatch);
+    }
+
+    @Override
+    public StatisticsDto dispatchStatistics() {
+        StatisticsDto statisticsDto = new StatisticsDto();
+        statisticsDto.setBillCount(dispatchDao.count()+"");
+        statisticsDto.setWaitingCount(dispatchDao.countDispatch("1"));
+        statisticsDto.setPendingEvaluationCount(dispatchDao.countDispatch("2"));
+        statisticsDto.setCompletedCount(dispatchDao.countDispatch("3"));
+        return statisticsDto;
+    }
+
+    @Override
+    public List<DispatchDto> dispatchByStatus(String status) {
+        List<Dispatch> dispatch = dispatchDao.findDispatchByStatus(status);
+        List<DispatchDto> dispatchDtoList =  new ArrayList<>();
+        if (dispatch!=null){
+            for (Dispatch dispatch1 : dispatch){
+                DispatchDto dispatchDto = new DispatchDto();
+                dispatchDto.setId(dispatch1.getId()+"");
+                dispatchDto.setDispatchNo(dispatch1.getDispatchNo());
+                dispatchDto.setBankName(dispatch1.getBank().getName());
+                dispatchDto.setAssessName(dispatch1.getAssess().getName());
+                dispatchDto.setCreateDate(dispatch1.getCreateTime());
+                dispatchDto.setTermDate(dispatch1.getTimeLimit()+"");
+                dispatchDto.setStatus(dispatch1.getStatus());
+                dispatchDto.setDispatchType(dispatch1.getDispatchType());
+                dispatchDtoList.add(dispatchDto);
+            }
+        }
+        return dispatchDtoList;
+    }
+
+    @Override
+    public List<BankDispatchCountDto> assessCountByBank() {
+        List<BankDispatchCountDto> bankDispatchCountDtoList = dispatchDao.assessCount();
+        return bankDispatchCountDtoList;
+    }
+
+    @Override
+    public List<ManagerCountDto> assessCountByUser() {
+        List<ManagerCountDto> managerCountDtoList = dispatchDao.assessCountByUser();
+        return managerCountDtoList;
+    }
+
+    @Override
+    public Page<Dispatch> bankSearch(String startDate, String endDate, String search, PageRequest page) {
+        Pageable pageable = page;
+        Page<Dispatch> Dispatchs= dispatchDao.findAll(new Specification<Dispatch>(){
+            @Override
+            public Predicate toPredicate(Root<Dispatch> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Path<String> startDate_ = root.get("createTime");
+                Path<String> endDate_ = root.get("createTime");
+                Path<String> dispatchNo = root.get("dispatchNo");
+                Join<Dispatch,Bank> dispatchBankJoin = root.join("bank",JoinType.LEFT);
+                Join<Dispatch,Assess> dispatchAssessJoin = root.join("assess",JoinType.LEFT);
+                Join<Dispatch,User> dispatchUser = root.join("bankUser",JoinType.LEFT);
+                List<Predicate> list = new ArrayList<Predicate>();
+                if (startDate!=null){
+                    list.add(cb.greaterThanOrEqualTo(startDate_,startDate));
+                }
+                if (endDate!=null){
+                    list.add(cb.lessThanOrEqualTo(endDate_,endDate));
+                }
+                if (search!=null){
+                    list.add(cb.and(cb.or(cb.like(dispatchNo,"%"+search+"%"),
+                            cb.or(cb.like(dispatchBankJoin.get("name").as(String.class),"%"+search+"%")),
+                            cb.or(cb.like(dispatchAssessJoin.get("name").as(String.class),"%"+search+"%")),
+                            cb.or(cb.like(dispatchUser.get("userName").as(String.class),"%"+search+"%"))
+                            )
+                    ));
+                }
+                Predicate[] p = new Predicate[list.size()];
+                return cb.and(list.toArray(p));
+            }
+        },pageable);
+        return Dispatchs;
+    }
+
+}

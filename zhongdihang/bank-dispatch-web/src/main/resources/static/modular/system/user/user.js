@@ -69,7 +69,7 @@ MgrUser.openChangeUser = function () {
     if (this.check()) {
         var index = layer.open({
             type: 2,
-            title: '编辑管理员',
+            title: '修改用户',
             area: ['800px', '460px'], //宽高
             fix: false, //不固定
             maxmin: true,
@@ -102,7 +102,6 @@ MgrUser.roleAssign = function () {
  */
 MgrUser.delMgrUser = function () {
     if (this.check()) {
-
         var operation = function(){
             var id = MgrUser.seItem.id;
             var ajax = new $ax(Bank.api.user_delete, function () {
@@ -165,7 +164,7 @@ MgrUser.resetPwd = function () {
             btn: ['确定', '取消'],
             shade: false //不显示遮罩
         }, function () {
-            var ajax = new $ax(Bank.route(Bank.api.user_force_password), function (data) {
+            var ajax = new $ax(Bank.api.user_force_password, function (data) {
                 Bank.success("重置密码成功!");
             }, function (data) {
                 Bank.error("重置密码失败!");

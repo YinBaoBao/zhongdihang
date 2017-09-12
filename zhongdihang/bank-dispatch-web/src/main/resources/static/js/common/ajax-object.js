@@ -7,6 +7,7 @@
 		this.async = false;
 		this.success = success;
 		this.error = error;
+		this.contentType='application/x-www-form-urlencoded;charset=UTF-8';
 	};
 	$ax.prototype = {
 		start : function () {	
@@ -22,6 +23,7 @@
 		        type: this.type,
 		        url: this.url,
 		        dataType: this.dataType,
+				ContentType:this.contentType,
 		        async: this.async,
 		        data: this.data,
 				beforeSend: function(request) {
@@ -35,10 +37,11 @@
 					}else if(data.code==4003||data.code==4004){
 						parent.layer.msg(data.message, {
 							time: 3000
+						},function(){
+							if(this.url.indexOf("auth")<0) {
+								Bank.goto(Bank.page.login);
+							}
 						});
-						if(this.url.indexOf("auth")<0) {
-							Bank.goto(Bank.page.login);
-						}
 					}else if(data.code=4000){
 						Bank.error(data.message);
 					}
@@ -49,7 +52,7 @@
 					}
 					if(data.status==401){
 						parent.layer.msg('当前未登录，请先登录', {
-							time: 2000 //2秒关闭（如果不配置，默认是3秒）
+							time: 3000 //2秒关闭（如果不配置，默认是3秒）
 						}, function(){
 							Bank.goto(Bank.page.login);
 						});
@@ -72,9 +75,15 @@
 			}
 			return this;
 		},
-		jsonData:function(){
-			this.data=JSON.stringify(this.data);
+		jsonData:function(data){
+			this.setContentType("application/json;charset=UTF-8");
+			this.data=JSON.stringify(data);
 			return this;
+		},
+		setContentType:function(contentType){
+			$.ajaxSetup({
+				contentType : contentType
+			});
 		},
 		setData : function(data){
 			this.data = data;

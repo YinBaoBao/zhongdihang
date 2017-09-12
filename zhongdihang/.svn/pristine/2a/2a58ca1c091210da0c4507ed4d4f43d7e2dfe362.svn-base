@@ -1,6 +1,0 @@
-spring:
-  mvc:
-    static-path-pattern: /**
-
-server:
-  port: 8082
