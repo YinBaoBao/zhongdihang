@@ -1,0 +1,194 @@
+{
+  "application": {
+    "proposer": [
+      {
+        "id": "权利人",
+        "value": "中国建设银行股份有限公司苏州分行power",
+        "type": "营业执照",
+        "zhengjianhao": "320500000010314",
+        "address": "苏州市姑苏区阊胥路88号",
+        "phone": "0512-6826817"
+      },
+      {
+        "id": "权利人",
+        "value": "中国建设银行股份有限公司苏州分行power",
+        "type": "营业执照",
+        "zhengjianhao": "320500000010314",
+        "address": "苏州市姑苏区阊胥路88号",
+        "phone": "0512-6826817"
+      },
+      {
+        "id": "代理人",
+        "value": "中国建设银行股份有限公司daili",
+        "type": "营业执照",
+        "zhengjianhao": "320500000010314",
+        "address": "苏州市姑苏区阊胥路88号",
+        "phone": "0512-6826817"
+      },
+      {
+        "id": "义务人",
+        "value": "中国建设银行股份有限公司苏州分行yiwu",
+        "type": "营业执照",
+        "zhengjianhao": "320500000010314",
+        "address": "苏州市姑苏区阊胥路88号",
+        "phone": "0512-6826817"
+      }
+    ],
+    "mortgage": [
+      {
+        "guarantee": 100,
+        "signdate": "2017-9-20",
+        "bankcount": "",
+        "stardate": "2017-10-1",
+        "enddate": "2020-10-1",
+        "loannumbe": "",
+        "estateprice": 1000,
+        "landprice": 2,
+        "Houseprice": 2,
+        "Loanaccont": "",
+        "Guaranteescope": 100,
+        "Mortgagescope": 100,
+        "Mortgagearea": 120,
+        "Landmortgagearea": 120,
+        "creditor": "中国建设银行股份有限公司苏州分行",
+        "debtor": "xxx"
+      }
+    ]
+  },
+  "search": {
+    "tableData": [
+      {
+        "id": 1,
+        "date": "2017-08-16 11:30",
+        "prove": "3638812345",
+        "Report": "163881234512345",
+        "register": "抵押申报",
+        "obligation": "王发青",
+        "address": "姑苏区21号",
+        "register_time": "2017-08-21 11:30",
+        "state": "已完成",
+        "remark": ""
+      },
+      {
+        "id": 2,
+        "date": "2017-10-1 11:00",
+        "prove": "870012346",
+        "Report": "163881234512345",
+        "register": "抵押注销",
+        "obligation": "李发青",
+        "address": "相城区119号",
+        "register_time": "2017-10-1 11:00",
+        "state": "已完成",
+        "remark": "登记委托书上传错误"
+      },
+      {
+        "id": 3,
+        "date": "2017-10-2 11:00",
+        "prove": "870012346",
+        "Report": "163881234512345",
+        "register": "抵押注销",
+        "obligation": "李发青",
+        "address": "相城区119号",
+        "register_time": "2017-10-2 11:00",
+        "state": "已完成",
+        "remark": "登记委托书上传错误"
+      },
+      {
+        "id": 3,
+        "date": "2017-10-2 11:00",
+        "prove": "870012346",
+        "Report": "163881234512345",
+        "register": "抵押注销",
+        "obligation": "李发青",
+        "address": "相城区119号",
+        "register_time": "2017-10-2 11:00",
+        "state": "已完成",
+        "remark": "登记委托书上传错误"
+      },
+      {
+        "id": 3,
+        "date": "2017-10-2 11:00",
+        "prove": "870012346",
+        "Report": "163881234512345",
+        "register": "抵押注销",
+        "obligation": "李发青",
+        "address": "相城区119号",
+        "register_time": "2017-10-2 11:00",
+        "state": "已完成",
+        "remark": "登记委托书上传错误"
+      },
+      {
+        "id": 3,
+        "date": "2017-10-2 11:00",
+        "prove": "870012346",
+        "Report": "163881234512345",
+        "register": "抵押注销",
+        "obligation": "李发青",
+        "address": "相城区119号",
+        "register_time": "2017-10-2 11:00",
+        "state": "已完成",
+        "remark": "登记委托书上传错误"
+      },
+      {
+        "id": 3,
+        "date": "2017-10-2 11:00",
+        "prove": "870012346",
+        "Report": "163881234512345",
+        "register": "抵押注销",
+        "obligation": "李发青",
+        "address": "相城区119号",
+        "register_time": "2017-10-2 11:00",
+        "state": "已完成",
+        "remark": "登记委托书上传错误"
+      }
+    ]
+  },
+  "updata": {
+    "needupdata": [
+      {
+        "id": 0,
+        "text": "不动产登记申请书",
+        "state": "已上传"
+      },{
+        "id": 1,
+        "text": "不动产登记申请书",
+        "state": "已上传"
+      },{
+        "id": 2,
+        "text": "申请人身份证明",
+        "state": "已上传"
+      },{
+        "id": 3,
+        "text": "不动产权证书",
+        "state": "已上传"
+      },{
+        "id": 4,
+        "text": "不动产登记申请书",
+        "state": "已上传"
+      },{
+        "id": 5,
+        "text": "抵押合同、主债权合同",
+        "state": "已上传"
+      },{
+        "id": 6,
+        "text": "不动产登记按规定要求",
+        "state": "已上传"
+      }
+    ],
+    "addupdata": [
+      {
+        "id": 1,
+        "text": "抵押合同",
+        "state": "已上传"
+      },{
+        "id": 2,
+        "text": "主债权合同",
+        "state": "已上传"
+      },{
+        "id": 3,
+        "text": "不动产登记申请书",
+        "state": "已上传"
+      }
+    ]
+  }
+}
