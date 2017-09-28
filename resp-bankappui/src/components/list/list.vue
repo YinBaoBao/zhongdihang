@@ -1,16 +1,15 @@
 <template>
   <div>
-    <div class="list">
+    <div class="List_data">
       <div class="header">
         <div class="auto">
-          <div id="needupdata" class="inner">
-            <el-table ref="singleTable" :data="upData" highlight-current-row @current-change="needCurrentChange"
-                      :row-class-name="tableRowClassName" style="width: 100%">
-              <el-table-column type="index" width="50"></el-table-column>
-              <el-table-column property="text" label="需上传资料"></el-table-column>
-              <el-table-column property="state" label="状态" width="100"></el-table-column>
-            </el-table>
-          </div>
+          <el-table ref="singleTable" height="250" :data="upData" highlight-current-row
+                    @current-change="needCurrentChange"
+                    :row-class-name="tableRowClassName" style="width: 100%">
+            <el-table-column type="index" width="50"></el-table-column>
+            <el-table-column property="text" label="需上传资料"></el-table-column>
+            <el-table-column property="state" label="状态" width="100"></el-table-column>
+          </el-table>
         </div>
         <div class="btn">
           <el-button @click="setCurrent(upData[updataindex])" style="padding: 6px 33px;margin-right: 15px;">上传
@@ -20,13 +19,11 @@
       </div>
       <div class="uploaded">
         <div class="auto">
-          <div class="inner">
-            <el-table ref="uploaded" :data="uploaded" highlight-current-row
-                      style="width: 100%">
-              <el-table-column type="index" width="50"></el-table-column>
-              <el-table-column property="text" label="已上传资料" style="text-align: center;"></el-table-column>
-            </el-table>
-          </div>
+          <el-table ref="uploaded" height="150" :data="uploaded" highlight-current-row
+                    style="width: 100%">
+            <el-table-column type="index" width="50"></el-table-column>
+            <el-table-column property="text" label="已上传资料" style="text-align: center;"></el-table-column>
+          </el-table>
         </div>
       </div>
       <div class="border-height"></div>
@@ -35,9 +32,9 @@
           <span @click="_Look">查看登记申请书</span>
         </div>
         <div class="btns">
-          <el-button style="padding: 6px 4px" @click="_systemdata">系统获取数据</el-button>
-          <el-button style="padding: 6px 4px">打印登记申请书</el-button>
-          <el-button style="padding: 6px 4px">提交登记申请</el-button>
+          <el-button style="padding: 6px 4px;margin-left: 3px;" @click="_systemdata">系统获取数据</el-button>
+          <el-button style="padding: 6px 4px;margin-left: 3px;">打印登记申请书</el-button>
+          <el-button style="padding: 6px 4px;margin-left: 3px;">提交登记申请</el-button>
         </div>
         <div class="entrust">
           <span>委托授权状态:</span>
@@ -137,14 +134,13 @@
   };
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
-  .list
+  .List_data
     width: 100%
     .header
       width: 100%
       .auto
         border: 1px solid #DFE6EC
-        height: 200px
-        overflow: auto
+        overflow: hidden
       .btn
         text-align: center
         margin-top: 10px
@@ -152,8 +148,7 @@
       margin-top: 10px
       text-align: left
       .auto
-        height: 158px
-        overflow: auto;
+        overflow: hidden
     .service
       border: 1px solid #DFE6EC
       font-size: 0
@@ -169,25 +164,26 @@
           cursor: pointer
       .btns
         width: 100%
-        margin-top: 12px
+        margin-top: 4px
         text-align: center
       .entrust
         width: 100%
-        margin: 20px 0 6px 0
+        margin: 15px 0 6px 0
         text-align: left
         span
           display: inline-block
           padding: 3px 4px 3px 10px
-          font-size: 14px
+          font-size: 12px
         .entrust_input
           display: inline-block
-          width: 218px
+          width: 200px
           .el-input__inner
             height: 26px
+            font-size: 12px
     .situation
       width: 100%
       .authorization
         display: inline-block
         padding: 12px 0 6px 12px
-        font-size: 14px
+        font-size: 12px
 </style>

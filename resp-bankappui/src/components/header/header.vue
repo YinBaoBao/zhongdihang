@@ -16,9 +16,9 @@
           <ul>
             <li class="account" @click="_account">账户管理</li>
             |
-            <li class="pass">修改密码</li>
+            <li class="pass" @click="_edit_password">修改密码</li>
             |
-            <li class="back">退出</li>
+            <li class="back" @click="_go_back">退出</li>
           </ul>
         </div>
       </div>
@@ -34,6 +34,15 @@
     methods: {
       _account() {
         this.$emit('account');
+      },
+      _edit_password() {
+        this.$message({
+          showClose: true,
+          message: '请联系管理员重置密码 !'
+        });
+      },
+      _go_back() {
+        this.$router.push({path: '/login'});
       }
     }
   };

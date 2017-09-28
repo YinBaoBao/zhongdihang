@@ -45,8 +45,8 @@
             <el-table-column prop="remark" label="备注"></el-table-column>
             <el-table-column label="操作" width="100">
               <template scope="scope">
-                <el-button @click="handleClick" type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
+                <el-button type="text" size="small" @click="">查看</el-button>
+                <el-button type="text" size="small" @click="info_edit(scope.$index,scope.row)">修改</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -65,6 +65,31 @@
     </div>
     <div class="time_limit">
       <span>查询期限是最近一个月</span>
+    </div>
+    <div class="dialog">
+      <el-dialog title="信息修改" :visible.sync="info_account" size="tiny" :before-close="handleClose">
+        <el-form :model="Info_Form" :rules="rules" ref="Info_Form" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="义务人" prop="obligation">
+            <el-input v-model="Info_Form.obligation"></el-input>
+          </el-form-item>
+          <el-form-item label="登记类型" prop="register">
+            <el-input v-model="Info_Form.register"></el-input>
+          </el-form-item>
+          <el-form-item label="不动产权证明号" prop="prove">
+            <el-input v-model="Info_Form.prove"></el-input>
+          </el-form-item>
+          <el-form-item label="报件编号" prop="Report">
+            <el-input v-model="Info_Form.Report"></el-input>
+          </el-form-item>
+          <el-form-item label="备注" prop="remark">
+            <el-input v-model="Info_Form.remark"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="info_account = false">取 消</el-button>
+          <el-button type="primary" @click="info_account = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -112,10 +137,27 @@
         restaurants: [], // 输入框状态提示数据
         state: '',
         tableData: [], // 表格数据
+        info_account: false,
+        Info_Form: {
+          obligation: '',
+          register: '',
+          prove: '',
+          Report: '',
+          remark: ''
+        },
+        rules: {
+          obligation: [
+            {required: true, message: '请输入义务人', trigger: 'blur'}
+          ]
+        },
         currentPage: 1 // 当前页
       };
     },
     methods: {
+      info_edit(index, row) {
+        this.info_account = true;
+        this.Info_Form = row;
+      },
       querySearch(queryString, cb) {
         let restaurants = this.restaurants;
         let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
@@ -141,6 +183,14 @@
       },
       handleClick() {
         console.log(1);
+      },
+      handleClose(done) {  // 弹框
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {
+          });
       },
       handleSizeChange(val) {  // 分页
         console.log(`每页 ${val} 条`);

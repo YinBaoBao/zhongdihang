@@ -27,8 +27,8 @@
         </div>
       </div>
       <div class="account_tables">
-        <el-table :data="tableData" border style="width: 100%">
-          <el-table-column type="index" width="50"></el-table-column>
+        <el-table :data="tableData" border height="450" style="width: 100%">
+          <el-table-column type="index" width="60"></el-table-column>
           <el-table-column prop="account" label="账号" sortable></el-table-column>
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column prop="belong" label="所属行"></el-table-column>
@@ -36,8 +36,8 @@
           <el-table-column prop="create_time" label="创建日期"></el-table-column>
           <el-table-column label="操作" width="100">
             <template scope="scope">
-              <el-button @click="handleClick" type="text" size="small">禁用</el-button>
-              <el-button type="text" size="small">修该</el-button>
+              <el-button type="text" size="small" @click="_bind">禁用</el-button>
+              <el-button type="text" size="small" @click="manage_acount(scope.$index,scope.row)">修该</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="tag" label="标签" width="100"
@@ -56,11 +56,11 @@
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="currentPage4"
+            :current-page="currentPage"
             :page-sizes="[10, 20, 30, 40]"
-            :page-size="10"
+            :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400">
+            :total="total">
           </el-pagination>
         </div>
       </div>
@@ -68,25 +68,25 @@
     <div class="dialog">
       <el-dialog title="创建账号" :visible.sync="add_account" size="tiny" :before-close="handleClose">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="姓名" prop="username">
-            <el-input v-model="ruleForm.username"></el-input>
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
           <el-form-item label="登录密码" prop="password">
             <el-input type="password" v-model="ruleForm.password"></el-input>
           </el-form-item>
-          <el-form-item label="银行代码" prop="bank_cod">
-            <el-input v-model="ruleForm.bank_cod"></el-input>
+          <el-form-item label="银行代码" prop="accountNumber">
+            <el-input v-model="ruleForm.accountNumber"></el-input>
           </el-form-item>
-          <el-form-item label="手机号码" prop="phone">
-            <el-input v-model="ruleForm.phone"></el-input>
+          <el-form-item label="手机号码" prop="telephone">
+            <el-input v-model="ruleForm.telephone"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="add_account = false">取 消</el-button>
-          <el-button type="primary" @click="add_account = false">确 定</el-button>
+          <el-button type="primary" @click="_add_account_submit('ruleForm')">确 定</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="修改账号" :visible.sync="edit_account" size="tiny" :before-close="handleClose">
+      <el-dialog title="基本信息修改" :visible.sync="edit_account" size="tiny" :before-close="handleClose">
         <el-form :model="Edit_Form" :rules="rules" ref="Edit_Form" label-width="100px" class="demo-ruleForm">
           <el-form-item label="姓名" prop="username">
             <el-input v-model="Edit_Form.username"></el-input>
@@ -109,6 +109,26 @@
           <el-button type="primary" @click="edit_account = false">确 定</el-button>
         </span>
       </el-dialog>
+      <el-dialog title="账号修改" :visible.sync="manage_account" size="tiny" :before-close="handleClose">
+        <el-form :model="Manage_Form" :rules="rules" ref="Manage_Form" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="Manage_Form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="账号" prop="account">
+            <el-input type="text" v-model="Manage_Form.account"></el-input>
+          </el-form-item>
+          <el-form-item label="所属行" prop="belong">
+            <el-input v-model="Manage_Form.belong"></el-input>
+          </el-form-item>
+          <el-form-item label="角色 " prop="role">
+            <el-input v-model="Manage_Form.role"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="manage_account = false">取 消</el-button>
+          <el-button type="primary" @click="manage_account = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -120,29 +140,25 @@
         input: '', // 查询框
         tableData: [
           {
-            account: '15811047085',
-            name: '李健',
+            account: '',
+            name: '',
             belong: '苏州分行',
-            role: '管理员',
-            create_time: '2017-08-21',
-            tag: '公司'
-          }, {
-            account: '18550086118',
-            name: '李爽',
-            belong: '唯亭支行',
-            role: '操作员',
-            create_time: '2017-08-20',
+            role: '',
+            create_time: '',
             tag: '公司'
           }
         ],
-        currentPage4: 1,
+        currentPage: 1,  // 当前页
+        pageSize: 10,    // 每页显示条数
+        total: 100,      // 总条数
         add_account: false,
         edit_account: false,
+        manage_account: false,
         ruleForm: {
-          username: '',
+          name: '',
           password: '',
-          bank_cod: '',
-          phone: ''
+          accountNumber: '',
+          telephone: ''
         },
         Edit_Form: {
           username: '中国建设银行股份有限公司苏州分行',
@@ -151,19 +167,60 @@
           address: '苏州市姑苏区阊胥路88号',
           phone: '0512-68268178'
         },
+        Manage_Form: {
+          name: '',
+          account: '',
+          belong: '',
+          role: ''
+        },
         rules: {
-          username: [
+          name: [
             {required: true, message: '请输入姓名', trigger: 'blur'}
           ]
         }
       };
     },
     methods: {
-      _account_add() {
+      _account_add() {   // 新增账号
         this.add_account = true;
       },
-      Edit() {
+      _add_account_submit(ruleForm) {
+        this.$refs[ruleForm].validate((valid) => {
+          if (valid) {
+            this.$http.post(this.$store.state.Host + '/UserControl/saveUser', this.ruleForm).then((response) => {
+              response = response.body;
+              if (response.code === 1000) {
+                this.$notify({
+                  title: '警告',
+                  message: '上传成功',
+                  type: 'success'
+                });
+              } else {
+                this.$notify({
+                  title: '警告',
+                  message: '上传失败',
+                  type: 'error'
+                });
+              }
+            });
+          } else {
+            this.$message({
+              showClose: true,
+              message: '请填写信息',
+              type: 'error'
+            });
+            return false;
+          }
+        });
+      },
+      Edit() {    // 修改基板信息
         this.edit_account = true;
+      },
+      _bind() {  // 禁用
+      },
+      manage_acount(index, row) {   // 修改账户信息
+        this.manage_account = true;
+        this.Manage_Form = row;
       },
       formatter(row, column) {
         return row.address;
@@ -174,11 +231,44 @@
       handleClick() {
 //        console.log(1);
       },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+      handleSizeChange(val) {  // 每页显示多少条
+        this.pageSize = val;
+        this.freshData();
       },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+      handleCurrentChange(val) {   // 当前第几页
+        this.currentPage = val;
+        this.freshData();
+      },
+      freshData() {
+        this.$http.get(this.$store.state.Host + '/UserControl/list', {
+          params: {
+            pageNumber: this.currentPage,
+            pageSize: this.pageSize
+          }
+        }).then((response) => {
+          response = response.body;
+          if (response.code === 1000) {
+            this.total = response.content.totalElements;
+            this.tableData = [];
+            let data = response.content.content;
+            for (var i = 0; i < data.length; i++) {
+              let json = {};
+              json['account'] = data[i].accountNumber;
+              json['name'] = data[i].name;
+              json['belong'] = '苏州分行';
+              json['role'] = data[i].roleStr;
+              json['create_time'] = '2017-10-1';
+              json['tag'] = '部门';
+              this.tableData.splice(i, 1, json);
+            }
+          } else {
+            this.$notify({
+              title: '警告',
+              message: '暂无数据',
+              type: 'warning'
+            });
+          }
+        });
       },
       handleClose(done) {  // 弹框
         this.$confirm('确认关闭？')
@@ -188,6 +278,9 @@
           .catch(_ => {
           });
       }
+    },
+    created() {
+      this.freshData();
     }
   };
 </script>
@@ -239,13 +332,13 @@
             float: left
       .account_tables
         width: 86%
-        height: 330px
         padding-bottom: 64px
         position: relative
+        overflow: hidden
         .Pages
           display: inline-block
           position: absolute
-          left: 200px
-          bottom: 8px
+          left: 260px
+          bottom: 10px
 
 </style>

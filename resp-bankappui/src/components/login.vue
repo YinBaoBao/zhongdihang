@@ -14,7 +14,8 @@
           <el-input size="large" type="password" placeholder="请输入密码" v-model="ruleForm.password"
           ></el-input>
         </el-form-item>
-        <el-button type="danger" style="width: 400px;font-size: 16px;margin-top: 15px;" @click="submitForm()">登录
+        <el-button type="danger" style="width: 400px;font-size: 16px;margin-top: 15px;" @click="submitForm('ruleForm')">
+          登录
         </el-button>
       </el-form>
       <span class="forget" @click="forget">忘记密码</span>
@@ -26,20 +27,19 @@
 </template>
 
 <script type="text/ecmascript-6">
-  const ERR_OK = 0;
-
   export default {
     data() {
       return {
         username: '',
         password: '',
+        token: '',
         ruleForm: {
           username: '',
           password: ''
         },
         rules: {
           username: [
-            {required: true, message: '请输入账户', trigger: 'blur'}
+            {required: true, message: '请输入账户', trigger: 'change'}
           ],
           password: [
             {required: true, message: '请输入密码', trigger: 'change'}
@@ -49,21 +49,31 @@
     },
     computed: {},
     methods: {
-      submitForm(formName) {
-        let account = this.ruleForm.username;
-        let password = this.ruleForm.password;
-        if (account === 'admin' && password === '123') {
-          this.$router.push({path: '/index'});
-          this.$http.get('/api/application').then((response) => {
-            response = response.body;
-            if (response.errno === ERR_OK) {
-              this.$store.commit('application', response.data);
-            }
-          });
-        } else {
-          this.$message.error('用户名或密码错误！');
-          return false;
-        }
+      submitForm(ruleForm) {
+        this.$refs[ruleForm].validate((valid) => {
+          let admin = this.ruleForm.username;
+          let password = this.ruleForm.password;
+          if (valid) {
+            this.$http.post('http://192.168.1.134:9000/logControl/loginUser', {
+              username: admin,
+              password: password
+            }, {emulateJSON: true}).then((response) => {
+              response = response.body;
+              this.token = response.content + response.content.access_token;
+              if (this.token) {
+                console.log(this.token);
+                sessionStorage.setItem('login_token', this.token);
+                this.$store.commit('application', response.data);
+                this.$router.push({path: '/index'});
+              } else {
+                this.$message.error('用户名或密码错误！');
+                return false;
+              }
+            });
+          } else {
+            return false;
+          }
+        });
       },
       forget() {
         this.$message('请联系分行管理员重置密码');

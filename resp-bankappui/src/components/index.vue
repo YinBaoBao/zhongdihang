@@ -5,18 +5,20 @@
       <div class="menu">
         <el-row class="tac">
           <el-col :span="24">
-            <el-menu default-active="1" class="el-menu-vertical-demo">
+            <el-menu default-active="3" class="el-menu-vertical-demo">
+              <el-menu-item index="3" @click="Tabs('search')"><i class="el-icon-search"></i>申报/注销查询
+              </el-menu-item>
               <el-menu-item index="1" @click="Tabs('application')"><i class="el-icon-check"></i>申报申请
               </el-menu-item>
               <el-menu-item index="2" @click="Tabs('cancel')"><i class="el-icon-close"></i>注销申请</el-menu-item>
-              <el-menu-item index="3" @click="Tabs('search')"><i class="el-icon-search"></i>申报/注销查询
-              </el-menu-item>
             </el-menu>
           </el-col>
         </el-row>
       </div>
       <div class="tables" ref="tables">
-        <router-view :proposer="application.proposer" :mortgage="mortgage" @application_add="_application_add"
+        <router-view :proposer="application.proposer" :mortgage="application.mortgage"
+                     :Cancel_p="cancel.proposer" :Cancel_m="cancel.mortgage"
+                     @application_add="_application_add"
                      @Look="_Look" @systemdata="_systemdata"></router-view>
       </div>
       <div class="Dialog">
@@ -44,10 +46,11 @@
     data() {
       return {
         dialogtitle: '',
-        dialogVisible: false,
+        dialogVisible: false, // 对话框
         handtableshow: false,
         registershow: false,
         application: '',
+        cancel: '',
         proposer: '',
         mortgage: '',
         index: 0
@@ -61,12 +64,12 @@
         this.$router.push({path: '/index/account'});
       },
       _application_add(index) {  // 权利申请添加
+        this.$forceUpdate();
         this.dialogtitle = '权利申请添加';
         this.dialogVisible = true;
         this.registershow = false;
         this.handtableshow = true;
         this.index = index;
-        this.$forceUpdate();
         if (typeof index !== Number) {
           this.index = parseInt(index);
         } else {
@@ -87,9 +90,6 @@
           response = response.body;
           if (response.errno === ERR_OK) {
             this.application = response.data;
-            this.proposer = this.application.proposer;
-            this.mortgage = this.application.mortgage[0];
-            this.$router.push({path: '/index/application'});
           }
         });
       },
@@ -130,6 +130,13 @@
       }
     },
     created() {
+      this.$router.push({path: '/index/search'});
+      this.$http.get(this.$store.state.api + '/application').then((response) => {
+        response = response.body;
+        if (response.errno === ERR_OK) {
+          this.cancel = response.data;
+        }
+      });
     },
     mounted() {
     },
@@ -147,11 +154,11 @@
     padding-bottom: 50px
     .menu
       float: left
-      width: 15%;
+      width: 16%;
       height: 100%;
       min-width: 200px;
       background-color: rgb(238, 241, 246);
     .tables
       float: left;
-      width: 85%;
+      width: 84%;
 </style>

@@ -15,7 +15,7 @@
               </td>
               <td>报件编号</td>
               <td class="td_text" style="padding: 0;width: 40px;">
-                <input class="input_text" type="text" value="201708001000001" placeholder="">
+                <input class="input_text" type="text" value="201708001000001" placeholder="" style="width: 112px;">
               </td>
               <td>经办人姓名</td>
               <td class="td_text" style="padding: 0;width: 40px;">
@@ -29,7 +29,7 @@
           <div class="inner">
             <table class="table">
               <tr>
-                <td :rowspan="proposer.length+1" style="padding: 0;min-width: 27px;vertical-align: middle;"><span
+                <td :rowspan="Cancel_p.length+1" style="padding: 0;min-width: 27px;vertical-align: middle;"><span
                   class="proposer_situation">申请人情况</span></td>
                 <td></td>
                 <td>姓名/名称</td>
@@ -38,7 +38,7 @@
                 <td>联系地址</td>
                 <td>电话</td>
               </tr>
-              <tr v-if="proposer" v-for="(item,index) in proposer">
+              <tr v-if="Cancel_p" v-for="(item,index) in Cancel_p">
                 <td>{{item.id}}<span class="el-icon-plus proposer_add" @click="_application_add(index,$event)"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
@@ -69,16 +69,18 @@
               </td>
               <td style="min-width: 50px;">债权人</td>
               <td class="td_text" style="padding: 0;">
-                <textarea class="textarea" name="" cols="" rows="" style="width: 160px;margin: 0;">中国建设银行股份有限公司苏州分行</textarea>
+                <textarea class="textarea" name="" cols="" rows=""
+                          style="width: 178px;margin: 0;">中国建设银行股份有限公司苏州分行</textarea>
               </td>
               <td>债务人</td>
               <td class="td_text" style="padding: 0;">
-                <textarea class="textarea" name="" cols="" rows="" style="width: 166px;margin: 0;">中国建设银行股份有限公司苏州分行</textarea>
+                <textarea class="textarea" name="" cols="" rows=""
+                          style="width: 178px;margin: 0;">中国建设银行股份有限公司苏州分行</textarea>
               </td>
               <td style="min-width: 100px;">被担保债权数额</td>
               <td class="td_text" style="padding: 0;width: 40px;">
-                <input v-model="mortgage.guarantee" class="input_text" type="text" placeholder="万元"
-                       style="width: 108px;">
+                <input class="input_text" type="text" placeholder="万元"
+                       style="width: 112px;">
               </td>
             </tr>
             <tr>
@@ -87,21 +89,45 @@
                   <tr>
                     <td style="min-width: 116px;">债务履行开始时间</td>
                     <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.signdate" class="input_text" type="text" placeholder="" style="width: 235px;">
+                      <el-date-picker
+                        v-model="Cancel_m[0].signdate"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions"
+                        style="width: 256px; margin-left: -1px;">
+                      </el-date-picker>
                     </td>
                     <td style="min-width: 116px;">债务履行结束时间</td>
                     <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.bankcount" class="input_text" type="text" placeholder="" style="width: 236px;">
+                      <el-date-picker
+                        v-model="Cancel_m[0].signdate"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions"
+                        style="width: 256px; margin-left: -1px;">
+                      </el-date-picker>
                     </td>
                   </tr>
                   <tr>
                     <td style="min-width: 116px;">抵押合同签署日期</td>
                     <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.signdate" class="input_text" type="text" placeholder="" style="width: 235px;">
+                      <el-date-picker
+                        v-model="Cancel_m[0].signdate"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions"
+                        style="width: 256px; margin-left: -1px;">
+                      </el-date-picker>
                     </td>
                     <td style="min-width: 116px;">抵押注销时间</td>
                     <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.bankcount" class="input_text" type="text" placeholder="" style="width: 236px;">
+                      <el-date-picker
+                        v-model="Cancel_m[0].signdate"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions"
+                        style="width: 256px; margin-left: -1px;">
+                      </el-date-picker>
                     </td>
                   </tr>
                 </table>
@@ -169,15 +195,15 @@
                   <tr>
                     <td>不动产价格</td>
                     <td class="td_text" style="padding: 0;">
-                      <input  class="input_text" type="text" placeholder="万元" style="width: 154px;">
+                      <input class="input_text" type="text" placeholder="万元" style="width: 158px;">
                     </td>
                     <td>土地价格</td>
                     <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="万元" style="width: 154px;">
+                      <input class="input_text" type="text" placeholder="万元" style="width: 158px;">
                     </td>
                     <td>房产价格</td>
                     <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="万元" style="width: 152px;">
+                      <input class="input_text" type="text" placeholder="万元" style="width: 158px;">
                     </td>
                   </tr>
                 </table>
@@ -193,31 +219,31 @@
                 class="mortgage_situation">不动产情况</span></td>
               <td colspan="">坐落</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 246px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
               </td>
               <td>不动产单元号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 246px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
               </td>
             </tr>
             <tr>
-              <td colspan="">不动产权证明号</td>
+              <td style="min-width: 100px;">不动产权证明号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 246px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
               </td>
-              <td>不动产权属证书号</td>
+              <td style="min-width: 118px;">不动产权属证书号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 246px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
               </td>
             </tr>
             <tr>
               <td colspan="">所属区县</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 246px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
               </td>
               <td>区县编号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 246px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
               </td>
             </tr>
             <tr>
@@ -226,12 +252,22 @@
                   <tr>
                     <td style="min-width: 100px;">土地使用起始日</td>
                     <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="" value="" style="width: 100px;">
-                    </td>
+                      <el-date-picker
+                        v-model="Cancel_m[0].enddate"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions"
+                        style="width: 120px; margin-left: -1px;">
+                      </el-date-picker>                    </td>
                     <td style="min-width: 100px;">土地使用结束日</td>
                     <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="" value="" style="width: 100px;">
-                    </td>
+                      <el-date-picker
+                        v-model="Cancel_m[0].enddate"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions"
+                        style="width: 120px; margin-left: -1px;">
+                      </el-date-picker>                    </td>
                     <td style="min-width: 58px;">权利性质</td>
                     <td class="td_text" style="padding: 0;">
                       <input class="input_text" type="text" placeholder="" value="" style="width: 60px;">
@@ -259,13 +295,60 @@
 
   export default {
     props: {
-      proposer: {
+      Cancel_p: {
         type: Array,
         default() {
-          return [];
+          return [
+            {
+              id: '权利人',
+              value: '',
+              type: '',
+              zhengjianhao: '',
+              address: '',
+              phone: ''
+            }, {
+              id: '代理人',
+              value: '',
+              type: '',
+              zhengjianhao: '',
+              address: '',
+              phone: ''
+            }, {
+              id: '义务人',
+              value: '',
+              type: '',
+              zhengjianhao: '',
+              address: '',
+              phone: ''
+            }
+          ];
         }
       },
-      mortgage: {}
+      Cancel_m: {
+        type: Array,
+        default() {
+          return [
+            {
+              guarantee: '',
+              signdate: null,
+              bankcount: '',
+              stardate: '',
+              enddate: '',
+              loannumbe: '',
+              estateprice: '',
+              landprice: '',
+              Houseprice: '',
+              Loanaccont: '',
+              Guaranteescope: '',
+              Mortgagescope: '',
+              Mortgagearea: '',
+              Landmortgagearea: '',
+              creditor: '',
+              debtor: ''
+            }
+          ];
+        }
+      }
     },
     data() {
       return {
@@ -276,7 +359,29 @@
           value: '选项2',
           label: '变更登记'
         }],
-        value: '选项1'
+        value: '选项1',
+        pickerOptions: {
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        }
       };
     },
     methods: {
@@ -306,8 +411,9 @@
   .cancel
     .can_table
       float: left
-      width: 808px
+      width: 72%
       font-size: 14px
+      overflow: hidden
       .header
         width: 100%
         .table
@@ -365,12 +471,16 @@
                 border-bottom: 1px solid #fff
             .table_2 td
               border-bottom: 1px solid #fff
+        .el-input__inner
+          border-radius: 0
+          border: none
+          border-left: 1px solid #dfe6ec
       .td_text
         padding: 0
         font-size: 0
         vertical-align: middle
         .textarea
-          width: 120px
+          width: 124px
           border: none
           padding: 2px 4px
           margin: 0 -12px
@@ -385,5 +495,5 @@
           font-size: 14px
     .list
       float: left
-      width: 336px
+      width: 28%
 </style>

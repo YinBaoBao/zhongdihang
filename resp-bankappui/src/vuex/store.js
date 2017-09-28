@@ -8,10 +8,13 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    api: window.__congig.dev_serve,
+    api: window.__config.dev_serve,
+    Host: window.__config.dev_local,
+    Test: window.__config.dev_test,
     application: '',
     proposer: '',
-    value: ''
+    value: '',
+    token: ''
   },
   getters: {
     value: state => state.value
