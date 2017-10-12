@@ -8,53 +8,39 @@
 }
 #Register #JQprint .header {
   width: 810px;
+  height: 70px;
   margin: 0 20px;
   text-align: center;
-  overflow: hidden;
 }
 #Register #JQprint .header .barcode {
   float: left;
-  height: 64px;
+  width: 190px;
+  height: 70px;
   padding: 0 15px;
 }
-#Register #JQprint .header .barcode .bar_img {
-  width: 130px;
-  height: 40px;
-  overflow: hidden;
-}
-#Register #JQprint .header .barcode .bar_img img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-#Register #JQprint .header .barcode span {
-  display: block;
-  padding: 4px 2px;
-  font-size: 14px;
-}
 #Register #JQprint .header .title {
-  display: inline;
-  line-height: 40px;
+  display: inline-block;
+  line-height: 70px;
   font-size: 20px;
 }
 #Register #JQprint .header .unit {
   display: inline-block;
   float: right;
   padding: 6px 15px;
-  margin-top: 36px;
+  margin-top: 42px;
 }
 #Register #JQprint #Table {
   width: 810px;
   margin: 0 20px;
-  position: relative;
 }
 #Register #JQprint #Table .selects {
   width: 100%;
 }
 #Register #JQprint #Table .selects .tabs {
   width: 100%;
-  border: 1px solid #ccc;
-  border-bottom: none;
+  border: 1px solid #dfe6ec;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
 }
 #Register #JQprint #Table .selects .tabs .list li {
   float: left;
@@ -69,83 +55,51 @@
   padding-left: 5px;
   vertical-align: middle;
 }
-#Register #JQprint #Table #HotTable {
-  width: 100%;
-  /*overflow: hidden*/
-}
-#Register #JQprint #Table #HotTable tr td {
-  vertical-align: middle;
-  text-align: center;
-}
-#Register #JQprint #Table #HotTable tr:nth-child(21) td {
-  border-bottom: 1px dashed #ccc;
-  text-align: left;
-}
-#Register #JQprint #Table #HotTable tr:nth-child(22) td {
-  border-bottom: 1px dashed #ccc;
-}
-#Register #JQprint #Table #HotTable tr:nth-child(23) td {
-  border-bottom: 1px dashed #ccc;
-}
-#Register #JQprint #Table #HotTable tr:nth-child(24) td {
-  text-align: left;
-}
-#Register #JQprint #Table #HotTable tr:nth-child(25) td {
-  text-align: left;
-}
-#Register #JQprint #Table #HotTable tr:nth-child(26) td {
-  border-bottom: 1px dashed #ccc;
-  text-align: left;
-}
-#Register #JQprint #Table #HotTable tr:nth-child(27) td {
-  border-bottom: 1px dashed #ccc;
-  text-align: left;
-}
-#Register #JQprint #Table #HotTable tr:nth-child(28) td {
-  border-bottom: 1px dashed #ccc;
-  text-align: left;
-}
-#Register #JQprint #Table #HotTable tr:nth-child(29) td {
-  border-left: none;
-  border-bottom: 1px dashed #ccc;
-  text-align: left;
-}
-#Register #JQprint #Table #HotTable tr:nth-child(30) td {
-  border-left: 1px dashed #ccc;
-  text-align: left;
-}
-#Register #JQprint #Table .state {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 999999;
-}
-#Register #JQprint #Table .state .is1 {
-  width: 100px;
-  position: absolute;
-  left: 260px;
-  top: -142px;
-}
-#Register #JQprint #Table .state .gt1 {
-  width: 100px;
-  position: absolute;
-  left: 390px;
-  top: -120px;
-}
-#Register #JQprint #Table .state .is2 {
-  width: 100px;
-  position: absolute;
-  left: 424px;
-  top: -96px;
-}
-#Register #JQprint #Table .state .ipts {
-  width: 16px;
+#Register #JQprint #Table .selects .tabs td {
   height: 14px;
+  padding: 6px;
+  border-bottom: 1px solid #dfe6ec;
+  border-right: 1px solid #dfe6ec;
+  min-width: 70px;
+  line-height: 16px;
+  text-align: center;
   vertical-align: middle;
 }
-#Register #JQprint #Table .state .labs {
-  padding: 0 8px 0 4px;
+#Register #JQprint #Table .selects .tabs .td_w {
+  width: 22px;
+  border-bottom: none;
+  padding: 10px 4px;
+  text-align: center;
   vertical-align: middle;
+}
+#Register #JQprint #Table .selects .tabs .td_w .title {
+  display: inline-block;
+  width: 15px;
+}
+#Register #JQprint #Table .selects .tabs .tabs0 {
+  width: 100%;
+}
+#Register #JQprint #Table .selects .tabs .tabs0 tr td:last-child {
+  border-right: none;
+}
+#Register #JQprint #Table .selects .tabs .tabs0 .tabs1 {
+  width: 100%;
+}
+#Register #JQprint #Table .selects .tabs .tabs0 .tabs1 tr:last-child td {
+  border-bottom: none;
+}
+#Register #JQprint #Table .selects .tabs .tb_dashed td {
+  border-bottom: 1px dashed #dfe6ec;
+}
+#Register #JQprint #Table .selects .tabs .tb_text td {
+  text-align: left;
+}
+#Register #JQprint #Table .selects .tabs .tb_text td .check {
+  vertical-align: middle;
+}
+#Register #JQprint #Table .selects .tabs .tb_text td .text {
+  vertical-align: middle;
+  padding: 0 4px;
 }
 #Register .info {
   width: 100%;

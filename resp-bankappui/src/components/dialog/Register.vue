@@ -3,10 +3,8 @@
     <div id="JQprint" ref="Jqprint">
       <div class="header">
         <div class="barcode">
-          <div class="bar_img">
-            <img src="./barcode.png" alt="条形码">
-          </div>
-          <span>201708001000001</span>
+          <barcode :value="Propose.bjbh" :options="{ displayValue: true }"
+                   style="width: 100%;height: 100%;"></barcode>
         </div>
         <h2 class="title">苏州不动产登记申请书</h2>
         <p class="unit">单位: 平方米/万元</p>
@@ -19,58 +17,20 @@
                 <span class="title">申请登记事由</span>
               </td>
               <td>
-                <ul class="list">
-                  <li><input type="checkbox" id="a" style="font-size: 20px" class="ipts"><label for="a" class="labs">国有建设用地使用权</label>
-                  </li>
-                  <li><input type="checkbox" id="b" style="font-size: 20px" class="ipts"><label for="b" class="labs">集体土地所有权</label>
-                  </li>
-                  <li><input type="checkbox" id="c" style="font-size: 20px" class="ipts"><label for="c" class="labs">宅基地使用权</label>
-                  </li>
-                  <li><input type="checkbox" id="d" style="font-size: 20px" class="ipts"><label for="d" class="labs">集体建设使用权</label>
-                  </li>
-                  <li><input type="checkbox" id="e" style="font-size: 20px" class="ipts"><label for="e"
-                                                                                                class="labs">林地使用权</label>
-                  </li>
-                  <li><input type="checkbox" id="f" style="font-size: 20px" class="ipts"><label for="f" class="labs">水域滩涂使用权</label>
-                  </li>
-                  <li><input type="checkbox" id="g" style="font-size: 20px" class="ipts"><label for="g"
-                                                                                                class="labs">房屋所有权</label>
-                  </li>
-                  <li><input type="checkbox" id="h" style="font-size: 20px" class="ipts"><label for="h" class="labs">构筑物所有权</label>
-                  </li>
-                  <li><input type="checkbox" id="i" style="font-size: 20px" class="ipts"><label for="i"
-                                                                                                class="labs">抵押权</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="j" style="font-size: 20px" class="ipts"><label for="j"
-                                                                                              class="labs">地役权</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="k" style="font-size: 20px" class="ipts"><label for="k"
-                                                                                              class="labs">其他</label>
+                <ul class="list" v-if="checkdata[0]">
+                  <li v-for="item in checkdata[0]">
+                    <input type="checkbox" :id="item.id" style="font-size: 20px" class="ipts">
+                    <label :for="item.id" class="labs">{{item.value}}</label>
                   </li>
                 </ul>
               </td>
             </tr>
             <tr>
               <td>
-                <ul class="list">
-                  <li><input type="checkbox" id="aa" style="font-size: 20px" class="ipts"><label for="aa" class="labs">首次登记</label>
-                  </li>
-                  <li><input type="checkbox" id="bb" style="font-size: 20px" class="ipts"><label for="bb" class="labs">转移登记</label>
-                  </li>
-                  <li><input type="checkbox" id="cc" style="font-size: 20px" class="ipts"><label for="cc" class="labs">变更登记</label>
-                  </li>
-                  <li><input type="checkbox" id="dd" style="font-size: 20px" class="ipts"><label for="dd" class="labs">注销登记</label>
-                  </li>
-                  <li><input type="checkbox" id="ee" style="font-size: 20px" class="ipts"><label for="ee" class="labs">更正登记</label>
-                  </li>
-                  <li><input type="checkbox" id="ff" style="font-size: 20px" class="ipts"><label for="ff" class="labs">异议登记</label>
-                  </li>
-                  <li><input type="checkbox" id="gg" style="font-size: 20px" class="ipts"><label for="gg" class="labs">预告登记</label>
-                  </li>
-                  <li><input type="checkbox" id="hh" style="font-size: 20px" class="ipts"><label for="hh"
-                                                                                                 class="labs">其他</label>
+                <ul class="list" v-if="checkdata[1]">
+                  <li v-for="item in checkdata[1]">
+                    <input type="checkbox" :id="item.id" style="font-size: 20px" class="ipts">
+                    <label :for="item.id" class="labs">{{item.value}}</label>
                   </li>
                 </ul>
               </td>
@@ -94,7 +54,7 @@
                           <td rowspan="3" style="border-bottom: none;">
                             <span>权利人</span>
                           </td>
-                          <td></td>
+                          <td>{{Propose.sqrqk.qlrs[0].qlrmc}}</td>
                         </tr>
                         <tr>
                           <td></td>
@@ -104,9 +64,9 @@
                         </tr>
                       </table>
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Propose.sqrqk.qlrs[0].qlrzjzl}}</td>
+                    <td>{{Propose.sqrqk.qlrs[0].qlrzjh}}</td>
+                    <td>{{Propose.sqrqk.qlrs[0].qlrdz}}</td>
                   </tr>     <!--权利人-->
                   <tr>
                     <td></td>
@@ -125,13 +85,13 @@
                           <td style="border-bottom: none;">
                             <span>代理人</span>
                           </td>
-                          <td></td>
+                          <td>{{Propose.sqrqk.qlrdlr.qlrdlrmc}}</td>
                         </tr>
                       </table>
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Propose.sqrqk.qlrdlr.qlrdlrzjzl}}</td>
+                    <td>{{Propose.sqrqk.qlrdlr.qlrdlrzjh}}</td>
+                    <td>{{Propose.sqrqk.qlrdlr.qlrdlrdz}}</td>
                   </tr>     <!--代理人-->
                   <tr>  <!--义务人-->
                     <td rowspan="3" style="padding: 0;">
@@ -140,7 +100,7 @@
                           <td rowspan="3" style="border-bottom: none;">
                             <span>义务人</span>
                           </td>
-                          <td></td>
+                          <td>{{Propose.sqrqk.ywrs[0].ywrmc}}</td>
                         </tr>
                         <tr>
                           <td></td>
@@ -150,9 +110,9 @@
                         </tr>
                       </table>
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{Propose.sqrqk.ywrs[0].ywrzjzl}}</td>
+                    <td>{{Propose.sqrqk.ywrs[0].ywrzjh}}</td>
+                    <td>{{Propose.sqrqk.ywrs[0].ywrdz}}</td>
                   </tr>     <!--义务人-->
                   <tr>
                     <td></td>
@@ -165,19 +125,19 @@
                     <td></td>
                   </tr>
                   <tr>  <!--代理人-->
-                    <td style="padding: 0;">
+                    <td style="border-bottom: none;padding: 0;">
                       <table class="tabs1" cellpadding="10" cellspacing="0">
                         <tr>
                           <td style="border-bottom: none;">
                             <span>代理人</span>
                           </td>
-                          <td></td>
+                          <td>{{Propose.sqrqk.ywrdlr.ywrdlrmc}}</td>
                         </tr>
                       </table>
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td style="border-bottom: none;">{{Propose.sqrqk.ywrdlr.ywrdlrzjzl}}</td>
+                    <td style="border-bottom: none;">{{Propose.sqrqk.ywrdlr.ywrdlrzjh}}</td>
+                    <td style="border-bottom: none;">{{Propose.sqrqk.ywrdlr.ywrdlrdz}}</td>
                   </tr>     <!--代理人-->
                 </table>
               </td>
@@ -190,36 +150,36 @@
                       <span class="title">不动产情况</span>
                     </td>
                     <td style="width: 123px;">坐落</td>
-                    <td></td>
+                    <td>{{Propose.bdcqk.zl}}</td>
                   </tr>
                   <tr>
                     <td>不动产单元号</td>
-                    <td></td>
+                    <td>{{Propose.bdcqk.bdcdyh}}</td>
                   </tr>
                   <tr>
                     <td>原不动产权属证书</td>
-                    <td></td>
+                    <td>{{Propose.bdcqk.bdcqzshy}}</td>
                   </tr>
                   <tr>
                     <td colspan="2" style="padding: 0;">
                       <table class="tabs1" cellpadding="10" cellspacing="0">
                         <tr>
                           <td style="width: 123px;">房屋用途</td>
-                          <td></td>
+                          <td>{{Propose.bdcqk.fwyt}}</td>
                           <td style="width: 123px;">房屋面积</td>
-                          <td></td>
+                          <td>{{Propose.bdcqk.fwmj}}</td>
                         </tr>
                         <tr>
                           <td>土地用途</td>
-                          <td></td>
+                          <td>{{Propose.bdcqk.tdyt}}</td>
                           <td>土地面积</td>
-                          <td></td>
+                          <td>{{Propose.bdcqk.tdmj}}</td>
                         </tr>
                         <tr>
                           <td>土地使用年限</td>
-                          <td>至</td>
+                          <td>{{Propose.bdcqk.tdsyqssj}}至<br>{{Propose.bdcqk.tdsyjssj}}</td>
                           <td>权力性质</td>
-                          <td></td>
+                          <td>{{Propose.bdcqk.qlxz}}</td>
                         </tr>
                       </table>
                     </td>
@@ -234,30 +194,30 @@
                     <td class="td_w" rowspan="3">
                       <span class="title">抵押情况</span>
                     </td>
-                    <td style="width: 123px;">被担保债权数额<br>最高债权数额）</td>
-                    <td></td>
+                    <td style="width: 123px;">被担保债权数额<br>（最高债权数额）</td>
+                    <td>{{Propose.dyqk.bdbzqse}}</td>
                     <td style="width: 123px;">债务履行期限<br>（债权确定期限）</td>
-                    <td>至</td>
+                    <td>{{Propose.dyqk.zwlxqssj}}至<br>{{Propose.dyqk.zwlxjssj}}</td>
                   </tr>
                   <tr>
                     <td colspan="4" style="border-bottom: none;padding: 0;">
                       <table class="tabs1" cellpadding="10" cellspacing="0">
                         <tr>
                           <td style="width: 123px;">担保范围</td>
-                          <td></td>
+                          <td>{{Propose.dyqk.dbfw}}</td>
                           <td rowspan="2" style="width: 80px;">抵押面积</td>
                           <td style="width: 100px;">房产</td>
-                          <td></td>
+                          <td>{{Propose.dyqk.fcdymj}}</td>
                         </tr>
                         <tr>
                           <td>在建建筑物抵押范围</td>
-                          <td></td>
+                          <td>{{Propose.dyqk.zjjzwdyfw}}</td>
                           <td>土地</td>
-                          <td></td>
+                          <td>{{Propose.dyqk.tddymj}}</td>
                         </tr>
                         <tr>
                           <td>土地使用年限</td>
-                          <td>至</td>
+                          <td>至<br></td>
                           <td>权力性质</td>
                           <td></td>
                         </tr>
@@ -288,7 +248,7 @@
               <td colspan="2" style="padding: 0;">
                 <table class="tabs0 tb_dashed" cellpadding="10" cellspacing="0">
                   <tr>
-                    <td>本申请人对填写的上述内容，声明及提交的申请材料的真实性负责。如有不实，申请人愿承担法律责任。</td>
+                    <td style="text-align: left;">本申请人对填写的上述内容，声明及提交的申请材料的真实性负责。如有不实，申请人愿承担法律责任。</td>
                   </tr>
                   <tr>
                     <td style="border-bottom: none;padding: 0;">
@@ -313,27 +273,58 @@
             </tr>     <!--//签字-->
             <tr>   <!--//询问事项-->
               <td colspan="2" style="padding: 0;">
-                <table class="tabs0 tb_dashed" cellpadding="10" cellspacing="0">
+                <table class="tabs0 tb_dashed tb_text" cellpadding="10" cellspacing="0">
                   <tr>
                     <td class="td_w" rowspan="6">
                       <span class="title">询问事项</span>
                     </td>
-                    <td>1.申请的不动产是否共有？</td>
+                    <td>
+                      <span style="vertical-align: middle;">1.申请的不动产是否共有？</span>
+                      <span style="padding-left: 10px;">
+                        <input type="checkbox" :checked="CheckIs" id="Is"
+                               style="font-size: 20px" class="check"><label
+                        for="Is"
+                        class="text">是</label>
+                      </span>
+                      <span style="padding-left: 10px;">
+                        <input type="checkbox" :checked="CheckNo" id="No" style="font-size: 20px" class="check"><label
+                        for="No"
+                        class="text">否</label>
+                      </span>
+                    </td>
                   </tr>
                   <tr>
-                    <td>2.共有类型： 按份共有 份额情况：</td>
+                    <td>
+                      <span style="vertical-align: middle;">2.共有类型: 按份共有 &nbsp;&nbsp;&nbsp;份额情况 :</span>
+                      <span style="padding-left: 10px;">
+                        <input type="checkbox" :checked="Propose.xwsx.sfgymc" id="gt" style="font-size: 20px"
+                               class="check"><label
+                        for="gt"
+                        class="text">共同共有</label>
+                      </span>
+                    </td>
                   </tr>
                   <tr>
-                    <td>3.共有人是否申请分别持证？： 按份共有 份额情况：</td>
+                    <td>
+                      <span style="vertical-align: middle;">3.共有人是否申请分别持证？</span>
+                      <span style="padding-left: 10px;">
+                        <input type="checkbox" id="Iss" style="font-size: 20px" class="check"><label for="Iss"
+                                                                                                     class="text">是</label>
+                      </span>
+                      <span style="padding-left: 10px;">
+                        <input type="checkbox" id="Noo" style="font-size: 20px" class="check"><label for="Noo"
+                                                                                                     class="text">否</label>
+                      </span>
+                    </td>
                   </tr>
                   <tr>
                     <td>4.其他说明</td>
                   </tr>
                   <tr>
-                    <td>权利人（代理人）签章:</td>
+                    <td style="text-align: right;padding-right: 200px;">权利人（代理人）签章:</td>
                   </tr>
                   <tr>
-                    <td style="border-bottom: none;"> 年 月 日</td>
+                    <td style="border-bottom: none;text-align: right;padding-right: 100px;"> 年 月 日</td>
                   </tr>
                 </table>
               </td>
@@ -357,51 +348,224 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import VueBarcode from '@xkeshi/vue-barcode';
+  import {getLodop} from '../../../static/LodopFuncs.js';
+
+  let LODOP;
   export default {
     name: '',
     props: {
       Propose: {
-        type: Array,
-        default: []
+        type: Object,
+        default() {
+          return {
+            sqrqk: {
+              qlrdlr: {
+                qlrdlrdh: '',
+                qlrdlrdz: '',
+                qlrdlrmc: '',
+                qlrdlrzjh: '',
+                qlrdlrzjzl: '',
+                qlrdlrzjzlmc: ''
+              },
+              qlrs: [
+                {
+                  bjbh: '',
+                  qlrdh: '',
+                  qlrdz: '',
+                  qlrlx: '',
+                  qlrlxmc: '',
+                  qlrmc: '',
+                  qlrunid: '',
+                  qlrxh: '',
+                  qlrzjh: '',
+                  qlrzjzl: '',
+                  qlrzjzlmc: '',
+                  qlrzl: '',
+                  qlrzlmc: ''
+                }
+              ],
+              ywrdlr: {
+                ywrdlrdh: '',
+                ywrdlrdz: '',
+                ywrdlrmc: '',
+                ywrdlrzjh: '',
+                ywrdlrzjzl: '',
+                ywrdlrzjzlmc: ''
+              },
+              ywrs: [
+                {
+                  ywrunid: '',
+                  bjbh: '',
+                  ywrxh: '',
+                  ywrzl: '',
+                  ywrzlmc: '',
+                  ywrlx: '',
+                  ywrlxmc: '',
+                  ywrmc: '',
+                  ywrzjzl: '',
+                  ywrzjzlmc: '',
+                  ywrzjh: '',
+                  ywrdh: '',
+                  ywrdz: ''
+                }
+              ]
+            },
+            bdcqk: {
+              bdcdyh: '',
+              bdcqzshx: '',
+              bdcqzshy: '',
+              fwmj: '',
+              fwyt: '',
+              fwytmc: '',
+              qlxz: '',
+              qlxzmc: '',
+              ssqx: '',
+              ssqxmc: '',
+              tdmj: '',
+              tdsyjssj: '',
+              tdsyqssj: '',
+              tdyt: '',
+              tdytmc: '',
+              zl: ''
+            },
+            dyqk: {
+              bdbzqse: '',
+              bdcpgjg: '',
+              dbfw: '',
+              dkywbh: '',
+              dkzh: '',
+              dyfs: '',
+              dyfsmc: '',
+              dyhtqdrq: '',
+              fcdymj: '',
+              fcpgjg: '',
+              tddymj: '',
+              tdpgjg: '',
+              yhdyywh: '',
+              zjjzwdyfw: '',
+              zqr: '',
+              zwlxjssj: '',
+              zwlxqssj: '',
+              zwr: ''
+            },
+            xwsx: {
+              sfgy: false
+            },
+            bjbh: '201708200000027'
+          };
+        }
       }
     },
     data() {
       return {
-        proposer: ''
+        proposer: '',
+        checkdata: [  // 多选框
+          [
+            {
+              id: 'a',
+              value: '国有建设用地使用权'
+            },
+            {
+              id: 'b',
+              value: '集体土地所有权'
+            },
+            {
+              id: 'c',
+              value: '宅基地使用权'
+            },
+            {
+              id: 'd',
+              value: '集体建设使用权'
+            },
+            {
+              id: 'e',
+              value: '林地使用权'
+            },
+            {
+              id: 'f',
+              value: '水域滩涂使用权'
+            },
+            {
+              id: 'g',
+              value: '房屋所有权'
+            },
+            {
+              id: 'h',
+              value: '构筑物所有权'
+            },
+            {
+              id: 'i',
+              value: '抵押权'
+            },
+            {
+              id: 'g',
+              value: '地役权'
+            },
+            {
+              id: 'k',
+              value: '其他'
+            }
+          ],
+          [
+            {
+              id: 'aa',
+              value: '首次登记'
+            },
+            {
+              id: 'bb',
+              value: '转移登记'
+            },
+            {
+              id: 'cc',
+              value: '变更登记'
+            },
+            {
+              id: 'dd',
+              value: '注销登记'
+            },
+            {
+              id: 'ee',
+              value: '更正登记'
+            },
+            {
+              id: 'ff',
+              value: '异议登记'
+            },
+            {
+              id: 'gg',
+              value: '预告登记'
+            },
+            {
+              id: 'hh',
+              value: '其他'
+            }
+          ]
+        ]  // 多选框
       };
+    },
+    computed: {
+      CheckIs() {
+        return this.Propose.xwsx.sfgy === true ? 'checked' : false;
+      },
+      CheckNo() {
+        return this.Propose.xwsx.sfgy === true ? false : 'checked';
+      }
     },
     methods: {
       _print() {
-        this.$emit('Jqprint');
+        this.CreateOneFormPage();
+//        LODOP.PRINT();
+        LODOP.PREVIEW();
       },
-      tableData(data) {
-        console.log(data);
-        let settable = this.Resetting.data;
-        console.log(settable);
-        if (data === '' || data === null) {
-          return false;
-        }
-        for (var i = 0; i < data.length; i++) {
-          switch (data[i][0]) {
-            case 'porwer':
-              settable[i + 1] = data[i];
-              continue;
-            case 'daili':
-              settable[i + 2] = data[i];
-              continue;
-            case 'yiwu':
-              settable[i + 2] = data[i];
-              continue;
-          }
-        }
-      },
-      proposercontent(event, type, id) {
-        let Arr = [type, id];
-        Arr.push(event.value);
-        Arr.push(event.type);
-        Arr.push(event.zhengjianhao);
-        Arr.push(event.phone);
-        return Arr;
+      CreateOneFormPage() {
+        LODOP = getLodop();
+        LODOP.PRINT_INIT('订货单');
+        LODOP.SET_PRINT_STYLE('FontSize', 18);
+        LODOP.SET_PRINT_STYLE('Bold', 1);
+        LODOP.ADD_PRINT_TEXT(50, 231, 260, 39, '打印页面部分内容');
+        LODOP.ADD_PRINT_HTM(88, 200, 350, 600,
+          document.getElementById('JQprint').innerHTML);
       }
     },
     created() {
@@ -412,24 +576,10 @@
         this.proposer = this.$store.state.proposer;
       }
       console.log(this.Propose);
-      let pro = this.proposer;
-      let setdata = [];
-      for (var i = 0; i < pro.length; i++) {
-        switch (pro[i].id) {
-          case '权利人' :
-            setdata.push(this.proposercontent(pro[i], 'porwer', '权利人'));
-            continue;
-          case '代理人' :
-            setdata.push(this.proposercontent(pro[i], 'daili', '代理人'));
-            continue;
-          case '义务人' :
-            setdata.push(this.proposercontent(pro[i], 'yiwu', '义务人'));
-            continue;
-        }
-      }
-      this.tableData(setdata, 1, 8);
     },
-    components: {}
+    components: {
+      'barcode': VueBarcode
+    }
   };
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
@@ -440,33 +590,23 @@
       width: 100%
       .header
         width: 810px
+        height: 70px;
         margin: 0 20px
         text-align: center
         .barcode
           float: left
-          height: 64px
+          width: 190px;
+          height: 70px;
           padding: 0 15px
-          .bar_img
-            width: 130px
-            height: 40px
-            overflow: hidden
-            img
-              display: block
-              width: 100%
-              height: 100%
-          span
-            display: block
-            padding: 4px 2px
-            font-size: 14px;
         .title
-          display inline
-          line-height: 40px
+          display: inline-block
+          line-height: 70px
           font-size: 20px
         .unit
           display: inline-block
           float: right
           padding: 6px 15px
-          margin-top: 36px
+          margin-top: 42px
       #Table
         width: 810px
         margin: 0 20px
@@ -517,7 +657,13 @@
                     border-bottom: none
             .tb_dashed td
               border-bottom: 1px dashed #DFE6EC
-
+            .tb_text td
+              text-align: left
+              .check
+                vertical-align: middle
+              .text
+                vertical-align: middle
+                padding: 0 4px
     .info
       width: 100%
       margin-top: 20px
@@ -529,5 +675,4 @@
       position: absolute
       right: 20px
       bottom: 72px
-
 </style>

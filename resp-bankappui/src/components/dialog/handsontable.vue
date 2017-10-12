@@ -10,7 +10,10 @@
   export default {
     props: {
       Propose: {
-        type: Array
+        type: Object
+      },
+      Title: {
+        type: String
       },
       index: {
         type: Number
@@ -21,14 +24,14 @@
         root: 'test-hot',
         hotSettings: {
           data: [
-            ['权利人1', '中国建设银行股份有限公司苏州分行', '营业执照', '320500000010314', '苏州市姑苏区阊胥路88号', '0512-68268179']
+            ['', '', '', '', '', '']
           ],
           width: 800,
           height: 240,
           startRows: 11, // 行列范围
           startCols: 12,
-          minRows: 5,  // 最小行列
-          minCols: 5,
+          minRows: 6,  // 最小行列
+          minCols: 6,
           rowHeaders: true, // 行表头
 //          rowHeaders: ['权利人1', '权利人2', '权利人3', '权利人4'],
           colHeaders: ['', '姓名/名称', '证件类型', '证件号', '联系地址', '电话'], // 自定义列表头or 布尔值
@@ -69,15 +72,23 @@
     },
     methods: {
       keep() {
-//        console.log(this.hotSettings.data);
         let index = this.index + 1;
-        this.proposer.splice(index, 0, this.hotset());
-        this.$store.commit('proposer', this.proposer);
+        switch (this.Title) {
+          case '权利人':
+            this.Propose.qlrs.splice(index, 0, this.hotset());
+            break;
+          case '代理人':
+            this.Propose.qlrdlr = this.hotset();
+            break;
+          case '义务人':
+            this.Propose.ywrdlr = this.hotset();
+            break;
+        }
       },
       hotset() { // 过滤表格
         let hotset = this.hotSettings.data;
         let json = {};
-        let arr = ['id', 'value', 'address', 'type', 'zhengjianhao', 'phone'];
+        let arr = ['', 'qlrmc', 'qlrzjzlmc', 'qlrzjh', 'qlrdz', 'qlrdh'];
         for (var i = 0; i < hotset.length; i++) {
           if (hotset[i][1] !== null) {
             for (var k = 0; k < hotset[i].length; k++) {
@@ -90,16 +101,7 @@
     },
     created() {
       this.$forceUpdate();
-      if (this.$store.state.proposer === '' || this.$store.state.proposer === null) {
-        this.proposer = this.Propose;
-      } else {
-        this.proposer = this.$store.state.proposer;
-      }
-      let index = this.index;
-      for (var k in this.proposer[index]) {
-        this.tableData.push(this.proposer[index][k]);
-      }
-      this.hotSettings.data[0] = this.tableData;
+      this.hotSettings.data[0][0] = this.Title;
     },
     watch: {},
     components: {

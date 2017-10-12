@@ -54,23 +54,41 @@
           let admin = this.ruleForm.username;
           let password = this.ruleForm.password;
           if (valid) {
-            this.$http.post('http://192.168.1.134:9000/logControl/loginUser', {
-              username: admin,
-              password: password
+            this.$http.get(this.$store.state.Host + '/logControl/getToken', {
+              params: {
+                username: admin,
+                password: password
+              }
             }, {emulateJSON: true}).then((response) => {
               response = response.body;
-              this.token = response.content + response.content.access_token;
+              this.token = response.message;
               if (this.token) {
-                console.log(this.token);
-                sessionStorage.setItem('login_token', this.token);
-                this.$store.commit('application', response.data);
+                this.$store.commit('newtoken', this.token);
+                this.$store.commit('newname', admin);
+                this.$message({
+                  showClose: true,
+                  message: '登录成功!',
+                  type: 'success'
+                });
                 this.$router.push({path: '/index'});
+                this.$http.post(this.$store.state.Host + '/TokrnControl/getToken', {
+                  appid: '3644a684f98ea8fe223c713b77189a77',
+                  secret: 200
+                }).then((response) => {
+                  response = response.body;
+                  sessionStorage.setItem('login_token', response.body.access_token);
+                });
               } else {
                 this.$message.error('用户名或密码错误！');
                 return false;
               }
             });
           } else {
+            this.$message({
+              showClose: true,
+              message: '请输入用户名或密码',
+              type: 'warning'
+            });
             return false;
           }
         });

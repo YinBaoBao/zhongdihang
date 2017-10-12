@@ -18,8 +18,8 @@
         <div class="title"><span>账号管理</span></div>
         <div class="btns">
           <div class="btns_sub">
-            <el-input v-model="input" placeholder="输入账号/姓名可查" style="width: 200px"></el-input>
-            <el-button type="primary" icon="search" style="margin-left: 20px;">查询</el-button>
+            <el-input v-model="search_value" placeholder="输入账号/姓名可查" style="width: 200px"></el-input>
+            <el-button type="primary" icon="search" style="margin-left: 20px;" @click="_search_submit">查询</el-button>
           </div>
           <el-button :plain="true" type="info" icon="plus" style="float: right; margin-right: 50px;"
                      @click="_account_add">新增账号
@@ -36,7 +36,7 @@
           <el-table-column prop="create_time" label="创建日期"></el-table-column>
           <el-table-column label="操作" width="100">
             <template scope="scope">
-              <el-button type="text" size="small" @click="_bind">禁用</el-button>
+              <el-button type="text" size="small" @click="_bind(scope.$index,scope.row)">禁用</el-button>
               <el-button type="text" size="small" @click="manage_acount(scope.$index,scope.row)">修该</el-button>
             </template>
           </el-table-column>
@@ -106,11 +106,11 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="edit_account = false">取 消</el-button>
-          <el-button type="primary" @click="edit_account = false">确 定</el-button>
+          <el-button type="primary" @click="">确 定</el-button>
         </span>
       </el-dialog>
       <el-dialog title="账号修改" :visible.sync="manage_account" size="tiny" :before-close="handleClose">
-        <el-form :model="Manage_Form" :rules="rules" ref="Manage_Form" label-width="100px" class="demo-ruleForm">
+        <el-form :model="Manage_Form" :rules="Edit_rules" ref="Manage_Form" label-width="100px" class="demo-ruleForm">
           <el-form-item label="姓名" prop="name">
             <el-input v-model="Manage_Form.name"></el-input>
           </el-form-item>
@@ -126,7 +126,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="manage_account = false">取 消</el-button>
-          <el-button type="primary" @click="manage_account = false">确 定</el-button>
+          <el-button type="primary" @click="_manage_account_submit('Manage_Form')">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -137,16 +137,16 @@
   export default {
     data() {
       return {
-        input: '', // 查询框
+        search_value: '', // 查询框
         tableData: [
-          {
-            account: '',
-            name: '',
-            belong: '苏州分行',
-            role: '',
-            create_time: '',
-            tag: '公司'
-          }
+//          {
+//            account: '',
+//            name: '',
+//            belong: '苏州分行',
+//            role: '',
+//            create_time: '',
+//            tag: '公司'
+//          }
         ],
         currentPage: 1,  // 当前页
         pageSize: 10,    // 每页显示条数
@@ -176,6 +176,17 @@
         rules: {
           name: [
             {required: true, message: '请输入姓名', trigger: 'blur'}
+          ],
+          accountNumber: [
+            {required: true, message: '请输入账号', trigger: 'change'}
+          ]
+        },
+        Edit_rules: {  // 修改账户验证
+          name: [
+            {required: true, message: '请输入姓名', trigger: 'blur'}
+          ],
+          account: [
+            {required: true, message: '请输入账号', trigger: 'change'}
           ]
         }
       };
@@ -184,43 +195,124 @@
       _account_add() {   // 新增账号
         this.add_account = true;
       },
-      _add_account_submit(ruleForm) {
+      _add_account_submit(ruleForm) { // 新增提交
         this.$refs[ruleForm].validate((valid) => {
           if (valid) {
             this.$http.post(this.$store.state.Host + '/UserControl/saveUser', this.ruleForm).then((response) => {
               response = response.body;
-              if (response.code === 1000) {
-                this.$notify({
-                  title: '警告',
-                  message: '上传成功',
-                  type: 'success'
-                });
-              } else {
-                this.$notify({
-                  title: '警告',
-                  message: '上传失败',
-                  type: 'error'
-                });
+              console.log(response);
+              switch (response.code) {
+                case 1000:
+                  this.$notify({
+                    title: '提示',
+                    message: '上传成功',
+                    type: 'success'
+                  });
+                  this.freshData();
+                  this.add_account = false;
+                  break;
+                case 4000:
+                  this.$notify({
+                    title: '警告',
+                    message: '用户已经存在',
+                    type: 'warning'
+                  });
+                  this.freshData();
+                  this.add_account = false;
+                  break;
+                default:
+                  this.$notify({
+                    title: '警告',
+                    message: '上传失败',
+                    type: 'error'
+                  });
+                  this.freshData();
+                  this.add_account = false;
               }
             });
           } else {
-            this.$message({
-              showClose: true,
-              message: '请填写信息',
-              type: 'error'
+            this.$notify.info({
+              title: '提示',
+              message: '请填写信息'
             });
             return false;
           }
         });
       },
-      Edit() {    // 修改基板信息
+      _search_submit() {
+        this.freshData(this.search_value);
+      },
+      Edit() {    // 修改基本信息
         this.edit_account = true;
       },
-      _bind() {  // 禁用
+      _bind(index, row) {  // 禁用
+        console.log(row);
+        let userId = row.id;
+        this.$http.get(this.$store.state.Host + '/UserControl/deleteUser', {
+          params: {userId: userId}
+        }).then((response) => {
+          response = response.body;
+          switch (response.code) {
+            case 1000:
+              this.$notify({
+                title: '提示',
+                message: '修改成功',
+                type: 'success'
+              });
+              this.freshData();
+              break;
+            default:
+              this.$notify({
+                title: '错误',
+                message: '修改失败',
+                type: 'error'
+              });
+          }
+        });
       },
       manage_acount(index, row) {   // 修改账户信息
         this.manage_account = true;
         this.Manage_Form = row;
+      },
+      _manage_account_submit(ManageForm) {
+        this.$refs[ManageForm].validate((valid) => {
+          if (valid) {
+            let id = this.Manage_Form.id;
+            let name = this.Manage_Form.name;
+            let account = this.Manage_Form.account;
+            this.$http.post(this.$store.state.Host + '/UserControl/updateUser', {
+              id: id,
+              name: name,
+              accountNumber: account
+            }).then((response) => {
+              response = response.body;
+              switch (response.code) {
+                case 1000:
+                  this.$notify({
+                    title: '提示',
+                    message: '修改成功',
+                    type: 'success'
+                  });
+                  this.freshData();
+                  this.manage_account = false;
+                  break;
+                default:
+                  this.$notify({
+                    title: '错误',
+                    message: '修改失败',
+                    type: 'error'
+                  });
+                  this.manage_account = false;
+              }
+            });
+          } else {
+            this.$notify.info({
+              title: '提示',
+              message: '请填写信息'
+            });
+            return false;
+          }
+        });
       },
       formatter(row, column) {
         return row.address;
@@ -239,11 +331,12 @@
         this.currentPage = val;
         this.freshData();
       },
-      freshData() {
+      freshData(elements) {
         this.$http.get(this.$store.state.Host + '/UserControl/list', {
           params: {
             pageNumber: this.currentPage,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
+            condition: elements
           }
         }).then((response) => {
           response = response.body;
@@ -253,6 +346,7 @@
             let data = response.content.content;
             for (var i = 0; i < data.length; i++) {
               let json = {};
+              json['id'] = data[i].id;
               json['account'] = data[i].accountNumber;
               json['name'] = data[i].name;
               json['belong'] = '苏州分行';

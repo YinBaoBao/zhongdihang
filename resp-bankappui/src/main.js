@@ -15,18 +15,20 @@ Vue.use(ElementUI);
 
 Vue.use(VueResource); // 全局安装路由功能
 
-// Vue.http.interceptors.push((request, next) => {
-//   if (store.state.token) {
-//     request.headers.set('Authorization', store.state.token);
-//     next(response => {
-//       return response;
-//     });
-//   } else {
-//     next(response => {
-//       return response;
-//     });
-//   }
-// });
+Vue.http.interceptors.push((request, next) => {
+  if (store.state.token) {
+    request.headers.set('token', store.state.token);
+    request.headers.set('username', store.state.username);
+    console.log(request.headers);
+    next(response => {
+      return response;
+    });
+  } else {
+    next(response => {
+      return response;
+    });
+  }
+});
 
 Vue.config.productionTip = false;
 

@@ -14,7 +14,8 @@ const store = new Vuex.Store({
     application: '',
     proposer: '',
     value: '',
-    token: ''
+    token: '',
+    username: ''
   },
   getters: {
     value: state => state.value
@@ -25,6 +26,12 @@ const store = new Vuex.Store({
     },
     proposer(state, elements) {
       state.proposer = elements;
+    },
+    newtoken(state, element) {
+      state.token = element;
+    },
+    newname(state, element) {
+      state.username = element;
     }
   }
 });

@@ -25,6 +25,7 @@ var bankData = require("../mock/data.json");
 var application = bankData.application;
 var search = bankData.search;
 var updata = bankData.updata;
+var success = bankData.success;
 
 var apiRoutes = express.Router();
 apiRoutes.get("/application", function (req, res) {
@@ -43,6 +44,12 @@ apiRoutes.get("/updata", function (req, res) {
   res.json({
     errno: 0,
     data: updata
+  })
+});
+apiRoutes.get("/success", function (req, res) {
+  res.json({
+    errno: 0,
+    data: success
   })
 });
 app.use("/api",apiRoutes);

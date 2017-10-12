@@ -11,6 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "@xkeshi/vue-barcode": "^0.2.0",
     "element-ui": "^1.4.4",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",

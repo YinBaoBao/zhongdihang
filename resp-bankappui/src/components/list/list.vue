@@ -3,18 +3,29 @@
     <div class="List_data">
       <div class="header">
         <div class="auto">
-          <el-table ref="singleTable" height="250" :data="upData" highlight-current-row
+          <el-table ref="singleTable" height="250" :data="upDatalist" highlight-current-row
                     @current-change="needCurrentChange"
                     :row-class-name="tableRowClassName" style="width: 100%">
             <el-table-column type="index" width="50"></el-table-column>
-            <el-table-column property="text" label="需上传资料"></el-table-column>
+            <el-table-column property="mlmc" label="需上传资料"></el-table-column>
             <el-table-column property="state" label="状态" width="100"></el-table-column>
           </el-table>
         </div>
         <div class="btn">
-          <el-button @click="setCurrent(upData[updataindex])" style="padding: 6px 33px;margin-right: 15px;">上传
+          <el-upload style="display: inline-block;width: 128px;"
+                     class="upload-demo"
+                     action=""
+                     :show-file-list="false"
+                     :on-preview="handlePreview"
+                     :on-remove="handleRemove"
+                     :on-change="filechange"
+                     :file-list="fileList">
+            <el-button @click="setCurrent(upDatalist[updataindex])" style="padding: 6px 18px;">点击上传</el-button>
+            <div v-show="false" slot="tip" class="el-upload__tip"></div>
+          </el-upload>
+          <el-button @click="deleteRow(deletindex,upDatalist)"
+                     style="padding: 6px 33px;display: inline-block;vertical-align: top;">删除
           </el-button>
-          <el-button @click="deleteRow(deletindex,upData)" style="padding: 6px 33px;">删除</el-button>
         </div>
       </div>
       <div class="uploaded">
@@ -55,31 +66,63 @@
     </div>
   </div>
 </template>
-
 <script type="text/ecmascript-6">
   const ERR_OK = 0;
 
   export default {
+    props: {
+      upDatalist: {
+        type: Array
+      }
+    },
     data() {
       return {
         upData: [],  // 需上传资料
         uploaded: [],   // 已上传资料对应的文件
+        fileList: [],   // 上传文件
         currentRow: null,
         updataindex: 0,
-        deletindex: 0,
+        deletindex: null,
         restaurants: [], // 委托授权状态
         state: '',
         timeout: null
       };
     },
-    computed: {},
+    computed: {
+      State() {
+//        let state = '';
+        return this.upDatalist.mlwjsl === 0 ? '未上传' : '已上传';
+      },
+      filelist() {
+        return this.fileList;
+      }
+    },
     methods: {
       _Look(event) {  // 查看登记申请书
-        this.$emit('Look');
+        this.$emit('appLook');
+        this.$emit('canLook');
       },
       setCurrent(row) {
-//        console.log(row);
+        console.log(row);
         this.$refs.singleTable.setCurrentRow(row);
+        if (row.bjbh === '') {
+          this.$message({
+            message: '请选择需要上传的资料!',
+            type: 'warning'
+          });
+          return false;
+        }
+        let token = sessionStorage.getItem('login_token');
+        let bjbh = row.bjbh;
+        let mlxh = row.mlxh;
+        this.$http.post(this.$store.state.Host + '/BDCDJSQControl/saveQYCL', {
+          jkzh: 200,
+          bjbh: bjbh,
+          qyclmlxh: mlxh,
+          qycl: '',
+          access_token: token
+        }).then((response) => {
+        });
       },
       tableRowClassName(row, index) { // 向行添加索引值
         row.index = index;
@@ -88,15 +131,26 @@
         if (val === null || val === '') {
           return false;
         }
+        console.log(val);
         this.currentRow = val;
         this.updataindex = this.currentRow.id;
         this.deletindex = this.currentRow.index;
       },
       deleteRow(index, row) { // 删除行
+        console.log(index);
+        if (index === null) {
+          this.$message({
+            message: '请选择需要删除的资料!',
+            type: 'warning'
+          });
+          return false;
+        }
         row.splice(index, 1);
+        this.deletindex = null;
       },
       _systemdata() { // 系统获取数据
         this.$emit('systemdata');
+        this.$emit('cansystemdata');
       },
       loadAll() {            // 输入框匹配建议对象
         return [
@@ -117,35 +171,53 @@
       },
       handleSelect(item) {
         console.log(item);
+      },
+      handleRemove(file, fileList) {  // 上传文件
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
+      filechange(file, fileList) {
+        console.log(file, fileList);
       }
     },
     created() {
       this.$http.get(this.$store.state.api + '/updata').then((response) => {
         response = response.body;
         if (response.errno === ERR_OK) {
-          this.upData = response.data.needupdata;
+//          this.upData = response.data.needupdata;
           this.uploaded = response.data.addupdata;
         }
       });
     },
     mounted() {
       this.restaurants = this.loadAll();
+    },
+    watch: {
+      upDatalist: {
+        handler(val, oldVal) {
+        },
+        deep: true
+      }
     }
   };
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   .List_data
     width: 100%
+    margin-left: 2px
     .header
       width: 100%
       .auto
         border: 1px solid #DFE6EC
         overflow: hidden
       .btn
+        border-left: 1px solid #DFE6EC
+        border-right: 1px solid #DFE6EC
         text-align: center
-        margin-top: 10px
+        padding: 12px 10px
     .uploaded
-      margin-top: 10px
       text-align: left
       .auto
         overflow: hidden

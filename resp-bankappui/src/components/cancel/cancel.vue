@@ -15,7 +15,7 @@
               </td>
               <td>报件编号</td>
               <td class="td_text" style="padding: 0;width: 40px;">
-                <input class="input_text" type="text" value="201708001000001" placeholder="" style="width: 112px;">
+                <input class="input_text" type="text" value="201708001000001" placeholder="" style="width: 120px;">
               </td>
               <td>经办人姓名</td>
               <td class="td_text" style="padding: 0;width: 40px;">
@@ -29,7 +29,7 @@
           <div class="inner">
             <table class="table">
               <tr>
-                <td :rowspan="Cancel_p.length+1" style="padding: 0;min-width: 27px;vertical-align: middle;"><span
+                <td :rowspan="proposer.length+1" style="padding: 0;min-width: 27px;vertical-align: middle;"><span
                   class="proposer_situation">申请人情况</span></td>
                 <td></td>
                 <td>姓名/名称</td>
@@ -38,7 +38,7 @@
                 <td>联系地址</td>
                 <td>电话</td>
               </tr>
-              <tr v-if="Cancel_p" v-for="(item,index) in Cancel_p">
+              <tr v-if="proposer" v-for="(item,index) in proposer">
                 <td>{{item.id}}<span class="el-icon-plus proposer_add" @click="_application_add(index,$event)"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
@@ -90,21 +90,21 @@
                     <td style="min-width: 116px;">债务履行开始时间</td>
                     <td class="td_text" style="padding: 0;">
                       <el-date-picker
-                        v-model="Cancel_m[0].signdate"
+                        v-model="mortage[0].signdate"
                         type="date"
                         placeholder="选择日期"
                         :picker-options="pickerOptions"
-                        style="width: 256px; margin-left: -1px;">
+                        style="width: 262px; margin-left: -1px;">
                       </el-date-picker>
                     </td>
                     <td style="min-width: 116px;">债务履行结束时间</td>
-                    <td class="td_text" style="padding: 0;">
+                    <td class="td_text" style="padding: 0;border-right: none;">
                       <el-date-picker
-                        v-model="Cancel_m[0].signdate"
+                        v-model="mortage[0].signdate"
                         type="date"
                         placeholder="选择日期"
                         :picker-options="pickerOptions"
-                        style="width: 256px; margin-left: -1px;">
+                        style="width: 262px; margin-left: -1px;">
                       </el-date-picker>
                     </td>
                   </tr>
@@ -112,21 +112,21 @@
                     <td style="min-width: 116px;">抵押合同签署日期</td>
                     <td class="td_text" style="padding: 0;">
                       <el-date-picker
-                        v-model="Cancel_m[0].signdate"
+                        v-model="mortage[0].signdate"
                         type="date"
                         placeholder="选择日期"
                         :picker-options="pickerOptions"
-                        style="width: 256px; margin-left: -1px;">
+                        style="width: 262px; margin-left: -1px;">
                       </el-date-picker>
                     </td>
                     <td style="min-width: 116px;">抵押注销时间</td>
                     <td class="td_text" style="padding: 0;">
                       <el-date-picker
-                        v-model="Cancel_m[0].signdate"
+                        v-model="mortage[0].signdate"
                         type="date"
                         placeholder="选择日期"
                         :picker-options="pickerOptions"
-                        style="width: 256px; margin-left: -1px;">
+                        style="width: 262px; margin-left: -1px;">
                       </el-date-picker>
                     </td>
                   </tr>
@@ -155,7 +155,7 @@
                              style="width: 80px;height: 30px;">
                     </td>
                     <td>抵押合同编号</td>
-                    <td class="td_text" style="padding: 0;">
+                    <td class="td_text" style="padding: 0;border-right: none;">
                       <input class="input_text" type="text" placeholder=""
                              style="width: 110px;height: 30px;">
                     </td>
@@ -195,15 +195,15 @@
                   <tr>
                     <td>不动产价格</td>
                     <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="万元" style="width: 158px;">
+                      <input class="input_text" type="text" placeholder="万元" style="width: 164px;">
                     </td>
                     <td>土地价格</td>
                     <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="万元" style="width: 158px;">
+                      <input class="input_text" type="text" placeholder="万元" style="width: 164px;">
                     </td>
                     <td>房产价格</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="万元" style="width: 158px;">
+                    <td class="td_text" style="padding: 0;border-right: none;">
+                      <input class="input_text" type="text" placeholder="万元" style="width: 166px;">
                     </td>
                   </tr>
                 </table>
@@ -219,31 +219,31 @@
                 class="mortgage_situation">不动产情况</span></td>
               <td colspan="">坐落</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
               </td>
               <td>不动产单元号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
               </td>
             </tr>
             <tr>
               <td style="min-width: 100px;">不动产权证明号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
               </td>
               <td style="min-width: 118px;">不动产权属证书号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
               </td>
             </tr>
             <tr>
               <td colspan="">所属区县</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
               </td>
               <td>区县编号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 250px;">
+                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
               </td>
             </tr>
             <tr>
@@ -253,28 +253,30 @@
                     <td style="min-width: 100px;">土地使用起始日</td>
                     <td class="td_text" style="padding: 0;">
                       <el-date-picker
-                        v-model="Cancel_m[0].enddate"
+                        v-model="mortage[0].enddate"
                         type="date"
                         placeholder="选择日期"
                         :picker-options="pickerOptions"
                         style="width: 120px; margin-left: -1px;">
-                      </el-date-picker>                    </td>
+                      </el-date-picker>
+                    </td>
                     <td style="min-width: 100px;">土地使用结束日</td>
                     <td class="td_text" style="padding: 0;">
                       <el-date-picker
-                        v-model="Cancel_m[0].enddate"
+                        v-model="mortage[0].enddate"
                         type="date"
                         placeholder="选择日期"
                         :picker-options="pickerOptions"
                         style="width: 120px; margin-left: -1px;">
-                      </el-date-picker>                    </td>
+                      </el-date-picker>
+                    </td>
                     <td style="min-width: 58px;">权利性质</td>
                     <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="" value="" style="width: 60px;">
+                      <input class="input_text" type="text" placeholder="" value="" style="width: 74px;">
                     </td>
                     <td style="min-width: 58px;">所属区县</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="" value="" style="width: 60px;">
+                    <td class="td_text" style="padding: 0;border-right: none;">
+                      <input class="input_text" type="text" placeholder="" value="" style="width: 74px;">
                     </td>
                   </tr>
                 </table>
@@ -284,126 +286,162 @@
         </div>
       </div>
       <div class="list">
-        <list @Look="_List"></list>
+        <list @canLook="Look_can" @cansystemdata="systemdata"></list>
       </div>
+    </div>
+    <div class="dialog">
+      <el-dialog title="登记申请书" :visible.sync="canVisible" size="000" top="10%" :before-close="handleClose">
+        <Register></Register>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="canVisible = false">取 消</el-button>
+            <el-button type="primary" @click="">确 定</el-button>
+          </span>
+      </el-dialog>
+      <el-dialog title="权利人添加" :visible.sync="handVisible" size="000" top="10%" :before-close="handleClose">
+        <handsontable></handsontable>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="handVisible = false">取 消</el-button>
+            <el-button type="primary" @click="handVisible = false">确 定</el-button>
+          </span>
+      </el-dialog>
     </div>
   </div>
 </template>
-
 <script type="text/ecmascript-6">
   import list from '../list/list.vue';
+  import Register from '../../components/dialog/Register.vue';
+  import handsontable from '../../components/dialog/handsontable.vue';
+
+  const ERR_OK = 0;
 
   export default {
-    props: {
-      Cancel_p: {
-        type: Array,
-        default() {
-          return [
-            {
-              id: '权利人',
-              value: '',
-              type: '',
-              zhengjianhao: '',
-              address: '',
-              phone: ''
-            }, {
-              id: '代理人',
-              value: '',
-              type: '',
-              zhengjianhao: '',
-              address: '',
-              phone: ''
-            }, {
-              id: '义务人',
-              value: '',
-              type: '',
-              zhengjianhao: '',
-              address: '',
-              phone: ''
-            }
-          ];
-        }
-      },
-      Cancel_m: {
-        type: Array,
-        default() {
-          return [
-            {
-              guarantee: '',
-              signdate: null,
-              bankcount: '',
-              stardate: '',
-              enddate: '',
-              loannumbe: '',
-              estateprice: '',
-              landprice: '',
-              Houseprice: '',
-              Loanaccont: '',
-              Guaranteescope: '',
-              Mortgagescope: '',
-              Mortgagearea: '',
-              Landmortgagearea: '',
-              creditor: '',
-              debtor: ''
-            }
-          ];
-        }
-      }
-    },
     data() {
       return {
-        options: [{
-          value: '选项1',
-          label: '首次登记'
-        }, {
-          value: '选项2',
-          label: '变更登记'
-        }],
+        canVisible: false, // 查看登记申请书
+        handVisible: false,    //  申请人情况添加
+        options: [
+          {
+            value: '选项1',
+            label: '首次登记'
+          }, {
+            value: '选项2',
+            label: '变更登记'
+          }
+        ],
         value: '选项1',
         pickerOptions: {
-          shortcuts: [{
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', new Date());
+          shortcuts: [
+            {
+              text: '今天',
+              onClick(picker) {
+                picker.$emit('pick', new Date());
+              }
+            }, {
+              text: '昨天',
+              onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                picker.$emit('pick', date);
+              }
+            }, {
+              text: '一周前',
+              onClick(picker) {
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit('pick', date);
+              }
             }
+          ]
+        },
+        Cancel: '',
+        Lx: '',
+        proposer: [
+          {
+            id: '权利人',
+            value: '',
+            type: '',
+            zhengjianhao: '',
+            address: '',
+            phone: ''
           }, {
-            text: '昨天',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
-            }
+            id: '代理人',
+            value: '',
+            type: '',
+            zhengjianhao: '',
+            address: '',
+            phone: ''
           }, {
-            text: '一周前',
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }]
-        }
+            id: '义务人',
+            value: '',
+            type: '',
+            zhengjianhao: '',
+            address: '',
+            phone: ''
+          }
+        ],
+        mortage: [
+          {
+            guarantee: '',
+            signdate: null,
+            bankcount: '',
+            stardate: '',
+            enddate: '',
+            loannumbe: '',
+            estateprice: '',
+            landprice: '',
+            Houseprice: '',
+            Loanaccont: '',
+            Guaranteescope: '',
+            Mortgagescope: '',
+            Mortgagearea: '',
+            Landmortgagearea: '',
+            creditor: '',
+            debtor: ''
+          }
+        ]
       };
     },
     methods: {
-      _List() {
-        this.$emit('Look');
+      Look_can() {  // 查看登记申请书
+        this.canVisible = true;
+      },
+      systemdata() {  // 获取系统数据
+        this.$http.get(this.$store.state.api + '/application').then((response) => {
+          response = response.body;
+          if (response.errno === ERR_OK) {
+            this.application = response.data;
+          }
+        });
       },
       _application_add(index, event) {
-        this.$forceUpdate();
-        this.$emit('application_add', index);
+        this.handVisible = true;
+      },
+      handleClose(done) {  // 弹框
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+            this.regVisible = false;
+            this.handVisible = false;
+          })
+          .catch(_ => {
+          });
       }
     },
     created() {
-//      this.proposer = this.$store.state.application.proposer;
-//      console.log(this.proposer);
-//      console.log(this.proposer);
-//      console.log(this.$store.state.proposer);
+      this.$http.get(this.$store.state.api + '/success').then((response) => {
+        response = response.body;
+        this.Cancel = response.data.body;
+//        console.log(this.Cancel);
+        this.Lx = this.Cancel.sqdjsy;
+      });
     },
     watch: {
       proposer: {}
     },
     components: {
-      list
+      list,
+      Register,
+      handsontable
     }
   };
 </script>
@@ -412,6 +450,7 @@
     .can_table
       float: left
       width: 72%
+      min-width: 776px
       font-size: 14px
       overflow: hidden
       .header
@@ -421,10 +460,11 @@
           border: 1px solid #DFE6EC
           text-align: center
           td
-            padding: 10px;
+            padding: 6px;
             border-bottom: 1px solid #DFE6EC;
             border-right: 1px solid #DFE6EC;
             min-width: 70px
+            vertical-align: middle
       .proposer
         width: 100%
         height: 148px
@@ -436,11 +476,13 @@
             width: 100%
             border: 1px solid #DFE6EC
             text-align: center
+            margin-top: 4px
             td
-              padding: 10px;
+              padding: 6px;
               border-bottom: 1px solid #DFE6EC;
               border-right: 1px solid #DFE6EC;
               min-width: 70px
+              vertical-align: middle
               .proposer_situation
                 display: inline-block
                 width: 15px
@@ -459,10 +501,11 @@
             display: inline-block
             width: 15px
           td
-            padding: 10px;
+            padding: 6px;
             border-bottom: 1px solid #DFE6EC
             border-right: 1px solid #DFE6EC
             min-width: 70px
+            vertical-align: middle
             .table_0 tr
               &:last-child td
                 border-bottom: 1px solid #fff
@@ -480,12 +523,10 @@
         font-size: 0
         vertical-align: middle
         .textarea
-          width: 124px
+          width: 128px
           border: none
           padding: 2px 4px
-          margin: 0 -12px
           vertical-align: middle
-          text-align: center
           line-height: 16px;
           font-size: 12px
           resize: none
@@ -496,4 +537,5 @@
     .list
       float: left
       width: 28%
+      min-width: 290px
 </style>

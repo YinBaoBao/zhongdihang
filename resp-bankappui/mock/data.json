@@ -52,7 +52,8 @@
         "Landmortgagearea": 120,
         "creditor": "中国建设银行股份有限公司苏州分行",
         "debtor": "xxx"
-      },{}
+      },
+      {}
     ]
   },
   "search": {
@@ -149,27 +150,33 @@
         "id": 0,
         "text": "不动产登记申请书",
         "state": "已上传"
-      },{
+      },
+      {
         "id": 1,
         "text": "不动产登记申请书",
         "state": "已上传"
-      },{
+      },
+      {
         "id": 2,
         "text": "申请人身份证明",
         "state": "已上传"
-      },{
+      },
+      {
         "id": 3,
         "text": "不动产权证书",
         "state": "已上传"
-      },{
+      },
+      {
         "id": 4,
         "text": "不动产登记申请书",
         "state": "已上传"
-      },{
+      },
+      {
         "id": 5,
         "text": "抵押合同、主债权合同",
         "state": "已上传"
-      },{
+      },
+      {
         "id": 6,
         "text": "不动产登记按规定要求",
         "state": "已上传"
@@ -180,15 +187,157 @@
         "id": 1,
         "text": "抵押合同",
         "state": "已上传"
-      },{
+      },
+      {
         "id": 2,
         "text": "主债权合同",
         "state": "已上传"
-      },{
+      },
+      {
         "id": 3,
         "text": "不动产登记申请书",
         "state": "已上传"
       }
     ]
+  },
+  "success": {
+    "body": {
+      "sqdjsy": {
+        "id": "权利人",
+        "djlx": "首次登记",
+        "djlxmc": "抵押权",
+        "djzlx": "201708001000001",
+        "djzlxmc": "xxx"
+      },
+      "sqrqk": {
+        "qlrs": [
+          {
+            "qlrunid": "string",
+            "bjbh": "string",
+            "qlrxh": 0,
+            "qlrzl": 0,
+            "qlrzlmc": "string",
+            "qlrlx": 0,
+            "qlrlxmc": "string",
+            "qlrmc": "string",
+            "qlrzjzl": 0,
+            "qlrzjzlmc": "string",
+            "qlrzjh": "string",
+            "qlrdh": "string",
+            "qlrdz": "string"
+          }
+        ],
+        "qlrdlr": {
+          "qlrdlrdh": "string",
+          "qlrdlrdz": "string",
+          "qlrdlrmc": "string",
+          "qlrdlrzjh": "string",
+          "qlrdlrzjzl": 0,
+          "qlrdlrzjzlmc": "string"
+        },
+        "ywrs": [
+          {
+            "ywrunid": "string",
+            "bjbh": "string",
+            "ywrxh": 0,
+            "ywrzl": 0,
+            "ywrzlmc": "string",
+            "ywrlx": 0,
+            "ywrlxmc": "string",
+            "ywrmc": "string",
+            "ywrzjzl": 0,
+            "ywrzjzlmc": "string",
+            "ywrzjh": "string",
+            "ywrdh": "string",
+            "ywrdz": "string"
+          }
+        ],
+        "ywrdlr": {
+          "ywrdlrdh": "string",
+          "ywrdlrdz": "string",
+          "ywrdlrmc": "string",
+          "ywrdlrzjh": "string",
+          "ywrdlrzjzl": 0,
+          "ywrdlrzjzlmc": "string"
+        }
+      },
+      "bdcqk": {
+        "bdcqzshx": "string",
+        "bdcqzshy": "string",
+        "bdcdyh": "string",
+        "zl": "string",
+        "ssqx": 0,
+        "ssqxmc": "string",
+        "fwyt": 0,
+        "fwytmc": "string",
+        "fwmj": 0,
+        "tdyt": "string",
+        "tdytmc": "string",
+        "tdmj": 0,
+        "tdsyqssj": "2017-09-30T01:05:31.064Z",
+        "tdsyjssj": "2017-09-30T01:05:31.064Z",
+        "qlxz": 0,
+        "qlxzmc": "string"
+      },
+      "dyqk": {
+        "bdbzqse": 0,
+        "bdcpgjg": 0,
+        "dbfw": "string",
+        "dkywbh": "string",
+        "dkzh": "string",
+        "dyfs": 0,
+        "dyfsmc": "string",
+        "dyhtqdrq": "2017-09-30T01:05:31.064Z",
+        "fcdymj": 0,
+        "fcpgjg": 0,
+        "tddymj": 0,
+        "tdpgjg": 0,
+        "yhdyywh": "string",
+        "zjjzwdyfw": "string",
+        "zqr": "string",
+        "zwlxjssj": "2017-09-30T01:05:31.064Z",
+        "zwlxqssj": "2017-09-30T01:05:31.064Z",
+        "zwr": "string"
+      },
+      "xwsx": {
+        "sfgy": false,
+        "sfgymc": "string",
+        "gyfs": 0,
+        "gyfsmc": "string",
+        "afgyfeqk": "string",
+        "sffbcz": false,
+        "sffbczmc": "string",
+        "qtsm": "string"
+      },
+      "djjysj": {
+        "jyczymc": "string",
+        "jyczyzh": "string",
+        "jyjg": "string",
+        "jylsh": "string",
+        "jyqd": "string",
+        "jyrq": "string",
+        "jysj": "string",
+        "jytzyx": "string"
+      },
+      "qyclmls": [
+        {
+          "bjbh": "string",
+          "mlmc": "string",
+          "mlwjlx": "string",
+          "mlwjsl": 0,
+          "mlxh": 0
+        }
+      ],
+      "bjbh": "string",
+      "bjssqx": 0,
+      "bjssqxmc": "string",
+      "bjblzt": 0,
+      "bjblztmc": "string",
+      "bjhdsj": "2017-09-30T01:05:31.064Z",
+      "bjjkzh": "string",
+      "bjthyy": "string"
+    },
+    "message": "string",
+    "status": 0
   }
 }
