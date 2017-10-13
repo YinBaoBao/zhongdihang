@@ -19,7 +19,6 @@ Vue.http.interceptors.push((request, next) => {
   if (store.state.token) {
     request.headers.set('token', store.state.token);
     request.headers.set('username', store.state.username);
-    console.log(request.headers);
     next(response => {
       return response;
     });

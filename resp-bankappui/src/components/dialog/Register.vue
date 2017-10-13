@@ -100,7 +100,7 @@
                           <td rowspan="3" style="border-bottom: none;">
                             <span>义务人</span>
                           </td>
-                          <td>{{Propose.sqrqk.ywrs[0].ywrmc}}</td>
+                          <td></td>
                         </tr>
                         <tr>
                           <td></td>
@@ -110,9 +110,9 @@
                         </tr>
                       </table>
                     </td>
-                    <td>{{Propose.sqrqk.ywrs[0].ywrzjzl}}</td>
-                    <td>{{Propose.sqrqk.ywrs[0].ywrzjh}}</td>
-                    <td>{{Propose.sqrqk.ywrs[0].ywrdz}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                   </tr>     <!--义务人-->
                   <tr>
                     <td></td>

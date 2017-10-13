@@ -76,7 +76,7 @@
                   secret: 200
                 }).then((response) => {
                   response = response.body;
-                  sessionStorage.setItem('login_token', response.body.access_token);
+                  localStorage.setItem('login_token', response.body.access_token);
                 });
               } else {
                 this.$message.error('用户名或密码错误！');

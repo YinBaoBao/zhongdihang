@@ -42,9 +42,9 @@
                 <td>联系地址</td>
                 <td>电话</td>
               </tr>
-              <tr v-if="proposer.qlrs" v-for="(item,index) in proposer.qlrs">
+              <tr v-for="(item,index) in proposer.qlrs">
                 <td>权利人
-                  <span class="el-icon-plus proposer_add" @click="_application_add(index,'权利人')"></span>
+                  <span class="el-icon-plus proposer_add" @click="_application_add('权利人',proposer.qlrs)"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
                   <textarea class="textarea" name="" cols="" rows="" v-model="item.qlrmc"></textarea>
@@ -63,43 +63,63 @@
                 </td>
               </tr>
               <tr v-if="proposer.qlrdlr">
-                <td>代理人
-                  <span class="el-icon-plus proposer_add" @click="_application_add(index,'代理人')"></span>
+                <td>权利人代理人
+                  <span class="el-icon-plus proposer_add" @click="_add_dlr('权利人代理人')"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrmc"></textarea>
+                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdlrmc"></textarea>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrzjzlmc"></textarea>
+                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdlrzjzl"></textarea>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrzjh"></textarea>
+                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdlrzjh"></textarea>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdz"></textarea>
+                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdlrdz"></textarea>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdh"></textarea>
+                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdlrdh"></textarea>
+                </td>
+              </tr>
+              <tr v-for="(item,index) in proposer.ywrs">
+                <td>义务人
+                  <span class="el-icon-plus proposer_add" @click="_application_add('义务人',proposer.ywrs)"></span>
+                </td>
+                <td class="td_text" style="padding: 0;">
+                  <textarea class="textarea" name="" cols="" rows="" v-model="item.ywrmc"></textarea>
+                </td>
+                <td class="td_text" style="padding: 0;">
+                  <textarea class="textarea" name="" cols="" rows="" v-model="item.ywrzjzlmc"></textarea>
+                </td>
+                <td class="td_text" style="padding: 0;">
+                  <textarea class="textarea" name="" cols="" rows="" v-model="item.ywrzjh"></textarea>
+                </td>
+                <td class="td_text" style="padding: 0;">
+                  <textarea class="textarea" name="" cols="" rows="" v-model="item.ywrdz"></textarea>
+                </td>
+                <td class="td_text" style="padding: 0;">
+                  <textarea class="textarea" name="" cols="" rows="" v-model="item.ywrdh"></textarea>
                 </td>
               </tr>
               <tr v-if="proposer.ywrdlr">
-                <td>义务人
-                  <span class="el-icon-plus proposer_add" @click="_application_add(index,'义务人')"></span>
+                <td>义务人代理人
+                  <span class="el-icon-plus proposer_add" @click="_add_dlr('义务人代理人')"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.qlrmc"></textarea>
+                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.ywrdlrmc"></textarea>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.qlrzjzlmc"></textarea>
+                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.ywrdlrzjzl"></textarea>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.qlrzjh"></textarea>
+                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.ywrdlrzjh"></textarea>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.qlrdz"></textarea>
+                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.ywrdlrdz"></textarea>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.qlrdh"></textarea>
+                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.ywrdlrdh"></textarea>
                 </td>
               </tr>
             </table>
@@ -328,13 +348,44 @@
             <el-button type="primary" @click="regVisible = false">确 定</el-button>
           </span>
         </el-dialog>
-        <el-dialog :title="handTitle" :visible.sync="handVisible" size="000" top="10%" :before-close="handleClose">
-          <handsontable v-if="handVisible" :Propose="proposer" :Title="Titlestate" :index="handIndex"
+        <el-dialog :title="handTitle" :visible.sync="handVisible" size="000" top="10%" :close-on-click-modal="false">
+          <handsontable v-if="handVisible" :Handdata="Handdata" :Title="Titlestate" :bjbh="bjbh"
                         ref=Keephand></handsontable>
           <span slot="footer" class="dialog-footer">
             <el-button @click="Close">取 消</el-button>
             <el-button type="primary" @click="_Keephand">保 存</el-button>
           </span>
+        </el-dialog>
+        <el-dialog title="添加代理人" :visible.sync="add_dlr" size="000" top="6%" :modal="false"
+                   :close-on-click-modal="false">
+          <el-form :model="AddForm" :rules="rules" ref="AddForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="姓名或名称" prop="username">
+              <el-input v-model="AddForm.username"></el-input>
+            </el-form-item>
+            <el-form-item label="证件类型" prop="zjlx">
+              <el-select v-model="zjlxvalue" placeholder="请选择" @change="_zjlxchange">
+                <el-option
+                  v-for="item in AddForm.zjlx"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="证件号" prop="zjh">
+              <el-input v-model="AddForm.zjh"></el-input>
+            </el-form-item>
+            <el-form-item label="联系地址" prop="address">
+              <el-input v-model="AddForm.address"></el-input>
+            </el-form-item>
+            <el-form-item label="手机号码" prop="telephone">
+              <el-input v-model="AddForm.telephone"></el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+          <el-button @click="add_dlr = false">关 闭</el-button>
+          <el-button type="primary" @click="_add_qlr_submit('AddForm')">保 存</el-button>
+        </span>
         </el-dialog>
       </div>
     </div>
@@ -355,8 +406,8 @@
         regVisible: false,    //  查看登记申请书
         handVisible: false,    //  申请人情况添加
         handTitle: '添加权利人',          //  添加权利人
+        Handdata: '',   // 添加权利人对应数据
         Titlestate: '',          //  添加人名情况
-        handIndex: null,
         pickerOptions: {
           shortcuts: [{
             text: '今天',
@@ -411,6 +462,23 @@
               qlrdz: ''
             }
           ],
+          ywrs: [
+            {
+              bjbh: '',
+              ywrdh: '',
+              ywrdz: '',
+              ywrlx: '',
+              ywrlxmc: '',
+              ywrmc: '',
+              ywrunid: '',
+              ywrxh: '',
+              ywrzjh: '',
+              ywrzjzl: '',
+              ywrzjzlmc: '',
+              ywrzl: '',
+              ywrzlmc: ''
+            }
+          ],
           qlrdlr: {
             qlrdlrdh: null,
             qlrdlrdz: null,
@@ -420,12 +488,12 @@
             qlrdlrzjzlmc: null
           },
           ywrdlr: {
-            qlrdlrdh: null,
-            qlrdlrdz: null,
-            qlrdlrmc: null,
-            qlrdlrzjh: null,
-            qlrdlrzjzl: null,
-            qlrdlrzjzlmc: null
+            ywrdlrdh: null,
+            ywrdlrdz: null,
+            ywrdlrmc: null,
+            ywrdlrzjh: null,
+            ywrdlrzjzl: null,
+            ywrdlrzjzlmc: null
           }
         },
         mortgage: {  // 抵押情况
@@ -493,7 +561,39 @@
           }
         ],  // 需要上的资料
         selectcode: '',  // 登记类型编号
-        typename: ''  // 登记类型
+        typename: '',  // 登记类型
+        add_dlr: false, // 添加代理人
+        AddForm: {
+          username: '',
+          zjh: '',
+          zjlx: [
+            {
+              code: '',
+              value: ''
+            }
+          ],
+          address: '',
+          telephone: ''
+        },
+        zjlxvalue: '',
+        zjlxcode: '',
+        rules: {
+          username: [
+            {required: true, message: '请输入姓名或名称', trigger: 'change'}
+          ],
+//          zjlx: [
+//            {required: true, message: '请选择证件类型', trigger: 'change'}
+//          ],
+          zjh: [
+            {required: true, message: '请输入证件号', trigger: 'change'}
+          ],
+          address: [
+            {required: true, message: '请输入地址', trigger: 'change'}
+          ],
+          telephone: [
+            {required: true, message: '请输入手机号', trigger: 'change'}
+          ]
+        }
       };
     },
     methods: {
@@ -508,15 +608,72 @@
           }
         });
       },
-      _application_add(index, event) {    // 申请人情况添加
+      _application_add(title, event) {    // 申请人情况添加
+        this.Handdata = event;
         this.handVisible = true;
-        this.handTitle = '添加' + event;
-        this.Titlestate = event;
-        this.handIndex = index;
+        this.handTitle = '添加' + title;
+        this.Titlestate = title;
+      },
+      _add_dlr(title) {  // 添加权利人代理人
+        this.Titlestate = title;
+        this.add_dlr = true;
+        this.getzjlx();
+      },
+      _add_qlr_submit(AddForm) {
+        this.$refs[AddForm].validate((valid) => {
+          if (valid) {
+            switch (this.Titlestate) {
+              case '权利人代理人':
+                this.proposer.qlrdlr.qlrdlrmc = this.AddForm.username;
+                this.proposer.qlrdlr.qlrdlrzjh = this.AddForm.zjh;
+                this.proposer.qlrdlr.qlrdlrdz = this.AddForm.address;
+                this.proposer.qlrdlr.qlrdlrdh = this.AddForm.telephone;
+                this.proposer.qlrdlr.qlrdlrzjzl = this.zjlxvalue;
+                break;
+              case '义务人代理人':
+                this.proposer.ywrdlr.ywrdlrmc = this.AddForm.username;
+                this.proposer.ywrdlr.ywrdlrzjh = this.AddForm.zjh;
+                this.proposer.ywrdlr.ywrdlrdz = this.AddForm.address;
+                this.proposer.ywrdlr.ywrdlrdh = this.AddForm.telephone;
+                this.proposer.ywrdlr.ywrdlrzjzl = this.zjlxvalue;
+                break;
+            }
+            this.add_dlr = false;
+          }
+        });
+      },
+      getzjlx() {    // 获取证件种类
+        let token = localStorage.getItem('login_token');
+        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
+          access_token: token,
+          code: 130
+        }).then((response) => {
+          response = response.body;
+          if (response.status === 200) {
+            let data = response.body;
+            let arr = [];
+            for (var i = 0; i < data.length; i++) {
+              let json = {
+                code: data[i].code,
+                value: data[i].name
+              };
+              arr.push(json);
+            }
+            this.AddForm.zjlx = arr;
+          }
+        });
+      },
+      _zjlxchange(val) {
+        let options = this.AddForm.zjlx;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.zjlxcode = options[i].code;
+          }
+        }
       },
       typeoption_1(code) {  // 获取一级表单数据
-        let token = sessionStorage.getItem('login_token');
-        this.$http.post(this.$store.state.Host + '/TokrnControl/geyzdb', {
+        let token = localStorage.getItem('login_token');
+        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
           access_token: token,
           code: code
         }).then((response) => {
@@ -538,8 +695,8 @@
         });
       },
       typeoption_2(index, code) {  // 获取二级表单数据
-        let token = sessionStorage.getItem('login_token');
-        this.$http.post(this.$store.state.Host + '/TokrnControl/geyzdb', {
+        let token = localStorage.getItem('login_token');
+        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
           code: '10000',
           pcode: code,
           access_token: token
@@ -561,8 +718,8 @@
         });
       },
       typeoption_3(index1, index2) {  // 获取三级表单数据
-        let token = sessionStorage.getItem('login_token');
-        this.$http.post(this.$store.state.Host + '/TokrnControl/geyzdb', {
+        let token = localStorage.getItem('login_token');
+        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
           code: '10002',
           pcode: '',
           access_token: token
@@ -622,7 +779,7 @@
       },
       _typeoption_submit() {
 //        console.log(this.selectcode);
-        let token = sessionStorage.getItem('login_token');
+        let token = localStorage.getItem('login_token');
         this.$http.post(this.$store.state.Host + '/BDCDJSQControl/applyBJBH', {
           jkzh: 200,
           access_token: token,
@@ -631,12 +788,22 @@
           djsjlx: this.selectcode[1]
         }).then((response) => {
           response = response.body;
-          console.log(response);
           if (response.status === 200) {
             this.application = response.body;
             this.djlx = this.application.body.sqdjsy;
             this.bjbh = this.application.body.bjbh;
-            this.proposer = this.application.body.sqrqk;
+            if (this.application.body.sqrqk.qlrs.length !== 0) {
+              this.proposer.qlrs = this.application.body.sqrqk.qlrs;
+            }
+            if (this.application.body.sqrqk.qlrdlr.length !== 0) {
+              this.proposer.qlrdlr = this.application.body.sqrqk.qlrdlr;
+            }
+            if (this.application.body.sqrqk.ywrdlr.length !== 0) {
+              this.proposer.ywrdlr = this.application.body.sqrqk.ywrdlr;
+            }
+            if (this.application.body.sqrqk.ywrs.length !== 0) {
+              this.proposer.ywrs = this.application.body.sqrqk.ywrs;
+            }
             this.mortgage = this.application.body.dyqk;
             this.bdcqk = this.application.body.bdcqk;
             this.upDatalist = this.application.body.qyclmls;
@@ -666,7 +833,7 @@
       }
     },
     created() {
-      let token = sessionStorage.getItem('login_token');
+      let token = localStorage.getItem('login_token');
       this.$http.post(this.$store.state.Host + '/TokrnControl/getzdfl', {
         access_token: token
       }).then((response) => {
@@ -792,4 +959,12 @@
     .dialog
       .el-dialog__body
         padding: 26px 30px 20px 36px
+        .demo-ruleForm
+          width: 660px
+          overflow: hidden
+          .el-form-item
+            display: inline-block
+            .el-form-item__content
+              width: 212px
+
 </style>

@@ -3,10 +3,11 @@
     <div class="List_data">
       <div class="header">
         <div class="auto">
-          <el-table ref="singleTable" height="250" :data="upDatalist" highlight-current-row
+          <el-table ref="singleTable" border height="250" :data="upDatalist" highlight-current-row
                     @current-change="needCurrentChange"
-                    :row-class-name="tableRowClassName" style="width: 100%">
-            <el-table-column type="index" width="50"></el-table-column>
+                    :row-class-name="tableRowClassName"
+                    @select="_upSelection" style="width: 100%">
+            <el-table-column type="selection" width="50"></el-table-column>
             <el-table-column property="mlmc" label="需上传资料"></el-table-column>
             <el-table-column property="state" label="状态" width="100"></el-table-column>
           </el-table>
@@ -14,13 +15,11 @@
         <div class="btn">
           <el-upload style="display: inline-block;width: 128px;"
                      class="upload-demo"
-                     action=""
+                     :headers="{'token':headerstoken,'username': haedersusername}"
+                     :action="action"
                      :show-file-list="false"
-                     :on-preview="handlePreview"
-                     :on-remove="handleRemove"
-                     :on-change="filechange"
-                     :file-list="fileList">
-            <el-button @click="setCurrent(upDatalist[updataindex])" style="padding: 6px 18px;">点击上传</el-button>
+                     :on-change="_onchange">
+            <el-button @click="_updata_submit(upDatalist[updataindex])" style="padding: 6px 18px;">点击上传</el-button>
             <div v-show="false" slot="tip" class="el-upload__tip"></div>
           </el-upload>
           <el-button @click="deleteRow(deletindex,upDatalist)"
@@ -67,8 +66,6 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  const ERR_OK = 0;
-
   export default {
     props: {
       upDatalist: {
@@ -85,7 +82,15 @@
         deletindex: null,
         restaurants: [], // 委托授权状态
         state: '',
-        timeout: null
+        timeout: null,
+        action: '',
+        updatas: '',
+        headerstoken: '',
+        haedersusername: '',
+        filename: '',
+        Bjbh: '',
+        mlxh: '',
+        acc_token: ''
       };
     },
     computed: {
@@ -102,27 +107,13 @@
         this.$emit('appLook');
         this.$emit('canLook');
       },
-      setCurrent(row) {
-        console.log(row);
-        this.$refs.singleTable.setCurrentRow(row);
-        if (row.bjbh === '') {
-          this.$message({
-            message: '请选择需要上传的资料!',
-            type: 'warning'
-          });
-          return false;
-        }
-        let token = sessionStorage.getItem('login_token');
-        let bjbh = row.bjbh;
-        let mlxh = row.mlxh;
-        this.$http.post(this.$store.state.Host + '/BDCDJSQControl/saveQYCL', {
-          jkzh: 200,
-          bjbh: bjbh,
-          qyclmlxh: mlxh,
-          qycl: '',
-          access_token: token
-        }).then((response) => {
-        });
+      _updata_submit(row) {
+      },
+      _upSelection(row) {
+        this.acc_token = localStorage.getItem('login_token');
+        this.Bjbh = row[0].bjbh;
+        this.mlxh = row[0].mlxh;
+        this.action = this.$store.state.Host + '/BDCDJSQControl/saveQYCL/200/' + this.Bjbh + '/' + this.acc_token + '/' + this.mlxh;
       },
       tableRowClassName(row, index) { // 向行添加索引值
         row.index = index;
@@ -131,13 +122,11 @@
         if (val === null || val === '') {
           return false;
         }
-        console.log(val);
         this.currentRow = val;
         this.updataindex = this.currentRow.id;
         this.deletindex = this.currentRow.index;
       },
       deleteRow(index, row) { // 删除行
-        console.log(index);
         if (index === null) {
           this.$message({
             message: '请选择需要删除的资料!',
@@ -172,24 +161,26 @@
       handleSelect(item) {
         console.log(item);
       },
-      handleRemove(file, fileList) {  // 上传文件
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
+      _onchange(file, fileList) {
         console.log(file);
-      },
-      filechange(file, fileList) {
-        console.log(file, fileList);
+//        if (file.response.status === 200) {
+//          this.$notify({
+//            title: '提示',
+//            message: '上传成功',
+//            type: 'success'
+//          });
+//        } else {
+//          this.$notify({
+//            title: '警告',
+//            message: '上传失败',
+//            type: 'error'
+//          });
+//        }
       }
     },
     created() {
-      this.$http.get(this.$store.state.api + '/updata').then((response) => {
-        response = response.body;
-        if (response.errno === ERR_OK) {
-//          this.upData = response.data.needupdata;
-          this.uploaded = response.data.addupdata;
-        }
-      });
+      this.headerstoken = this.$store.state.token;
+      this.haedersusername = this.$store.state.username;
     },
     mounted() {
       this.restaurants = this.loadAll();
