@@ -65,18 +65,23 @@
               if (this.token) {
                 this.$store.commit('newtoken', this.token);
                 this.$store.commit('newname', admin);
-                this.$message({
-                  showClose: true,
-                  message: '登录成功!',
-                  type: 'success'
-                });
-                this.$router.push({path: '/index'});
                 this.$http.post(this.$store.state.Host + '/TokrnControl/getToken', {
                   appid: '3644a684f98ea8fe223c713b77189a77',
                   secret: 200
                 }).then((response) => {
                   response = response.body;
-                  localStorage.setItem('login_token', response.body.access_token);
+                  if (response.status === '200') {
+                    this.$message({
+                      showClose: true,
+                      message: '登录成功!',
+                      type: 'success'
+                    });
+                    localStorage.setItem('login_token', response.body.access_token);
+                    this.$router.push({path: '/index'});
+                  } else {
+                    this.$message.error('用户名或密码错误！');
+                    return false;
+                  }
                 });
               } else {
                 this.$message.error('用户名或密码错误！');
@@ -96,24 +101,13 @@
       forget() {
         this.$message('请联系分行管理员重置密码');
       }
-
-//      submitForm(formName) {
-//        this.$refs[formName].validate((valid) => {
-//          if (valid) {
-//            alert('submit!');
-//          } else {
-//            console.log('error submit!!');
-//            return false;
-//          }
-//        });
-//      }
     }
   };
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   .Login
     width: 100%
-    height: 100%
+    height: 700px
     background: rgb(0, 105, 159)
     .title
       width: 100%
@@ -126,14 +120,14 @@
         font-weight: bolder
         color: #fff
     .inputs
-      width: 100%
+      width: 500px
       text-align: center
-      margin-top: 40px
+      margin: 40px auto
       position: relative
       .forget
         position: absolute
         top: 112px
-        right: 468px
+        right: 40px
         padding: 6px 8px
         font-size: 14px
         color: #fff

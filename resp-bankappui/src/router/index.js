@@ -7,12 +7,12 @@ import application from '../components/application/application.vue';
 import cancel from '../components/cancel/cancel.vue';
 import search from '../components/search/search.vue';
 import account from '../components/account/account.vue';
+import Print from '../components/dialog/print.vue';
 
 Vue.use(Router);
 const routes = [
   {
     path: '/',
-    name: '',
     redirect: 'login'
   }, {
     path: '/login',
@@ -38,6 +38,13 @@ const routes = [
         component: account
       }
     ]
+  },
+  {
+    path: '/',
+    redirect: 'print'
+  }, {
+    path: '/print',
+    component: Print
   }
 ];
 const router = new Router({

@@ -205,7 +205,7 @@
                 case 1000:
                   this.$notify({
                     title: '提示',
-                    message: '上传成功',
+                    message: '添加成功',
                     type: 'success'
                   });
                   this.freshData();
@@ -223,7 +223,7 @@
                 default:
                   this.$notify({
                     title: '警告',
-                    message: '上传失败',
+                    message: '添加失败',
                     type: 'error'
                   });
                   this.freshData();
@@ -256,7 +256,7 @@
             case 1000:
               this.$notify({
                 title: '提示',
-                message: '修改成功',
+                message: '已禁用',
                 type: 'success'
               });
               this.freshData();
@@ -334,7 +334,7 @@
       freshData(elements) {
         this.$http.get(this.$store.state.Host + '/UserControl/list', {
           params: {
-            pageNumber: this.currentPage,
+            pageIndex: this.currentPage,
             pageSize: this.pageSize,
             condition: elements
           }

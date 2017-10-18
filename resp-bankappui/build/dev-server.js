@@ -22,36 +22,16 @@ var proxyTable = config.dev.proxyTable
 var app = express()
 
 var bankData = require("../mock/data.json");
-var application = bankData.application;
 var search = bankData.search;
-var updata = bankData.updata;
-var success = bankData.success;
 
 var apiRoutes = express.Router();
-apiRoutes.get("/application", function (req, res) {
-  res.json({
-    errno: 0,
-    data: application
-  })
-});
 apiRoutes.get("/search", function (req, res) {
   res.json({
     errno: 0,
     data: search
   })
 });
-apiRoutes.get("/updata", function (req, res) {
-  res.json({
-    errno: 0,
-    data: updata
-  })
-});
-apiRoutes.get("/success", function (req, res) {
-  res.json({
-    errno: 0,
-    data: success
-  })
-});
+
 app.use("/api",apiRoutes);
 
 var compiler = webpack(webpackConfig)

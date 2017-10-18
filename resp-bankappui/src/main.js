@@ -10,7 +10,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 import './common/stylus/index.styl';
 import 'jquery';
-import '../static/jqprint.js';
 Vue.use(ElementUI);
 
 Vue.use(VueResource); // 全局安装路由功能

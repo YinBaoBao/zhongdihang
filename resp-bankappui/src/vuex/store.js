@@ -15,7 +15,8 @@ const store = new Vuex.Store({
     proposer: '',
     value: '',
     token: '',
-    username: ''
+    username: '',
+    Bjbh: '201708001000001'
   },
   getters: {
     value: state => state.value
@@ -32,6 +33,9 @@ const store = new Vuex.Store({
     },
     newname(state, element) {
       state.username = element;
+    },
+    newBjbh(state, element) {
+      state.Bjbh = element;
     }
   }
 });

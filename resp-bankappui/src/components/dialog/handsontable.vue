@@ -249,20 +249,6 @@
       };
     },
     methods: {
-      keep() {
-        let index = this.index + 1;
-        switch (this.Title) {
-          case '权利人':
-            this.Propose.qlrs.splice(index, 0, this.hotset());
-            break;
-          case '代理人':
-            this.Propose.qlrdlr = this.hotset();
-            break;
-          case '义务人':
-            this.Propose.ywrdlr = this.hotset();
-            break;
-        }
-      },
       _add_apply() {  // 添加申请人
         this.add_apply = true;
         this.getqlrzl();
@@ -289,13 +275,13 @@
                 }).then((response) => {
                   response = response.body;
                   switch (response.status) {
-                    case 200:
+                    case '200':
                       this.$notify({
                         title: '提示',
                         message: '保存成功',
                         type: 'success'
                       });
-                      this.Handdata.push(response.body.body);
+                      this.Handdata.splice(-1, 0, response.body.body);
                       this.Handata();
                       this.add_apply = false;
                       break;
@@ -326,13 +312,13 @@
                 }).then((response) => {
                   response = response.body;
                   switch (response.status) {
-                    case 200:
+                    case '200':
                       this.$notify({
                         title: '提示',
                         message: '保存成功',
                         type: 'success'
                       });
-                      this.Handdata.push(response.body.body);
+                      this.Handdata.splice(-1, 0, response.body.body);
                       this.Handata();
                       this.add_apply = false;
                       break;
@@ -363,7 +349,7 @@
           code: 10007
         }).then((response) => {
           response = response.body;
-          if (response.status === 200) {
+          if (response.status === '200') {
             let data = response.body;
             let arr = [];
             for (var i = 0; i < data.length; i++) {
@@ -392,7 +378,7 @@
           code: 10005
         }).then((response) => {
           response = response.body;
-          if (response.status === 200) {
+          if (response.status === '200') {
             let data = response.body;
             let arr = [];
             for (var i = 0; i < data.length; i++) {
@@ -421,7 +407,7 @@
           code: 130
         }).then((response) => {
           response = response.body;
-          if (response.status === 200) {
+          if (response.status === '200') {
             let data = response.body;
             let arr = [];
             for (var i = 0; i < data.length; i++) {
@@ -504,7 +490,7 @@
                   qlrdh: this.AddForm.telephone
                 }).then((response) => {
                   response = response.body;
-                  if (response.status === 200) {
+                  if (response.status === '200') {
                     this.$notify({
                       title: '提示',
                       message: '修改成功',
@@ -541,14 +527,14 @@
                   ywrdh: this.AddForm.telephone
                 }).then((response) => {
                   response = response.body;
-                  if (response.status === 200) {
+                  if (response.status === '200') {
                     this.$notify({
                       title: '提示',
                       message: '修改成功',
                       type: 'success'
                     });
                     this.Handdata[index] = response.body.body;
-                    console.log(this.Handdata);
+//                    console.log(this.Handdata);
                     this.Handata();
                     this.edit_apply = false;
                   } else {
@@ -578,14 +564,14 @@
         switch (this.Title) {
           case '权利人':
             this.$http.post(this.$store.state.Host + '/BDCDJSQControl/deleteQlr', {
-              jkzh: 200,
+              jkzh: '200',
               bjbh: this.bjbh,
               access_token: token,
               qlrxh: xh
             }).then((response) => {
               response = response.body.body;
               switch (response.status) {
-                case 200:
+                case '200':
                   this.$notify({
                     title: '提示',
                     message: '删除成功',
@@ -606,14 +592,14 @@
             break;
           case '义务人':
             this.$http.post(this.$store.state.Host + '/BDCDJSQControl/deleteonlior', {
-              jkzh: 200,
+              jkzh: '200',
               bjbh: this.bjbh,
               access_token: token,
               qlrxh: xh
             }).then((response) => {
               response = response.body;
               switch (response.status) {
-                case 200:
+                case '200':
                   this.$notify({
                     title: '提示',
                     message: '删除成功',
@@ -696,7 +682,7 @@
                 this.Handdata.splice(index, 1);
               }
               let Handdata = this.Handdata;
-              console.log(Handdata);
+//              console.log(Handdata);
               for (var k = 0; k < Handdata.length; k++) {
                 let json = {
                   applyname: Handdata[k].ywrzlmc,
@@ -715,7 +701,7 @@
       }
     },
     created() {
-      console.log(this.Handdata);
+//      console.log(this.Handdata);
       this.Handata();
     },
     watch: {

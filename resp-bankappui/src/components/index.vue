@@ -6,10 +6,6 @@
         <el-row class="tac">
           <el-col :span="24">
             <el-menu default-active="1" class="el-menu-vertical-demo">
-              <el-menu-item index="3" @click="Tabs('search')">
-                <i class="el-icon-search"></i>申报/注销查询
-                <i class="el-icon-caret-right" style="padding-left: 20px;"></i>
-              </el-menu-item>
               <el-menu-item index="1" @click="Tabs('application')">
                 <i class="el-icon-check"></i>申报申请
                 <i class="el-icon-caret-right" style="padding-left: 52px;"></i>
@@ -18,12 +14,18 @@
                 <i class="el-icon-close"></i>注销申请
                 <i class="el-icon-caret-right" style="padding-left: 52px;"></i>
               </el-menu-item>
+              <el-menu-item index="3" @click="Tabs('search')">
+                <i class="el-icon-search"></i>申报/注销查询
+                <i class="el-icon-caret-right" style="padding-left: 20px;"></i>
+              </el-menu-item>
             </el-menu>
           </el-col>
         </el-row>
       </div>
       <div class="tables" ref="tables">
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </div>
     </div>
   </div>

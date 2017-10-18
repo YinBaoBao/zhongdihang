@@ -3,13 +3,13 @@
     <div class="List_data">
       <div class="header">
         <div class="auto">
-          <el-table ref="singleTable" border height="250" :data="upDatalist" highlight-current-row
+          <el-table ref="multipleTable" border height="250" :data="upDatalist" highlight-current-row
                     @current-change="needCurrentChange"
                     :row-class-name="tableRowClassName"
-                    @select="_upSelection" style="width: 100%">
+                    @selection-change="_Selectionchange" style="width: 100%">
             <el-table-column type="selection" width="50"></el-table-column>
             <el-table-column property="mlmc" label="需上传资料"></el-table-column>
-            <el-table-column property="state" label="状态" width="100"></el-table-column>
+            <el-table-column property="mlwjsl" label="数量" width="80"></el-table-column>
           </el-table>
         </div>
         <div class="btn">
@@ -18,13 +18,10 @@
                      :headers="{'token':headerstoken,'username': haedersusername}"
                      :action="action"
                      :show-file-list="false"
-                     :on-change="_onchange">
+                     :on-success="_onchange">
             <el-button @click="_updata_submit(upDatalist[updataindex])" style="padding: 6px 18px;">点击上传</el-button>
             <div v-show="false" slot="tip" class="el-upload__tip"></div>
           </el-upload>
-          <el-button @click="deleteRow(deletindex,upDatalist)"
-                     style="padding: 6px 33px;display: inline-block;vertical-align: top;">删除
-          </el-button>
         </div>
       </div>
       <div class="uploaded">
@@ -32,7 +29,12 @@
           <el-table ref="uploaded" height="150" :data="uploaded" highlight-current-row
                     style="width: 100%">
             <el-table-column type="index" width="50"></el-table-column>
-            <el-table-column property="text" label="已上传资料" style="text-align: center;"></el-table-column>
+            <el-table-column property="state" label="已上传资料" style="text-align: center;"></el-table-column>
+            <el-table-column label="操作" width="100">
+              <template scope="scope">
+                <el-button type="text" size="small" @click="_deleteuploaded(scope.$index,scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
       </div>
@@ -42,9 +44,9 @@
           <span @click="_Look">查看登记申请书</span>
         </div>
         <div class="btns">
-          <el-button style="padding: 6px 4px;margin-left: 3px;" @click="_systemdata">系统获取数据</el-button>
-          <el-button style="padding: 6px 4px;margin-left: 3px;">打印登记申请书</el-button>
-          <el-button style="padding: 6px 4px;margin-left: 3px;">提交登记申请</el-button>
+          <el-button style="padding: 6px 4px;margin: 6px 0 0 15px;" @click="_apply_submit">提交登记申请</el-button>
+          <el-button style="padding: 6px 4px;margin: 6px 0 0 15px;" @click="_systemdata">系统获取数据</el-button>
+          <el-button style="padding: 6px 4px;margin: 8px 0 0 15px;" @click="_Printapply">打印登记申请书</el-button>
         </div>
         <div class="entrust">
           <span>委托授权状态:</span>
@@ -60,7 +62,7 @@
         </div>
       </div>
       <div class="situation">
-        <span class="authorization">委托授权状态:暂未线上授权</span>
+        <span class="authorization">委托授权状态: 暂未线上授权</span>
       </div>
     </div>
   </div>
@@ -69,13 +71,26 @@
   export default {
     props: {
       upDatalist: {
-        type: Array
+        type: Array,
+        default() {
+          return [
+            {
+              bjbh: '',
+              index: '',
+              mlmc: '',
+              mlwjlx: '',
+              mlwjsl: '',
+              mlxh: ''
+            }
+          ];
+        }
       }
     },
     data() {
       return {
-        upData: [],  // 需上传资料
-        uploaded: [],   // 已上传资料对应的文件
+        uploaded: [
+          {state: ''}
+        ],   // 已上传资料对应的文件
         fileList: [],   // 上传文件
         currentRow: null,
         updataindex: 0,
@@ -94,10 +109,6 @@
       };
     },
     computed: {
-      State() {
-//        let state = '';
-        return this.upDatalist.mlwjsl === 0 ? '未上传' : '已上传';
-      },
       filelist() {
         return this.fileList;
       }
@@ -109,7 +120,20 @@
       },
       _updata_submit(row) {
       },
-      _upSelection(row) {
+      _apply_submit() {
+        this.$confirm('此操作提交之后将无法修改, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'info'
+        }).then(() => {
+          this.$emit('apply_submit');
+        }).catch(() => {
+        });
+      },
+      _Selectionchange(row) {
+        if (row.length === 0) {
+          return false;
+        }
         this.acc_token = localStorage.getItem('login_token');
         this.Bjbh = row[0].bjbh;
         this.mlxh = row[0].mlxh;
@@ -119,23 +143,41 @@
         row.index = index;
       },
       needCurrentChange(val) {
+        this.$refs.multipleTable.clearSelection();
         if (val === null || val === '') {
           return false;
         }
         this.currentRow = val;
         this.updataindex = this.currentRow.id;
         this.deletindex = this.currentRow.index;
+        this.$refs.multipleTable.toggleRowSelection(this.upDatalist[val.index]);
       },
-      deleteRow(index, row) { // 删除行
-        if (index === null) {
-          this.$message({
-            message: '请选择需要删除的资料!',
-            type: 'warning'
-          });
-          return false;
-        }
-        row.splice(index, 1);
-        this.deletindex = null;
+      _deleteuploaded(index, row) { // 删除行
+        let uploaded = this.uploaded;
+//        console.log(uploaded[index]);
+        let token = localStorage.getItem('login_token');
+        this.$http.post(this.$store.state.Host + '/BDCDJSQControl/deleteQYCL', {
+          jkzh: 200,
+          bjbh: this.Bjbh,
+          access_token: token,
+          qyclmlxh: uploaded[index].wjmlxh,
+          qyclxh: uploaded[index].wjxh
+        }).then((response) => {
+          response = response.body;
+          if (response.status === '200') {
+            this.$notify({
+              title: '成功',
+              message: '删除成功',
+              type: 'success'
+            });
+            uploaded.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '删除失败'
+            });
+          }
+        });
       },
       _systemdata() { // 系统获取数据
         this.$emit('systemdata');
@@ -163,19 +205,43 @@
       },
       _onchange(file, fileList) {
         console.log(file);
-//        if (file.response.status === 200) {
-//          this.$notify({
-//            title: '提示',
-//            message: '上传成功',
-//            type: 'success'
-//          });
-//        } else {
-//          this.$notify({
-//            title: '警告',
-//            message: '上传失败',
-//            type: 'error'
-//          });
-//        }
+        if (file.status === '200') {
+          switch (file.body.status) {
+            case '200':
+              this.$notify({
+                title: '提示',
+                message: '上传成功',
+                type: 'success'
+              });
+              let json = {
+                state: file.body.body.wjmlmc,
+                wjmlxh: file.body.body.wjmlxh,
+                wjxh: file.body.body.wjxh
+              };
+              this.uploaded.splice(-1, 0, json);
+              break;
+            case '40020502':
+              this.$notify({
+                title: '警告',
+                message: '已上传，不可重复提交。',
+                type: 'error'
+              });
+              break;
+          }
+        } else {
+          this.$notify({
+            title: '警告',
+            message: '上传失败',
+            type: 'error'
+          });
+        }
+      },
+      _Printapply() {
+        this.$router.push({path: '/print'});
+        this.$nextTick(() => {
+          window.print();
+          this.$router.push({path: '/index'});
+        });
       }
     },
     created() {
@@ -227,11 +293,9 @@
           cursor: pointer
       .btns
         width: 100%
-        margin-top: 4px
-        text-align: center
       .entrust
         width: 100%
-        margin: 15px 0 6px 0
+        margin: 15px 0 3px 0
         text-align: left
         span
           display: inline-block
@@ -239,7 +303,7 @@
           font-size: 12px
         .entrust_input
           display: inline-block
-          width: 200px
+          width: 190px
           .el-input__inner
             height: 26px
             font-size: 12px
