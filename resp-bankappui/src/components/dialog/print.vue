@@ -275,19 +275,19 @@
               <td colspan="2" style="padding: 0;">
                 <table class="tabs0 tb_dashed tb_text" cellpadding="10" cellspacing="0">
                   <tr>
-                    <td class="td_w" rowspan="6" style="text-align: center;">
+                    <td class="td_w" rowspan="6" style="text-align: center;border-bottom: none;">
                       <span class="title">询问事项</span>
                     </td>
                     <td>
                       <span style="vertical-align: middle;">1.申请的不动产是否共有？</span>
                       <span style="padding-left: 10px;">
-                        <input type="checkbox" :checked="CheckIs" id="Is"
+                        <input type="checkbox" :checked="_sfgyIs" id="Is"
                                style="font-size: 20px" class="check"><label
                         for="Is"
                         class="text">是</label>
                       </span>
                       <span style="padding-left: 10px;">
-                        <input type="checkbox" :checked="CheckNo" id="No" style="font-size: 20px" class="check"><label
+                        <input type="checkbox" :checked="_sfgyNo" id="No" style="font-size: 20px" class="check"><label
                         for="No"
                         class="text">否</label>
                       </span>
@@ -308,12 +308,14 @@
                     <td>
                       <span style="vertical-align: middle;">3.共有人是否申请分别持证？</span>
                       <span style="padding-left: 10px;">
-                        <input type="checkbox" id="Iss" style="font-size: 20px" class="check"><label for="Iss"
-                                                                                                     class="text">是</label>
+                        <input type="checkbox" :checked="_sffbczIs" id="Iss" style="font-size: 20px"
+                               class="check"><label for="Iss"
+                                                    class="text">是</label>
                       </span>
                       <span style="padding-left: 10px;">
-                        <input type="checkbox" id="Noo" style="font-size: 20px" class="check"><label for="Noo"
-                                                                                                     class="text">否</label>
+                        <input type="checkbox" :checked="_sffbczNo" id="Noo" style="font-size: 20px"
+                               class="check"><label for="Noo"
+                                                    class="text">否</label>
                       </span>
                     </td>
                   </tr>
@@ -447,9 +449,7 @@
         }
       },
       xwsx: {
-        default() {
-          return {};
-        }
+        type: Object
       }
     },
     data() {
@@ -539,9 +539,17 @@
       };
     },
     computed: {
-      CheckIs() {
+      _sfgyIs() {
+        return this.xwsx.sfgy === true ? 'checked' : '';
       },
-      CheckNo() {
+      _sfgyNo() {
+        return this.xwsx.sfgy === true ? '' : 'chechbox';
+      },
+      _sffbczIs() {
+        return this.xwsx.sffbcz === true ? 'chechbox' : '';
+      },
+      _sffbczNo() {
+        return this.xwsx.sffbcz === true ? '' : 'chechbox';
       }
     },
     methods: {
@@ -554,6 +562,7 @@
       }
     },
     created() {
+//      console.log(this.xwsx);
     },
     mounted() {
     },

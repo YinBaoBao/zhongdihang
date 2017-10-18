@@ -1,6 +1,6 @@
 <template>
   <div id="Register">
-    <print :Propose="Propose" :mortgage="mortgage" :bdcqk="bdcqk" ref="print"></print>
+    <print :Propose="Propose" :mortgage="mortgage" :bdcqk="bdcqk" :xwsx="xwsx" ref="print"></print>
     <div class="info">
       <ul>注：
         <li>1、按标准表格样式填写内容后，生成样表</li>
@@ -28,6 +28,9 @@
         type: Object
       },
       bdcqk: {
+        type: Object
+      },
+      xwsx: {
         type: Object
       }
     },

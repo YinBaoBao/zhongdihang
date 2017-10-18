@@ -201,10 +201,10 @@
         };
       },
       handleSelect(item) {
-        console.log(item);
+//        console.log(item);
       },
       _onchange(file, fileList) {
-        console.log(file);
+//        console.log(file);
         if (file.status === '200') {
           switch (file.body.status) {
             case '200':

@@ -6,20 +6,20 @@
           <table class="table" cellpadding="10" cellspacing="0">
             <tr>
               <td>登记类型</td>
-              <td class="td_text" style="padding: 0;width: 40px;">
-                <input class="input_text" type="text" value="注销登记" placeholder="" style="width: 90px;">
+              <td class="td_text" style="padding: 0;">
+                <input class="input_text" type="text" value="注销登记" placeholder="">
               </td>
               <td>登记事由</td>
-              <td class="td_text" style="padding: 0;width: 40px;">
-                <input class="input_text" type="text" value="" placeholder="" style="width: 90px;">
+              <td class="td_text" style="padding: 0;">
+                <input class="input_text" type="text" value="" placeholder="">
               </td>
               <td>报件编号</td>
-              <td class="td_text" style="padding: 0;width: 40px;">
-                <input class="input_text" type="text" value="201708001000001" placeholder="" style="width: 120px;">
+              <td class="td_text" style="padding: 0;">
+                <input class="input_text" type="text" value="201708001000001" placeholder="">
               </td>
               <td>经办人姓名</td>
-              <td class="td_text" style="padding: 0;width: 40px;">
-                <input class="input_text" type="text" value="" placeholder="" style="width: 90px;">
+              <td class="td_text" style="padding: 0;">
+                <input class="input_text" type="text" value="" placeholder="">
               </td>
             </tr>
           </table>
@@ -69,18 +69,15 @@
               </td>
               <td style="min-width: 50px;">债权人</td>
               <td class="td_text" style="padding: 0;">
-                <textarea class="textarea" name="" cols="" rows=""
-                          style="width: 178px;margin: 0;">中国建设银行股份有限公司苏州分行</textarea>
+                <textarea class="textarea" name="" cols="" rows="">中国建设银行股份有限公司苏州分行</textarea>
               </td>
               <td>债务人</td>
               <td class="td_text" style="padding: 0;">
-                <textarea class="textarea" name="" cols="" rows=""
-                          style="width: 178px;margin: 0;">中国建设银行股份有限公司苏州分行</textarea>
+                <textarea class="textarea" name="" cols="" rows="">中国建设银行股份有限公司苏州分行</textarea>
               </td>
               <td style="min-width: 100px;">被担保债权数额</td>
-              <td class="td_text" style="padding: 0;width: 40px;">
-                <input class="input_text" type="text" placeholder="万元"
-                       style="width: 112px;">
+              <td class="td_text" style="padding: 0;min-width: 100px;">
+                <input class="input_text" type="text" placeholder="万元">
               </td>
             </tr>
             <tr>
@@ -141,23 +138,23 @@
                     <td class="td_text" style="padding: 0;">
                       <input class="input_text" type="text"
                              placeholder="万元"
-                             style="width: 80px;height: 30px;">
+                             style="width: 80px;">
                     </td>
                     <td>贷款账号</td>
                     <td class="td_text" style="padding: 0;">
                       <input class="input_text" type="text" placeholder="万元"
-                             style="width: 80px;height: 30px;">
+                             style="width: 80px;">
                     </td>
                     <td>银行抵押业务号</td>
                     <td class="td_text" style="padding: 0;">
                       <input class="input_text" type="text"
                              placeholder="万元"
-                             style="width: 80px;height: 30px;">
+                             style="width: 80px;">
                     </td>
                     <td>抵押合同编号</td>
                     <td class="td_text" style="padding: 0;border-right: none;">
                       <input class="input_text" type="text" placeholder=""
-                             style="width: 110px;height: 30px;">
+                             style="width: 110px;">
                     </td>
                   </tr>
                   <tr>
@@ -165,25 +162,25 @@
                     <td class="td_text" style="padding: 0;">
                       <input class="input_text" type="text"
                              placeholder="万元"
-                             style="width: 80px;height: 30px;">
+                             style="width: 80px;">
                     </td>
                     <td>在建建筑物抵押范围</td>
                     <td class="td_text" style="padding: 0;">
                       <input class="input_text" type="text"
                              placeholder="万元"
-                             style="width: 80px;height: 30px;">
+                             style="width: 80px;">
                     </td>
                     <td>房产抵押面积</td>
                     <td class="td_text" style="padding: 0;">
                       <input class="input_text" type="text"
                              placeholder="万元"
-                             style="width: 80px;height: 30px;">
+                             style="width: 80px;">
                     </td>
                     <td>土地抵押面积</td>
                     <td class="td_text" style="padding: 0;">
                       <input class="input_text" type="text"
                              placeholder="平方米"
-                             style="width: 110px;height: 30px;">
+                             style="width: 110px;">
                     </td>
                   </tr>
                 </table>
@@ -191,19 +188,19 @@
             </tr>
             <tr>
               <td colspan="6" style="padding: 0;">
-                <table cellpadding="10" cellspacing="0">
+                <table cellpadding="10" cellspacing="0" style="width: 100%;">
                   <tr>
                     <td>不动产价格</td>
                     <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="万元" style="width: 164px;">
+                      <input class="input_text" type="text" placeholder="万元">
                     </td>
                     <td>土地价格</td>
                     <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="万元" style="width: 164px;">
+                      <input class="input_text" type="text" placeholder="万元">
                     </td>
                     <td>房产价格</td>
                     <td class="td_text" style="padding: 0;border-right: none;">
-                      <input class="input_text" type="text" placeholder="万元" style="width: 166px;">
+                      <input class="input_text" type="text" placeholder="万元">
                     </td>
                   </tr>
                 </table>
@@ -219,31 +216,31 @@
                 class="mortgage_situation">不动产情况</span></td>
               <td colspan="">坐落</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
+                <input class="input_text" type="text" placeholder="" value="">
               </td>
               <td>不动产单元号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
+                <input class="input_text" type="text" placeholder="" value="">
               </td>
             </tr>
             <tr>
               <td style="min-width: 100px;">不动产权证明号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
+                <input class="input_text" type="text" placeholder="" value="">
               </td>
               <td style="min-width: 118px;">不动产权属证书号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
+                <input class="input_text" type="text" placeholder="" value="">
               </td>
             </tr>
             <tr>
               <td colspan="">所属区县</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
+                <input class="input_text" type="text" placeholder="" value="">
               </td>
               <td>区县编号</td>
               <td class="td_text" style="padding: 0;">
-                <input class="input_text" type="text" placeholder="" value="" style="width: 256px;">
+                <input class="input_text" type="text" placeholder="" value="">
               </td>
             </tr>
             <tr>
@@ -272,11 +269,11 @@
                     </td>
                     <td style="min-width: 58px;">权利性质</td>
                     <td class="td_text" style="padding: 0;">
-                      <input class="input_text" type="text" placeholder="" value="" style="width: 74px;">
+                      <input class="input_text" type="text" placeholder="" value="">
                     </td>
                     <td style="min-width: 58px;">所属区县</td>
                     <td class="td_text" style="padding: 0;border-right: none;">
-                      <input class="input_text" type="text" placeholder="" value="" style="width: 74px;">
+                      <input class="input_text" type="text" placeholder="" value="">
                     </td>
                   </tr>
                 </table>
@@ -449,7 +446,7 @@
   .cancel
     .can_table
       float: left
-      width: 72%
+      width: 74%
       min-width: 776px
       font-size: 14px
       overflow: hidden
@@ -506,6 +503,10 @@
             border-right: 1px solid #DFE6EC
             min-width: 70px
             vertical-align: middle
+            .table_0
+              width: 100%
+            .table_1
+              width: 100%
             .table_0 tr
               &:last-child td
                 border-bottom: 1px solid #fff
@@ -523,19 +524,20 @@
         font-size: 0
         vertical-align: middle
         .textarea
-          width: 128px
+          width: 100%
           border: none
-          padding: 2px 4px
-          vertical-align: middle
+          padding: 2px 0
           line-height: 16px;
+          text-indent: 6px
           font-size: 12px
           resize: none
         .input_text
-          width: 108px
-          padding: 9px 6px
+          width: 100%
+          padding: 9px 0
           font-size: 14px
+          text-indent: 6px
     .list
       float: left
-      width: 28%
+      width: 26%
       min-width: 290px
 </style>

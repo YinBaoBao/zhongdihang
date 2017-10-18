@@ -420,7 +420,8 @@
           </div>
         </el-dialog>
         <el-dialog title="登记申请书" :visible.sync="regVisible" size="000" top="10%">
-          <Register v-if="regVisible" :Propose="proposer" :mortgage="mortgage" :bdcqk="bdcqk" :bjbh="bjbh"></Register>
+          <Register v-if="regVisible" :Propose="proposer" :mortgage="mortgage" :bdcqk="bdcqk" :xwsx="xwsx"
+                    :bjbh="bjbh"></Register>
           <span slot="footer" class="dialog-footer">
             <el-button @click="Close">取 消</el-button>
             <el-button type="primary" @click="regVisible = false">确 定</el-button>
@@ -666,6 +667,16 @@
           tdsyjssj: '',
           qlxz: '',
           qlxzmc: ''
+        },
+        xwsx: {
+          afgyfeqk: '',
+          gyfs: '',
+          gyfsmc: '',
+          qtsm: '',
+          sffbcz: false,
+          sffbczmc: '',
+          sfgy: true,
+          sfgymc: ''
         },
         upDatalist: [
           {
@@ -1074,6 +1085,7 @@
             }
             this.mortgage = this.application.body.dyqk;
             this.bdcqk = this.application.body.bdcqk;
+            this.xwsx = this.application.body.xwsx;
             this.upDatalist = this.application.body.qyclmls;
           } else {
             this.$message.error('暂无数据');
@@ -1318,6 +1330,7 @@
           padding: 8px 0
           text-indent: 6px
           font-size: 14px
+          line-height: 14px
       .el-input__inner
         border: none
         border-radius: 0
