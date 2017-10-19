@@ -22,20 +22,20 @@
       <el-dialog title="添加申请人" :visible.sync="add_apply" size="000" top="6%" :modal="false"
                  :close-on-click-modal="false">
         <el-form :model="AddForm" :rules="rules" ref="AddForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="申请人性质" prop="applyname">
-            <el-select v-model="applyvalue" placeholder="请选择" @change="_qlrzlchange">
+          <el-form-item label="申请人性质" prop="applyvalue">
+            <el-select v-model="AddForm.applyvalue" placeholder="请选择" @change="_qlrzlchange">
               <el-option
-                v-for="item in AddForm.applyname"
+                v-for="item in applyname"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="权利人类型" prop="qlrlx">
-            <el-select v-model="qlrlxvalue" placeholder="请选择" @change="_qlrlxchange">
+          <el-form-item label="权利人类型" prop="qlrlxvalue">
+            <el-select v-model="AddForm.qlrlxvalue" placeholder="请选择" @change="_qlrlxchange">
               <el-option
-                v-for="item in AddForm.qlrlx"
+                v-for="item in qlrlx"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -45,10 +45,10 @@
           <el-form-item label="姓名或名称" prop="username">
             <el-input v-model="AddForm.username"></el-input>
           </el-form-item>
-          <el-form-item label="证件类型" prop="zjlx">
-            <el-select v-model="zjlxvalue" placeholder="请选择" @change="_zjlxchange">
+          <el-form-item label="证件类型" prop="zjlxvalue">
+            <el-select v-model="AddForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
               <el-option
-                v-for="item in AddForm.zjlx"
+                v-for="item in zjlx"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -73,20 +73,20 @@
       <el-dialog title="修改申请人" :visible.sync="edit_apply" size="000" top="6%" :modal="false"
                  :close-on-click-modal="false">
         <el-form :model="AddForm" :rules="rules" ref="AddForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="申请人性质" prop="applyname">
-            <el-select v-model="applyvalue" placeholder="请选择" @change="_qlrzlchange">
+          <el-form-item label="申请人性质" prop="applyvalue">
+            <el-select v-model="AddForm.applyvalue" placeholder="请选择" @change="_qlrzlchange">
               <el-option
-                v-for="item in AddForm.applyname"
+                v-for="item in applyname"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="申请人类型" prop="qlrlx">
-            <el-select v-model="qlrlxvalue" placeholder="请选择" @change="_qlrlxchange">
+          <el-form-item label="申请人类型" prop="qlrlxvalue">
+            <el-select v-model="AddForm.qlrlxvalue" placeholder="请选择" @change="_qlrlxchange">
               <el-option
-                v-for="item in AddForm.qlrlx"
+                v-for="item in qlrlx"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -96,10 +96,10 @@
           <el-form-item label="姓名或名称" prop="username">
             <el-input v-model="AddForm.username"></el-input>
           </el-form-item>
-          <el-form-item label="证件类型" prop="zjlx">
-            <el-select v-model="zjlxvalue" placeholder="请选择" @change="_zjlxchange">
+          <el-form-item label="证件类型" prop="zjlxvalue">
+            <el-select v-model="AddForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
               <el-option
-                v-for="item in AddForm.zjlx"
+                v-for="item in zjlx"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -192,50 +192,50 @@
         add_apply: false,
         edit_apply: false,
         AddForm: {
-          applyname: [
-            {
-              code: '',
-              value: ''
-            }
-          ],
-          qlrlx: [
-            {
-              code: '',
-              value: ''
-            }
-          ],
+          applyvalue: '',
           username: '',
+          qlrlxvalue: '',
+          zjlxvalue: '',
           zjh: '',
-          zjlx: [
-            {
-              code: '',
-              value: ''
-            }
-          ],
           address: '',
           telephone: ''
         },
-        applyvalue: '',
-        qlrlxvalue: '',
-        zjlxvalue: '',
+        applyname: [
+          {
+            code: '',
+            value: ''
+          }
+        ],
+        qlrlx: [
+          {
+            code: '',
+            value: ''
+          }
+        ],
+        zjlx: [
+          {
+            code: '',
+            value: ''
+          }
+        ],
         applycode: '',
         qlrlxcode: '',
         zjlxcode: '',
         qlrxh: null,
         editIndex: null,
         rules: {
-//          applyname: [
-//            {required: true, message: '请选择申请人', trigger: 'blur'}
-//          ],
-//          qlrlx: [
-//            {required: true, message: '请选择权利人类型', trigger: 'change'}
-//          ],
+          applyvalue: [
+            {required: true, message: '请选择申请人', trigger: 'change'}
+          ],
+          qlrlxvalue: [
+            {required: true, message: '请选择权利人类型', trigger: 'change'}
+          ],
           username: [
             {required: true, message: '请输入姓名或名称', trigger: 'change'}
           ],
-//          zjlx: [
-//            {required: true, message: '请选择证件类型', trigger: 'change'}
-//          ],
+          zjlxvalue: [
+            {required: true, message: '请选择证件类型', trigger: 'change'}
+          ],
           zjh: [
             {required: true, message: '请输入证件号', trigger: 'change'}
           ],
@@ -243,7 +243,8 @@
             {required: true, message: '请输入地址', trigger: 'change'}
           ],
           telephone: [
-            {required: true, message: '请输入手机号', trigger: 'change'}
+            {required: true, message: '请输入手机号', trigger: 'change'},
+            {type: 'string', message: '请输入正确的手机号码', pattern: /^1[0-9]{10}$/, trigger: 'blur,change'}
           ]
         }
       };
@@ -274,6 +275,15 @@
                   qlrdh: this.AddForm.telephone
                 }).then((response) => {
                   response = response.body;
+                  if (response.body === null) {
+                    this.$notify({
+                      title: '警告',
+                      message: '保存失败，请检查其他信息已填写完整。列如：报件编号。',
+                      type: 'error'
+                    });
+                    this.add_apply = false;
+                    return false;
+                  }
                   switch (response.status) {
                     case '200':
                       this.$notify({
@@ -311,6 +321,15 @@
                   ywrdh: this.AddForm.telephone
                 }).then((response) => {
                   response = response.body;
+                  if (response.body === null) {
+                    this.$notify({
+                      title: '警告',
+                      message: '保存失败，请检查其他信息已填写完整。列如：报件编号。',
+                      type: 'error'
+                    });
+                    this.add_apply = false;
+                    return false;
+                  }
                   switch (response.status) {
                     case '200':
                       this.$notify({
@@ -359,12 +378,12 @@
               };
               arr.push(json);
             }
-            this.AddForm.applyname = arr;
+            this.applyname = arr;
           }
         });
       },
       _qlrzlchange(val) {
-        let options = this.AddForm.applyname;
+        let options = this.applyname;
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].value) > -1) {
             this.applycode = options[i].code;
@@ -388,12 +407,12 @@
               };
               arr.push(json);
             }
-            this.AddForm.qlrlx = arr;
+            this.qlrlx = arr;
           }
         });
       },
       _qlrlxchange(val) {
-        let options = this.AddForm.qlrlx;
+        let options = this.qlrlx;
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].value) > -1) {
             this.qlrlxcode = options[i].code;
@@ -417,12 +436,12 @@
               };
               arr.push(json);
             }
-            this.AddForm.zjlx = arr;
+            this.zjlx = arr;
           }
         });
       },
       _zjlxchange(val) {
-        let options = this.AddForm.zjlx;
+        let options = this.zjlx;
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].value) > -1) {
             this.zjlxcode = options[i].code;
@@ -437,9 +456,9 @@
             this.AddForm.zjh = handata[index].qlrzjh;
             this.AddForm.address = handata[index].qlrdz;
             this.AddForm.telephone = handata[index].qlrdh;
-            this.applyvalue = handata[index].qlrzlmc;
-            this.qlrlxvalue = handata[index].qlrlxmc;
-            this.zjlxvalue = handata[index].qlrzjzlmc;
+            this.AddForm.applyvalue = handata[index].qlrzlmc;
+            this.AddForm.qlrlxvalue = handata[index].qlrlxmc;
+            this.AddForm.zjlxvalue = handata[index].qlrzjzlmc;
             this.qlrxh = handata[index].qlrxh;
             this.applycode = handata[index].qlrzl;
             this.zjlxcode = handata[index].qlrzjzl;
@@ -452,9 +471,9 @@
             this.AddForm.zjh = handata[index].ywrzjh;
             this.AddForm.address = handata[index].ywrdz;
             this.AddForm.telephone = handata[index].ywrdh;
-            this.applyvalue = handata[index].ywrzlmc;
-            this.qlrlxvalue = handata[index].ywrlxmc;
-            this.zjlxvalue = handata[index].ywrzjzlmc;
+            this.AddForm.applyvalue = handata[index].ywrzlmc;
+            this.AddForm.qlrlxvalue = handata[index].ywrlxmc;
+            this.AddForm.zjlxvalue = handata[index].ywrzjzlmc;
             this.qlrxh = handata[index].ywrxh;
             this.applycode = handata[index].ywrzl;
             this.zjlxcode = handata[index].ywrzjzl;

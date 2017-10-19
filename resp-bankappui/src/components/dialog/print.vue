@@ -19,7 +19,7 @@
               <td>
                 <ul class="list" v-if="checkdata[0]">
                   <li v-for="item in checkdata[0]">
-                    <input type="checkbox" :id="item.id" style="font-size: 20px" class="ipts">
+                    <input type="checkbox" :checked="item.cheched" :id="item.id" style="font-size: 20px" class="ipts">
                     <label :for="item.id" class="labs">{{item.value}}</label>
                   </li>
                 </ul>
@@ -51,7 +51,7 @@
                     <td rowspan="3" style="padding: 0;">
                       <table class="tabs1" cellpadding="10" cellspacing="0">
                         <tr>
-                          <td rowspan="3" style="border-bottom: none;">
+                          <td rowspan="3" style="border-bottom: none;width: 124px;;">
                             <span>权利人</span>
                           </td>
                           <td>{{Propose.qlrs[0].qlrmc}}</td>
@@ -82,7 +82,7 @@
                     <td style="padding: 0;">
                       <table class="tabs1" cellpadding="10" cellspacing="0">
                         <tr>
-                          <td style="border-bottom: none;">
+                          <td style="border-bottom: none;width: 124px;;">
                             <span>代理人</span>
                           </td>
                           <td>{{Propose.qlrdlr.qlrdlrmc}}</td>
@@ -97,7 +97,7 @@
                     <td rowspan="3" style="padding: 0;">
                       <table class="tabs1" cellpadding="10" cellspacing="0">
                         <tr>
-                          <td rowspan="3" style="border-bottom: none;">
+                          <td rowspan="3" style="border-bottom: none;width: 124px;;">
                             <span>义务人</span>
                           </td>
                           <td>{{Propose.ywrs[0].ywrmc}}</td>
@@ -128,7 +128,7 @@
                     <td style="border-bottom: none;padding: 0;">
                       <table class="tabs1" cellpadding="10" cellspacing="0">
                         <tr>
-                          <td style="border-bottom: none;">
+                          <td style="border-bottom: none;width: 124px;;">
                             <span>代理人</span>
                           </td>
                           <td>{{Propose.ywrdlr.ywrdlrmc}}</td>
@@ -149,7 +149,7 @@
                     <td class="td_w" rowspan="6">
                       <span class="title">不动产情况</span>
                     </td>
-                    <td style="width: 123px;">坐落</td>
+                    <td style="width: 124px;;">坐落</td>
                     <td>{{bdcqk.zl}}</td>
                   </tr>
                   <tr>
@@ -164,9 +164,9 @@
                     <td colspan="2" style="padding: 0;">
                       <table class="tabs1" cellpadding="10" cellspacing="0">
                         <tr>
-                          <td style="width: 123px;">房屋用途</td>
+                          <td style="width: 124px;;">房屋用途</td>
                           <td>{{bdcqk.fwyt}}</td>
-                          <td style="width: 123px;">房屋面积</td>
+                          <td style="width: 124px;;">房屋面积</td>
                           <td>{{bdcqk.fwmj}}</td>
                         </tr>
                         <tr>
@@ -194,16 +194,16 @@
                     <td class="td_w" rowspan="3">
                       <span class="title">抵押情况</span>
                     </td>
-                    <td style="width: 123px;">被担保债权数额<br>（最高债权数额）</td>
+                    <td style="width: 124px;;">被担保债权数额<br>（最高债权数额）</td>
                     <td>{{mortgage.bdbzqse}}</td>
-                    <td style="width: 123px;">债务履行期限<br>（债权确定期限）</td>
+                    <td style="width: 124px;;">债务履行期限<br>（债权确定期限）</td>
                     <td>{{mortgage.zwlxqssj}} 至 {{mortgage.zwlxjssj}}</td>
                   </tr>
                   <tr>
                     <td colspan="4" style="border-bottom: none;padding: 0;">
                       <table class="tabs1" cellpadding="10" cellspacing="0">
                         <tr>
-                          <td style="width: 123px;">担保范围</td>
+                          <td style="width: 124px;;">担保范围</td>
                           <td>{{mortgage.dbfw}}</td>
                           <td rowspan="2" style="width: 80px;">抵押面积</td>
                           <td style="width: 100px;">房产</td>
@@ -234,7 +234,7 @@
                     <td class="td_w" rowspan="2">
                       <span class="title">地役权情况</span>
                     </td>
-                    <td style="width: 123px;">坐落</td>
+                    <td style="width: 124px;;">坐落</td>
                     <td>{{bdcqk.zl}}</td>
                   </tr>
                   <tr>
@@ -449,7 +449,19 @@
         }
       },
       xwsx: {
-        type: Object
+        type: Object,
+        default() {
+          return {
+            afgyfeqk: '',
+            gyfs: '',
+            gyfsmc: '',
+            qtsm: '',
+            sffbcz: false,
+            sffbczmc: '',
+            sfgy: true,
+            sfgymc: ''
+          };
+        }
       }
     },
     data() {
@@ -458,7 +470,8 @@
           [
             {
               id: 'a',
-              value: '国有建设用地使用权'
+              value: '国有建设用地使用权',
+              cheched: 'checkbox'
             },
             {
               id: 'b',
@@ -562,7 +575,7 @@
       }
     },
     created() {
-//      console.log(this.xwsx);
+//      console.log(this.bdcqk);
     },
     mounted() {
     },

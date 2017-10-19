@@ -8,10 +8,6 @@
         <span class="bank">中国建设银行|抵押申报、注销系统</span>
       </div>
       <div class="content">
-        <div class="user">
-          <span class="company">中国建设银行股份有限公司苏州分行</span>
-          <span class="userName">李建</span>
-        </div>
         <div class="manager">
           <ul>
             <li class="account" @click="_account">账户管理</li>
@@ -20,6 +16,10 @@
             |
             <li class="back" @click="_go_back">退出</li>
           </ul>
+        </div>
+        <div class="user">
+          <span class="company">中国建设银行股份有限公司苏州分行</span>
+          <span class="userName">李建</span>
         </div>
       </div>
     </nav>
@@ -51,50 +51,54 @@
   .nav
     width: 100%
     height: 60px;
-    background-color: rgba(0, 105, 159, 1);
+    background-color: rgba(9, 102, 150, 1);
     .login
-      display: inline-block;
+      float: left
+      width: 36%
+      min-width: 460px
       height: 60px
-      line-height: 60px;
-      overflow: hidden;
+      line-height: 60px
+      overflow: hidden
       .avatar
-        float: left;
-        width: 45px;
-        height: 45px;
-        margin: 8px 10px 0 20px;
+        float: left
+        width: 45px
+        height: 45px
+        margin: 8px 10px 0 20px
         img
-          width: 100%;
-          height: 100%;
+          width: 100%
+          height: 100%
       .bank
-        flaot: left;
-        height: 60px;
-        line-height: 60px;
-        font-size: 24px;
+        flaot: left
+        height: 60px
+        line-height: 60px
+        font-size: 24px
         color: #fff
     .content
-      float: right;
-      height: 60px;
+      float: left
+      width: calc(100% - 36%)
+      min-width: 500px
+      height: 60px
       overflow: hidden;
-      background-color: rgba(0, 105, 159, 1);
+      background-color: rgba(9, 102, 150, 1)
       .user
-        float: left;
-        height: 60px;
-        line-height: 80px;
-        font-size: 14px;
+        float: right
+        height: 60px
+        line-height: 80px
+        font-size: 14px
         color: #fff
         .userName
-          padding: 0 6px;
+          padding: 0 6px
       .manager
-        float: left;
-        height: 60px;
+        float: right
+        height: 60px
         padding: 0 15px
-        line-height: 80px;
-        font-size: 14px;
+        line-height: 80px
+        font-size: 14px
         color: #fff
-        overflow: hidden;
+        overflow: hidden
         li
-          display: inline-block;
-          padding: 0 3px;
-          line-height: 26px;
-          cursor: pointer;
+          display: inline-block
+          padding: 0 3px
+          line-height: 26px
+          cursor: pointer
 </style>

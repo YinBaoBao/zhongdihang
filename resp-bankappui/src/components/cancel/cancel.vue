@@ -29,7 +29,7 @@
           <div class="inner">
             <table class="table">
               <tr>
-                <td :rowspan="proposer.length+1" style="padding: 0;min-width: 27px;vertical-align: middle;"><span
+                <td :rowspan="10" style="padding: 0;min-width: 34px;vertical-align: middle;"><span
                   class="proposer_situation">申请人情况</span></td>
                 <td></td>
                 <td>姓名/名称</td>

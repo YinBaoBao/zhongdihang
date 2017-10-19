@@ -1,5 +1,5 @@
 <template>
-  <div class="Login">
+  <div class="Login" :style="{height: loginheight + 'px'}">
     <div class="title">
       <span>苏州不动产抵押申报、注销系统</span>
     </div>
@@ -44,10 +44,10 @@
           password: [
             {required: true, message: '请输入密码', trigger: 'change'}
           ]
-        }
+        },
+        loginheight: document.documentElement.clientHeight
       };
     },
-    computed: {},
     methods: {
       submitForm(ruleForm) {
         this.$refs[ruleForm].validate((valid) => {
@@ -101,14 +101,18 @@
       forget() {
         this.$message('请联系分行管理员重置密码');
       }
+    },
+    watch: {
+      loginheight: () => {
+        this.loginheight = document.documentElement.clientHeight;
+      }
     }
   };
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   .Login
     width: 100%
-    height: 700px
-    background: rgb(0, 105, 159)
+    background: rgba(9, 72, 105, 1)
     .title
       width: 100%
       text-align: center

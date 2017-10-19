@@ -30,7 +30,7 @@
           <div class="inner">
             <table class="table">
               <tr>
-                <td :rowspan="10" style="padding: 0;min-width: 44px;vertical-align: middle;"><span
+                <td :rowspan="10" style="padding: 0;min-width: 34px;vertical-align: middle;"><span
                   class="proposer_situation">申请人情况</span></td>
                 <td></td>
                 <td>姓名/名称</td>
@@ -246,7 +246,7 @@
                              style="width: 82px;">
                     </td>
                     <td>土地抵押面积</td>
-                    <td class="td_text" style="padding: 0;">
+                    <td class="td_text" style="padding: 0;border-right: none;">
                       <input v-model="mortgage.tddymj" class="input_text" type="text"
                              placeholder="平方米"
                              style="width: 108px;">
@@ -261,7 +261,7 @@
                   <tr>
                     <td>抵押方式</td>
                     <td class="td_text" style="padding: 0;">
-                      <el-select @change="_dyfschange" v-model="dyfsvalue" placeholder="请选择"
+                      <el-select @change="_dyfschange" v-model="mortgage.dyfs" placeholder="请选择"
                                  style="width: 160px;margin-left: -1px;">
                         <el-option
                           v-for="item in dyfsoptions"
@@ -387,10 +387,10 @@
               </td>
               <td style="min-width: 58px;">所属区县</td>
               <td class="td_text" style="padding: 0;border-right: none;">
-                <el-select @change="_ssqxchange" v-model="ssqxvalue" placeholder="请选择"
+                <el-select @change="_ssqxchange" v-model="bdcqk.ssqx" placeholder="请选择"
                            style="width: 214px;margin-left: -1px;">
                   <el-option
-                    v-for="item in ssqxptions"
+                    v-for="item in ssqxoptions"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -402,8 +402,7 @@
         </div>
       </div>
       <div class="app_list">
-        <list @appLook="Look_reg" @apply_submit="_apply_submit" @systemdata="systemdata"
-              :upDatalist="upDatalist"></list>
+        <list @appLook="Look_reg" @apply_submit="_apply_submit" :upDatalist="upDatalist"></list>
       </div>
       <div class="dialog">
         <el-dialog :title="typename" :visible.sync="typeVisible" :modal="false" :close-on-click-modal="false"
@@ -442,9 +441,9 @@
               <el-input v-model="AddForm.username"></el-input>
             </el-form-item>
             <el-form-item label="证件类型" prop="zjlxvalue">
-              <el-select v-model="zjlxvalue" placeholder="请选择" @change="_zjlxchange">
+              <el-select v-model="AddForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
                 <el-option
-                  v-for="item in AddForm.zjlx"
+                  v-for="item in zjlx"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
@@ -475,13 +474,13 @@
   import list from '../list/list.vue';
   import Register from '../../components/dialog/Register.vue';
   import handsontable from '../../components/dialog/handsontable.vue';
-  const ERR_OK = 0;
 
   export default {
     props: {},
     data() {
       return {
         typeVisible: false,    // 级联选择
+        checkeVsibke: true,    // 是否选择级联选项
         regVisible: false,     //  查看登记申请书
         handVisible: false,    //  申请人情况添加
         handTitle: '添加权利人',          //  添加权利人
@@ -509,9 +508,51 @@
             }
           }]
         },
-        Typeoption: [  // 二级选项
+        Typeoption: [  // 三级级选项
           {
-            label: '',
+            label: '转移登记',
+            cities: [
+              {
+                label: '商品房买卖转移登记（合并）',
+                cities: [
+                  {
+                    label: '虎丘区',
+                    cities: [],
+                    code: ''
+                  },
+                  {
+                    label: '吴中区',
+                    cities: [],
+                    code: ''
+                  },
+                  {
+                    label: '相城区',
+                    cities: [],
+                    code: ''
+                  },
+                  {
+                    label: '姑苏区',
+                    cities: [],
+                    code: ''
+                  },
+                  {
+                    label: '工业园区',
+                    cities: [],
+                    code: ''
+                  }
+                ],
+                code: ''
+              }
+            ],
+            code: ''
+          },
+          {
+            label: '变更登记',
+            cities: [],
+            code: ''
+          },
+          {
+            label: '抵押登记',
             cities: [],
             code: ''
           }
@@ -522,58 +563,57 @@
         },
         dyfsoptions: [
           {
-            value: '1',
-            label: '一般抵押'
+            value: '一般抵押',
+            code: '1'
           }, {
-            value: '2',
-            label: '最高额抵押'
+            value: '最高额抵押',
+            code: '2'
           }
         ],
-        dyfsvalue: '',
         dyfscode: '',
         fwytoptions: [
           {
             value: '',
-            label: ''
+            code: ''
           }, {
             value: '',
-            label: ''
+            code: ''
           }
         ],
-        fwytvalue: '',
         fwytcode: '',
         tdytoptions: [
           {
             value: '',
-            label: ''
+            code: ''
           }, {
             value: '',
-            label: ''
+            code: ''
           }
         ],
-        tdytvalue: '',
         tdytcode: '',
         qlxzoptions: [
           {
             value: '',
-            label: ''
+            label: '',
+            code: ''
           }, {
             value: '',
-            label: ''
+            label: '',
+            code: ''
           }
         ],
-        qlxzvalue: '',
         qlxzcode: '',
-        ssqxptions: [
+        ssqxoptions: [
           {
             value: '',
-            label: ''
+            label: '',
+            code: ''
           }, {
             value: '',
-            label: ''
+            label: '',
+            code: ''
           }
         ],
-        ssqxvalue: '',
         ssqxcode: '',
         application: {},
         djlx: {},
@@ -709,26 +749,26 @@
         add_dlr: false, // 添加代理人
         AddForm: {
           username: '',
+          zjlxvalue: '',
           zjh: '',
-          zjlx: [
-            {
-              code: '',
-              value: ''
-            }
-          ],
           address: '',
           telephone: ''
         },
-        zjlxvalue: '',
+        zjlx: [
+          {
+            code: '',
+            value: ''
+          }
+        ],
         qlrzjlxcode: '',
         ywrzjlxcode: '',
         rules: {
           username: [
             {required: true, message: '请输入姓名或名称', trigger: 'change'}
           ],
-//          zjlxvalue: [
-//            {required: true, message: '请选择证件类型', trigger: 'change'}
-//          ],
+          zjlxvalue: [
+            {required: true, message: '请选择证件类型', trigger: 'change'}
+          ],
           zjh: [
             {required: true, message: '请输入证件号', trigger: 'change'}
           ],
@@ -736,22 +776,16 @@
             {required: true, message: '请输入地址', trigger: 'change'}
           ],
           telephone: [
-            {required: true, message: '请输入手机号', trigger: 'change'}
+            {required: true, message: '请输入手机号', trigger: 'change'},
+            {type: 'string', message: '请输入正确的手机号码', pattern: /^1[0-9]{10}$/, trigger: 'blur,change'}
           ]
         }
       };
     },
+    computed: {},
     methods: {
       Look_reg() {
         this.regVisible = true;
-      },
-      systemdata() {  // 获取系统数据
-        this.$http.get(this.$store.state.api + '/application').then((response) => {
-          response = response.body;
-          if (response.errno === ERR_OK) {
-            this.application = response.data;
-          }
-        });
       },
       _application_add(title, event) {    // 申请人情况添加
         this.Handdata = event;
@@ -764,7 +798,7 @@
         this.AddForm.zjh = '';
         this.AddForm.address = '';
         this.AddForm.telephone = '';
-        this.zjlxvalue = '';
+        this.AddForm.zjlxvalue = '';
         this.Titlestate = title;
         this.add_dlr = true;
         this.getzjlx();
@@ -778,14 +812,14 @@
                 this.proposer.qlrdlr.qlrdlrzjh = this.AddForm.zjh;
                 this.proposer.qlrdlr.qlrdlrdz = this.AddForm.address;
                 this.proposer.qlrdlr.qlrdlrdh = this.AddForm.telephone;
-                this.proposer.qlrdlr.qlrdlrzjzl = this.zjlxvalue;
+                this.proposer.qlrdlr.qlrdlrzjzl = this.AddForm.zjlxvalue;
                 break;
               case '义务人代理人':
                 this.proposer.ywrdlr.ywrdlrmc = this.AddForm.username;
                 this.proposer.ywrdlr.ywrdlrzjh = this.AddForm.zjh;
                 this.proposer.ywrdlr.ywrdlrdz = this.AddForm.address;
                 this.proposer.ywrdlr.ywrdlrdh = this.AddForm.telephone;
-                this.proposer.ywrdlr.ywrdlrzjzl = this.zjlxvalue;
+                this.proposer.ywrdlr.ywrdlrzjzl = this.AddForm.zjlxvalue;
                 break;
             }
             this.add_dlr = false;
@@ -809,12 +843,12 @@
               };
               arr.push(json);
             }
-            this.AddForm.zjlx = arr;
+            this.zjlx = arr;
           }
         });
       },
       _zjlxchange(val) {
-        let options = this.AddForm.zjlx;
+        let options = this.zjlx;
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].value) > -1) {
             switch (this.Titlestate) {
@@ -840,8 +874,8 @@
             let arr = [];
             for (var i = 0; i < data.length; i++) {
               let json = {
-                value: data[i].code,
-                label: data[i].name
+                value: data[i].name,
+                code: data[i].code
               };
               arr.push(json);
             }
@@ -850,7 +884,15 @@
         });
       },
       _dyfschange(val) {
-        this.dyfscode = val;
+        if (val === null || val === '') {
+          return false;
+        }
+        let options = this.dyfsoptions;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.dyfscode = options[i].code;
+          }
+        }
       },
       gettdyt() {    // 获取土地用途下拉列表
         let token = localStorage.getItem('login_token');
@@ -864,8 +906,8 @@
             let arr = [];
             for (var i = 0; i < data.length; i++) {
               let json = {
-                value: data[i].code,
-                label: data[i].name
+                value: data[i].name,
+                code: data[i].code
               };
               arr.push(json);
             }
@@ -874,7 +916,15 @@
         });
       },
       _tdytchange(val) {
-        this.tdytcode = val;
+        if (val === null || val === '') {
+          return false;
+        }
+        let options = this.tdytoptions;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.tdytcode = options[i].code;
+          }
+        }
       },
       getfwyt() {    // 获取房屋用途下拉列表
         let token = localStorage.getItem('login_token');
@@ -888,8 +938,8 @@
             let arr = [];
             for (var i = 0; i < data.length; i++) {
               let json = {
-                value: data[i].code,
-                label: data[i].name
+                value: data[i].name,
+                code: data[i].code
               };
               arr.push(json);
             }
@@ -898,7 +948,15 @@
         });
       },
       _fwytchange(val) {
-        this.fwytcode = val;
+        if (val === null || val === '') {
+          return false;
+        }
+        let options = this.fwytoptions;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.fwytcode = options[i].code;
+          }
+        }
       },
       getqlxz() {    // 获取权利性质下拉列表
         let token = localStorage.getItem('login_token');
@@ -912,8 +970,8 @@
             let arr = [];
             for (var i = 0; i < data.length; i++) {
               let json = {
-                value: data[i].code,
-                label: data[i].name
+                value: data[i].name,
+                code: data[i].code
               };
               arr.push(json);
             }
@@ -922,7 +980,15 @@
         });
       },
       _qlxzchange(val) {
-        this.qlxzcode = val;
+        if (val === null || val === '') {
+          return false;
+        }
+        let options = this.qlxzoptions;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.qlxzcode = options[i].code;
+          }
+        }
       },
       getssqx() {    // 获取所属区县下拉列表
         let token = localStorage.getItem('login_token');
@@ -937,17 +1003,25 @@
             let arr = [];
             for (var i = 0; i < data.length; i++) {
               let json = {
-                value: data[i].code,
-                label: data[i].name
+                value: data[i].name,
+                code: data[i].code
               };
               arr.push(json);
             }
-            this.ssqxptions = arr;
+            this.ssqxoptions = arr;
           }
         });
       },
       _ssqxchange(val) {
-        this.ssqxcode = val;
+        if (val === null || val === '') {
+          return false;
+        }
+        let options = this.ssqxoptions;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.ssqxcode = options[i].code;
+          }
+        }
       },
       typeoption_1(code) {  // 获取一级表单数据
         let token = localStorage.getItem('login_token');
@@ -1091,6 +1165,7 @@
             this.$message.error('暂无数据');
           }
           this.typeVisible = false;
+          this.checkeVsibke = false;
         });
       },
       _Keephand() { // 保存权利人信息
@@ -1126,7 +1201,7 @@
           ssqx: this.ssqxcode,  // 所属区县
           fwyt: this.fwytcode,
           fwmj: this.bdcqk.fwmj,
-          tdyt: this.bdcqk.tdyt,
+          tdyt: this.tdytcode,
           tdmj: this.bdcqk.tdmj,
           tdsyqssj: this.bdcqk.tdsyqssj,
           tdsyjssj: this.bdcqk.tdsyjssj,
@@ -1155,6 +1230,13 @@
           qtsm: '11'
         }).then((response) => {
           response = response.body;
+          if (response.body.body === null || response.body.body === '') {
+            this.$message({
+              message: response.body.message,
+              type: 'error'
+            });
+            return false;
+          }
           switch (response.status) {
             case '200':
               this.$message({
@@ -1208,6 +1290,11 @@
     },
     created() {
       this.$nextTick(() => {
+//        let username = this.$store.state.username;
+//        if (username === '') {
+//          this.$router.push({path: '/login'});
+//          return false;
+//        }
         let token = localStorage.getItem('login_token');
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdfl', {
           access_token: token
@@ -1228,6 +1315,11 @@
     },
     mounted() {
       this.typeVisible = true;
+    },
+    activated() {
+      if (this.checkeVsibke === true) {
+        this.typeVisible = true;
+      }
     },
     watch: {
       proposer: {
@@ -1305,6 +1397,10 @@
             border-right: 1px solid #DFE6EC
             min-width: 70px
             vertical-align: middle
+            .table_1
+              width: 100%
+            .table_2
+              width: 100%
             .table_1 tr
               &:last-child td
                 border-bottom: 1px solid #fff
