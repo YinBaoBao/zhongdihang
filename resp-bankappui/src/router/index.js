@@ -8,6 +8,7 @@ import cancel from '../components/cancel/cancel.vue';
 import search from '../components/search/search.vue';
 import account from '../components/account/account.vue';
 import Print from '../components/dialog/print.vue';
+import Manage from '../components/manage/manage.vue';
 
 Vue.use(Router);
 const routes = [
@@ -36,6 +37,9 @@ const routes = [
       }, {
         path: 'account',
         component: account
+      }, {
+        path: 'manage',
+        component: Manage
       }
     ]
   },

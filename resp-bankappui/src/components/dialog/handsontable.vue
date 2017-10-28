@@ -16,14 +16,14 @@
       </el-table-column>
     </el-table>
     <el-button @click="_add_apply" :plain="true" type="info" style="padding: 9px 14px;margin-top: 14px;">
-      <i class="el-icon-plus" style="padding-right: 4px;"></i>添加申请人
+      <i class="el-icon-plus" style="padding-right: 4px;"></i>{{add_Title}}
     </el-button>
     <div class="dialog">
-      <el-dialog title="添加申请人" :visible.sync="add_apply" size="000" top="6%" :modal="false"
+      <el-dialog :title="add_Title" :visible.sync="add_apply" size="000" top="6%" :modal="false"
                  :close-on-click-modal="false">
         <el-form :model="AddForm" :rules="rules" ref="AddForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="申请人性质" prop="applyvalue">
-            <el-select v-model="AddForm.applyvalue" placeholder="请选择" @change="_qlrzlchange">
+            <el-select v-model="AddForm.applyvalue" :disabled="Disablel" placeholder="请选择" @change="_qlrzlchange">
               <el-option
                 v-for="item in applyname"
                 :key="item.value"
@@ -148,7 +148,10 @@
         }
       },
       Title: {
-        type: String
+        type: String,
+        default() {
+          return '申请人';
+        }
       },
       bjbh: {}
     },
@@ -189,6 +192,8 @@
           }
         ],
         tableTitle: [],
+        add_Title: '添加' + this.Title,
+        Disablel: false,
         add_apply: false,
         edit_apply: false,
         AddForm: {
@@ -251,6 +256,16 @@
     },
     methods: {
       _add_apply() {  // 添加申请人
+        switch (this.Title) {
+          case '权利人':
+            this.Disablel = false;
+            break;
+          case '义务人':
+            this.Disablel = true;
+            this.AddForm.applyvalue = '不动产权利人';
+            this.applycode = '1';
+            break;
+        }
         this.add_apply = true;
         this.getqlrzl();
         this.getqlrlx();
@@ -259,13 +274,11 @@
       _add_apply_submit(AddForm) {
         this.$refs[AddForm].validate((valid) => {
           if (valid) {
-            let token = localStorage.getItem('login_token');
             switch (this.Title) {
               case '权利人':
                 this.$http.post(this.$store.state.Host + '/BDCDJSQControl/saveQlr', {
                   jkzh: 200,
                   bjbh: this.bjbh,
-                  access_token: token,
                   qlrzl: this.applycode,
                   qlrlx: this.qlrlxcode,
                   qlrmc: this.AddForm.username,
@@ -278,7 +291,7 @@
                   if (response.body === null) {
                     this.$notify({
                       title: '警告',
-                      message: '保存失败，请检查其他信息已填写完整。列如：报件编号。',
+                      message: '保存失败，请生成报件编号。',
                       type: 'error'
                     });
                     this.add_apply = false;
@@ -311,7 +324,6 @@
                 this.$http.post(this.$store.state.Host + '/BDCDJSQControl/saveObligor', {
                   jkzh: 200,
                   bjbh: this.bjbh,
-                  access_token: token,
                   ywrzl: this.applycode,
                   ywrlx: this.qlrlxcode,
                   ywrmc: this.AddForm.username,
@@ -324,7 +336,7 @@
                   if (response.body === null) {
                     this.$notify({
                       title: '警告',
-                      message: '保存失败，请检查其他信息已填写完整。列如：报件编号。',
+                      message: '保存失败，请生成报件编号。',
                       type: 'error'
                     });
                     this.add_apply = false;
@@ -362,9 +374,7 @@
         });
       },
       getqlrzl() {    // 获取权利人种类
-        let token = localStorage.getItem('login_token');
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
-          access_token: token,
           code: 10007
         }).then((response) => {
           response = response.body;
@@ -720,7 +730,7 @@
       }
     },
     created() {
-//      console.log(this.Handdata);
+      console.log(this.Handdata);
       this.Handata();
     },
     watch: {

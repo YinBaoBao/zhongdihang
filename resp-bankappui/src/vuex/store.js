@@ -16,7 +16,15 @@ const store = new Vuex.Store({
     value: '',
     token: '',
     username: '',
-    Bjbh: '201708001000001'
+    Bjbh: '201708001000001',
+    Bankinfo: {
+      id: '',
+      bankName: '中国建设银行股份有限公司苏州分行',
+      telephone: '0512-68268178',
+      zjlxmc: '320500000010314',
+      zjlx: '营业执照',
+      bankAddress: ''
+    }
   },
   getters: {
     value: state => state.value
@@ -36,6 +44,9 @@ const store = new Vuex.Store({
     },
     newBjbh(state, element) {
       state.Bjbh = element;
+    },
+    newBank(state, element) {
+      state.Bankinfo = element;
     }
   }
 });

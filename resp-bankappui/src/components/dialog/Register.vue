@@ -9,9 +9,6 @@
         <li>4、左上角条形码由系统生成，便于国土局线下办理接件</li>
       </ul>
     </div>
-    <div class="print">
-      <el-button :plain="true" type="success" style="padding: 8px 36px;" @click="_print">打印</el-button>
-    </div>
   </div>
 </template>
 
@@ -35,13 +32,10 @@
       }
     },
     data() {
-      return {
-        gobackvisible: false
-      };
+      return {};
     },
     methods: {
       _print() {
-        this.gobackvisible = true;
         this.$router.push({path: '/print'});
         this.$refs.print.winprint();
       }
@@ -63,9 +57,4 @@
       padding-left: 20PX
       li
         padding: 4px 15px
-    .print
-      display: inline-block
-      position: absolute
-      right: 20px
-      bottom: 72px
 </style>

@@ -5,7 +5,7 @@
       <div class="menu">
         <el-row class="tac">
           <el-col :span="24">
-            <el-menu default-active="1" class="el-menu-vertical-demo">
+            <el-menu :default-active="tabIndex" class="el-menu-vertical-demo">
               <el-menu-item index="1" @click="Tabs('application')">
                 <i class="el-icon-check"></i>申报申请
                 <i class="el-icon-caret-right" style="padding-left: 52px;"></i>
@@ -24,7 +24,7 @@
       </div>
       <div class="tables" ref="tables">
         <keep-alive>
-          <router-view></router-view>
+          <router-view @acIndex="_acIndex"></router-view>
         </keep-alive>
       </div>
     </div>
@@ -37,7 +37,8 @@
   export default {
     data() {
       return {
-        Propose: []  // 查看申请数据
+        Propose: [],  // 查看申请数据
+        tabIndex: '1'
       };
     },
     methods: {
@@ -46,6 +47,9 @@
       },
       _account() {  // 账户管理
         this.$router.push({path: '/index/account'});
+      },
+      _acIndex(index) {
+        this.tabIndex = index;
       }
     },
     created() {
@@ -64,12 +68,13 @@
     padding-bottom: 50px
     .menu
       float: left
-      width: 16%;
+      width: 14%;
       height: 100%;
       min-width: 200px;
       background-color: rgb(238, 241, 246);
+      overflow: hidden
     .tables
       float: left
-      width: 84%
+      width: 85.2%
       overflow: hidden
 </style>

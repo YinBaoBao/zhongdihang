@@ -3,9 +3,9 @@
     <nav class="nav">
       <div class="login">
         <div class="avatar">
-          <img src="./login.png" alt="login">
+          <img src="./nonghang.jpg" alt="login">
         </div>
-        <span class="bank">中国建设银行|抵押申报、注销系统</span>
+        <span class="bank">中国农业银行抵押申报系统</span>
       </div>
       <div class="content">
         <div class="manager">
@@ -18,7 +18,7 @@
           </ul>
         </div>
         <div class="user">
-          <span class="company">中国建设银行股份有限公司苏州分行</span>
+          <span class="company">{{Bankusename}}</span>
           <span class="userName">李建</span>
         </div>
       </div>
@@ -29,7 +29,9 @@
 <script type="text/ecmascript-6">
   export default {
     data() {
-      return {};
+      return {
+        Bankusename: '中国农业银行股份有限公司苏州分行'
+      };
     },
     methods: {
       _account() {
@@ -44,6 +46,9 @@
       _go_back() {
         this.$router.push({path: '/login'});
       }
+    },
+    created() {
+      this.Bankusename = this.$store.state.Bankinfo.bankName;
     }
   };
 </script>

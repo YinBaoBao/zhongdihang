@@ -7,20 +7,36 @@
             <tr>
               <td>登记类型</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="djlx.djlxmc" class="input_text" type="text" value="" placeholder="">
+                <el-select @change="_djlxchange" v-model="djlx.djlxmc" placeholder="请选择"
+                           style="width: 140px;">
+                  <el-option
+                    v-for="item in djlxoptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
               </td>
               <td>登记子类型</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="djlx.djzlxmc" class="input_text" type="text" value="" placeholder="">
+                <el-select @change="_djzlxchange" v-model="djlx.djzlxmc" placeholder="请选择"
+                           style="width: 140px;">
+                  <el-option
+                    v-for="item in djzlxoptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
               </td>
               <td>报件编号</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="$store.state.Bjbh" class="input_text" type="text" value="" placeholder="">
+                <input v-model="$store.state.Bjbh" class="input_text" type="text" value="" readonly="readonly"
+                       placeholder="">
               </td>
               <td>经办人姓名</td>
               <td class="td_text" style="padding: 0;width: 40px;">
-                <input class="input_text" type="text" value="" placeholder=""
-                       style="width: 90px;">
+                <input class="input_text" type="text" value="" readonly="readonly" placeholder="" style="width: 90px;">
               </td>
             </tr>
           </table>
@@ -30,7 +46,7 @@
           <div class="inner">
             <table class="table">
               <tr>
-                <td :rowspan="10" style="padding: 0;min-width: 34px;vertical-align: middle;"><span
+                <td :rowspan="20" style="padding: 0;min-width: 34px;vertical-align: middle;"><span
                   class="proposer_situation">申请人情况</span></td>
                 <td></td>
                 <td>姓名/名称</td>
@@ -41,251 +57,106 @@
               </tr>
               <tr v-for="(item,index) in proposer.qlrs">
                 <td>权利人
-                  <span class="el-icon-plus proposer_add" @click="_application_add('权利人',proposer.qlrs)"></span>
+                  <span class="el-icon-edit proposer_add" @click="_application_add('权利人',proposer.qlrs)"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="item.qlrmc"
-                            readonly="readonly"></textarea>
+                  <input v-model="item.qlrmc" class="input_text" type="text" readonly="readonly" placeholder=""
+                         value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="item.qlrzjzlmc"
-                            readonly="readonly"></textarea>
+                  <input v-model="item.qlrzjzlmc" class="input_text" type="text" readonly="readonly" placeholder=""
+                         value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="item.qlrzjh"
-                            readonly="readonly"></textarea>
+                  <input v-model="item.qlrzjh" class="input_text" type="text" readonly="readonly" placeholder=""
+                         value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="item.qlrdz"
-                            readonly="readonly"></textarea>
+                  <input v-model="item.qlrdz" class="input_text" type="text" readonly="readonly" placeholder=""
+                         value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="item.qlrdh"
-                            readonly="readonly"></textarea>
+                  <input v-model="item.qlrdh" class="input_text" type="text" readonly="readonly" placeholder=""
+                         value="">
                 </td>
               </tr>
               <tr v-if="proposer.qlrdlr">
                 <td style="min-width: 110px;">权利人代理人
-                  <span class="el-icon-plus proposer_add" @click="_add_dlr('权利人代理人')"></span>
+                  <span class="el-icon-edit proposer_add" @click="_add_dlr('权利人代理人')"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdlrmc"
-                            readonly="readonly"></textarea>
+                  <input v-model="proposer.qlrdlr.qlrdlrmc" class="input_text" type="text" readonly="readonly"
+                         placeholder="" value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdlrzjzl"
-                            readonly="readonly"></textarea>
+                  <input v-model="proposer.qlrdlr.qlrdlrzjzlmc" class="input_text" type="text" readonly="readonly"
+                         placeholder="" value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdlrzjh"
-                            readonly="readonly"></textarea>
+                  <input v-model="proposer.qlrdlr.qlrdlrzjh" class="input_text" type="text" readonly="readonly"
+                         placeholder="" value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdlrdz"
-                            readonly="readonly"></textarea>
+                  <input v-model="proposer.qlrdlr.qlrdlrdz" class="input_text" type="text" readonly="readonly"
+                         placeholder="" value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.qlrdlr.qlrdlrdh"
-                            readonly="readonly"></textarea>
+                  <input v-model="proposer.qlrdlr.qlrdlrdh" class="input_text" type="text" readonly="readonly"
+                         placeholder="" value="">
                 </td>
               </tr>
               <tr v-for="(item,index) in proposer.ywrs">
                 <td>义务人
-                  <span class="el-icon-plus proposer_add" @click="_application_add('义务人',proposer.ywrs)"></span>
+                  <span class="el-icon-edit proposer_add" @click="_application_add('义务人',proposer.ywrs)"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="item.ywrmc"
-                            readonly="readonly"></textarea>
+                  <input v-model="item.ywrmc" class="input_text" type="text" readonly="readonly" placeholder=""
+                         value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="item.ywrzjzlmc"
-                            readonly="readonly"></textarea>
+                  <input v-model="item.ywrzjzlmc" class="input_text" type="text" readonly="readonly" placeholder=""
+                         value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="item.ywrzjh"
-                            readonly="readonly"></textarea>
+                  <input v-model="item.ywrzjh" class="input_text" type="text" readonly="readonly" placeholder=""
+                         value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="item.ywrdz"
-                            readonly="readonly"></textarea>
+                  <input v-model="item.ywrdz" class="input_text" type="text" readonly="readonly" placeholder=""
+                         value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="item.ywrdh"
-                            readonly="readonly"></textarea>
+                  <input v-model="item.ywrdh" class="input_text" type="text" readonly="readonly" placeholder=""
+                         value="">
                 </td>
               </tr>
               <tr v-if="proposer.ywrdlr">
                 <td>义务人代理人
-                  <span class="el-icon-plus proposer_add" @click="_add_dlr('义务人代理人')"></span>
+                  <span class="el-icon-edit proposer_add" @click="_add_dlr('义务人代理人')"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.ywrdlrmc"
-                            readonly="readonly"></textarea>
+                  <input v-model="proposer.ywrdlr.ywrdlrmc" class="input_text" type="text" readonly="readonly"
+                         placeholder="" value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.ywrdlrzjzl"
-                            readonly="readonly"></textarea>
+                  <input v-model="proposer.ywrdlr.ywrdlrzjzlmc" class="input_text" type="text" readonly="readonly"
+                         placeholder="" value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.ywrdlrzjh"
-                            readonly="readonly"></textarea>
+                  <input v-model="proposer.ywrdlr.ywrdlrzjh" class="input_text" type="text" readonly="readonly"
+                         placeholder="" value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.ywrdlrdz"
-                            readonly="readonly"></textarea>
+                  <input v-model="proposer.ywrdlr.ywrdlrdz" class="input_text" type="text" readonly="readonly"
+                         placeholder="" value="">
                 </td>
                 <td class="td_text" style="padding: 0;">
-                  <textarea class="textarea" name="" cols="" rows="" v-model="proposer.ywrdlr.ywrdlrdh"
-                            readonly="readonly"></textarea>
+                  <input v-model="proposer.ywrdlr.ywrdlrdh" class="input_text" type="text" readonly="readonly"
+                         placeholder="" value="">
                 </td>
               </tr>
             </table>
           </div>
-        </div>
-        <div class="border-height"></div>
-        <div class="mortgage">
-          <table class="table">
-            <tr>
-              <td rowspan="5" style="padding: 0;min-width: 34px;vertical-align: middle;text-align: center;">
-                <span class="mortgage_situation">抵押情况</span>
-              </td>
-              <td style="min-width: 116px;">被担保债权数额</td>
-              <td class="td_text" style="padding: 0;">
-                <input v-model="mortgage.bdbzqse" value="万元" class="input_text" type="text" placeholder="万元">
-              </td>
-              <td style="min-width: 116px;">抵押合同签署日期</td>
-              <td class="td_text" style="padding: 0;">
-                <el-date-picker
-                  v-model="mortgage.dyhtqdrq"
-                  type="date"
-                  format="yyyy-MM-dd"
-                  placeholder="选择日期"
-                  :picker-options="pickerOptions"
-                  @change="_dyhtqdrqtime"
-                  style="width: 140px;margin-left: -1px;">
-                </el-date-picker>
-              </td>
-              <td style="min-width: 100px;">银行抵押业务号</td>
-              <td class="td_text" style="padding: 0;min-width: 146px;">
-                <input v-model="mortgage.yhdyywh" class="input_text" type="text" placeholder="">
-              </td>
-            </tr>
-            <tr>
-              <td colspan="">债务履行开始时间</td>
-              <td class="td_text" style="padding: 0;">
-                <el-date-picker
-                  v-model="mortgage.zwlxqssj"
-                  type="date"
-                  format="yyyy-MM-dd"
-                  placeholder="选择日期"
-                  :picker-options="pickerOptions"
-                  @change="_zwlxqstime"
-                  style="width: 140px;margin-left: -1px;">
-                </el-date-picker>
-              </td>
-              <td>债务履行结束时间</td>
-              <td class="td_text" style="padding: 0;">
-                <el-date-picker
-                  v-model="mortgage.zwlxjssj"
-                  type="date"
-                  placeholder="选择日期"
-                  :picker-options="pickerOptions"
-                  @change="_zwlxjstime"
-                  style="width: 140px;margin-left: -1px;">
-                </el-date-picker>
-              </td>
-              <td colspan="">贷款业务编号</td>
-              <td class="td_text" style="padding: 0;">
-                <input v-model="mortgage.dkywbh" class="input_text" type="text" placeholder="">
-              </td>
-            </tr>
-            <tr>
-              <td colspan="6" style="padding: 0;">
-                <table class="table_1" cellpadding="10" cellspacing="0">
-                  <tr>
-                    <td style="min-width: 100px;">不动产评估价格</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.bdcpgjg" class="input_text" type="text"
-                             placeholder="万元"
-                             style="width: 80px;">
-                    </td>
-                    <td style="min-width: 90px;">土地评估价格</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.tdpgjg" class="input_text" type="text" placeholder="万元"
-                             style="width: 80px;">
-                    </td>
-                    <td style="min-width: 86px;">房产评估价格</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.fcpgjg" class="input_text" type="text"
-                             placeholder="万元"
-                             style="width: 80px;">
-                    </td>
-                    <td>贷款账号</td>
-                    <td class="td_text" style="padding: 0;border-right: none;">
-                      <input v-model="mortgage.dkzh" class="input_text" type="text" placeholder=""
-                             style="width: 108px;">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>担保范围</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.dbfw" class="input_text" type="text"
-                             placeholder="万元"
-                             style="width: 82px;">
-                    </td>
-                    <td>在建建筑物抵押范围</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.zjjzwdyfw" class="input_text" type="text"
-                             placeholder="万元"
-                             style="width: 80px;">
-                    </td>
-                    <td>房产抵押面积</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.fcdymj" class="input_text" type="text"
-                             placeholder="万元"
-                             style="width: 82px;">
-                    </td>
-                    <td>土地抵押面积</td>
-                    <td class="td_text" style="padding: 0;border-right: none;">
-                      <input v-model="mortgage.tddymj" class="input_text" type="text"
-                             placeholder="平方米"
-                             style="width: 108px;">
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="8" style="padding: 0;">
-                <table class="table_2" cellpadding="10" cellspacing="0" style="width: 100%;">
-                  <tr>
-                    <td>抵押方式</td>
-                    <td class="td_text" style="padding: 0;">
-                      <el-select @change="_dyfschange" v-model="mortgage.dyfs" placeholder="请选择"
-                                 style="width: 160px;margin-left: -1px;">
-                        <el-option
-                          v-for="item in dyfsoptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                    </td>
-                    <td>债权人</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.zqr" class="input_text" type="text" placeholder=""
-                             value="中国建设银行股份有限公司苏州分行">
-                    </td>
-                    <td>债务人</td>
-                    <td class="td_text" style="padding: 0;border-right: none;">
-                      <input v-model="mortgage.zwr" class="input_text" type="text" placeholder=""
-                             value="">
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>
         </div>
         <div class="border-height"></div>
         <div class="mortgage">
@@ -315,8 +186,8 @@
             <tr>
               <td colspan="">房屋用途</td>
               <td class="td_text" style="padding: 0;">
-                <el-select @change="_fwytchange" v-model="bdcqk.fwyt" placeholder="请选择"
-                           style="width: 214px;margin-left: -1px;">
+                <el-select @change="_fwytchange" v-model="bdcqk.fwytmc" placeholder="请选择"
+                           style="width: 100%;margin-left: -1px;">
                   <el-option
                     v-for="item in fwytoptions"
                     :key="item.value"
@@ -333,8 +204,8 @@
             <tr>
               <td colspan="">土地用途</td>
               <td class="td_text" style="padding: 0;">
-                <el-select @change="_tdytchange" v-model="bdcqk.tdyt" placeholder="请选择"
-                           style="width: 214px;margin-left: -1px;">
+                <el-select @change="_tdytchange" v-model="bdcqk.tdytmc" placeholder="请选择"
+                           style="width: 100%;margin-left: -1px;">
                   <el-option
                     v-for="item in tdytoptions"
                     :key="item.value"
@@ -357,7 +228,7 @@
                   placeholder="选择日期"
                   :picker-options="pickerOptions"
                   @change="_tdsyqssjtime"
-                  style="width: 214px; margin-left: -1px;">
+                  style="width: 100%; margin-left: -1px;">
                 </el-date-picker>
               </td>
               <td style="min-width: 100px;">土地使用结束日</td>
@@ -368,15 +239,15 @@
                   placeholder="选择日期"
                   :picker-options="pickerOptions"
                   @change="_tdsyjssjtime"
-                  style="width: 214px; margin-left: -1px;">
+                  style="width: 100%; margin-left: -1px;">
                 </el-date-picker>
               </td>
             </tr>
             <tr>
               <td style="min-width: 58px;">权利性质</td>
               <td class="td_text" style="padding: 0;">
-                <el-select @change="_qlxzchange" v-model="bdcqk.qlxz" placeholder="请选择"
-                           style="width: 214px;margin-left: -1px;">
+                <el-select @change="_qlxzchange" v-model="bdcqk.qlxzmc" placeholder="请选择"
+                           style="width: 100%;margin-left: -1px;">
                   <el-option
                     v-for="item in qlxzoptions"
                     :key="item.value"
@@ -387,10 +258,10 @@
               </td>
               <td style="min-width: 58px;">所属区县</td>
               <td class="td_text" style="padding: 0;border-right: none;">
-                <el-select @change="_ssqxchange" v-model="bdcqk.ssqx" placeholder="请选择"
-                           style="width: 214px;margin-left: -1px;">
+                <el-select @change="_ssqxchange" v-model="bdcqk.ssqxmc" placeholder="请选择"
+                           style="width: 100%;margin-left: -1px;">
                   <el-option
-                    v-for="item in ssqxoptions"
+                    v-for="item in ssqxoptions1"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value">
@@ -400,19 +271,171 @@
             </tr>
           </table>
         </div>
+        <div class="border-height"></div>
+        <div class="mortgage">
+          <table class="table">
+            <tr>
+              <td rowspan="5" style="padding: 0;min-width: 34px;vertical-align: middle;text-align: center;">
+                <span class="mortgage_situation">抵押情况</span>
+              </td>
+              <td style="min-width: 116px;">被担保债权数额</td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="mortgage.bdbzqse" value="万元" class="input_text" type="text" placeholder="万元">
+              </td>
+              <td style="min-width: 116px;">抵押合同签署日期</td>
+              <td class="td_text" style="padding: 0;">
+                <el-date-picker
+                  v-model="mortgage.dyhtqdrq"
+                  type="date"
+                  format="yyyy-MM-dd"
+                  placeholder="选择日期"
+                  :picker-options="pickerOptions"
+                  @change="_dyhtqdrqtime"
+                  style="width: 100%;margin-left: -1px;">
+                </el-date-picker>
+              </td>
+              <td style="min-width: 100px;">银行抵押业务号</td>
+              <td class="td_text" style="padding: 0;min-width: 146px;">
+                <input v-model="mortgage.yhdyywh" class="input_text" type="text" placeholder="">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="">债务履行开始时间</td>
+              <td class="td_text" style="padding: 0;">
+                <el-date-picker
+                  v-model="mortgage.zwlxqssj"
+                  type="date"
+                  format="yyyy-MM-dd"
+                  placeholder="选择日期"
+                  :picker-options="pickerOptions"
+                  @change="_zwlxqstime"
+                  style="width: 100%;margin-left: -1px;">
+                </el-date-picker>
+              </td>
+              <td>债务履行结束时间</td>
+              <td class="td_text" style="padding: 0;">
+                <el-date-picker
+                  v-model="mortgage.zwlxjssj"
+                  type="date"
+                  placeholder="选择日期"
+                  :picker-options="pickerOptions"
+                  @change="_zwlxjstime"
+                  style="width: 100%;margin-left: -1px;">
+                </el-date-picker>
+              </td>
+              <td colspan="">贷款业务编号</td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="mortgage.dkywbh" class="input_text" type="text" placeholder="">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" style="padding: 0;">
+                <table class="table_1" cellpadding="10" cellspacing="0">
+                  <tr>
+                    <td style="min-width: 100px;">不动产评估价格</td>
+                    <td class="td_text" style="padding: 0;">
+                      <input v-model="mortgage.bdcpgjg" class="input_text" type="text" placeholder="万元">
+                    </td>
+                    <td style="min-width: 90px;">土地评估价格</td>
+                    <td class="td_text" style="padding: 0;">
+                      <input v-model="mortgage.tdpgjg" class="input_text" type="text" placeholder="万元">
+                    </td>
+                    <td style="min-width: 86px;">房产评估价格</td>
+                    <td class="td_text" style="padding: 0;">
+                      <input v-model="mortgage.fcpgjg" class="input_text" type="text"
+                             placeholder="万元">
+                    </td>
+                    <td>贷款账号</td>
+                    <td class="td_text" style="padding: 0;border-right: none;">
+                      <input v-model="mortgage.dkzh" class="input_text" type="text" placeholder="">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>担保范围</td>
+                    <td class="td_text" style="padding: 0;">
+                      <input v-model="mortgage.dbfw" class="input_text" type="text"
+                             placeholder="万元">
+                    </td>
+                    <td style="min-width: 126px;">在建建筑物抵押范围</td>
+                    <td class="td_text" style="padding: 0;">
+                      <input v-model="mortgage.zjjzwdyfw" class="input_text" type="text"
+                             placeholder="万元">
+                    </td>
+                    <td>房产抵押面积</td>
+                    <td class="td_text" style="padding: 0;">
+                      <input v-model="mortgage.fcdymj" class="input_text" type="text"
+                             placeholder="平方米">
+                    </td>
+                    <td style="min-width: 86px;">土地抵押面积</td>
+                    <td class="td_text" style="padding: 0;border-right: none;">
+                      <input v-model="mortgage.tddymj" class="input_text" type="text"
+                             placeholder="平方米">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="8" style="padding: 0;">
+                <table class="table_2" cellpadding="10" cellspacing="0" style="width: 100%;">
+                  <tr>
+                    <td>抵押方式</td>
+                    <td class="td_text" style="padding: 0;">
+                      <el-select @change="_dyfschange" v-model="mortgage.dyfsmc" placeholder="请选择"
+                                 style="width:100%;margin-left: -1px;">
+                        <el-option
+                          v-for="item in dyfsoptions"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </td>
+                    <td>债权人</td>
+                    <td class="td_text" style="padding: 0;">
+                      <input v-model="mortgage.zqr" class="input_text" type="text" placeholder=""
+                             value="中国建设银行股份有限公司苏州分行">
+                    </td>
+                    <td>债务人</td>
+                    <td class="td_text" style="padding: 0;border-right: none;">
+                      <input v-model="mortgage.zwr" class="input_text" type="text" placeholder=""
+                             value="">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
       <div class="app_list">
-        <list @appLook="Look_reg" @apply_submit="_apply_submit" :upDatalist="upDatalist"></list>
+        <list @appLook="Look_reg" @apply_submit="_apply_submit" @newcreateapply="_newcreateapply"
+              :upDatalist="upDatalist"></list>
       </div>
       <div class="dialog">
         <el-dialog :title="typename" :visible.sync="typeVisible" :modal="false" :close-on-click-modal="false"
                    size="000">
-          <el-cascader :options="Typeoption"
-                       @active-item-change="handleItemChange"
-                       @change="_checked"
-                       :props="props"
-                       style="width: 300px;margin: 12px 12px;">
-          </el-cascader>
+          <div style="width: 360px;">
+            <label>登记类型 :</label>
+            <el-cascader :options="Typeoption"
+                         @active-item-change="handleItemChange"
+                         @change="_checked"
+                         :props="props"
+                         style="width: 260px;margin: 12px 12px 30px 12px">
+            </el-cascader>
+          </div>
+          <div>
+            <label>所属区县 :</label>
+            <el-select @change="_Quxchange" v-model="ssqxvalue" placeholder="请选择"
+                       style="width: 260px;margin: 0 12px 30px 12px">
+              <el-option
+                v-for="item in ssqxoptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
           <div slot="footer" class="dialog-footer">
             <el-button @click="typeVisible = false">取 消</el-button>
             <el-button type="primary" @click="_typeoption_submit">确 定</el-button>
@@ -420,10 +443,11 @@
         </el-dialog>
         <el-dialog title="登记申请书" :visible.sync="regVisible" size="000" top="10%">
           <Register v-if="regVisible" :Propose="proposer" :mortgage="mortgage" :bdcqk="bdcqk" :xwsx="xwsx"
-                    :bjbh="bjbh"></Register>
+                    :bjbh="bjbh" ref="register"></Register>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="Close">取 消</el-button>
-            <el-button type="primary" @click="regVisible = false">确 定</el-button>
+            <el-button :plain="true" type="success" style="padding: 8px 36px;"
+                       @click="regVisible = false">关 闭</el-button>
+            <el-button :plain="true" type="success" style="padding: 8px 36px;" @click="_print">打印</el-button>
           </span>
         </el-dialog>
         <el-dialog :title="handTitle" :visible.sync="handVisible" size="000" top="10%" :close-on-click-modal="false">
@@ -474,6 +498,7 @@
   import list from '../list/list.vue';
   import Register from '../../components/dialog/Register.vue';
   import handsontable from '../../components/dialog/handsontable.vue';
+  import {formatDate} from '../../common/js/date.js';
 
   export default {
     props: {},
@@ -514,33 +539,6 @@
             cities: [
               {
                 label: '商品房买卖转移登记（合并）',
-                cities: [
-                  {
-                    label: '虎丘区',
-                    cities: [],
-                    code: ''
-                  },
-                  {
-                    label: '吴中区',
-                    cities: [],
-                    code: ''
-                  },
-                  {
-                    label: '相城区',
-                    cities: [],
-                    code: ''
-                  },
-                  {
-                    label: '姑苏区',
-                    cities: [],
-                    code: ''
-                  },
-                  {
-                    label: '工业园区',
-                    cities: [],
-                    code: ''
-                  }
-                ],
                 code: ''
               }
             ],
@@ -614,14 +612,56 @@
             code: ''
           }
         ],
+        ssqxoptions1: [
+          {
+            value: '',
+            label: '',
+            code: ''
+          }, {
+            value: '',
+            label: '',
+            code: ''
+          }
+        ],
         ssqxcode: '',
+        ssqxvalue: '',
+        djlxoptions: [
+          {
+            value: '',
+            label: '',
+            code: ''
+          }, {
+            value: '',
+            label: '',
+            code: ''
+          }
+        ],
+        djlxcode: '',
+        djzlxoptions: [
+          {
+            value: '',
+            label: '',
+            code: ''
+          }, {
+            value: '',
+            label: '',
+            code: ''
+          }
+        ],
+        djzlxcode: '',
+        djzlxvalue: '',
         application: {},
-        djlx: {},
+        djlx: {
+          djlx: '',
+          djlxmc: '',
+          djzlx: '',
+          djzlxmc: ''
+        },
         bjbh: '', // 报件编号
         proposer: {
           qlrs: [
             {
-              bjbh: '201708001000001',
+              bjbh: '',
               qlrunid: '',
               qlrxh: 1,
               qlrzl: 2,
@@ -715,7 +755,7 @@
           qtsm: '',
           sffbcz: false,
           sffbczmc: '',
-          sfgy: true,
+          sfgy: false,
           sfgymc: ''
         },
         upDatalist: [
@@ -744,8 +784,12 @@
             state: ''
           }
         ],  // 需要上的资料
-        selectcode: '',  // 登记类型编号
-        typename: '',  // 登记类型
+        selectcode: { // 登记类型编号
+          djlx: '',
+          djzlx: '',
+          ssqx: ''
+        },
+        typename: '请选择登记类型',  // 登记类型
         add_dlr: false, // 添加代理人
         AddForm: {
           username: '',
@@ -757,7 +801,11 @@
         zjlx: [
           {
             code: '',
-            value: ''
+            value: '身份证'
+          },
+          {
+            code: '',
+            value: '营业执照'
           }
         ],
         qlrzjlxcode: '',
@@ -779,7 +827,8 @@
             {required: true, message: '请输入手机号', trigger: 'change'},
             {type: 'string', message: '请输入正确的手机号码', pattern: /^1[0-9]{10}$/, trigger: 'blur,change'}
           ]
-        }
+        },
+        bjblztmc: '' // 报件状态
       };
     },
     computed: {},
@@ -827,9 +876,7 @@
         });
       },
       getzjlx() {    // 获取证件种类
-        let token = localStorage.getItem('login_token');
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
-          access_token: token,
           code: 130
         }).then((response) => {
           response = response.body;
@@ -854,18 +901,18 @@
             switch (this.Titlestate) {
               case '权利人代理人':
                 this.qlrzjlxcode = options[i].code;
+                this.proposer.qlrdlr.qlrdlrzjzlmc = val;
                 break;
               case '义务人代理人':
                 this.ywrzjlxcode = options[i].code;
+                this.proposer.ywrdlr.ywrdlrzjzlmc = val;
                 break;
             }
           }
         }
       },
       getdyfs() {    // 获取抵押方式
-        let token = localStorage.getItem('login_token');
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
-          access_token: token,
           code: 10006
         }).then((response) => {
           response = response.body;
@@ -895,9 +942,7 @@
         }
       },
       gettdyt() {    // 获取土地用途下拉列表
-        let token = localStorage.getItem('login_token');
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
-          access_token: token,
           code: 10008
         }).then((response) => {
           response = response.body;
@@ -927,9 +972,7 @@
         }
       },
       getfwyt() {    // 获取房屋用途下拉列表
-        let token = localStorage.getItem('login_token');
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
-          access_token: token,
           code: 117
         }).then((response) => {
           response = response.body;
@@ -959,10 +1002,8 @@
         }
       },
       getqlxz() {    // 获取权利性质下拉列表
-        let token = localStorage.getItem('login_token');
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
-          access_token: token,
-          code: 108
+          code: 109
         }).then((response) => {
           response = response.body;
           if (response.status === '200') {
@@ -991,9 +1032,7 @@
         }
       },
       getssqx() {    // 获取所属区县下拉列表
-        let token = localStorage.getItem('login_token');
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
-          access_token: token,
           code: '10002',
           pcode: ''
         }).then((response) => {
@@ -1009,24 +1048,105 @@
               arr.push(json);
             }
             this.ssqxoptions = arr;
+            this.ssqxoptions1 = arr;
           }
         });
       },
       _ssqxchange(val) {
+        if (val === null || val === '' || val === this.ssqxvalue) {
+          return false;
+        }
+        let options = this.ssqxoptions1;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.selectcode.ssqx = options[i].code;
+            this._typeoption_submit1();
+          }
+        }
+        this.ssqxvalue = '';
+      },
+      _Quxchange(val) {
+        this.ssqxvalue = val;
         if (val === null || val === '') {
           return false;
         }
         let options = this.ssqxoptions;
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].value) > -1) {
-            this.ssqxcode = options[i].code;
+            this.selectcode.ssqx = options[i].code;
           }
         }
       },
-      typeoption_1(code) {  // 获取一级表单数据
-        let token = localStorage.getItem('login_token');
+      getdjlx() {    // 获取登记类型下拉列表
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
-          access_token: token,
+          code: '121',
+          pcode: ''
+        }).then((response) => {
+          response = response.body;
+          if (response.status === '200') {
+            let data = response.body;
+            let arr = [];
+            for (var i = 0; i < data.length; i++) {
+              let json = {
+                value: data[i].name,
+                code: data[i].code
+              };
+              arr.push(json);
+            }
+            this.djlxoptions = arr;
+          }
+        });
+      },
+      _djlxchange(val) {
+        if (val === null || val === '') {
+          return false;
+        }
+        let options = this.djlxoptions;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.selectcode.djlx = options[i].code;
+            this.getdjzlx(options[i].code);
+          }
+        }
+      },
+      getdjzlx(code) {    // 获取所登记类型下拉列表
+        if (code === null || code === '') {
+          return false;
+        }
+        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
+          code: '10000',
+          pcode: code
+        }).then((response) => {
+          response = response.body;
+          if (response.status === '200') {
+            let data = response.body;
+            let arr = [];
+            for (var i = 0; i < data.length; i++) {
+              let json = {
+                value: data[i].name,
+                code: data[i].code
+              };
+              arr.push(json);
+            }
+            this.djzlxoptions = arr;
+          }
+        });
+      },
+      _djzlxchange(val) {
+        if (val === null || val === '' || val === this.djzlxvalue) {
+          return false;
+        }
+        let options = this.djzlxoptions;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.selectcode.djzlx = options[i].code;
+            this._typeoption_submit1();
+          }
+        }
+        this.djzlxvalue = '';
+      },
+      typeoption_1(code) {  // 获取一级表单数据
+        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
           code: code
         }).then((response) => {
           response = response.body;
@@ -1047,34 +1167,12 @@
         });
       },
       typeoption_2(index, code) {  // 获取二级表单数据
-        let token = localStorage.getItem('login_token');
+        if (code === '' || code === null) {
+          return false;
+        }
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
           code: '10000',
-          pcode: code,
-          access_token: token
-        }).then((response) => {
-          response = response.body;
-          if (response.status === '200') {
-            let data = response.body;
-            let arr = [];
-            for (var i = 0; i < data.length; i++) {
-              let json = {
-                code: data[i].code,
-                label: data[i].name,
-                cities: []
-              };
-              arr.push(json);
-            }
-            this.Typeoption[index].cities = arr;
-          }
-        });
-      },
-      typeoption_3(index1, index2) {  // 获取三级表单数据
-        let token = localStorage.getItem('login_token');
-        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
-          code: '10002',
-          pcode: '',
-          access_token: token
+          pcode: code
         }).then((response) => {
           response = response.body;
           if (response.status === '200') {
@@ -1087,57 +1185,53 @@
               };
               arr.push(json);
             }
-            this.Typeoption[index1].cities[index2].cities = arr;
+            this.Typeoption[index].cities = arr;
           }
         });
       },
       handleItemChange(val) {  // 级联选择
-//        console.log('active item:', val);
         let options = this.Typeoption;
         setTimeout(_ => {
           for (var i = 0; i < options.length; i++) {
             if (val.indexOf(options[i].label) > -1 && !options[i].cities.length) {
               this.typeoption_2(i, options[i].code);
-            }
-          }
-          for (var k = 0; k < options.length; k++) {
-            for (var j = 0; j < options[k].cities.length; j++) {
-              if (val.indexOf(options[k].cities[j].label) > -1) {
-                this.typeoption_3(k, j);
-              }
+//              this.getdjzlx(options[i].code);
             }
           }
         }, 300);
       },
       _checked(val) {  // 保存选项编码
         let options = this.Typeoption;
-        let arr = [];
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].label) > -1) {
-            arr.push(options[i].code);
+            this.selectcode.djlx = options[i].code;
             for (var k = 0; k < options[i].cities.length; k++) {
               if (val.indexOf(options[i].cities[k].label) > -1) {
-                arr.push(options[i].cities[k].code);
-                for (var h = 0; h < options[i].cities[k].cities.length; h++) {
-                  if (val.indexOf(options[i].cities[k].cities[h].label) > -1) {
-                    arr.push(options[i].cities[k].cities[h].code);
-                  }
-                }
+                this.selectcode.djzlx = options[i].cities[k].code;
+                this.djzlxvalue = options[i].cities[k].label;
               }
             }
           }
         }
-        this.selectcode = arr;
+      },
+      _getDate(style) {
+        let date = new Date();
+        return formatDate(date, style);
       },
       _typeoption_submit() {  // 申请报件
-//        console.log(this.selectcode);
-        let token = localStorage.getItem('login_token');
+        let username = localStorage.getItem('username');
+        let jyrq = this._getDate('yyyy-MM-dd');
+        let jysj = this._getDate('hh:mm:ss');
         this.$http.post(this.$store.state.Host + '/BDCDJSQControl/applyBJBH', {
           jkzh: 200,
-          access_token: token,
-          bjssqx: this.selectcode[2],
-          djlx: this.selectcode[0],
-          djsjlx: this.selectcode[1]
+          bjssqx: this.selectcode.ssqx,
+          djlx: this.selectcode.djlx,
+          djsjlx: this.selectcode.djzlx,
+          jyczymc: username,
+          jyczyzh: username,
+          jyqd: 'PC',
+          jyrq: jyrq,
+          jysj: jysj
         }).then((response) => {
           response = response.body;
           if (response.status === '200') {
@@ -1161,6 +1255,82 @@
             this.bdcqk = this.application.body.bdcqk;
             this.xwsx = this.application.body.xwsx;
             this.upDatalist = this.application.body.qyclmls;
+            this.bdcqk.ssqxmc = this.ssqxvalue;
+          } else {
+            this.$message.error('暂无数据');
+          }
+          this.typeVisible = false;
+          this.checkeVsibke = false;
+        });
+      },
+      _typeoption_submit1() {  // 申请报件
+        if (this.selectcode.ssqx === null || this.selectcode.ssqx === '' ||
+          this.selectcode.djzlx === null || this.selectcode.djzlx === '') {
+          return false;
+        }
+        let username = localStorage.getItem('username');
+        let jyrq = this._getDate('yyyy-MM-dd');
+        let jysj = this._getDate('hh:mm:ss');
+        this.$http.post(this.$store.state.Host + '/BDCDJSQControl/applyBJBH', {
+          jkzh: 200,
+          bjssqx: this.selectcode.ssqx,
+          djlx: this.selectcode.djlx,
+          djsjlx: this.selectcode.djzlx,
+          jyczymc: username,
+          jyczyzh: username,
+          jyqd: 'PC',
+          jyrq: jyrq,
+          jysj: jysj
+        }).then((response) => {
+          response = response.body;
+          if (response.status === '200') {
+            this.application = response.body;
+            this.djlx = this.application.body.sqdjsy;
+            this.bjbh = this.application.body.bjbh;
+            this.$store.commit('newBjbh', this.application.body.bjbh);
+            let clearqlr = [
+              {
+                bjbh: '201708001000001',
+                qlrunid: '',
+                qlrxh: 1,
+                qlrzl: 2,
+                qlrzlmc: '',
+                qlrlx: 2,
+                qlrlxmc: '',
+                qlrmc: '',
+                qlrzjzl: 7,
+                qlrzjzlmc: '',
+                qlrzjh: '',
+                qlrdh: '',
+                qlrdz: ''
+              }
+            ];
+            let clearyws = [
+              {
+                bjbh: '',
+                ywrdh: '',
+                ywrdz: '',
+                ywrlx: '',
+                ywrlxmc: '',
+                ywrmc: '',
+                ywrunid: '',
+                ywrxh: '',
+                ywrzjh: '',
+                ywrzjzl: '',
+                ywrzjzlmc: '',
+                ywrzl: '',
+                ywrzlmc: ''
+              }
+            ];
+            this.proposer.qlrs = clearqlr;
+            this.proposer.ywrs = clearyws;
+            if (this.application.body.sqrqk.qlrs.length !== 0) {
+              this.proposer.qlrs = this.application.body.sqrqk.qlrs;
+            }
+            if (this.application.body.sqrqk.ywrs.length !== 0) {
+              this.proposer.ywrs = this.application.body.sqrqk.ywrs;
+            }
+            this.upDatalist = this.application.body.qyclmls;
           } else {
             this.$message.error('暂无数据');
           }
@@ -1172,90 +1342,144 @@
         this.handVisible = false;
       },
       _apply_submit() {  // 申请提交
-        if (this.dyfscode === '') {
+        if (this.bjblztmc === '待受理') {
+          this.$message({
+            message: '报件处于待受理中，不能修改。',
+            type: 'warning'
+          });
+          return false;
+        }
+        if (this.fwytcode === '' || this.fwytcode === null) {
+          this.$message({
+            message: '请选择房屋用途',
+            type: 'warning'
+          });
+          return false;
+        }
+        if (this.tdytcode === '' || this.tdytcode === null) {
+          this.$message({
+            message: '请选择土地用途',
+            type: 'warning'
+          });
+          return false;
+        }
+        if (this.qlxzcode === '' || this.qlxzcode === null) {
+          this.$message({
+            message: '请选择权利性质',
+            type: 'warning'
+          });
+//          return false;
+        }
+        if (this.dyfscode === '' || this.dyfscode === null) {
           this.$message({
             message: '请选择抵押方式',
             type: 'warning'
           });
           return false;
         }
-        let token = localStorage.getItem('login_token');
-        this.$http.post(this.$store.state.Host + '/BDCDJSQControl/submitDJSQ', {
-          jkzh: 200,
-          bjbh: this.bjbh,
-          access_token: token,
-          qlrdlrmc: this.proposer.qlrdlr.qlrdlrmc,
-          qlrdlrzjzl: this.qlrzjlxcode,
-          qlrdlrzjh: this.proposer.qlrdlr.qlrdlrzjh,
-          qlrdlrdh: this.proposer.qlrdlr.qlrdlrdh,
-          qlrdlrdz: this.proposer.qlrdlr.qlrdlrdz,
-          ywrdlrmc: this.proposer.ywrdlr.ywrdlrmc,
-          ywrdlrzjzl: this.ywrzjlxcode,
-          ywrdlrzjh: this.proposer.ywrdlr.ywrdlrzjh,
-          ywrdlrdh: this.proposer.ywrdlr.ywrdlrdh,
-          ywrdlrdz: this.proposer.ywrdlr.ywrdlrdz,
-          bdcdyh: this.bdcqk.bdcdyh,
-          bdcqzhy: this.bdcqk.bdcqzshy,
-          bdcqzhx: this.bdcqk.bdcqzshx,
-          zl: this.bdcqk.zl,
-          ssqx: this.ssqxcode,  // 所属区县
-          fwyt: this.fwytcode,
-          fwmj: this.bdcqk.fwmj,
-          tdyt: this.tdytcode,
-          tdmj: this.bdcqk.tdmj,
-          tdsyqssj: this.bdcqk.tdsyqssj,
-          tdsyjssj: this.bdcqk.tdsyjssj,
-          qlxz: this.qlxzcode,
-          dyfs: this.dyfscode,
-          bdbzqse: this.mortgage.bdbzqse,
-          dyhtqdrq: this.mortgage.dyhtqdrq,
-          zwlxqssj: this.mortgage.zwlxqssj,
-          zwlxjssj: this.mortgage.zwlxjssj,
-          bdcpgjg: this.mortgage.bdcpgjg,
-          tdpgjg: this.mortgage.tdpgjg,
-          fcpgjg: this.mortgage.fcpgjg,
-          dbfw: this.mortgage.dbfw,
-          zjjzwdyfw: this.mortgage.zjjzwdyfw,
-          fcdymj: this.mortgage.fcdymj,
-          tddymj: this.mortgage.tddymj,
-          dkywbh: this.mortgage.dkywbh,
-          dkzh: this.mortgage.dkzh,
-          yhdyywh: this.mortgage.yhdyywh,
-          zqr: this.mortgage.zqr,
-          zwr: this.mortgage.zwr,
-          sfgy: '1',  // 是否共有
-          gyfs: '1',
-          afgyfeqk: '11',
-          sffbcz: '1',
-          qtsm: '11'
-        }).then((response) => {
-          response = response.body;
-          if (response.body.body === null || response.body.body === '') {
-            this.$message({
-              message: response.body.message,
-              type: 'error'
-            });
-            return false;
-          }
-          switch (response.status) {
-            case '200':
+        if (this.selectcode.ssqx === '') {
+          this.$message({
+            message: '请选择所属区县',
+            type: 'warning'
+          });
+          return false;
+        }
+        if (this.bdcqk.bdcdyh === null || this.bdcqk.bdcdyh === '') {
+          this.bdcqk.bdcdyh = '0';
+        }
+        this.$confirm('此操作提交之后将无法修改, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'info'
+        }).then(() => {
+          this.$http.post(this.$store.state.Host + '/BDCDJSQControl/submitDJSQ', {
+            jkzh: 200,
+            bjbh: this.bjbh,
+            qlrdlrmc: this.proposer.qlrdlr.qlrdlrmc,
+            qlrdlrzjzl: this.qlrzjlxcode,
+            qlrdlrzjh: this.proposer.qlrdlr.qlrdlrzjh,
+            qlrdlrdh: this.proposer.qlrdlr.qlrdlrdh,
+            qlrdlrdz: this.proposer.qlrdlr.qlrdlrdz,
+            ywrdlrmc: this.proposer.ywrdlr.ywrdlrmc,
+            ywrdlrzjzl: this.ywrzjlxcode,
+            ywrdlrzjh: this.proposer.ywrdlr.ywrdlrzjh,
+            ywrdlrdh: this.proposer.ywrdlr.ywrdlrdh,
+            ywrdlrdz: this.proposer.ywrdlr.ywrdlrdz,
+            bdcdyh: this.bdcqk.bdcdyh,
+            bdcqzhy: this.bdcqk.bdcqzshy,
+            bdcqzhx: this.bdcqk.bdcqzshx,
+            zl: this.bdcqk.zl,
+            ssqx: this.selectcode.ssqx,  // 所属区县
+            fwyt: this.fwytcode,
+            fwmj: this.bdcqk.fwmj,
+            tdyt: this.tdytcode,
+            tdmj: this.bdcqk.tdmj,
+            tdsyqssj: this.bdcqk.tdsyqssj,
+            tdsyjssj: this.bdcqk.tdsyjssj,
+            qlxz: this.qlxzcode,
+            dyfs: this.dyfscode,
+            bdbzqse: this.mortgage.bdbzqse,
+            dyhtqdrq: this.mortgage.dyhtqdrq,
+            zwlxqssj: this.mortgage.zwlxqssj,
+            zwlxjssj: this.mortgage.zwlxjssj,
+            bdcpgjg: this.mortgage.bdcpgjg,
+            tdpgjg: this.mortgage.tdpgjg,
+            fcpgjg: this.mortgage.fcpgjg,
+            dbfw: this.mortgage.dbfw,
+            zjjzwdyfw: this.mortgage.zjjzwdyfw,
+            fcdymj: this.mortgage.fcdymj,
+            tddymj: this.mortgage.tddymj,
+            dkywbh: this.mortgage.dkywbh,
+            dkzh: this.mortgage.dkzh,
+            yhdyywh: this.mortgage.yhdyywh,
+            zqr: this.mortgage.zqr,
+            zwr: this.mortgage.zwr,
+            sfgy: '1',  // 是否共有
+            gyfs: '1',
+            afgyfeqk: '',
+            sffbcz: '1',
+            qtsm: ''
+          }).then((response) => {
+            response = response.body;
+            switch (response.status) {
+              case '200':
+                this.$http.post(this.$store.state.Host + '/BDCDJSQControl/SaveDJSQ', {
+                  jkzh: 200,
+                  bjbh: this.bjbh
+                }).then((response) => {
+                });
+                this.$message({
+                  message: '提交成功。',
+                  type: 'success'
+                });
+                break;
+              case '40002001':
+                this.$message({
+                  message: '信息提交不完整,先完善权利人、义务人、权源材料信息。',
+                  type: 'error'
+                });
+                break;
+              default :
+                this.$message({
+                  message: '提交失败!',
+                  type: 'error'
+                });
+            }
+            if (response.body === null || response.body === '') {
               this.$message({
-                message: '提交成功，报件已处于待受理状态。',
-                type: 'success'
-              });
-              break;
-            case '40002001':
-              this.$message({
-                message: '信息提交不完整,先完善权利人、义务人、权源材料信息。',
+                message: '提交失败',
                 type: 'error'
               });
-              break;
-            default :
+              return false;
+            }
+            if (response.body.body === null || response.body.body === '') {
               this.$message({
-                message: '提交失败!',
+                message: response.body.message,
                 type: 'error'
               });
-          }
+              return false;
+            }
+          });
         });
       },
       handleClose(done) {  // 弹框
@@ -1286,19 +1510,123 @@
       },
       _tdsyjssjtime(date) {
         this.bdcqk.tdsyjssj = date;
+      },
+      _print() {
+        this.$refs.register._print();
+      },
+      _newcreateapply() {
+        let clearproposer = {
+          qlrs: [
+            {
+              bjbh: '',
+              qlrunid: '',
+              qlrxh: 1,
+              qlrzl: 2,
+              qlrzlmc: '',
+              qlrlx: 2,
+              qlrlxmc: '',
+              qlrmc: '',
+              qlrzjzl: 7,
+              qlrzjzlmc: '',
+              qlrzjh: '',
+              qlrdh: '',
+              qlrdz: ''
+            }
+          ],
+          ywrs: [
+            {
+              bjbh: '',
+              ywrdh: '',
+              ywrdz: '',
+              ywrlx: '',
+              ywrlxmc: '',
+              ywrmc: '',
+              ywrunid: '',
+              ywrxh: '',
+              ywrzjh: '',
+              ywrzjzl: '',
+              ywrzjzlmc: '',
+              ywrzl: '',
+              ywrzlmc: ''
+            }
+          ],
+          qlrdlr: {
+            qlrdlrdh: '',
+            qlrdlrdz: '',
+            qlrdlrmc: '',
+            qlrdlrzjh: '',
+            qlrdlrzjzl: '',
+            qlrdlrzjzlmc: ''
+          },
+          ywrdlr: {
+            ywrdlrdh: '',
+            ywrdlrdz: '',
+            ywrdlrmc: '',
+            ywrdlrzjh: '',
+            ywrdlrzjzl: '',
+            ywrdlrzjzlmc: ''
+          }
+        };
+        let cleardjlx = {
+          djlx: '',
+          djlxmc: '',
+          djzlx: '',
+          djzlxmc: ''
+        };
+        let clearmortgage = {  // 抵押情况
+          dyfs: '',
+          dyfsmc: '',
+          bdcpgjg: '',
+          dbfw: '',
+          dkywbh: '',
+          dkzh: '',
+          dyhtqdrq: '',
+          fcdymj: '',
+          fcpgjg: '',
+          tddymj: '',
+          tdpgjg: '',
+          yhdyywh: '',
+          bdbzqse: '',
+          zjjzwdyfw: '',
+          zqr: '',
+          zwlxjssj: '',
+          zwlxqssj: '',
+          zwr: ''
+        };
+        let clearbdcqk = {    //  不动产情况
+          bdcqzshy: '',
+          bdcqzshx: '',
+          bdcdyh: '',
+          zl: '',
+          ssqx: '',
+          ssqxmc: '',
+          fwyt: '',
+          fwytmc: '',
+          fwmj: '',
+          tdyt: '',
+          tdytmc: '',
+          tdmj: '',
+          tdsyqssj: '',
+          tdsyjssj: '',
+          qlxz: '',
+          qlxzmc: ''
+        };
+        this.proposer = clearproposer;
+        this.djlx = cleardjlx;
+        this.mortgage = clearmortgage;
+        this.bdcqk = clearbdcqk;
+        this.$store.commit('newBjbh', '');
+        this.$store.commit('application', '');
+        this.bjblztmc = '';
+        this.ssqxvalue = '';
+        setTimeout(() => {
+          this.typeVisible = true;
+        }, 1000);
       }
     },
     created() {
       this.$nextTick(() => {
-//        let username = this.$store.state.username;
-//        if (username === '') {
-//          this.$router.push({path: '/login'});
-//          return false;
-//        }
-        let token = localStorage.getItem('login_token');
-        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdfl', {
-          access_token: token
-        }).then((response) => {
+        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdfl', {}).then((response) => {
           response = response.body;
           if (response.status === '200') {
             this.code = response.body[1].code;
@@ -1306,19 +1634,57 @@
             this.typeoption_1(this.code);
           }
         });
+        this.getzjlx();
         this.getdyfs();
         this.getfwyt();
         this.gettdyt();
         this.getqlxz();
         this.getssqx();
+        this.getdjlx();
       });
     },
     mounted() {
-      this.typeVisible = true;
     },
     activated() {
+      if (this.$store.state.application !== '') {
+        this.$emit('acIndex', '1');
+        console.log(this.$store.state.application);
+        this.checkeVsibke = false;
+        this.application = this.$store.state.application;
+        this.djlx = this.application.sqdjsy;
+        this.bjbh = this.application.bjbh;
+        this.$store.commit('newBjbh', this.application.bjbh);
+        if (this.application.sqrqk.qlrs.length !== 0) {
+          this.proposer.qlrs = this.application.sqrqk.qlrs;
+        }
+        if (this.application.sqrqk.qlrdlr.length !== 0) {
+          this.proposer.qlrdlr = this.application.sqrqk.qlrdlr;
+        }
+        if (this.application.sqrqk.ywrdlr.length !== 0) {
+          this.proposer.ywrdlr = this.application.sqrqk.ywrdlr;
+        }
+        if (this.application.sqrqk.ywrs.length !== 0) {
+          this.proposer.ywrs = this.application.sqrqk.ywrs;
+        }
+        this.mortgage = this.application.dyqk;
+        this.bdcqk = this.application.bdcqk;
+        this.xwsx = this.application.xwsx;
+        this.upDatalist = this.application.qyclmls;
+        this.bdcqk.ssqx = this.ssqxvalue;
+        this.fwytcode = this.application.bdcqk.fwyt;
+        this.tdytcode = this.application.bdcqk.tdyt;
+        this.qlxzcode = this.application.bdcqk.qlxz;
+        this.ssqxcode = this.application.bdcqk.ssqx;
+        this.qlrzjlxcode = this.application.sqrqk.qlrdlr.qlrdlrzjzl;
+        this.ywrzjlxcode = this.application.sqrqk.ywrdlr.ywrdlrzjzl;
+        this.djzlxvalue = this.application.sqdjsy.djzlxmc;
+        this.ssqxvalue = this.application.bdcqk.ssqxmc;
+        this.bjblztmc = this.application.bjblztmc;
+      }
       if (this.checkeVsibke === true) {
-        this.typeVisible = true;
+        setTimeout(() => {
+          this.typeVisible = true;
+        }, 1000);
       }
     },
     watch: {
@@ -1358,10 +1724,8 @@
             vertical-align: middle
       .proposer
         width: 100%
-        height: 148px
-        overflow: auto
+        overflow: hidden
         .inner
-          min-height: 200px
           .table
             float: left
             border: 1px solid #DFE6EC
@@ -1378,8 +1742,8 @@
                 display: inline-block
                 width: 15px
               .proposer_add
-                display: inline-block
-                margin-left: 5px
+                float: right
+                padding: 0 6px
                 color: #20A0FF;
                 font-size: 12px
                 cursor: pointer
@@ -1421,14 +1785,19 @@
           text-indent: 6px
           font-size: 12px
           resize: none
+          overflow: hidden
         .input_text
           width: 100%
-          padding: 8px 0
+          padding: 6px 0
           text-indent: 6px
           font-size: 14px
           line-height: 14px
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
       .el-input__inner
         border: none
+        height: 28px
         border-radius: 0
     .app_list
       float: left
@@ -1436,7 +1805,7 @@
       min-width: 290px
     .dialog
       .el-dialog__body
-        padding: 12px 30px 20px 36px
+        padding: 12px 30px 10px 36px
         .demo-ruleForm
           width: 660px
           overflow: hidden
@@ -1445,4 +1814,8 @@
             .el-form-item__content
               width: 212px
 
+        .el-input__inner
+          height: 32px
+      .el-table td, .el-table th
+        height: 32px
 </style>

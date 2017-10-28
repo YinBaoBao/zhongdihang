@@ -1,7 +1,7 @@
 <template>
   <div class="Login" :style="{height: loginheight + 'px'}">
     <div class="title">
-      <span>苏州不动产抵押申报、注销系统</span>
+      <span>苏州不动产抵押申报系统</span>
     </div>
     <div class="inputs">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0" class="demo-ruleForm"
@@ -61,28 +61,19 @@
               }
             }, {emulateJSON: true}).then((response) => {
               response = response.body;
-              this.token = response.message;
+              this.token = response.body.Token;
+              this.$store.commit('newBank', response.body.bank);
               if (this.token) {
-                this.$store.commit('newtoken', this.token);
+                this.$store.commit('headertoken', this.token);
                 this.$store.commit('newname', admin);
-                this.$http.post(this.$store.state.Host + '/TokrnControl/getToken', {
-                  appid: '3644a684f98ea8fe223c713b77189a77',
-                  secret: 200
-                }).then((response) => {
-                  response = response.body;
-                  if (response.status === '200') {
-                    this.$message({
-                      showClose: true,
-                      message: '登录成功!',
-                      type: 'success'
-                    });
-                    localStorage.setItem('login_token', response.body.access_token);
-                    this.$router.push({path: '/index'});
-                  } else {
-                    this.$message.error('用户名或密码错误！');
-                    return false;
-                  }
+                localStorage.setItem('username', admin);
+                localStorage.setItem('headertoken', this.token);
+                this.$message({
+                  showClose: true,
+                  message: '登录成功!',
+                  type: 'success'
                 });
+                this.$router.push({path: '/index'});
               } else {
                 this.$message.error('用户名或密码错误！');
                 return false;

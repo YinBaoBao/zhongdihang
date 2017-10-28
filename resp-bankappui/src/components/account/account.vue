@@ -5,11 +5,11 @@
         <span>基本信息</span>
       </div>
       <div class="info">
-        <span>中国建设银行股份有限公司苏州分行</span>
-        <span>证件类型：营业执照</span>
-        <span>证件号：320500000010314</span><br>
-        <span>联系地址：苏州市姑苏区阊胥路88号</span>
-        <span>电话：0512-68268178</span>
+        <span>{{BankInfo.bankName}}</span>
+        <span>证件类型：{{BankInfo.zjlx}}</span>
+        <span>证件号：{{BankInfo.zjlxmc}}</span><br>
+        <span>联系地址：{{BankInfo.bankAddress}}</span>
+        <span>电话：{{BankInfo.telephone}}</span>
         <span class="edit" @click="Edit">修改</span>
       </div>
     </div>
@@ -18,26 +18,30 @@
         <div class="title"><span>账号管理</span></div>
         <div class="btns">
           <div class="btns_sub">
-            <el-input v-model="search_value" placeholder="输入账号/姓名可查" style="width: 200px"></el-input>
+            <el-input v-model="search_value" placeholder="输入账号/姓名可查" style="width: 220px"></el-input>
             <el-button type="primary" icon="search" style="margin-left: 20px;" @click="_search_submit">查询</el-button>
           </div>
           <el-button :plain="true" type="info" icon="plus" style="float: right; margin-right: 50px;"
                      @click="_account_add">新增账号
           </el-button>
+          <el-button :plain="true" type="info" style="float: right; margin-right: 50px;"
+                     @click="_manage_add">管理分支行
+          </el-button>
         </div>
       </div>
       <div class="account_tables">
-        <el-table :data="tableData" border height="450" style="width: 100%">
+        <el-table :data="tableData" v-loading="tableloding" element-loading-text="拼命加载中" border height="450"
+                  style="width: 100%">
           <el-table-column type="index" width="60"></el-table-column>
           <el-table-column prop="account" label="账号" sortable></el-table-column>
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column prop="belong" label="所属行"></el-table-column>
           <el-table-column prop="role" label="角色"></el-table-column>
           <el-table-column prop="create_time" label="创建日期"></el-table-column>
-          <el-table-column label="操作" width="100">
+          <el-table-column label="操作" width="110">
             <template scope="scope">
-              <el-button type="text" size="small" @click="_bind(scope.$index,scope.row)">禁用</el-button>
-              <el-button type="text" size="small" @click="manage_acount(scope.$index,scope.row)">修该</el-button>
+              <el-button type="text" size="small" @click="_bind(scope.$index,scope.row)">禁 用</el-button>
+              <el-button type="text" size="small" @click="manage_acount(scope.$index,scope.row)">修 改</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="tag" label="标签" width="100"
@@ -65,48 +69,54 @@
         </div>
       </div>
     </div>
-    <div class="dialog">
-      <el-dialog title="创建账号" :visible.sync="add_account" size="tiny" :before-close="handleClose">
+    <div class="acc_dialog">
+      <el-dialog title="新增账号" :visible.sync="add_account" size="tiny">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+          <el-form-item label="手机号码" prop="telephone">
+            <el-input v-model="ruleForm.telephone"></el-input>
           </el-form-item>
           <el-form-item label="登录密码" prop="password">
             <el-input type="password" v-model="ruleForm.password"></el-input>
           </el-form-item>
-          <el-form-item label="银行代码" prop="accountNumber">
-            <el-input v-model="ruleForm.accountNumber"></el-input>
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="手机号码" prop="telephone">
-            <el-input v-model="ruleForm.telephone"></el-input>
+          <el-form-item label="所在银行" prop="bank">
+            <el-select v-model="ruleForm.bank" placeholder="请选择" @change="_bankchange" style="width: 270px;">
+              <el-option
+                v-for="item in bankoption"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="add_account = false">取 消</el-button>
-          <el-button type="primary" @click="_add_account_submit('ruleForm')">确 定</el-button>
+          <el-button type="primary" @click="_add_account_submit('ruleForm')">完 成</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="基本信息修改" :visible.sync="edit_account" size="tiny" :before-close="handleClose">
-        <el-form :model="Edit_Form" :rules="rules" ref="Edit_Form" label-width="100px" class="demo-ruleForm">
+      <el-dialog title="修改基本信息" :visible.sync="edit_account" size="tiny" :before-close="handleClose">
+        <el-form :model="EditForm" ref="EditForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="姓名" prop="username">
-            <el-input v-model="Edit_Form.username"></el-input>
+            <el-input v-model="EditForm.username"></el-input>
           </el-form-item>
           <el-form-item label="证件类型" prop="password">
-            <el-input type="text" v-model="Edit_Form.type"></el-input>
+            <el-input type="text" v-model="EditForm.type"></el-input>
           </el-form-item>
           <el-form-item label="证件号" prop="bank_cod">
-            <el-input v-model="Edit_Form.bank_cod"></el-input>
+            <el-input v-model="EditForm.bank_cod"></el-input>
           </el-form-item>
           <el-form-item label="联系地址" prop="phone">
-            <el-input v-model="Edit_Form.address"></el-input>
+            <el-input v-model="EditForm.address"></el-input>
           </el-form-item>
           <el-form-item label="电话号码" prop="phone">
-            <el-input v-model="Edit_Form.phone"></el-input>
+            <el-input v-model="EditForm.phone"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="edit_account = false">取 消</el-button>
-          <el-button type="primary" @click="">确 定</el-button>
+          <el-button type="primary" @click="_Edit_submit('EditForm')">确 定</el-button>
         </span>
       </el-dialog>
       <el-dialog title="账号修改" :visible.sync="manage_account" size="tiny" :before-close="handleClose">
@@ -137,6 +147,15 @@
   export default {
     data() {
       return {
+        BankInfo: {
+          id: '',
+          bankName: '中国农业银行股份有限公司苏州分行',
+          telephone: '0512-68268178',
+          zjlxmc: '320500000010314',
+          zjlx: '营业执照',
+          bankAddress: ''
+        },
+        tableloding: false,
         search_value: '', // 查询框
         tableData: [
 //          {
@@ -157,10 +176,11 @@
         ruleForm: {
           name: '',
           password: '',
-          accountNumber: '',
+          bank: '',
           telephone: ''
         },
-        Edit_Form: {
+        EditForm: {
+          id: '',
           username: '中国建设银行股份有限公司苏州分行',
           type: '营业执照',
           bank_cod: '320500000010314',
@@ -175,10 +195,16 @@
         },
         rules: {
           name: [
-            {required: true, message: '请输入姓名', trigger: 'blur'}
+            {required: true, message: '请输入姓名', trigger: 'change'}
           ],
-          accountNumber: [
-            {required: true, message: '请输入账号', trigger: 'change'}
+          telephone: [
+            {required: true, message: '请输入电话号码', trigger: 'change'}
+          ],
+          password: [
+            {required: true, message: '请输入密码', trigger: 'change'}
+          ],
+          bank: [
+            {required: true, message: '请选择所在行', trigger: 'change'}
           ]
         },
         Edit_rules: {  // 修改账户验证
@@ -188,19 +214,35 @@
           account: [
             {required: true, message: '请输入账号', trigger: 'change'}
           ]
-        }
+        },
+        bankoption: [
+          {
+            id: '',
+            value: '身份证'
+          },
+          {
+            id: '',
+            value: '营业执照'
+          }
+        ],
+        bankid: ''
       };
     },
     methods: {
       _account_add() {   // 新增账号
+        this.getbank();
         this.add_account = true;
       },
-      _add_account_submit(ruleForm) { // 新增提交
+      _add_account_submit(ruleForm) { // 新增账号
         this.$refs[ruleForm].validate((valid) => {
           if (valid) {
-            this.$http.post(this.$store.state.Host + '/UserControl/saveUser', this.ruleForm).then((response) => {
+            this.$http.post(this.$store.state.Host + '/UserControl/saveUser', {
+              bankId: this.bankid,
+              telephone: this.ruleForm.telephone,
+              password: this.ruleForm.password,
+              accountNumber: this.ruleForm.name
+            }).then((response) => {
               response = response.body;
-              console.log(response);
               switch (response.code) {
                 case 1000:
                   this.$notify({
@@ -237,13 +279,64 @@
             });
             return false;
           }
+          this.add_account = false;
         });
+      },
+      _manage_add() {  // 管理分支行
+        this.$router.push({path: 'manage'});
       },
       _search_submit() {
         this.freshData(this.search_value);
       },
       Edit() {    // 修改基本信息
+        this.EditForm.id = this.BankInfo.id;
+        this.EditForm.username = this.BankInfo.bankName;
+        this.EditForm.type = this.BankInfo.zjlx;
+        this.EditForm.bank_cod = this.BankInfo.zjlxmc;
+        this.EditForm.address = this.BankInfo.bankAddress;
+        this.EditForm.phone = this.BankInfo.telephone;
         this.edit_account = true;
+      },
+      _Edit_submit(EditForm) { // 修改基本信息
+        this.$refs[EditForm].validate((valid) => {
+          if (valid) {
+            this.$http.post(this.$store.state.Host + '/bankControl/updateBank', {
+              id: this.EditForm.id,
+              name: this.EditForm.username,
+              address: this.EditForm.address,
+              zjlx: this.EditForm.type,
+              zjlxmc: this.EditForm.bank_cod,
+              telephone: this.EditForm.phone
+            }).then((response) => {
+              response = response.body;
+              switch (response.code) {
+                case 1000:
+                  this.$notify({
+                    title: '提示',
+                    message: '修改成功',
+                    type: 'success'
+                  });
+                  this.freshData();
+                  this.add_account = false;
+                  break;
+                default:
+                  this.$notify({
+                    title: '警告',
+                    message: '修改失败',
+                    type: 'error'
+                  });
+              }
+              this.edit_account = false;
+            });
+          } else {
+            this.$notify.info({
+              title: '提示',
+              message: '请填写信息'
+            });
+            return false;
+          }
+          this.add_account = false;
+        });
       },
       _bind(index, row) {  // 禁用
         console.log(row);
@@ -269,6 +362,31 @@
               });
           }
         });
+      },
+      getbank() {    // 获取证件种类
+        this.$http.get(this.$store.state.Host + '/bankControl/findAllBank').then((response) => {
+          response = response.body;
+          if (response.code === 1000) {
+            let data = response.content;
+            let arr = [];
+            for (var i = 0; i < data.length; i++) {
+              let json = {
+                id: data[i].id,
+                value: data[i].bankName
+              };
+              arr.push(json);
+            }
+            this.bankoption = arr;
+          }
+        });
+      },
+      _bankchange(val) {
+        let options = this.bankoption;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.bankid = options[i].id;
+          }
+        }
       },
       manage_acount(index, row) {   // 修改账户信息
         this.manage_account = true;
@@ -334,12 +452,13 @@
       freshData(elements) {
         this.$http.get(this.$store.state.Host + '/UserControl/list', {
           params: {
-            pageIndex: this.currentPage,
+            pageNumber: this.currentPage,
             pageSize: this.pageSize,
             condition: elements
           }
         }).then((response) => {
           response = response.body;
+          this.tableloding = false;
           if (response.code === 1000) {
             this.total = response.content.totalElements;
             this.tableData = [];
@@ -349,7 +468,7 @@
               json['id'] = data[i].id;
               json['account'] = data[i].accountNumber;
               json['name'] = data[i].name;
-              json['belong'] = '苏州分行';
+              json['belong'] = data[i].bankName;
               json['role'] = data[i].roleStr;
               json['create_time'] = '2017-10-1';
               json['tag'] = '部门';
@@ -375,6 +494,7 @@
     },
     created() {
       this.freshData();
+//      this.BankInfo = this.$store.state.Bankinfo;
     }
   };
 </script>
@@ -388,18 +508,18 @@
       overflow: hidden;
       .text
         float: left
-        height: 80px
-        line-height: 80px
+        height: 66px
+        line-height: 66px
         span
           font-size: 16px
           padding: 0 15px
       .info
         float: left
-        padding-top: 16px;
         span
-          font-size: 14px
           display: inline-block
+          min-width: 160px;
           padding: 8px 10px
+          font-size: 14px
         .edit
           margin-left: 80px
           color: #ccc
@@ -414,25 +534,32 @@
         overflow: hidden
         .title
           float: left
+          width: 110px
           height: 50px
           line-height: 50px
           span
             padding: 0 15px
         .btns
           float: left
-          width: 700px;
-          padding: 10px 0 10px 70px;
+          width: calc(100% - 120px)
+          padding: 10px 0 10px 8px;
           .btns_sub
             float: left
+        .el-input__inner
+          height: 32px
+        .el-button
+          padding: 8px 15px
       .account_tables
-        width: 86%
+        width: 100%
         padding-bottom: 64px
         position: relative
         overflow: hidden
+        .el-table td, .el-table th
+          height: 34px
         .Pages
           display: inline-block
           position: absolute
-          left: 260px
+          left: 26%
           bottom: 10px
 
 </style>

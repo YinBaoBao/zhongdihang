@@ -10,14 +10,18 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 import './common/stylus/index.styl';
 import 'jquery';
+import 'babel-polyfill';
+
 Vue.use(ElementUI);
 
 Vue.use(VueResource); // 全局安装路由功能
 
 Vue.http.interceptors.push((request, next) => {
-  if (store.state.token) {
-    request.headers.set('token', store.state.token);
-    request.headers.set('username', store.state.username);
+  let headertoken = localStorage.getItem('headertoken');
+  let username = localStorage.getItem('username');
+  if (headertoken) {
+    request.headers.set('token', headertoken);
+    request.headers.set('username', username);
     next(response => {
       return response;
     });
