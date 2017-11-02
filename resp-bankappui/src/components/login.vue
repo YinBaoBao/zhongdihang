@@ -103,6 +103,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .Login
     width: 100%
+    height: 100%
     background: rgba(9, 72, 105, 1)
     .title
       width: 100%

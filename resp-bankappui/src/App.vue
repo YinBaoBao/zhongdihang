@@ -6,7 +6,11 @@
 
 <script>
   export default {
-    name: 'app'};
+    name: 'app'
+  };
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus"></style>
+<style lang="stylus" rel="stylesheet/stylus">
+  #app
+    height: 100%
+</style>

@@ -401,9 +401,7 @@
         }
       },
       getqlrlx() {    // 获取权利人类型
-        let token = localStorage.getItem('login_token');
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
-          access_token: token,
           code: 10005
         }).then((response) => {
           response = response.body;
@@ -502,13 +500,11 @@
         let index = this.editIndex;
         this.$refs[AddForm].validate((valid) => {
           if (valid) {
-            let token = localStorage.getItem('login_token');
             switch (this.Title) {
               case '权利人':
                 this.$http.post(this.$store.state.Host + '/BDCDJSQControl/updateQlr', {
                   jkzh: 200,
                   bjbh: this.bjbh,
-                  access_token: token,
                   qlrxh: this.qlrxh,
                   qlrzl: this.applycode,
                   qlrlx: this.qlrlxcode,

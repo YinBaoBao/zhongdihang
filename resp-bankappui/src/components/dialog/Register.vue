@@ -51,10 +51,14 @@
   #Register
     width: 100%
     position: relative
+    padding-bottom: 70px
     .info
       width: 100%
-      margin-top: 20px
+      position: absolute
+      left: 0px
+      bottom: 10px
       padding-left: 20PX
+      background: #fff
       li
         padding: 4px 15px
 </style>

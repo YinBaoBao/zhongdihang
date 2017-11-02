@@ -70,28 +70,30 @@
       </div>
     </div>
     <div class="acc_dialog">
-      <el-dialog title="新增账号" :visible.sync="add_account" size="tiny">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="手机号码" prop="telephone">
-            <el-input v-model="ruleForm.telephone"></el-input>
-          </el-form-item>
-          <el-form-item label="登录密码" prop="password">
-            <el-input type="password" v-model="ruleForm.password"></el-input>
-          </el-form-item>
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
-          </el-form-item>
-          <el-form-item label="所在银行" prop="bank">
-            <el-select v-model="ruleForm.bank" placeholder="请选择" @change="_bankchange" style="width: 270px;">
-              <el-option
-                v-for="item in bankoption"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
+      <el-dialog title="新增账号" :visible.sync="add_account" size="000">
+        <div style="width: 370px;">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="手机号码" prop="telephone">
+              <el-input v-model="ruleForm.telephone"></el-input>
+            </el-form-item>
+            <el-form-item label="登录密码" prop="password">
+              <el-input type="password" v-model="ruleForm.password"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名" prop="name">
+              <el-input v-model="ruleForm.name"></el-input>
+            </el-form-item>
+            <el-form-item label="所在银行" prop="bank">
+              <el-select v-model="ruleForm.bank" placeholder="请选择" @change="_bankchange" style="width: 270px;">
+                <el-option
+                  v-for="item in bankoption"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+        </div>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="_add_account_submit('ruleForm')">完 成</el-button>
         </span>
@@ -494,7 +496,7 @@
     },
     created() {
       this.freshData();
-//      this.BankInfo = this.$store.state.Bankinfo;
+      this.BankInfo = this.$store.state.Bankinfo;
     }
   };
 </script>

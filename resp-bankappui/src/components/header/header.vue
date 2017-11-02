@@ -3,9 +3,9 @@
     <nav class="nav">
       <div class="login">
         <div class="avatar">
-          <img src="./nonghang.jpg" alt="login">
+          <img src="./login.png" alt="login">
         </div>
-        <span class="bank">中国农业银行抵押申报系统</span>
+        <span class="bank">中国农业银行 | 不动产数据共享金融专用平台</span>
       </div>
       <div class="content">
         <div class="manager">
@@ -19,7 +19,7 @@
         </div>
         <div class="user">
           <span class="company">{{Bankusename}}</span>
-          <span class="userName">李建</span>
+          <span class="userName">{{$store.state.username}}</span>
         </div>
       </div>
     </nav>
@@ -56,10 +56,10 @@
   .nav
     width: 100%
     height: 60px;
-    background-color: rgba(9, 102, 150, 1);
+    background-color: rgb(30, 133, 131);
     .login
       float: left
-      width: 36%
+      width: 42%
       min-width: 460px
       height: 60px
       line-height: 60px
@@ -80,11 +80,11 @@
         color: #fff
     .content
       float: left
-      width: calc(100% - 36%)
+      width: calc(100% - 42%)
       min-width: 500px
       height: 60px
       overflow: hidden;
-      background-color: rgba(9, 102, 150, 1)
+      background-color: rgb(30, 133, 131)
       .user
         float: right
         height: 60px

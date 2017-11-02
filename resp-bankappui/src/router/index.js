@@ -9,6 +9,7 @@ import search from '../components/search/search.vue';
 import account from '../components/account/account.vue';
 import Print from '../components/dialog/print.vue';
 import Manage from '../components/manage/manage.vue';
+import Shouye from '../components/shouye/shouye.vue';
 
 Vue.use(Router);
 const routes = [
@@ -40,6 +41,10 @@ const routes = [
       }, {
         path: 'manage',
         component: Manage
+      },
+      {
+        path: 'shouye',
+        component: Shouye
       }
     ]
   },

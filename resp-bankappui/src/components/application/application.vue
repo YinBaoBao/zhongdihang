@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%;">
     <div class="application">
       <div class="app_table">
         <div class="header">
@@ -54,10 +54,11 @@
                 <td>证件号</td>
                 <td>联系地址</td>
                 <td>电话</td>
+                <td>操作</td>
               </tr>
               <tr v-for="(item,index) in proposer.qlrs">
                 <td>权利人
-                  <span class="el-icon-edit proposer_add" @click="_application_add('权利人',proposer.qlrs)"></span>
+                  <span class="el-icon-plus proposer_add" @click="_application_add('权利人',proposer.qlrs)"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
                   <input v-model="item.qlrmc" class="input_text" type="text" readonly="readonly" placeholder=""
@@ -79,10 +80,15 @@
                   <input v-model="item.qlrdh" class="input_text" type="text" readonly="readonly" placeholder=""
                          value="">
                 </td>
+                <td class="sqrqk_caozuo">
+                  <a href="javascript:;" @click="_edit_sqrqk(index,item,'权利人')"
+                     style="margin-right: 2px;" title="修改"><i class="el-icon-edit"></i></a>
+                  <a href="javascript:;" @click="_delete_sqrqk(index,'权利人')" title="删除"><i class="el-icon-delete2"></i></a>
+                </td>
               </tr>
               <tr v-if="proposer.qlrdlr">
                 <td style="min-width: 110px;">权利人代理人
-                  <span class="el-icon-edit proposer_add" @click="_add_dlr('权利人代理人')"></span>
+                  <span class="el-icon-plus proposer_add" @click="_add_dlr('权利人代理人')"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
                   <input v-model="proposer.qlrdlr.qlrdlrmc" class="input_text" type="text" readonly="readonly"
@@ -104,10 +110,16 @@
                   <input v-model="proposer.qlrdlr.qlrdlrdh" class="input_text" type="text" readonly="readonly"
                          placeholder="" value="">
                 </td>
+                <td class="sqrqk_caozuo">
+                  <a href="javascript:;" @click="_edit_sqrqkdlr(proposer.qlrdlr,'权利人代理人')"
+                     style="margin-right: 2px;" title="删除"><i class="el-icon-edit"></i></a>
+                  <a href="javascript:;" @click="_clerar_sqrqkdlr(proposer.qlrdlr, '权利人代理人')" title="删除"><i
+                    class="el-icon-delete2"></i></a>
+                </td>
               </tr>
               <tr v-for="(item,index) in proposer.ywrs">
                 <td>义务人
-                  <span class="el-icon-edit proposer_add" @click="_application_add('义务人',proposer.ywrs)"></span>
+                  <span class="el-icon-plus proposer_add" @click="_application_add('义务人',proposer.ywrs)"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
                   <input v-model="item.ywrmc" class="input_text" type="text" readonly="readonly" placeholder=""
@@ -129,10 +141,15 @@
                   <input v-model="item.ywrdh" class="input_text" type="text" readonly="readonly" placeholder=""
                          value="">
                 </td>
+                <td class="sqrqk_caozuo">
+                  <a href="javascript:;" @click="_edit_sqrqk(index,item,'义务人')"
+                     style="margin-right: 2px;" title="修改"><i class="el-icon-edit"></i></a>
+                  <a href="javascript:;" @click="_delete_sqrqk(index,'义务人')" title="删除"><i class="el-icon-delete2"></i></a>
+                </td>
               </tr>
               <tr v-if="proposer.ywrdlr">
                 <td>义务人代理人
-                  <span class="el-icon-edit proposer_add" @click="_add_dlr('义务人代理人')"></span>
+                  <span class="el-icon-plus proposer_add" @click="_add_dlr('义务人代理人')"></span>
                 </td>
                 <td class="td_text" style="padding: 0;">
                   <input v-model="proposer.ywrdlr.ywrdlrmc" class="input_text" type="text" readonly="readonly"
@@ -154,6 +171,12 @@
                   <input v-model="proposer.ywrdlr.ywrdlrdh" class="input_text" type="text" readonly="readonly"
                          placeholder="" value="">
                 </td>
+                <td class="sqrqk_caozuo">
+                  <a href="javascript:;" @click="_edit_sqrqkdlr(proposer.ywrdlr, '义务人代理人')" style="margin-right: 2px;"
+                     title="修改"><i class="el-icon-edit"></i></a>
+                  <a href="javascript:;" @click="_clerar_sqrqkdlr(proposer.ywrdlr,'义务人代理人')"><i class="el-icon-delete2"
+                                                                                                title="删除"></i></a>
+                </td>
               </tr>
             </table>
           </div>
@@ -164,13 +187,15 @@
             <tr>
               <td rowspan="8" style="padding: 0;min-width: 34px;vertical-align: middle;text-align: center;"><span
                 class="mortgage_situation">不动产情况</span></td>
-              <td colspan="">坐落</td>
-              <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.zl" class="input_text" type="text" placeholder="" value="">
-              </td>
-              <td>不动产单元号</td>
-              <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.bdcdyh" class="input_text" type="text" placeholder="">
+              <td>坐落</td>
+              <td colspan="4" style="padding: 0;">
+                <table style="width: 100%;">
+                  <tr>
+                    <td class="td_text" style="padding: 0;border: none;">
+                      <input v-model="bdcqk.zl" class="input_text" type="text" placeholder="" value="">
+                    </td>
+                  </tr>
+                </table>
               </td>
             </tr>
             <tr>
@@ -178,9 +203,9 @@
               <td class="td_text" style="padding: 0;">
                 <input v-model="bdcqk.bdcqzshy" class="input_text" type="text" placeholder="" value="">
               </td>
-              <td style="min-width: 164px;">新不动产权证书号(证明号)</td>
+              <td style="min-width: 164px;">不动产单元号</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.bdcqzshx" class="input_text" type="text" placeholder="" value="">
+                <input v-model="bdcqk.bdcdyh" class="input_text" type="text" placeholder="" value="">
               </td>
             </tr>
             <tr>
@@ -354,7 +379,7 @@
                     <td>担保范围</td>
                     <td class="td_text" style="padding: 0;">
                       <input v-model="mortgage.dbfw" class="input_text" type="text"
-                             placeholder="万元">
+                             placeholder="全部">
                     </td>
                     <td style="min-width: 126px;">在建建筑物抵押范围</td>
                     <td class="td_text" style="padding: 0;">
@@ -410,11 +435,10 @@
       </div>
       <div class="app_list">
         <list @appLook="Look_reg" @apply_submit="_apply_submit" @newcreateapply="_newcreateapply"
-              :upDatalist="upDatalist"></list>
+              @Print="_printapply" :upDatalist="upDatalist" :bjblztmc="bjblztmc"></list>
       </div>
       <div class="dialog">
-        <el-dialog :title="typename" :visible.sync="typeVisible" :modal="false" :close-on-click-modal="false"
-                   size="000">
+        <el-dialog :title="typename" :visible.sync="typeVisible" size="000">
           <div style="width: 360px;">
             <label>登记类型 :</label>
             <el-cascader :options="Typeoption"
@@ -489,6 +513,108 @@
           <el-button type="primary" @click="_add_qlr_submit('AddForm')">保 存</el-button>
         </span>
         </el-dialog>
+        <el-dialog title="添加权利人" :visible.sync="add_sqrqk" size="000" top="6%" :modal="false"
+                   :close-on-click-modal="false">
+          <el-form :model="SqrqkForm" :rules="Sqrqkrules" ref="SqrqkForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="申请人性质" prop="applyvalue">
+              <el-select v-model="SqrqkForm.applyvalue" :disabled="Disablel" placeholder="请选择" @change="_qlrzlchange">
+                <el-option
+                  v-for="item in Qlrzl"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="权利人类型" prop="qlrlxvalue">
+              <el-select v-model="SqrqkForm.qlrlxvalue" placeholder="请选择" @change="_qlrlxchange">
+                <el-option
+                  v-for="item in Qlrlx"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="姓名或名称" prop="username">
+              <el-input v-model="SqrqkForm.username"></el-input>
+            </el-form-item>
+            <el-form-item label="证件类型" prop="zjlxvalue">
+              <el-select v-model="SqrqkForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
+                <el-option
+                  v-for="item in zjlx"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="证件号" prop="zjh">
+              <el-input v-model="SqrqkForm.zjh"></el-input>
+            </el-form-item>
+            <el-form-item label="联系地址" prop="address">
+              <el-input v-model="SqrqkForm.address"></el-input>
+            </el-form-item>
+            <el-form-item label="手机号码" prop="telephone">
+              <el-input v-model="SqrqkForm.telephone"></el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+          <el-button @click="add_sqrqk = false">关 闭</el-button>
+          <el-button type="primary" @click="_application_add_submit('SqrqkForm')">保 存</el-button>
+        </span>
+        </el-dialog>
+        <el-dialog title="修改申请人" :visible.sync="edit_sqrqk" size="000" top="6%" :modal="false"
+                   :close-on-click-modal="false">
+          <el-form :model="SqrqkForm" :rules="Sqrqkrules" ref="SqrqkForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="申请人性质" prop="applyvalue">
+              <el-select v-model="SqrqkForm.applyvalue" :disabled="Disablel" placeholder="请选择" @change="_qlrzlchange">
+                <el-option
+                  v-for="item in Qlrzl"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="申请人类型" prop="qlrlxvalue">
+              <el-select v-model="SqrqkForm.qlrlxvalue" placeholder="请选择" @change="_qlrlxchange">
+                <el-option
+                  v-for="item in Qlrlx"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="姓名或名称" prop="username">
+              <el-input v-model="SqrqkForm.username"></el-input>
+            </el-form-item>
+            <el-form-item label="证件类型" prop="zjlxvalue">
+              <el-select v-model="SqrqkForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
+                <el-option
+                  v-for="item in zjlx"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="证件号" prop="zjh">
+              <el-input v-model="SqrqkForm.zjh"></el-input>
+            </el-form-item>
+            <el-form-item label="联系地址" prop="address">
+              <el-input v-model="SqrqkForm.address"></el-input>
+            </el-form-item>
+            <el-form-item label="手机号码" prop="telephone">
+              <el-input v-model="SqrqkForm.telephone"></el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="edit_sqrqk = false">关 闭</el-button>
+            <el-button type="primary" @click="_edit_sqrqk_submit('SqrqkForm')">保 存</el-button>
+          </span>
+        </el-dialog>
       </div>
     </div>
   </div>
@@ -501,8 +627,77 @@
   import {formatDate} from '../../common/js/date.js';
 
   export default {
-    props: {},
     data() {
+      let zjhvalidata = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('证件号不能为空'));
+        }
+        if (this.zjlxvalidator === '身份证') {
+          let city = {
+            11: '北京',
+            12: '天津',
+            13: '河北',
+            14: '山西',
+            15: '内蒙古',
+            21: '辽宁',
+            22: '吉林',
+            23: '黑龙江',
+            31: '上海',
+            32: '江苏',
+            33: '浙江',
+            34: '安徽',
+            35: '福建',
+            36: '江西',
+            37: '山东',
+            41: '河南',
+            42: '湖北 ',
+            43: '湖南',
+            44: '广东',
+            45: '广西',
+            46: '海南',
+            50: '重庆',
+            51: '四川',
+            52: '贵州',
+            53: '云南',
+            54: '西藏 ',
+            61: '陕西',
+            62: '甘肃',
+            63: '青海',
+            64: '宁夏',
+            65: '新疆',
+            71: '台湾',
+            81: '香港',
+            82: '澳门',
+            91: '国外 '
+          };
+          if (!/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(value)) {
+            return callback(new Error('身份证号格式错误'));
+          }
+          if (!city[value.substr(0, 2)]) {
+            return callback(new Error('地址编码错误'));
+          }
+          if (value.length === 18) {   // 18位身份证需要验证最后一位校验位
+            let code = value.split('');
+            // ∑(ai×Wi)(mod 11)
+            // 加权因子
+            let factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+            // 校验位
+            let parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2];
+            let sum = 0;
+            let ai = 0;
+            let wi = 0;
+            for (let i = 0; i < 17; i++) {
+              ai = code[i];
+              wi = factor[i];
+              sum += ai * wi;
+            }
+            if (parity[sum % 11] + '' !== value[17]) {
+              return callback(new Error('校验位错误'));
+            }
+          }
+        }
+        return callback();
+      };
       return {
         typeVisible: false,    // 级联选择
         checkeVsibke: true,    // 是否选择级联选项
@@ -511,6 +706,10 @@
         handTitle: '添加权利人',          //  添加权利人
         Handdata: '',           // 添加权利人对应数据
         Titlestate: '',          //  添加人名情况
+        Disablel: false,         // 禁止选项
+        add_sqrqk: false,
+        edit_sqrqk: false,
+        Editindex: '',
         pickerOptions: {
           shortcuts: [{
             text: '今天',
@@ -762,25 +961,9 @@
           {
             bjbh: '',
             mlxh: '',
-            mlmc: '不动产登记申请书',
+            mlmc: '',
             mlwjlx: '',
-            mlwjsl: '1',
-            state: ''
-          },
-          {
-            bjbh: '',
-            mlxh: '',
-            mlmc: '申请人身份证明',
-            mlwjlx: '',
-            mlwjsl: '1',
-            state: ''
-          },
-          {
-            bjbh: '',
-            mlxh: '',
-            mlmc: '不动产权证书',
-            mlwjlx: '',
-            mlwjsl: '2',
+            mlwjsl: '',
             state: ''
           }
         ],  // 需要上的资料
@@ -808,6 +991,7 @@
             value: '营业执照'
           }
         ],
+        zjlxvalidator: '',
         qlrzjlxcode: '',
         ywrzjlxcode: '',
         rules: {
@@ -818,7 +1002,57 @@
             {required: true, message: '请选择证件类型', trigger: 'change'}
           ],
           zjh: [
-            {required: true, message: '请输入证件号', trigger: 'change'}
+            {required: true, validator: zjhvalidata, trigger: 'blur,change'}
+          ],
+          address: [
+            {required: true, message: '请输入地址', trigger: 'change'}
+          ],
+          telephone: [
+            {required: true, message: '请输入手机号', trigger: 'change'},
+            {type: 'string', message: '请输入正确的手机号码', pattern: /^1[0-9]{10}$/, trigger: 'blur,change'}
+          ]
+        },
+        SqrqkForm: {
+          applyvalue: '',
+          username: '',
+          qlrlxvalue: '',
+          zjlxvalue: '',
+          zjh: '',
+          address: '',
+          telephone: ''
+        },
+        Qlrlx: [
+          {
+            code: '',
+            value: ''
+          }
+        ],
+        Qlrzl: [
+          {
+            code: '',
+            value: ''
+          }
+        ],
+        Qlrlxcode: '',
+        Qlrzlcode: '',
+        Qlrzjlxcode: '',
+        Ywrzjlxcode: '',
+        qlrxh: '',
+        Sqrqkrules: {
+          applyvalue: [
+            {required: true, message: '请选择申请人', trigger: 'change'}
+          ],
+          qlrlxvalue: [
+            {required: true, message: '请选择权利人类型', trigger: 'change'}
+          ],
+          username: [
+            {required: true, message: '请输入姓名或名称', trigger: 'change'}
+          ],
+          zjlxvalue: [
+            {required: true, message: '请选择证件类型', trigger: 'change'}
+          ],
+          zjh: [
+            {required: true, validator: zjhvalidata, trigger: 'blur,change'}
           ],
           address: [
             {required: true, message: '请输入地址', trigger: 'change'}
@@ -833,16 +1067,390 @@
     },
     computed: {},
     methods: {
-      Look_reg() {
+      Look_reg() {  // 查看登记申请书
         this.regVisible = true;
+        this.$store.commit('newPropose', this.proposer);
+        this.$store.commit('newmortgage', this.mortgage);
+        this.$store.commit('newbdcqk', this.bdcqk);
+        this.$store.commit('newxwsx', this.xwsx);
       },
       _application_add(title, event) {    // 申请人情况添加
-        this.Handdata = event;
-        this.handVisible = true;
+        if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
+          this.$message({
+            message: this.bjblztmc + '...',
+            type: 'warning'
+          });
+          return false;
+        }
+        this.SqrqkForm.applyvalue = '';
+        this.SqrqkForm.username = '';
+        this.SqrqkForm.qlrlxvalue = '';
+        this.SqrqkForm.zjlxvalue = '';
+        this.SqrqkForm.zjh = '';
+        this.SqrqkForm.address = '';
+        this.SqrqkForm.telephone = '';
+        this.getqlrzl();
+        this.getqlrlx();
         this.handTitle = '添加' + title;
         this.Titlestate = title;
+        switch (title) {
+          case '权利人':
+            this.Disablel = false;
+            break;
+          case '义务人':
+            this.Disablel = true;
+            this.SqrqkForm.applyvalue = '不动产权利人';
+            this.Qlrzlcode = '1';
+            break;
+        }
+        this.add_sqrqk = true;
+      },
+      _application_add_submit(SqrqkForm) {
+        this.$refs[SqrqkForm].validate((valid) => {
+          if (valid) {
+            switch (this.Titlestate) {
+              case '权利人':
+                this.$http.post(this.$store.state.Host + '/BDCDJSQControl/saveQlr', {
+                  jkzh: 200,
+                  bjbh: this.bjbh,
+                  qlrzl: this.Qlrzlcode,
+                  qlrlx: this.Qlrlxcode,
+                  qlrmc: this.SqrqkForm.username,
+                  qlrzjzl: this.Qlrzjlxcode,
+                  qlrzjh: this.SqrqkForm.zjh,
+                  qlrdz: this.SqrqkForm.address,
+                  qlrdh: this.SqrqkForm.telephone
+                }).then((response) => {
+                  response = response.body;
+                  if (response.body === null) {
+                    this.$notify({
+                      title: '警告',
+                      message: '保存失败，请生成报件编号。',
+                      type: 'error'
+                    });
+                    this.add_apply = false;
+                    return false;
+                  }
+                  switch (response.status) {
+                    case '200':
+                      this.$notify({
+                        title: '提示',
+                        message: '保存成功',
+                        type: 'success'
+                      });
+                      if (this.proposer.qlrs[0].qlrmc === '' || this.proposer.qlrs[0].qlrmc === null) {
+                        this.proposer.qlrs.splice(0, 1, response.body.body);
+                        return false;
+                      }
+                      let index = this.proposer.qlrs.length;
+                      this.proposer.qlrs.splice(index, 0, response.body.body);
+                      break;
+                    default:
+                      this.$notify({
+                        title: '警告',
+                        message: '保存失败',
+                        type: 'error'
+                      });
+                  }
+                  this.add_sqrqk = false;
+                });
+                break;
+              case '义务人':
+                this.$http.post(this.$store.state.Host + '/BDCDJSQControl/saveObligor', {
+                  jkzh: 200,
+                  bjbh: this.bjbh,
+                  ywrzl: this.Qlrzlcode,
+                  ywrlx: this.Qlrlxcode,
+                  ywrmc: this.SqrqkForm.username,
+                  ywrzjzl: this.Ywrzjlxcode,
+                  ywrzjh: this.SqrqkForm.zjh,
+                  ywrdz: this.SqrqkForm.address,
+                  ywrdh: this.SqrqkForm.telephone
+                }).then((response) => {
+                  response = response.body;
+                  if (response.body === null) {
+                    this.$notify({
+                      title: '警告',
+                      message: '保存失败。',
+                      type: 'error'
+                    });
+                    return false;
+                  }
+                  switch (response.status) {
+                    case '200':
+                      this.$notify({
+                        title: '提示',
+                        message: '保存成功',
+                        type: 'success'
+                      });
+                      if (this.proposer.ywrs[0].ywrmc === '' || this.proposer.ywrs[0].ywrmc === null) {
+                        this.proposer.ywrs.splice(0, 1, response.body.body);
+                        return false;
+                      }
+                      let index = this.proposer.ywrs.length;
+                      this.proposer.ywrs.splice(index, 0, response.body.body);
+                      break;
+                    default:
+                      this.$notify({
+                        title: '警告',
+                        message: '保存失败',
+                        type: 'error'
+                      });
+                  }
+                });
+                break;
+            }
+            this.add_sqrqk = false;
+          } else {
+            this.$notify.info({
+              title: '提示',
+              message: '请填写信息'
+            });
+            return false;
+          }
+        });
+      },
+      _edit_sqrqk(index, element, title) {
+//        console.log(element);
+        if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
+          this.$message({
+            message: this.bjblztmc + '...',
+            type: 'warning'
+          });
+          return false;
+        }
+        if (element === '' || element === null) {
+          return false;
+        }
+        this.Editindex = index;
+        this.Titlestate = title;
+        let handata = element;
+        switch (title) {
+          case '权利人':
+            this.Disablel = false;
+            this.SqrqkForm.username = handata.qlrmc;
+            this.SqrqkForm.zjh = handata.qlrzjh;
+            this.SqrqkForm.address = handata.qlrdz;
+            this.SqrqkForm.telephone = handata.qlrdh;
+            this.SqrqkForm.applyvalue = handata.qlrzlmc;
+            this.SqrqkForm.qlrlxvalue = handata.qlrlxmc;
+            this.SqrqkForm.zjlxvalue = handata.qlrzjzlmc;
+            this.qlrxh = handata.qlrunid;
+            this.Qlrzlcode = handata.qlrzl;
+            this.Qlrzjlxcode = handata.qlrzjzl;
+            this.Qlrlxcode = handata.qlrlx;
+            this.edit_sqrqk = true;
+            break;
+          case '权利人代理人':
+            break;
+          case '义务人':
+            this.Disablel = true;
+            this.SqrqkForm.username = handata.ywrmc;
+            this.SqrqkForm.zjh = handata.ywrzjh;
+            this.SqrqkForm.address = handata.ywrdz;
+            this.SqrqkForm.telephone = handata.ywrdh;
+            this.SqrqkForm.applyvalue = handata.ywrzlmc;
+            this.SqrqkForm.qlrlxvalue = handata.ywrlxmc;
+            this.SqrqkForm.zjlxvalue = handata.ywrzjzlmc;
+            this.qlrxh = handata.ywrunid;
+            this.Qlrzjlxcode = handata.ywrzjzl;
+            this.Qlrlxcode = handata.ywrlx;
+            this.SqrqkForm.applyvalue = '不动产权利人';
+            this.Qlrzlcode = '1';
+            this.edit_sqrqk = true;
+            break;
+          case '义务人代理人':
+            break;
+        }
+        this.getqlrzl();
+        this.getqlrlx();
+      },
+      _edit_sqrqk_submit(SqrqkForm) {
+        let index = this.Editindex;
+        this.$refs[SqrqkForm].validate((valid) => {
+          if (valid) {
+            switch (this.Titlestate) {
+              case '权利人':
+                this.$http.post(this.$store.state.Host + '/BDCDJSQControl/updateQlr', {
+                  jkzh: 200,
+                  bjbh: this.bjbh,
+                  qlrunid: this.qlrxh,
+                  qlrzl: this.Qlrzlcode,
+                  qlrlx: this.Qlrlxcode,
+                  qlrmc: this.SqrqkForm.username,
+                  qlrzjzl: this.Qlrzjlxcode,
+                  qlrzjh: this.SqrqkForm.zjh,
+                  qlrdz: this.SqrqkForm.address,
+                  qlrdh: this.SqrqkForm.telephone
+                }).then((response) => {
+                  response = response.body;
+                  if (response.body.status === 400) {
+                    this.$notify({
+                      title: '警告',
+                      message: '修改失败',
+                      type: 'error'
+                    });
+                    this.edit_sqrqk = false;
+                    return false;
+                  }
+                  if (response.status === '200') {
+                    this.$notify({
+                      title: '提示',
+                      message: '修改成功',
+                      type: 'success'
+                    });
+                    this.proposer.qlrs[index] = response.body.body;
+                    this.edit_sqrqk = false;
+                  } else {
+                    this.$notify({
+                      title: '警告',
+                      message: '修改失败',
+                      type: 'error'
+                    });
+                  }
+                  this.edit_sqrqk = false;
+                });
+                break;
+              case '代理人':
+                break;
+              case '义务人':
+                this.$http.post(this.$store.state.Host + '/BDCDJSQControl/updateOnligor', {
+                  jkzh: 200,
+                  bjbh: this.bjbh,
+                  ywrunid: this.qlrxh,
+                  ywrzl: this.Qlrzlcode,
+                  ywrlx: this.Qlrlxcode,
+                  ywrmc: this.SqrqkForm.username,
+                  ywrzjzl: this.Qlrzjlxcode,
+                  ywrzjh: this.SqrqkForm.zjh,
+                  ywrdz: this.SqrqkForm.address,
+                  ywrdh: this.SqrqkForm.telephone
+                }).then((response) => {
+                  response = response.body;
+                  if (response.body.status === 400) {
+                    this.$notify({
+                      title: '警告',
+                      message: '修改失败',
+                      type: 'error'
+                    });
+                    this.edit_sqrqk = false;
+                    return false;
+                  }
+                  if (response.status === '200') {
+                    this.$notify({
+                      title: '提示',
+                      message: '修改成功',
+                      type: 'success'
+                    });
+                    this.proposer.ywrs[index] = response.body.body;
+                    this.edit_sqrqk = false;
+                  } else {
+                    this.$notify({
+                      title: '警告',
+                      message: '修改失败',
+                      type: 'error'
+                    });
+                  }
+                  this.edit_sqrqk = false;
+                });
+                break;
+            }
+          } else {
+            this.$notify.info({
+              title: '提示',
+              message: '请填写信息'
+            });
+            return false;
+          }
+        });
+      },
+      _delete_sqrqk(index, title) {
+        if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
+          this.$message({
+            message: this.bjblztmc + '...',
+            type: 'warning'
+          });
+          return false;
+        }
+        switch (title) {
+          case '权利人':
+            let xh = this.proposer.qlrs[index].qlrunid;
+            this.$http.post(this.$store.state.Host + '/BDCDJSQControl/deleteQlr', {
+              jkzh: '200',
+              bjbh: this.bjbh,
+              qlrunid: xh
+            }).then((response) => {
+              response = response.body.body;
+              switch (response.status) {
+                case '200':
+                  this.$notify({
+                    title: '提示',
+                    message: '删除成功',
+                    type: 'success'
+                  });
+                  if (index === 0 || index === '0') {
+                    this.proposer.qlrs[0].qlrmc = '';
+                    this.proposer.qlrs[0].qlrzjzlmc = '';
+                    this.proposer.qlrs[0].qlrzjh = '';
+                    this.proposer.qlrs[0].qlrdz = '';
+                    this.proposer.qlrs[0].qlrdh = '';
+                    return false;
+                  }
+                  this.proposer.qlrs.splice(index, 1);
+                  break;
+                default:
+                  this.$notify({
+                    title: '警告',
+                    message: '删除失败',
+                    type: 'error'
+                  });
+              }
+            });
+            break;
+          case '义务人':
+            let ywrxh = this.proposer.ywrs[index].ywrunid;
+            this.$http.post(this.$store.state.Host + '/BDCDJSQControl/deleteonlior', {
+              jkzh: '200',
+              bjbh: this.bjbh,
+              ywrunid: ywrxh
+            }).then((response) => {
+              response = response.body;
+              switch (response.status) {
+                case '200':
+                  this.$notify({
+                    title: '提示',
+                    message: '删除成功',
+                    type: 'success'
+                  });
+                  if (index === 0 || index === '0') {
+                    this.proposer.ywrs[0].ywrmc = '';
+                    this.proposer.ywrs[0].ywrzjzlmc = '';
+                    this.proposer.ywrs[0].ywrzjh = '';
+                    this.proposer.ywrs[0].ywrdz = '';
+                    this.proposer.ywrs[0].ywrdh = '';
+                    return false;
+                  }
+                  this.proposer.ywrs.splice(index, 1);
+                  break;
+                default:
+                  this.$notify({
+                    title: '警告',
+                    message: '删除失败',
+                    type: 'error'
+                  });
+              }
+            });
+            break;
+        }
       },
       _add_dlr(title) {  // 添加代理人
+        if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
+          this.$message({
+            message: this.bjblztmc + '...',
+            type: 'warning'
+          });
+          return false;
+        }
         this.AddForm.username = '';
         this.AddForm.zjh = '';
         this.AddForm.address = '';
@@ -875,6 +1483,118 @@
           }
         });
       },
+      _edit_sqrqkdlr(data, title) {
+        if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
+          this.$message({
+            message: this.bjblztmc + '...',
+            type: 'warning'
+          });
+          return false;
+        }
+        if (data === '') {
+          return false;
+        }
+        this.Titlestate = title;
+        this.getzjlx();
+        switch (title) {
+          case '权利人代理人':
+            this.AddForm.username = data.qlrdlrmc;
+            this.AddForm.zjh = data.qlrdlrzjh;
+            this.AddForm.address = data.qlrdlrdz;
+            this.AddForm.telephone = data.qlrdlrdh;
+            this.AddForm.zjlxvalue = data.qlrdlrzjzl;
+            break;
+          case '义务人代理人':
+            this.AddForm.username = data.ywrdlrmc;
+            this.AddForm.zjh = data.ywrdlrzjh;
+            this.AddForm.address = data.ywrdlrdz;
+            this.AddForm.telephone = data.ywrdlrdh;
+            this.AddForm.zjlxvalue = data.ywrdlrzjzl;
+            break;
+        }
+        this.add_dlr = true;
+      },
+      getqlrzl() {    // 获取权利人种类
+        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
+          code: 10007
+        }).then((response) => {
+          response = response.body;
+          if (response.status === '200') {
+            let data = response.body;
+            let arr = [];
+            for (var i = 0; i < data.length; i++) {
+              let json = {
+                code: data[i].code,
+                value: data[i].name
+              };
+              arr.push(json);
+            }
+            this.Qlrzl = arr;
+          }
+        });
+      },
+      _clerar_sqrqkdlr(data, title) {
+        if (this.bjblztmc === '待受理') {
+          this.$message({
+            message: '报件处于待受理中，不能删除。',
+            type: 'warning'
+          });
+          return false;
+        }
+        switch (title) {
+          case '权利人代理人':
+            this.proposer.qlrdlr.qlrdlrmc = '';
+            this.proposer.qlrdlr.qlrdlrzjh = '';
+            this.proposer.qlrdlr.qlrdlrdz = '';
+            this.proposer.qlrdlr.qlrdlrdh = '';
+            this.proposer.qlrdlr.qlrdlrzjzl = '';
+            this.proposer.qlrdlr.qlrdlrzjzlmc = '';
+            break;
+          case '义务人代理人':
+            this.proposer.ywrdlr.ywrdlrmc = '';
+            this.proposer.ywrdlr.ywrdlrzjh = '';
+            this.proposer.ywrdlr.ywrdlrdz = '';
+            this.proposer.ywrdlr.ywrdlrdh = '';
+            this.proposer.ywrdlr.ywrdlrzjzl = '';
+            this.proposer.ywrdlr.ywrdlrzjzlmc = '';
+            break;
+        }
+      },
+      _qlrzlchange(val) {
+        let options = this.Qlrzl;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.Qlrzlcode = options[i].code;
+          }
+        }
+      },
+      getqlrlx() {    // 获取权利人类型
+        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
+          code: 10005
+        }).then((response) => {
+          response = response.body;
+          if (response.status === '200') {
+            let data = response.body;
+            let arr = [];
+            for (var i = 0; i < data.length; i++) {
+              let json = {
+                code: data[i].code,
+                value: data[i].name
+              };
+              arr.push(json);
+            }
+            this.Qlrlx = arr;
+          }
+        });
+      },
+      _qlrlxchange(val) {
+        let options = this.Qlrlx;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
+            this.Qlrlxcode = options[i].code;
+          }
+        }
+      },
       getzjlx() {    // 获取证件种类
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdb', {
           code: 130
@@ -895,16 +1615,26 @@
         });
       },
       _zjlxchange(val) {
+        if (val === '' || val === null || val === undefined) {
+          return false;
+        }
+        this.zjlxvalidator = val;
         let options = this.zjlx;
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].value) > -1) {
             switch (this.Titlestate) {
+              case '权利人':
+                this.Qlrzjlxcode = options[i].code;
+                break;
+              case '义务人':
+                this.Ywrzjlxcode = options[i].code;
+                break;
               case '权利人代理人':
-                this.qlrzjlxcode = options[i].code;
+                this.qlrdlrzjlxcode = options[i].code;
                 this.proposer.qlrdlr.qlrdlrzjzlmc = val;
                 break;
               case '义务人代理人':
-                this.ywrzjlxcode = options[i].code;
+                this.ywrdlrzjlxcode = options[i].code;
                 this.proposer.ywrdlr.ywrdlrzjzlmc = val;
                 break;
             }
@@ -1259,6 +1989,7 @@
           } else {
             this.$message.error('暂无数据');
           }
+          this.bjblztmc = '';
           this.typeVisible = false;
           this.checkeVsibke = false;
         });
@@ -1334,6 +2065,7 @@
           } else {
             this.$message.error('暂无数据');
           }
+          this.bjblztmc = '';
           this.typeVisible = false;
           this.checkeVsibke = false;
         });
@@ -1342,9 +2074,9 @@
         this.handVisible = false;
       },
       _apply_submit() {  // 申请提交
-        if (this.bjblztmc === '待受理') {
+        if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
           this.$message({
-            message: '报件处于待受理中，不能修改。',
+            message: this.bjblztmc + '...',
             type: 'warning'
           });
           return false;
@@ -1368,7 +2100,7 @@
             message: '请选择权利性质',
             type: 'warning'
           });
-//          return false;
+          return false;
         }
         if (this.dyfscode === '' || this.dyfscode === null) {
           this.$message({
@@ -1396,12 +2128,12 @@
             jkzh: 200,
             bjbh: this.bjbh,
             qlrdlrmc: this.proposer.qlrdlr.qlrdlrmc,
-            qlrdlrzjzl: this.qlrzjlxcode,
+            qlrdlrzjzl: this.qlrdlrzjlxcode,
             qlrdlrzjh: this.proposer.qlrdlr.qlrdlrzjh,
             qlrdlrdh: this.proposer.qlrdlr.qlrdlrdh,
             qlrdlrdz: this.proposer.qlrdlr.qlrdlrdz,
             ywrdlrmc: this.proposer.ywrdlr.ywrdlrmc,
-            ywrdlrzjzl: this.ywrzjlxcode,
+            ywrdlrzjzl: this.ywrdlrzjlxcode,
             ywrdlrzjh: this.proposer.ywrdlr.ywrdlrzjh,
             ywrdlrdh: this.proposer.ywrdlr.ywrdlrdh,
             ywrdlrdz: this.proposer.ywrdlr.ywrdlrdz,
@@ -1441,30 +2173,6 @@
             qtsm: ''
           }).then((response) => {
             response = response.body;
-            switch (response.status) {
-              case '200':
-                this.$http.post(this.$store.state.Host + '/BDCDJSQControl/SaveDJSQ', {
-                  jkzh: 200,
-                  bjbh: this.bjbh
-                }).then((response) => {
-                });
-                this.$message({
-                  message: '提交成功。',
-                  type: 'success'
-                });
-                break;
-              case '40002001':
-                this.$message({
-                  message: '信息提交不完整,先完善权利人、义务人、权源材料信息。',
-                  type: 'error'
-                });
-                break;
-              default :
-                this.$message({
-                  message: '提交失败!',
-                  type: 'error'
-                });
-            }
             if (response.body === null || response.body === '') {
               this.$message({
                 message: '提交失败',
@@ -1478,6 +2186,45 @@
                 type: 'error'
               });
               return false;
+            }
+            switch (response.status) {
+              case '200':
+                this.$http.post(this.$store.state.Host + '/BDCDJSQControl/SaveDJSQ', {
+                  jkzh: 200,
+                  bjbh: this.bjbh
+                }).then((response) => {
+                  response = response.body;
+                  if (response.body.body === null) {
+                    this.$message({
+                      message: response.body.message,
+                      type: 'error'
+                    });
+                    return false;
+                  }
+                  if (response.status === '200') {
+                    this.$message({
+                      message: '提交成功。',
+                      type: 'success'
+                    });
+                  } else {
+                    this.$message({
+                      message: '提交失败',
+                      type: 'error'
+                    });
+                  }
+                });
+                break;
+              case '40002001':
+                this.$message({
+                  message: '信息提交不完整,先完善权利人、义务人、权源材料信息。',
+                  type: 'error'
+                });
+                break;
+              default :
+                this.$message({
+                  message: '提交失败!',
+                  type: 'error'
+                });
             }
           });
         });
@@ -1514,19 +2261,30 @@
       _print() {
         this.$refs.register._print();
       },
+      _printapply() {
+        this.$store.commit('newPropose', this.proposer);
+        this.$store.commit('newmortgage', this.mortgage);
+        this.$store.commit('newbdcqk', this.bdcqk);
+        this.$store.commit('newxwsx', this.xwsx);
+        this.$router.push({path: '/print'});
+        this.$nextTick(() => {
+          window.print();
+          this.$router.push({path: '/index'});
+        });
+      },
       _newcreateapply() {
         let clearproposer = {
           qlrs: [
             {
               bjbh: '',
               qlrunid: '',
-              qlrxh: 1,
-              qlrzl: 2,
+              qlrxh: '',
+              qlrzl: '',
               qlrzlmc: '',
-              qlrlx: 2,
+              qlrlx: '',
               qlrlxmc: '',
               qlrmc: '',
-              qlrzjzl: 7,
+              qlrzjzl: '',
               qlrzjzlmc: '',
               qlrzjh: '',
               qlrdh: '',
@@ -1611,12 +2369,31 @@
           qlxz: '',
           qlxzmc: ''
         };
+        let clearupdatalist = [
+          {
+            bjbh: '',
+            mlxh: '',
+            mlmc: '',
+            mlwjlx: '',
+            mlwjsl: '',
+            state: ''
+          }
+        ];
         this.proposer = clearproposer;
         this.djlx = cleardjlx;
         this.mortgage = clearmortgage;
         this.bdcqk = clearbdcqk;
+        this.upDatalist = clearupdatalist;
+        this.SqrqkForm.applyvalue = '';
+        this.SqrqkForm.username = '';
+        this.SqrqkForm.qlrlxvalue = '';
+        this.SqrqkForm.zjlxvalue = '';
+        this.SqrqkForm.zjh = '';
+        this.SqrqkForm.address = '';
+        this.SqrqkForm.telephone = '';
         this.$store.commit('newBjbh', '');
         this.$store.commit('application', '');
+        this.$store.commit('newupload', '');
         this.bjblztmc = '';
         this.ssqxvalue = '';
         setTimeout(() => {
@@ -1647,39 +2424,163 @@
     },
     activated() {
       if (this.$store.state.application !== '') {
-        this.$emit('acIndex', '1');
-        console.log(this.$store.state.application);
+        this.$emit('acIndex', '/index/application');
+//        console.log(this.$store.state.application);
         this.checkeVsibke = false;
-        this.application = this.$store.state.application;
-        this.djlx = this.application.sqdjsy;
-        this.bjbh = this.application.bjbh;
-        this.$store.commit('newBjbh', this.application.bjbh);
-        if (this.application.sqrqk.qlrs.length !== 0) {
-          this.proposer.qlrs = this.application.sqrqk.qlrs;
+        let Lookdata = this.$store.state.application;
+        this.djlx = Lookdata.sqdjsy;
+        this.bjbh = Lookdata.bjbh;
+        if (Lookdata.sqrqk.qlrs.length !== 0) {
+          this.proposer.qlrs = Lookdata.sqrqk.qlrs;
         }
-        if (this.application.sqrqk.qlrdlr.length !== 0) {
-          this.proposer.qlrdlr = this.application.sqrqk.qlrdlr;
+        if (Lookdata.sqrqk.qlrdlr.length !== 0) {
+          this.proposer.qlrdlr = Lookdata.sqrqk.qlrdlr;
         }
-        if (this.application.sqrqk.ywrdlr.length !== 0) {
-          this.proposer.ywrdlr = this.application.sqrqk.ywrdlr;
+        if (Lookdata.sqrqk.ywrdlr.length !== 0) {
+          this.proposer.ywrdlr = Lookdata.sqrqk.ywrdlr;
         }
-        if (this.application.sqrqk.ywrs.length !== 0) {
-          this.proposer.ywrs = this.application.sqrqk.ywrs;
+        if (Lookdata.sqrqk.ywrs.length !== 0) {
+          this.proposer.ywrs = Lookdata.sqrqk.ywrs;
         }
-        this.mortgage = this.application.dyqk;
-        this.bdcqk = this.application.bdcqk;
-        this.xwsx = this.application.xwsx;
-        this.upDatalist = this.application.qyclmls;
-        this.bdcqk.ssqx = this.ssqxvalue;
-        this.fwytcode = this.application.bdcqk.fwyt;
-        this.tdytcode = this.application.bdcqk.tdyt;
-        this.qlxzcode = this.application.bdcqk.qlxz;
-        this.ssqxcode = this.application.bdcqk.ssqx;
-        this.qlrzjlxcode = this.application.sqrqk.qlrdlr.qlrdlrzjzl;
-        this.ywrzjlxcode = this.application.sqrqk.ywrdlr.ywrdlrzjzl;
-        this.djzlxvalue = this.application.sqdjsy.djzlxmc;
-        this.ssqxvalue = this.application.bdcqk.ssqxmc;
-        this.bjblztmc = this.application.bjblztmc;
+        this.mortgage = Lookdata.dyqk;
+        this.bdcqk = Lookdata.bdcqk;
+        this.xwsx = Lookdata.xwsx;
+        this.upDatalist = Lookdata.qyclmls;
+//        this.bdcqk.ssqx = this.ssqxvalue;
+        this.fwytcode = Lookdata.bdcqk.fwyt;
+        this.tdytcode = Lookdata.bdcqk.tdyt;
+        this.qlxzcode = Lookdata.bdcqk.qlxz;
+        this.selectcode.ssqx = Lookdata.bdcqk.ssqx;
+        this.qlrzjlxcode = Lookdata.sqrqk.qlrdlr.qlrdlrzjzl;
+        this.ywrzjlxcode = Lookdata.sqrqk.ywrdlr.ywrdlrzjzl;
+        this.djzlxvalue = Lookdata.sqdjsy.djzlxmc;
+        this.ssqxvalue = Lookdata.bdcqk.ssqxmc;
+        this.bjblztmc = Lookdata.bjblztmc;
+        this.$store.commit('newBjbh', Lookdata.bjbh);
+      } else {
+        let clearproposer = {
+          qlrs: [
+            {
+              bjbh: '',
+              qlrunid: '',
+              qlrxh: '',
+              qlrzl: '',
+              qlrzlmc: '',
+              qlrlx: '',
+              qlrlxmc: '',
+              qlrmc: '',
+              qlrzjzl: '',
+              qlrzjzlmc: '',
+              qlrzjh: '',
+              qlrdh: '',
+              qlrdz: ''
+            }
+          ],
+          ywrs: [
+            {
+              bjbh: '',
+              ywrdh: '',
+              ywrdz: '',
+              ywrlx: '',
+              ywrlxmc: '',
+              ywrmc: '',
+              ywrunid: '',
+              ywrxh: '',
+              ywrzjh: '',
+              ywrzjzl: '',
+              ywrzjzlmc: '',
+              ywrzl: '',
+              ywrzlmc: ''
+            }
+          ],
+          qlrdlr: {
+            qlrdlrdh: '',
+            qlrdlrdz: '',
+            qlrdlrmc: '',
+            qlrdlrzjh: '',
+            qlrdlrzjzl: '',
+            qlrdlrzjzlmc: ''
+          },
+          ywrdlr: {
+            ywrdlrdh: '',
+            ywrdlrdz: '',
+            ywrdlrmc: '',
+            ywrdlrzjh: '',
+            ywrdlrzjzl: '',
+            ywrdlrzjzlmc: ''
+          }
+        };
+        let cleardjlx = {
+          djlx: '',
+          djlxmc: '',
+          djzlx: '',
+          djzlxmc: ''
+        };
+        let clearmortgage = {  // 抵押情况
+          dyfs: '',
+          dyfsmc: '',
+          bdcpgjg: '',
+          dbfw: '',
+          dkywbh: '',
+          dkzh: '',
+          dyhtqdrq: '',
+          fcdymj: '',
+          fcpgjg: '',
+          tddymj: '',
+          tdpgjg: '',
+          yhdyywh: '',
+          bdbzqse: '',
+          zjjzwdyfw: '',
+          zqr: '',
+          zwlxjssj: '',
+          zwlxqssj: '',
+          zwr: ''
+        };
+        let clearbdcqk = {    //  不动产情况
+          bdcqzshy: '',
+          bdcqzshx: '',
+          bdcdyh: '',
+          zl: '',
+          ssqx: '',
+          ssqxmc: '',
+          fwyt: '',
+          fwytmc: '',
+          fwmj: '',
+          tdyt: '',
+          tdytmc: '',
+          tdmj: '',
+          tdsyqssj: '',
+          tdsyjssj: '',
+          qlxz: '',
+          qlxzmc: ''
+        };
+        let clearupdatalist = [
+          {
+            bjbh: '',
+            mlxh: '',
+            mlmc: '',
+            mlwjlx: '',
+            mlwjsl: '',
+            state: ''
+          }
+        ];
+        this.proposer = clearproposer;
+        this.djlx = cleardjlx;
+        this.mortgage = clearmortgage;
+        this.bdcqk = clearbdcqk;
+        this.upDatalist = clearupdatalist;
+        this.SqrqkForm.applyvalue = '';
+        this.SqrqkForm.username = '';
+        this.SqrqkForm.qlrlxvalue = '';
+        this.SqrqkForm.zjlxvalue = '';
+        this.SqrqkForm.zjh = '';
+        this.SqrqkForm.address = '';
+        this.SqrqkForm.telephone = '';
+        this.$store.commit('newBjbh', '');
+        this.$store.commit('application', '');
+        this.$store.commit('newupload', '');
+        this.bjblztmc = '';
+        this.ssqxvalue = '';
       }
       if (this.checkeVsibke === true) {
         setTimeout(() => {
@@ -1704,6 +2605,7 @@
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   .application
+    height: 100%
     .app_table
       float: left
       width: 74%
@@ -1747,6 +2649,10 @@
                 color: #20A0FF;
                 font-size: 12px
                 cursor: pointer
+        .sqrqk_caozuo a
+          padding: 6px
+          color: #20a0ff;
+          font-size: 12px
       .mortgage
         width: 100%
         .table
@@ -1801,7 +2707,10 @@
         border-radius: 0
     .app_list
       float: left
-      width: 26%
+      border-left: 5px solid rgba(30, 133, 131, 0.9)
+      width: 25%
+      height: 100%
+      margin-left: 0px
       min-width: 290px
     .dialog
       .el-dialog__body

@@ -8,21 +8,24 @@
                     :row-class-name="tableRowClassName"
                     @select-all="_selectall"
                     @selection-change="_Selectionchange" style="width: 100%">
-            <el-table-column type="selection" width="36"></el-table-column>
+            <el-table-column type="selection" width="36">
+            </el-table-column>
             <el-table-column property="mlmc" label="需上传资料"></el-table-column>
             <el-table-column property="mlwjsl" label="数量" width="70"></el-table-column>
           </el-table>
         </div>
         <div class="btn">
           <el-upload style="display: inline-block;width: 128px;"
+                     ref="uploud"
                      class="upload-demo"
+                     multiple
                      :headers="{'token':headerstoken,'username': haedersusername}"
                      :action="action"
-                     accept=".png,.jpg,.xls,.xlsx,.doc,.docx,.pdf,.flv,.mov"
-                     :show-file-list="false"
+                     accept=".png,.jpg,.doc,.docx,.pdf,.flv"
                      :on-success="_onchange">
-            <el-button @click="_updata_submit(upDatalist[updataindex])" style="padding: 6px 18px;">上传材料</el-button>
-            <div v-show="false" slot="tip" class="el-upload__tip"></div>
+            <el-button type="primary" @click="_updata_submit(upDatalist[updataindex])" style="padding: 6px 18px;">上传材料
+            </el-button>
+            <div slot="tip" class="el-upload__tip"></div>
           </el-upload>
         </div>
       </div>
@@ -31,11 +34,12 @@
           <el-table ref="uploaded" height="180" :data="uploaded" highlight-current-row
                     @row-dblclick="_doubleclick"
                     style="width: 100%">
-            <el-table-column type="index" width="50"></el-table-column>
+            <el-table-column type="index" width="70"></el-table-column>
             <el-table-column property="state" label="已上传资料" style="text-align: center;"></el-table-column>
             <el-table-column label="操作" width="70">
               <template scope="scope">
-                <el-button type="text" size="small" @click="_deleteuploaded(scope.$index,scope.row)">删除</el-button>
+                <el-button type="text" size="small" @click="_deleteuploaded(scope.$index,scope.row)"><i
+                  class="el-icon-delete2"></i></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -51,6 +55,10 @@
           <el-button style="padding: 6px 4px;margin: 8px 0 10px 15px;" @click="_createnewapply">新建申请</el-button>
           <el-button style="padding: 6px 4px;margin: 6px 0 20px 15px;" @click="_Printapply">打印登记申请书</el-button>
         </div>
+      </div>
+      <div class="lookcontent" ref="look">
+        <img :src="Imageurl" alt="">
+        <!--<a :href="Imageurl" download="a"></a>-->
       </div>
     </div>
   </div>
@@ -72,21 +80,20 @@
             }
           ];
         }
+      },
+      bjblztmc: {
+        type: String
       }
     },
     data() {
       return {
-        uploaded: [
-          {
-            state: '',
-            wjmlxh: '',
-            wjxh: ''
-          }
-        ],   // 已上传资料对应的文件
+        uploaded: [],   // 已上传资料对应的文件
+        checked: true,
         fileList: [],   // 上传文件
         currentRow: null,
         updataindex: 0,
         deletindex: null,
+        upspiceIndex: '',
         state: '',
         timeout: null,
         action: '',
@@ -95,7 +102,8 @@
         haedersusername: '',
         filename: '',
         Bjbh: '',
-        mlxh: ''
+        mlxh: '',
+        Imageurl: ''
       };
     },
     computed: {
@@ -109,6 +117,48 @@
         this.$emit('canLook');
       },
       _updata_submit(row) {
+      },
+      _onchange(response, file, fileList) {
+//        console.log(response);
+        if (response.status === '200') {
+          switch (response.body.status) {
+            case '200':
+              let json = {
+                state: response.body.body.wjmlmc,
+                wjmlmc: response.body.body.wjmlmc,
+                wjmlxh: response.body.body.wjmlxh,
+                wjunid: response.body.body.wjunid,
+                wjxh: response.body.body.wjxh,
+                bjbh: response.body.body.bjbh
+              };
+              let index = this.uploaded.length;
+              this.uploaded.splice(index, 0, json);
+              break;
+            case '40020502':
+              this.$notify({
+                title: '警告',
+                message: '已上传，不可重复提交。',
+                type: 'error'
+              });
+              break;
+            case '40020206':
+              this.$notify({
+                title: '警告',
+                message: response.body.message,
+                type: 'error'
+              });
+              break;
+          }
+        } else {
+          this.$notify({
+            title: '警告',
+            message: '上传失败',
+            type: 'error'
+          });
+        }
+        setTimeout(_ => {
+          this.$refs.uploud.clearFiles();
+        }, 1500);
       },
       _apply_submit() {
         this.$emit('apply_submit');
@@ -128,7 +178,34 @@
         }
         this.Bjbh = row[0].bjbh;
         this.mlxh = row[0].mlxh;
-        this.action = this.$store.state.Host + '/BDCDJSQControl/saveQYCL/200/' + this.Bjbh + '/' + this.mlxh;
+        this.upspiceIndex = row[0].index;
+        this.action = this.$store.state.Host + '/BDCDJSQControl/saveQYCL/200/' + this.Bjbh + '/' + this.mlxh + '/' + this.mlxh;
+//        console.log(row);
+        this.$http.post(this.$store.state.Host + '/BDCDJSQControl/findOneQYCL', {
+          jkzh: 200,
+          bjbh: row[0].bjbh,
+          wjmlxh: row[0].mlxh
+        }).then((response) => {
+          response = response.body;
+          if (response.body.body === '' || response.body.body === null) {
+            return false;
+          }
+          if (response.status === '200') {
+            let arr = [];
+            let data = response.body.body;
+            for (var i = 0; i < data.length; i++) {
+              let json = {
+                state: data[i].wjmlmc + '(' + (i + 1) + ')',
+                wjmlxh: data[i].wjmlxh,
+                wjmlmc: data[i].wjmlmc,
+                wjxh: data[i].wjxh,
+                bjbh: data[i].bjbh
+              };
+              arr.push(json);
+            }
+            this.uploaded = arr;
+          }
+        });
       },
       _selectall(row) {
         this.$refs.multipleTable.clearSelection();
@@ -148,6 +225,13 @@
         this.$refs.multipleTable.toggleRowSelection(this.upDatalist[val.index]);
       },
       _deleteuploaded(index, row) { // 删除行
+        if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
+          this.$message({
+            message: this.bjblztmc + '...',
+            type: 'warning'
+          });
+          return false;
+        }
         this.$confirm('是否删除?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -178,64 +262,28 @@
           });
         });
       },
-      _onchange(response, file, fileList) {
-        console.log(fileList);
-        if (response.status === '200') {
-          switch (response.body.status) {
-            case '200':
-              this.$notify({
-                title: '提示',
-                message: '上传成功',
-                type: 'success'
-              });
-              let json = {
-                state: response.body.body.wjmlmc + '(' + response.body.body.wjxh + ')',
-                wjmlxh: response.body.body.wjmlxh,
-                wjxh: response.body.body.wjxh,
-                bjbh: response.body.body.bjbh
-              };
-              this.uploaded.splice(-1, 0, json);
-              break;
-            case '40020502':
-              this.$notify({
-                title: '警告',
-                message: '已上传，不可重复提交。',
-                type: 'error'
-              });
-              break;
-          }
-        } else {
-          this.$notify({
-            title: '警告',
-            message: '上传失败',
-            type: 'error'
-          });
-        }
-      },
       _Printapply() {
-        this.$router.push({path: '/print'});
-        this.$nextTick(() => {
-          window.print();
-          this.$router.push({path: '/index'});
-        });
+        this.$emit('Print');
       },
       _doubleclick(row) {
-        this.$http.get(this.$store.state.Host + '/BDCDJSQControl/getFileToken').then((response) => {
+//        console.log(row);
+        this.$http.post(this.$store.state.Host + '/BDCDJSQControl/findOneQYCL', {
+          jkzh: 200,
+          bjbh: row.bjbh,
+          wjmlxh: row.wjxh
+        }).then((response) => {
           response = response.body;
-          let token = response.message;
-          window.open('http://10.5.0.228:9090' + '/200/bdcdj/' + row.bjbh + '/qycls/' + row.wjmlxh + '/' + row.wjxh + '?access_token=' + token + '');
-//          this.$http.get('http://10.5.0.228:9090' + '/200/bdcdj/' + row.bjbh + '/qycls/' + row.wjmlxh + '/' + row.wjxh + '', {
-//            params: {
-//              access_token: token
-//            }
-//          }, {emulateJSON: true}).then((response) => {
-//            response = response.body;
-//            let reader = new FileReader();
-//            reader.readAsText(response, 'UTF-16');
-//          });
+          this.$http.post(this.$store.state.Host + '/BDCDJSQControl/getFile', {
+            jkzh: 200,
+            bjbh: response.body.body[0].bjbh,
+            wjmlxh: response.body.body[0].wjmlxh,
+            wjunid: response.body.body[0].wjunid
+          }).then((response) => {
+            response = response.body;
+//            window.open(response.message);
+            this.Imageurl = response.message;
+          });
         });
-        let files = new FileReader();
-        console.log(files);
       }
     },
     created() {
@@ -245,8 +293,7 @@
     watch: {
       upDatalist: {
         handler(val, oldVal) {
-          let arr = [{state: '', wjmlxh: '', wjxh: ''}];
-          this.uploaded = arr;
+          this.uploaded = [];
         },
         deep: true
       }
@@ -256,7 +303,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .List_data
     width: 100%
-    margin-left: 2px
+    height: 100%
     .header
       width: 100%
       .auto
@@ -288,4 +335,8 @@
         width: 100%
     .el-table td, .el-table th
       height: 32px
+    .lookcontent
+      position: fixed
+      left: 20%
+      top: 1%;
 </style>

@@ -13,7 +13,7 @@
         <div class="selects">
           <table cellpadding="10" cellspacing="0" class="tabs">
             <tr>
-              <td class="td_w" rowspan="2" style="border-bottom: 1px solid #DFE6EC;">
+              <td class="td_w" rowspan="2" style="border-bottom: 1px solid #000;">
                 <span class="title">申请登记事由</span>
               </td>
               <td>
@@ -35,312 +35,235 @@
                 </ul>
               </td>
             </tr>
-            <tr>      <!--//申请人情况-->
+            <tr>
               <td colspan="2" style="padding: 0;">
-                <table class="tabs0" cellpadding="10" cellspacing="0">
+                <table class="tabs0" cellpadding="10" cellspacing="0" style="width: 100%;">
                   <tr>
                     <td class="td_w" rowspan="9">
                       <span class="title">申请人情况</span>
                     </td>
-                    <td>姓名或名称</td>
+                    <td colspan="2">姓名或名称</td>
                     <td>证件类别</td>
                     <td>证件号</td>
                     <td>联系地址或电话</td>
                   </tr>
-                  <tr>
-                    <td rowspan="3" style="padding: 0;width: 336px;max-width: 336px;">
-                      <table class="tabs1" cellpadding="10" cellspacing="0">
-                        <tr>
-                          <td rowspan="3" style="border-bottom: none;width: 124px;min-width: 124px;">
-                            <span>权利人</span>
-                          </td>
-                          <td>{{Qlrs[0].qlrmc}}</td>
-                        </tr>
-                        <tr>
-                          <td>{{Qlrs[1].qlrmc}}</td>
-                        </tr>
-                        <tr>
-                          <td>{{Qlrs[2].qlrmc}}</td>
-                        </tr>
-                      </table>
+                  <tr>    <!--// =============申请人情况=============-->
+                    <td rowspan="3" style="width: 50px;">
+                      <span>权利人</span>
                     </td>
+                    <td style="width: 130px;">{{Qlrs[0].qlrmc}}</td>
                     <td>{{Qlrs[0].qlrzjzlmc}}</td>
                     <td>{{Qlrs[0].qlrzjh}}</td>
                     <td>{{Qlrs[0].qlrdh}}</td>
-                  </tr>     <!--权利人-->
+                  </tr>
                   <tr>
+                    <td>{{Qlrs[1].qlrmc}}</td>
                     <td>{{Qlrs[1].qlrzjzlmc}}</td>
                     <td>{{Qlrs[1].qlrzjh}}</td>
                     <td>{{Qlrs[1].qlrdh}}</td>
                   </tr>
                   <tr>
+                    <td>{{Qlrs[2].qlrmc}}</td>
                     <td>{{Qlrs[2].qlrzjzlmc}}</td>
                     <td>{{Qlrs[2].qlrzjh}}</td>
                     <td>{{Qlrs[2].qlrdh}}</td>
                   </tr>
                   <tr>  <!--代理人-->
-                    <td style="padding: 0;">
-                      <table class="tabs1" cellpadding="10" cellspacing="0">
-                        <tr>
-                          <td style="border-bottom: none;width: 124px;min-width: 124px;">
-                            <span>代理人</span>
-                          </td>
-                          <td>{{Propose.qlrdlr.qlrdlrmc}}</td>
-                        </tr>
-                      </table>
+                    <td>
+                      <span>代理人</span>
                     </td>
-                    <td>{{Propose.qlrdlr.qlrdlrzjzl}}</td>
+                    <td>{{Propose.qlrdlr.qlrdlrmc}}</td>
+                    <td>{{Propose.qlrdlr.qlrdlrzjzlmc}}</td>
                     <td>{{Propose.qlrdlr.qlrdlrzjh}}</td>
                     <td>{{Propose.qlrdlr.qlrdlrdz}}</td>
                   </tr>     <!--代理人-->
                   <tr>  <!--义务人-->
-                    <td rowspan="3" style="padding: 0;">
-                      <table class="tabs1" cellpadding="10" cellspacing="0">
-                        <tr>
-                          <td rowspan="3" style="border-bottom: none;width: 124px;min-width: 124px;">
-                            <span>义务人</span>
-                          </td>
-                          <td>{{Ywrs[0].ywrmc}}</td>
-                        </tr>
-                        <tr>
-                          <td>{{Ywrs[1].ywrmc}}</td>
-                        </tr>
-                        <tr>
-                          <td>{{Ywrs[2].ywrmc}}</td>
-                        </tr>
-                      </table>
+                    <td rowspan="3">
+                      <span>义务人</span>
                     </td>
+                    <td>{{Ywrs[0].ywrmc}}</td>
                     <td>{{Ywrs[0].ywrzjzlmc}}</td>
                     <td>{{Ywrs[0].ywrzjh}}</td>
                     <td>{{Ywrs[0].ywrdh}}</td>
-                  </tr>     <!--义务人-->
+                  </tr>
                   <tr>
+                    <td>{{Ywrs[1].ywrmc}}</td>
                     <td>{{Ywrs[1].ywrzjzlmc}}</td>
                     <td>{{Ywrs[1].ywrzjh}}</td>
                     <td>{{Ywrs[1].ywrdh}}</td>
                   </tr>
                   <tr>
+                    <td>{{Ywrs[2].ywrmc}}</td>
                     <td>{{Ywrs[2].ywrzjzlmc}}</td>
                     <td>{{Ywrs[2].ywrzjh}}</td>
                     <td>{{Ywrs[2].ywrdh}}</td>
-                  </tr>
+                  </tr>     <!--义务人-->
                   <tr>  <!--代理人-->
-                    <td style="border-bottom: none;padding: 0;">
-                      <table class="tabs1" cellpadding="10" cellspacing="0">
-                        <tr>
-                          <td style="border-bottom: none;width: 124px;min-width: 124px;">
-                            <span>代理人</span>
-                          </td>
-                          <td>{{Propose.ywrdlr.ywrdlrmc}}</td>
-                        </tr>
-                      </table>
+                    <td>
+                      <span>代理人</span>
                     </td>
-                    <td style="border-bottom: none;">{{Propose.ywrdlr.ywrdlrzjzl}}</td>
-                    <td style="border-bottom: none;">{{Propose.ywrdlr.ywrdlrzjh}}</td>
-                    <td style="border-bottom: none;">{{Propose.ywrdlr.ywrdlrdh}}</td>
-                  </tr>     <!--代理人-->
-                </table>
-              </td>
-            </tr>     <!--//申请人情况-->
-            <tr>   <!--//不动产情况-->
-              <td colspan="2" style="padding: 0;">
-                <table class="tabs0" cellpadding="10" cellspacing="0">
-                  <tr>
-                    <td class="td_w" rowspan="6">
+                    <td>{{Propose.ywrdlr.ywrdlrmc}}</td>
+                    <td>{{Propose.ywrdlr.ywrdlrzjzlmc}}</td>
+                    <td>{{Propose.ywrdlr.ywrdlrzjh}}</td>
+                    <td>{{Propose.ywrdlr.ywrdlrdh}}</td>
+                  </tr>     <!--代理人-->  <!--// =============申请人情况=============-->
+                  <tr>        <!--//==============不动产情况===========-->
+                    <td rowspan="6" class="td_w">
                       <span class="title">不动产情况</span>
                     </td>
-                    <td style="width: 124px;;">坐落</td>
-                    <td style="text-align: left;">{{bdcqk.zl}}</td>
+                    <td colspan="2">坐落</td>
+                    <td colspan="3" style="text-align: left;">{{bdcqk.zl}}</td>
                   </tr>
                   <tr>
-                    <td>不动产单元号</td>
-                    <td style="text-align: left;">{{bdcqk.bdcdyh}}</td>
+                    <td colspan="2">不动产单元号</td>
+                    <td colspan="3" style="text-align: left;">{{bdcqk.bdcdyh}}</td>
                   </tr>
                   <tr>
-                    <td>原不动产权属证书</td>
-                    <td style="text-align: left;">{{bdcqk.bdcqzshy}}</td>
+                    <td colspan="2">原不动产权属证书</td>
+                    <td colspan="3" style="text-align: left;">{{bdcqk.bdcqzshy}}</td>
                   </tr>
                   <tr>
-                    <td colspan="2" style="padding: 0;border-bottom:none;">
-                      <table class="tabs1" cellpadding="10" cellspacing="0">
-                        <tr>
-                          <td style="width: 124px;;">房屋用途</td>
-                          <td style="width: 188px;max-width: 188px;">{{bdcqk.fwyt}}</td>
-                          <td style="width: 124px;;">房屋面积</td>
-                          <td>{{bdcqk.fwmj}}</td>
-                        </tr>
-                        <tr>
-                          <td>土地用途</td>
-                          <td>{{bdcqk.tdyt}}</td>
-                          <td>土地面积</td>
-                          <td>{{bdcqk.tdmj}}</td>
-                        </tr>
-                        <tr>
-                          <td>土地使用年限</td>
-                          <td>{{bdcqk.tdsyqssj}} 至 {{bdcqk.tdsyjssj}}</td>
-                          <td>权力性质</td>
-                          <td>{{bdcqk.qlxz}}</td>
-                        </tr>
-                      </table>
-                    </td>
+                    <td colspan="2">房屋用途</td>
+                    <td>{{bdcqk.fwytmc}}</td>
+                    <td>房屋面积</td>
+                    <td>{{bdcqk.fwmj}}</td>
                   </tr>
-                </table>
-              </td>
-            </tr>     <!--//不动产情况-->
-            <tr>   <!--//抵押情况-->
-              <td colspan="2" style="padding: 0;">
-                <table class="tabs0" cellpadding="10" cellspacing="0">
                   <tr>
+                    <td colspan="2">土地用途</td>
+                    <td>{{bdcqk.tdytmc}}</td>
+                    <td>土地面积</td>
+                    <td>{{bdcqk.tdmj}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">土地使用年限</td>
+                    <td>{{bdcqk.tdsyqssj}} 至 {{bdcqk.tdsyjssj}}</td>
+                    <td>权力性质</td>
+                    <td>{{bdcqk.qlxz}}</td>
+                  </tr>     <!--//==============不动产情况===========-->
+                  <tr>         <!--//==============抵押情况===========-->
                     <td class="td_w" rowspan="3">
                       <span class="title">抵押情况</span>
                     </td>
-                    <td style="width: 124px;;">被担保债权数额<br>（最高债权数额）</td>
-                    <td style="width: 188px;max-width: 188px;">{{mortgage.bdbzqse}}</td>
-                    <td style="width: 124px;;">债务履行期限<br>（债权确定期限）</td>
+                    <td colspan="2">被担保债权数额<br>(最高债权数额)</td>
+                    <td>{{mortgage.bdbzqse}}</td>
+                    <td>债务履行期限<br>(债权确定期限)</td>
                     <td>{{mortgage.zwlxqssj}} 至 {{mortgage.zwlxjssj}}</td>
                   </tr>
                   <tr>
-                    <td colspan="4" style="border-bottom: none;padding: 0;">
-                      <table class="tabs1" cellpadding="10" cellspacing="0">
+                    <td colspan="2">担保范围</td>
+                    <td>{{mortgage.dbfw}}</td>
+                    <td rowspan="2" style="padding: 0;">
+                      <table cellpadding="10" cellspacing="0" style="width: 100%;">
                         <tr>
-                          <td style="width: 124px;;">担保范围</td>
-                          <td style="width: 188px;max-width: 188px;">{{mortgage.dbfw}}</td>
-                          <td rowspan="2" style="width: 124px;">抵押面积</td>
-                          <td style="width: 128px;">房产</td>
-                          <td>{{mortgage.fcdymj}}</td>
+                          <td rowspan="2" style="border-bottom: none;width: 40px;min-width: 40px;">抵押面积</td>
+                          <td style="border-right: none;width: 30px;min-width: 30px;">房产</td>
                         </tr>
                         <tr>
-                          <td>在建建筑物抵押范围</td>
-                          <td>{{mortgage.zjjzwdyfw}}</td>
-                          <td>土地</td>
-                          <td>{{mortgage.tddymj}}</td>
-                        </tr>
-                        <tr>
-                          <td>土地使用年限</td>
-                          <td>{{bdcqk.tdsyqssj}} 至 {{bdcqk.tdsyjssj}}</td>
-                          <td>权力性质</td>
-                          <td>{{bdcqk.qlxz}}</td>
+                          <td style="border-bottom: none;border-right: none;width: 30px;min-width: 30px;">土地</td>
                         </tr>
                       </table>
                     </td>
+                    <td>{{mortgage.fcdymj}}</td>
                   </tr>
-                </table>
-              </td>
-            </tr>     <!--//抵押情况-->
-            <tr>   <!--//地役权情况-->
-              <td colspan="2" style="padding: 0;">
-                <table class="tabs0" cellpadding="10" cellspacing="0">
                   <tr>
+                    <td colspan="2">在建建筑物抵押范围</td>
+                    <td>{{mortgage.zjjzwdyfw}}</td>
+                    <td>{{mortgage.tddymj}}</td>
+                  </tr>       <!--//==============抵押情况===========-->
+                  <tr>        <!--//==============地役权情况===========-->
                     <td class="td_w" rowspan="2">
                       <span class="title">地役权情况</span>
                     </td>
-                    <td style="width: 124px;;">坐落</td>
-                    <td style="text-align: left;">{{bdcqk.zl}}</td>
+                    <td colspan="2">坐落</td>
+                    <td colspan="4" style="text-align: left;">{{bdcqk.zl}}</td>
                   </tr>
                   <tr>
-                    <td style="border-bottom: none;">不动产单元号</td>
-                    <td style="border-bottom: none;text-align: left;">{{bdcqk.bdcdyh}}</td>
-                  </tr>
-                </table>
-              </td>
-            </tr>     <!--//地役权情况-->
-            <tr>   <!--//签字-->
-              <td colspan="2" style="padding: 0;">
-                <table class="tabs0 tb_dashed" cellpadding="10" cellspacing="0">
-                  <tr>
-                    <td style="text-align: left;">本申请人对填写的上述内容，声明及提交的申请材料的真实性负责。如有不实，申请人愿承担法律责任。</td>
-                  </tr>
-                  <tr>
-                    <td style="border-bottom: none;padding: 0;">
-                      <table class="tabs1" cellpadding="10" cellspacing="0">
-                        <tr>
-                          <td style="border-right: 1px dashed #DFE6EC;text-align: left;text-indent: 74px;">权力人(代理人)签章:
-                          </td>
-                          <td style="text-align: left;text-indent: 74px;">义务人(代理人)签章:</td>
-                        </tr>
-                        <tr>
-                          <td style="border-right: 1px dashed #DFE6EC;">
-                            年 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 日
-                          </td>
-                          <td>年 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 日</td>
-                        </tr>
-                        <tr>
-                          <td style="border-bottom: none;border-right: 1px dashed #DFE6EC;">经办人签字:</td>
-                          <td style="border-bottom: none;text-align: left;text-indent: 60px;">
-                            年 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 日
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>     <!--//签字-->
-            <tr>   <!--//询问事项-->
-              <td colspan="2" style="padding: 0;">
-                <table class="tabs0 tb_dashed tb_text" cellpadding="10" cellspacing="0">
-                  <tr>
-                    <td class="td_w" rowspan="6" style="text-align: center;border-bottom: none;">
-                      <span class="title">询问事项</span>
-                    </td>
-                    <td>
-                      <span style="vertical-align: middle;">1.申请的不动产是否共有？</span>
-                      <span style="padding-left: 10px;">
-                        <input type="checkbox" :checked="_sfgyIs" id="Is"
-                               style="font-size: 20px" class="check"><label
-                        for="Is"
-                        class="text">是</label>
-                      </span>
-                      <span style="padding-left: 10px;">
-                        <input type="checkbox" :checked="_sfgyNo" id="No" style="font-size: 20px" class="check"><label
-                        for="No"
-                        class="text">否</label>
-                      </span>
+                    <td colspan="2" style="border-bottom: none;">不动产单元号</td>
+                    <td colspan="4" style="border-bottom: none;text-align: left;">{{bdcqk.bdcdyh}}</td>
+                  </tr>         <!--//==============地役权情况===========-->
+                  <tr>          <!--//==============签字===========-->
+                    <td colspan="6" style="border-bottom: none;text-align: left;">
+                      本申请人对填写的上述内容，声明及提交的申请材料的真实性负责。如有不实，申请人愿承担法律责任。
                     </td>
                   </tr>
                   <tr>
-                    <td>
-                      <span style="vertical-align: middle;">2.共有类型: 按份共有 &nbsp;&nbsp;&nbsp;份额情况 :</span>
-                      <input class="feqk" type="text">
-                      <span style="padding-left: 10px;">
-                        <input type="checkbox" id="gt" style="font-size: 20px"
-                               class="check"><label
-                        for="gt"
-                        class="text">共同共有</label>
-                      </span>
+                    <td colspan="3" style="text-align: left;text-indent: 74px;border-right: none;border-bottom: none;">
+                      权力人(代理人)签章:
                     </td>
+                    <td colspan="3" style="text-align: left;text-indent: 74px;border-bottom: none;">义务人(代理人)签章:</td>
                   </tr>
                   <tr>
-                    <td>
-                      <span style="vertical-align: middle;">3.共有人是否申请分别持证？</span>
-                      <span style="padding-left: 10px;">
-                        <input type="checkbox" :checked="_sffbczIs" id="Iss" style="font-size: 20px"
-                               class="check"><label for="Iss"
-                                                    class="text">是</label>
-                      </span>
-                      <span style="padding-left: 10px;">
-                        <input type="checkbox" :checked="_sffbczNo" id="Noo" style="font-size: 20px"
-                               class="check"><label for="Noo"
-                                                    class="text">否</label>
-                      </span>
+                    <td colspan="3" style="border-right: none;border-bottom: none;">
+                      年 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 日
                     </td>
-                  </tr>
-                  <tr>
-                    <td>4.其他说明</td>
-                  </tr>
-                  <tr>
-                    <td style="text-align: right;padding-right: 200px;">权利人（代理人）签章:</td>
-                  </tr>
-                  <tr>
-                    <td style="border-bottom: none;text-align: right;padding-right: 100px;">
+                    <td colspan="3" style="border-bottom: none;">
                       年 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 日
                     </td>
                   </tr>
+                  <tr>
+                    <td colspan="3" style="border-right: none;">经办人签字:</td>
+                    <td colspan="3" style="text-align: left;text-indent: 60px;">
+                      年 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 日
+                    </td>
+                  </tr>         <!--//==============签字===========-->
+                  <tr>          <!--//==============询问事项===========-->
+                    <td class="td_w" rowspan="6" style="text-align: center;border-bottom: none;">
+                      <span class="title">询问事项</span>
+                    </td>
+                    <td colspan="5" style="text-align: left;border-bottom: none;">
+                      <span style="vertical-align: middle;">1.申请的不动产是否共有？</span>
+                      <span style="padding-left: 10px;">
+                        <input class="check" type="checkbox" :checked="_sfgyIs" id="Is">
+                        <label class="labs" for="Is">是</label>
+                      </span>
+                      <span style="padding-left: 10px;">
+                        <input class="check" type="checkbox" :checked="_sfgyNo" id="No" style="font-size: 20px">
+                        <label class="labs" for="No">否</label>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="5" style="border-bottom: none;text-align: left;">
+                      <span style="vertical-align: middle;">2.共有类型: 按份共有 &nbsp;&nbsp;&nbsp;份额情况 :</span>
+                      <input class="feqk" readonly="readonly" type="text">
+                      <span style="padding-left: 10px;">
+                        <input class="check" type="checkbox" id="gt" style="font-size: 20px">
+                        <label class="labs" for="gt">共同共有</label>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="5" style="border-bottom: none;text-align: left;">
+                      <span style="vertical-align: middle;">3.共有人是否申请分别持证？</span>
+                      <span style="padding-left: 10px;">
+                        <input class="check" type="checkbox" :checked="_sffbczIs" id="Iss" style="font-size: 20px">
+                        <label class="labs" for="Iss">是</label>
+                      </span>
+                      <span style="padding-left: 10px;">
+                        <input class="check" type="checkbox" :checked="_sffbczNo" id="Noo" style="font-size: 20px">
+                        <label class="labs" for="Noo">否</label>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr style="border-bottom: none;">
+                    <td colspan="5" style="border-bottom: none;text-align: left;">4.其他说明</td>
+                  </tr>
+                  <tr>
+                    <td colspan="5" style="text-align: right;padding-right: 200px;border-bottom: none;">权利人（代理人）签章:</td>
+                  </tr>
+                  <tr>
+                    <td colspan="5" style="border-bottom: none;text-align: right;padding-right: 100px;">
+                      年 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 日
+                    </td>
+                  </tr>         <!--//==============询问事项===========-->
                 </table>
               </td>
-            </tr>     <!--//询问事项-->
+            </tr>
           </table>
         </div>
+      </div>
+      <div class="mack">
+        <span>苏州不动产中心印制</span>
       </div>
     </div>
   </div>
@@ -349,129 +272,7 @@
 <script type="text/ecmascript-6">
   import VueBarcode from '@xkeshi/vue-barcode';
   export default {
-    props: {
-      Propose: {
-        type: Object,
-        default() {
-          return {
-            qlrdlr: {
-              qlrdlrdh: '',
-              qlrdlrdz: '',
-              qlrdlrmc: '',
-              qlrdlrzjh: '',
-              qlrdlrzjzl: '',
-              qlrdlrzjzlmc: ''
-            },
-            qlrs: [
-              {
-                bjbh: '',
-                qlrdh: '',
-                qlrdz: '',
-                qlrlx: '',
-                qlrlxmc: '',
-                qlrmc: '',
-                qlrunid: '',
-                qlrxh: '',
-                qlrzjh: '',
-                qlrzjzl: '',
-                qlrzjzlmc: '',
-                qlrzl: '',
-                qlrzlmc: ''
-              }
-            ],
-            ywrdlr: {
-              ywrdlrdh: '',
-              ywrdlrdz: '',
-              ywrdlrmc: '',
-              ywrdlrzjh: '',
-              ywrdlrzjzl: '',
-              ywrdlrzjzlmc: ''
-            },
-            ywrs: [
-              {
-                ywrunid: '',
-                bjbh: '',
-                ywrxh: '',
-                ywrzl: '',
-                ywrzlmc: '',
-                ywrlx: '',
-                ywrlxmc: '',
-                ywrmc: '',
-                ywrzjzl: '',
-                ywrzjzlmc: '',
-                ywrzjh: '',
-                ywrdh: '',
-                ywrdz: ''
-              }
-            ],
-            bjbh: '201708200000001'
-          };
-        }
-      },
-      mortgage: {
-        type: Object,
-        default() {
-          return {
-            bdbzqse: '',
-            bdcpgjg: '',
-            dbfw: '',
-            dkywbh: '',
-            dkzh: '',
-            dyfs: '',
-            dyfsmc: '',
-            dyhtqdrq: '',
-            fcdymj: '',
-            fcpgjg: '',
-            tddymj: '',
-            tdpgjg: '',
-            yhdyywh: '',
-            zjjzwdyfw: '',
-            zqr: '',
-            zwlxjssj: '',
-            zwlxqssj: '',
-            zwr: ''
-          };
-        }
-      },
-      bdcqk: {
-        type: Object,
-        default() {
-          return {
-            bdcdyh: '',
-            bdcqzshx: '',
-            bdcqzshy: '',
-            fwmj: '',
-            fwyt: '',
-            fwytmc: '',
-            qlxz: '',
-            qlxzmc: '',
-            ssqx: '',
-            ssqxmc: '',
-            tdmj: '',
-            tdsyjssj: '',
-            tdsyqssj: '',
-            tdyt: '',
-            tdytmc: '',
-            zl: ''
-          };
-        }
-      },
-      xwsx: {
-        type: Object,
-        default() {
-          return {
-            afgyfeqk: '',
-            gyfs: '',
-            gyfsmc: '',
-            qtsm: '',
-            sffbcz: false,
-            sffbczmc: '',
-            sfgy: true,
-            sfgymc: ''
-          };
-        }
-      }
-    },
+    props: {},
     data() {
       return {
         checkdata: [  // 多选框
@@ -557,6 +358,10 @@
             }
           ]
         ],  // 多选框
+        Propose: '',
+        mortgage: '',
+        bdcqk: '',
+        xwsx: '',
         Qlrs: [
           {
             bjbh: '',
@@ -684,41 +489,14 @@
         for (var k = 0; k < ywrs.length; k++) {
           this.Ywrs[k] = ywrs[k];
         }
-      },
-      pagesetup_null() {
-//        let hkeyroot = 'HKEY_CURRENT_USER';
-//        let hkeypath = '\\Software\\Microsoft\\Internet Explorer\\PageSetup\\';
-//        let hkeykey = '';
-        try {
-          let RegWsh = new ActiveXObject('WScript.Shell');
-          hkeykey = 'header';
-          RegWsh.RegWrite('HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\PageSetup\\header', '');
-          hkeykey = 'footer';
-          RegWsh.RegWrite('HKEY_CURRENT_USER\\Software\\Microsoft\\Internet Explorer\\PageSetup\\footer', '');
-        } catch (e) {
-        }
-      },
-      getExplorer() {
-        let explorer = window.navigator.userAgent;
-        if (explorer.indexOf('Trident') >= 0) {             // ie
-          return 'IE';
-        } else if (explorer.indexOf('Firefox') >= 0) {   // firefox
-          return 'Firefox';
-        } else if (explorer.indexOf('Chrome') >= 0) {    // Chrome
-          return 'Chrome';
-        } else if (explorer.indexOf('Opera') >= 0) {     // Opera
-          return 'Opera';
-        } else if (explorer.indexOf('Safari') >= 0) {    // Safari
-          return 'Safari';
-        }
       }
     },
     created() {
-      if (this.getExplorer() === 'IE') {
-//        this.pagesetup_null();
-      }
+      this.Propose = this.$store.state.Propose;
+      this.mortgage = this.$store.state.mortgage;
+      this.bdcqk = this.$store.state.bdcqk;
+      this.xwsx = this.$store.state.xwsx;
       this.filesqqk();
-//      console.log(this.bdcqk);
     },
     mounted() {
     },
@@ -729,13 +507,13 @@
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   #JQprint
-    width: 880px
+    width: 800px
     margin: 0 auto
     overflow: hidden;
     position: relative;
     font-family: '宋体'
     .header
-      width: 880px
+      width: 800px
       height: 72px;
       margin: 0 20px
       text-align: center
@@ -747,7 +525,8 @@
       .title
         display: inline-block
         line-height: 70px
-        font-size: 20px
+        font-size: 28px
+        font-weight: 500
       .unit
         display: inline-block
         float: right
@@ -755,7 +534,7 @@
         margin-top: 46px
         margin-right: 10px
     #Table
-      width: 880px
+      width: 800px
       margin: 2px auto
       .selects
         width: 100%
@@ -775,6 +554,9 @@
             .labs
               padding-left: 5px
               vertical-align: middle;
+          .tabs0 tr td
+            &:last-child
+              border-right: none
           td
             height: 14px
             padding: 6px;
@@ -787,37 +569,29 @@
           .td_w
             width: 18px
             min-width: 70px
-            border-bottom: none
             padding: 10px 4px
             text-align: center
             vertical-align: middle
             .title
               display: inline-block
               width: 15px
-          .tabs0
-            width: 100%
-            tr td
-              &:last-child
-                border-right: none
-            .tabs1
-              width: 100%
-              tr
-                &:last-child td
-                  border-bottom: none
-            .feqk
-              width: 200px
-              border-bottom: 1px solid #000
-            .feqk:focus
-              outline: none;
-          .tb_dashed td
-            border-bottom: 1px dashed #C8C8C8
-          .tb_text td
-            text-align: left
-            .check
-              vertical-align: middle
-            .text
-              vertical-align: middle
-              padding: 0 4px
+          .feqk
+            width: 200px
+            border-bottom: 1px solid #000
+          .feqk:focus
+            outline: none;
+          .check
+            vertical-align: middle
+          .labs
+            vertical-align: middle
+            padding: 0 4px
+    .mack
+      height: 60px
+      line-height: 100px
+      text-align-last: right
+      span
+        padding-right: 16px
+        font-size: 16px
 </style>
 <style media="print">
   @page {
@@ -831,11 +605,11 @@
     }
 
     .header {
-      width: 880px
+      width: 800px
     }
 
     #Table {
-      width: 880px
+      width: 800px
     }
   }
 </style>
