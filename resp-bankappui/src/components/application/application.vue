@@ -1600,6 +1600,9 @@
           code: 130
         }).then((response) => {
           response = response.body;
+          if (response.body === null || response.body === '') {
+            return false;
+          }
           if (response.status === '200') {
             let data = response.body;
             let arr = [];
@@ -1646,6 +1649,9 @@
           code: 10006
         }).then((response) => {
           response = response.body;
+          if (response.body === null || response.body === '') {
+            return false;
+          }
           if (response.status === '200') {
             let data = response.body;
             let arr = [];
@@ -1736,6 +1742,9 @@
           code: 109
         }).then((response) => {
           response = response.body;
+          if (response.body === null || response.body === '') {
+            return false;
+          }
           if (response.status === '200') {
             let data = response.body;
             let arr = [];
@@ -2393,7 +2402,6 @@
         this.SqrqkForm.telephone = '';
         this.$store.commit('newBjbh', '');
         this.$store.commit('application', '');
-        this.$store.commit('newupload', '');
         this.bjblztmc = '';
         this.ssqxvalue = '';
         setTimeout(() => {
@@ -2405,6 +2413,9 @@
       this.$nextTick(() => {
         this.$http.post(this.$store.state.Host + '/TokrnControl/getzdfl', {}).then((response) => {
           response = response.body;
+          if (response.body === null || response.body === '') {
+            return false;
+          }
           if (response.status === '200') {
             this.code = response.body[1].code;
             this.typename = '请选择' + response.body[1].name;
@@ -2578,7 +2589,6 @@
         this.SqrqkForm.telephone = '';
         this.$store.commit('newBjbh', '');
         this.$store.commit('application', '');
-        this.$store.commit('newupload', '');
         this.bjblztmc = '';
         this.ssqxvalue = '';
       }

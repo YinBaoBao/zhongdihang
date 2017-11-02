@@ -56,7 +56,7 @@
       width: 100%
       position: absolute
       left: 0px
-      bottom: 10px
+      bottom: 20px
       padding-left: 20PX
       background: #fff
       li

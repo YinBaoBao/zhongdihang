@@ -178,9 +178,9 @@
                     <td colspan="4" style="text-align: left;">{{bdcqk.zl}}</td>
                   </tr>
                   <tr>
-                    <td colspan="2" style="border-bottom: none;">不动产单元号</td>
-                    <td colspan="4" style="border-bottom: none;text-align: left;">{{bdcqk.bdcdyh}}</td>
-                  </tr>         <!--//==============地役权情况===========-->
+                    <td colspan="2">不动产单元号</td>
+                    <td colspan="4" style="text-align: left;">{{bdcqk.bdcdyh}}</td>
+                  </tr>        <!--//==============地役权情况===========-->
                   <tr>          <!--//==============签字===========-->
                     <td colspan="6" style="border-bottom: none;text-align: left;">
                       本申请人对填写的上述内容，声明及提交的申请材料的真实性负责。如有不实，申请人愿承担法律责任。
@@ -193,7 +193,7 @@
                     <td colspan="3" style="text-align: left;text-indent: 74px;border-bottom: none;">义务人(代理人)签章:</td>
                   </tr>
                   <tr>
-                    <td colspan="3" style="border-right: none;border-bottom: none;">
+                    <td colspan="3" style="border-right: none;border-bottom: none;text-indent: 140px;">
                       年 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 日
                     </td>
                     <td colspan="3" style="border-bottom: none;">
@@ -201,8 +201,8 @@
                     </td>
                   </tr>
                   <tr>
-                    <td colspan="3" style="border-right: none;">经办人签字:</td>
-                    <td colspan="3" style="text-align: left;text-indent: 60px;">
+                    <td colspan="3" style="border-right: none;text-indent: 50px;">经办人签字:</td>
+                    <td colspan="3" style="text-align: left;text-indent: 80px;">
                       年 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 日
                     </td>
                   </tr>         <!--//==============签字===========-->
@@ -224,7 +224,9 @@
                   </tr>
                   <tr>
                     <td colspan="5" style="border-bottom: none;text-align: left;">
-                      <span style="vertical-align: middle;">2.共有类型: 按份共有 &nbsp;&nbsp;&nbsp;份额情况 :</span>
+                      <span style="vertical-align: middle;">2.共有类型: </span>
+                      <input class="check" type="checkbox" id="" style="font-size: 20px">
+                      <label class="labs" for="">按份共有 &nbsp;&nbsp;&nbsp;份额情况 :</label>
                       <input class="feqk" readonly="readonly" type="text">
                       <span style="padding-left: 10px;">
                         <input class="check" type="checkbox" id="gt" style="font-size: 20px">
@@ -587,11 +589,11 @@
             padding: 0 4px
     .mack
       height: 60px
-      line-height: 100px
-      text-align-last: right
+      line-height: 40px
+      text-align: right
       span
         padding-right: 16px
-        font-size: 16px
+        font-size: 14px
 </style>
 <style media="print">
   @page {
@@ -601,7 +603,7 @@
 
   @media print {
     #JQprint {
-      margin-top: 20px;
+      margin-top: 10px;
     }
 
     .header {

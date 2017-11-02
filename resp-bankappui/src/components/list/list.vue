@@ -56,7 +56,7 @@
           <el-button style="padding: 6px 4px;margin: 6px 0 20px 15px;" @click="_Printapply">打印登记申请书</el-button>
         </div>
       </div>
-      <div class="lookcontent" ref="look">
+      <div class="lookcontent" ref="Looked">
         <img :src="Imageurl" alt="">
         <!--<a :href="Imageurl" download="a"></a>-->
       </div>
@@ -266,7 +266,6 @@
         this.$emit('Print');
       },
       _doubleclick(row) {
-//        console.log(row);
         this.$http.post(this.$store.state.Host + '/BDCDJSQControl/findOneQYCL', {
           jkzh: 200,
           bjbh: row.bjbh,
@@ -281,12 +280,13 @@
           }).then((response) => {
             response = response.body;
 //            window.open(response.message);
-            this.Imageurl = response.message;
+//            this.Imageurl = response.message;
           });
         });
       }
     },
     created() {
+//      console.log(this.$refs.Looked);
       this.headerstoken = localStorage.getItem('headertoken');
       this.haedersusername = localStorage.getItem('username');
     },

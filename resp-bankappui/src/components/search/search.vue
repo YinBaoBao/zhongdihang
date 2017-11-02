@@ -214,6 +214,9 @@
         this.gettableData(this.state, this.filecode);
       },
       _filterchange(val) { // 筛选状态
+        if (val === '' || val === null) {
+          return false;
+        }
         let options = this.Filter;
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].value) > -1) {

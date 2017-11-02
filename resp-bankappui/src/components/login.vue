@@ -93,6 +93,8 @@
         this.$message('请联系分行管理员重置密码');
       }
     },
+    created() {
+    },
     watch: {
       loginheight: () => {
         this.loginheight = document.documentElement.clientHeight;
