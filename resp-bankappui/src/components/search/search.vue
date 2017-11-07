@@ -3,12 +3,12 @@
     <div class="search">
       <div class="header">
         <ul>
-          <li class="type">
-            <span>查询类型</span>
-            <el-select v-model="type" placeholder="请选择" style="width: 110px;">
-              <el-option v-for="item in Type" :key="item.value" :label="item.label" :value="item.value"></el-option>
-            </el-select>
-          </li>
+          <!--<li class="type">-->
+          <!--<span>查询类型</span>-->
+          <!--<el-select v-model="type" placeholder="请选择" style="width: 110px;">-->
+          <!--<el-option v-for="item in Type" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
+          <!--</el-select>-->
+          <!--</li>-->
           <li class="filter">
             <span>状态筛选</span>
             <el-select v-model="filter" placeholder="请选择" @change="_filterchange" style="width: 110px;">
@@ -16,7 +16,7 @@
             </el-select>
           </li>
           <li class="search_btn">
-            <el-input v-model="state" placeholder="输入不动产证明号/报件编号/义务人可查" style="float: left;width: 280px;"></el-input>
+            <el-input v-model="bjbh" placeholder="输入不动产证明号/报件编号/义务人可查" style="float: left;width: 280px;"></el-input>
             <el-button type="primary" @click="_seartch" icon="search" style="float: left;margin-left: 18px;">查询
             </el-button>
           </li>
@@ -31,8 +31,8 @@
                     :default-sort="{prop: 'date', order: 'descending'}">
             <el-table-column type="index" width="60"></el-table-column>
             <el-table-column prop="date" label="申请时间" sortable width="180"></el-table-column>
-            <el-table-column prop="prove" label="不动产权证号" sortable width="160"></el-table-column>
-            <el-table-column prop="bdcqzhxt" label="不动产权证明号" sortable width="160"></el-table-column>
+            <el-table-column prop="prove" label="不动产权证号" sortable width="180"></el-table-column>
+            <el-table-column prop="bdcqzhxt" label="不动产权证明号" sortable width="180"></el-table-column>
             <el-table-column prop="Report" label="报件编号" sortable width="166"></el-table-column>
             <el-table-column prop="register" label="登记类型" width="100"></el-table-column>
             <el-table-column prop="obligation" label="义务人"></el-table-column>
@@ -40,7 +40,7 @@
             <el-table-column prop="register_time" label="登记时间" width="180"></el-table-column>
             <el-table-column prop="state" label="状态"></el-table-column>
             <el-table-column prop="remark" label="备注"></el-table-column>
-            <el-table-column label="操作" width="110">
+            <el-table-column label="操作" width="120">
               <template scope="scope">
                 <el-button type="text" size="small" @click="_apply_look(scope.$index,scope.row)">查看</el-button>
                 <el-button type="text" size="small" @click="_deletInfo(scope.$index,scope.row)">删 除</el-button>
@@ -115,6 +115,7 @@
         type: '全部',
         filter: '全部状态',
         state: '',
+        bjbh: '',
         tableData: [], // 表格数据
         info_account: false,
         Info_Form: {
@@ -143,7 +144,12 @@
           response = response.body;
           if (response.status === '200') {
             let data = response.body;
-            let arr = [];
+            let arr = [
+              {
+                value: '全部状态',
+                code: ''
+              }
+            ];
             for (var i = 0; i < data.length; i++) {
               let json = {
                 value: data[i].name,
@@ -157,7 +163,12 @@
       },
       gettableData(bjbh, bjblztmc) {    // 获取表格数据
         let username = localStorage.getItem('username');
-        let query = JSON.stringify({bjbh: bjbh, bjblzt: bjblztmc});
+        let query = '';
+        if (bjblztmc === '' || bjblztmc === null) {
+          query = JSON.stringify({bjbh: bjbh});
+        } else {
+          query = JSON.stringify({bjbh: bjbh, bjblzt: bjblztmc});
+        }
         this.$http({
           url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search/{jyczyzh}',
           params: {
@@ -208,20 +219,30 @@
             }
             this.tableData = arr;
           }
+          if (response.status === '401') {
+            this.$message({
+              message: '登录超时，请重新登录！',
+              type: 'warning'
+            });
+          }
         });
       },
       _seartch() {
-        this.gettableData(this.state, this.filecode);
+        this.gettableData(this.bjbh, this.filecode);
       },
       _filterchange(val) { // 筛选状态
         if (val === '' || val === null) {
           return false;
+        }
+        if (val === '全部状态') {
+          this.gettableData();
         }
         let options = this.Filter;
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].value) > -1) {
             let code = parseInt(options[i].code);
             this.filecode = code;
+            this.gettableData('', this.filecode);
           }
         }
       },
@@ -370,6 +391,6 @@
     .pages
       display: inline-block
       position: absolute
-      left: 26%
+      left: 30%
       bottom: 18px
 </style>

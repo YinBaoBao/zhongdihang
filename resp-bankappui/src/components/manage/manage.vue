@@ -225,6 +225,14 @@
         let data = this.deletbankdata;
         let Id = row.id;
         for (var i = 0; i < data.length; i++) { // 判断二级支行
+          if (Id === data[i].id && data[i].children.length === 0) {
+            this.$notify({
+              title: '提示',
+              message: '该行不能删除！',
+              type: 'warning'
+            });
+            return false;
+          }
           if (Id === data[i].id && data[i].children.length > 0) {
             this.$notify({
               title: '提示',

@@ -61,13 +61,31 @@
               }
             }, {emulateJSON: true}).then((response) => {
               response = response.body;
-              this.token = response.body.Token;
-              this.$store.commit('newBank', response.body.bank);
-              if (this.token) {
-                this.$store.commit('headertoken', this.token);
+//              console.log(response);
+              if (response.code === 5000) {
+                this.$message({
+                  showClose: true,
+                  message: response.message,
+                  type: 'error'
+                });
+                return false;
+              }
+              if (response.body === null || response.body === '') {
+                this.$message({
+                  showClose: true,
+                  message: response.message,
+                  type: 'error'
+                });
+                return false;
+              }
+              if (response.status === '200') {
+                this.$store.commit('newRole', response.body.Role);
+                this.$store.commit('newBank', response.body.bank);
+                this.$store.commit('newbankUser', response.body.User);
+                this.$store.commit('headertoken', response.body.Token);
                 this.$store.commit('newname', admin);
                 localStorage.setItem('username', admin);
-                localStorage.setItem('headertoken', this.token);
+                localStorage.setItem('headertoken', response.body.Token);
                 this.$message({
                   showClose: true,
                   message: '登录成功!',

@@ -32,7 +32,8 @@ module.exports = {
       jQuery: "jquery",
       jquery: "jquery",
       "window.jQuery": "jquery"
-    })
+    }),
+    new webpack.IgnorePlugin(/static\/config.js/)
   ],
   module: {
     rules: [

@@ -8,9 +8,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    api: window.__config.dev_serve,
     Host: window.__config.dev_local,
-    Test: window.__config.dev_test,
     application: '',
     Propose: {
       qlrdlr: {
@@ -125,7 +123,24 @@ const store = new Vuex.Store({
       zjlxmc: '320500000010314',
       zjlx: '营业执照',
       bankAddress: ''
-    }
+    },
+    bankuser: {
+      accountNumber: '',
+      bankName: '',
+      e_Mail: '',
+      id: '',
+      is_Delete: '',
+      name: '',
+      roleStr: ''
+    },
+    Role: [
+      {
+        description: '',
+        roleName: '',
+        sortNum: '',
+        userDtoList: ''
+      }
+    ]
   },
   getters: {
     value: state => state.value
@@ -148,6 +163,12 @@ const store = new Vuex.Store({
     },
     newBank(state, element) {
       state.Bankinfo = element;
+    },
+    newbankUser(state, element) {
+      state.bankuser = element;
+    },
+    newRole(state, element) {
+      state.Role = element;
     },
     newPropose(state, element) {
       state.Propose = element;

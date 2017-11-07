@@ -188,24 +188,22 @@
               <td rowspan="8" style="padding: 0;min-width: 34px;vertical-align: middle;text-align: center;"><span
                 class="mortgage_situation">不动产情况</span></td>
               <td>坐落</td>
-              <td colspan="4" style="padding: 0;">
-                <table style="width: 100%;">
-                  <tr>
-                    <td class="td_text" style="padding: 0;border: none;">
-                      <input v-model="bdcqk.zl" class="input_text" type="text" placeholder="" value="">
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="" style="min-width: 164px;">原不动产权证书号(证明号)</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.bdcqzshy" class="input_text" type="text" placeholder="" value="">
+                <input v-model="bdcqk.zl" class="input_text" type="text" placeholder="" value="">
               </td>
               <td style="min-width: 164px;">不动产单元号</td>
               <td class="td_text" style="padding: 0;">
                 <input v-model="bdcqk.bdcdyh" class="input_text" type="text" placeholder="" value="">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="" style="min-width: 164px;">不动产登记证明号</td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="bdcqzhxt" class="input_text" type="text" placeholder="" value="">
+              </td>
+              <td colspan="" style="min-width: 164px;">原不动产权证书号</td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="bdcqk.bdcqzshy" class="input_text" type="text" placeholder="" value="">
               </td>
             </tr>
             <tr>
@@ -439,7 +437,7 @@
       </div>
       <div class="dialog">
         <el-dialog :title="typename" :visible.sync="typeVisible" size="000">
-          <div style="width: 360px;">
+          <div style="width: 370px;">
             <label>登记类型 :</label>
             <el-cascader :options="Typeoption" disabled v-model="Typeoption1"
                          @active-item-change="handleItemChange"
@@ -448,7 +446,7 @@
                          style="width: 260px;margin: 12px 12px 30px 12px">
             </el-cascader>
           </div>
-          <div>
+          <div style="width: 370px;">
             <label>所属区县 :</label>
             <el-select @change="_Quxchange" v-model="ssqxvalue" placeholder="请选择"
                        style="width: 260px;margin: 0 12px 30px 12px">
@@ -513,7 +511,7 @@
           <el-button type="primary" @click="_add_qlr_submit('AddForm')">保 存</el-button>
         </span>
         </el-dialog>
-        <el-dialog title="添加权利人" :visible.sync="add_sqrqk" size="000" top="6%" :modal="false"
+        <el-dialog :title="handTitle" :visible.sync="add_sqrqk" size="000" top="6%" :modal="false"
                    :close-on-click-modal="false">
           <el-form :model="SqrqkForm" :rules="Sqrqkrules" ref="SqrqkForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="申请人性质" prop="applyvalue">
@@ -625,7 +623,6 @@
   import Register from '../../components/dialog/Register.vue';
   import handsontable from '../../components/dialog/handsontable.vue';
   import {formatDate} from '../../common/js/date.js';
-
   export default {
     props: {},
     data() {
@@ -954,6 +951,7 @@
           qlxz: '',
           qlxzmc: ''
         },
+        bdcqzhxt: '',  // 不动产登记证明号
         xwsx: {
           afgyfeqk: '',
           gyfs: '',
@@ -1200,6 +1198,7 @@
                 break;
             }
             this.add_sqrqk = false;
+            this.zjlxvalidator = '';
           } else {
             this.$notify.info({
               title: '提示',
@@ -1344,6 +1343,7 @@
                 });
                 break;
             }
+            this.zjlxvalidator = '';
           } else {
             this.$notify.info({
               title: '提示',
@@ -1455,6 +1455,7 @@
                 break;
             }
             this.add_dlr = false;
+            this.zjlxvalidator = '';
           }
         });
       },
@@ -1930,6 +1931,7 @@
             this.djlx = this.application.body.sqdjsy;
             this.bjbh = this.application.body.bjbh;
             this.$store.commit('newBjbh', this.application.body.bjbh);
+            this.bdcqzhxt = this.application.body.bdcqzhxt;
             if (this.application.body.sqrqk.qlrs.length !== 0) {
               this.proposer.qlrs = this.application.body.sqrqk.qlrs;
             }
@@ -1979,6 +1981,7 @@
             this.djlx = this.application.body.sqdjsy;
             this.bjbh = this.application.body.bjbh;
             this.$store.commit('newBjbh', this.application.body.bjbh);
+            this.bdcqzhxt = this.application.body.bdcqzhxt;
             let clearqlr = [
               {
                 bjbh: '201708001000001',
@@ -2068,6 +2071,13 @@
           });
           return false;
         }
+        if (this.bdcqzhxt === '' || this.bdcqzhxt === null) {
+          this.$message({
+            message: '请填写不动产登记证明号',
+            type: 'warning'
+          });
+          return false;
+        }
         if (this.bdcqk.bdcdyh === null || this.bdcqk.bdcdyh === '') {
           this.bdcqk.bdcdyh = '0';
         }
@@ -2079,6 +2089,7 @@
           this.$http.post(this.$store.state.Host + '/BDCDJSQControl/submitDJSQ', {
             jkzh: 200,
             bjbh: this.bjbh,
+            bdcqzhxt: this.bdcqzhxt,
             qlrdlrmc: this.proposer.qlrdlr.qlrdlrmc,
             qlrdlrzjzl: this.qlrdlrzjlxcode,
             qlrdlrzjh: this.proposer.qlrdlr.qlrdlrzjh,
@@ -2411,6 +2422,7 @@
             border-right: 1px solid #DFE6EC;
             min-width: 70px
             vertical-align: middle
+            overflow: hidden
       .proposer
         width: 100%
         overflow: hidden
@@ -2427,6 +2439,7 @@
               border-right: 1px solid #DFE6EC;
               min-width: 70px
               vertical-align: middle
+              overflow: hidden
               .proposer_situation
                 display: inline-block
                 width: 15px
@@ -2454,6 +2467,7 @@
             border-right: 1px solid #DFE6EC
             min-width: 70px
             vertical-align: middle
+            overflow: hidden
             .table_1
               width: 100%
             .table_2
