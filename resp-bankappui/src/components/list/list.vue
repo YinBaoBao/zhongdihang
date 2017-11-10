@@ -3,7 +3,12 @@
     <div class="List_data">
       <div class="header">
         <div class="auto">
-          <el-table ref="multipleTable" height="260" :data="upDatalist" highlight-current-row
+          <div class="t_head">
+            <img class="t_point" src="./purple.png" alt="purple">
+            <span class="t_title">需上传资料</span>
+            <span class="t_num">数量</span>
+          </div>
+          <el-table ref="multipleTable" height="230" :show-header="false" :data="upDatalist" highlight-current-row
                     @current-change="needCurrentChange"
                     :row-class-name="tableRowClassName"
                     @select-all="_selectall"
@@ -23,7 +28,7 @@
                      :action="action"
                      accept=".png,.jpg,.doc,.docx,.pdf,.flv"
                      :on-success="_onchange">
-            <el-button type="primary" @click="_updata_submit(upDatalist[updataindex])" style="padding: 6px 18px;">上传材料
+            <el-button @click="_updata_submit(upDatalist[updataindex])" style="padding: 6px 18px;">上传资料
             </el-button>
             <div slot="tip" class="el-upload__tip"></div>
           </el-upload>
@@ -31,10 +36,14 @@
       </div>
       <div class="uploaded">
         <div class="auto">
-          <el-table ref="uploaded" height="180" :data="uploaded" highlight-current-row
+          <div class="t_head">
+            <img class="t_point" src="./purple.png" alt="purple">
+            <span class="t_title">已上传资料</span>
+          </div>
+          <el-table ref="uploaded" height="150" :show-header="false" :data="uploaded" highlight-current-row
                     @row-dblclick="_doubleclick"
                     style="width: 100%">
-            <el-table-column type="index" width="70"></el-table-column>
+            <el-table-column type="index" width="36"></el-table-column>
             <el-table-column property="state" label="已上传资料" style="text-align: center;"></el-table-column>
             <el-table-column label="操作" width="70">
               <template scope="scope">
@@ -45,15 +54,23 @@
           </el-table>
         </div>
       </div>
-      <div class="border-height"></div>
       <div class="service">
-        <div class="check">
+        <ul class="btns">
+          <li>
+            <a class="btn_a" href="javascript:;" @click="_apply_submit"><img src="./submit.png" alt="submit"></a>
+            <p class="btn_text">提交登记申请</p>
+          </li>
+          <li>
+            <a class="btn_a" href="javascript:;" @click="_createnewapply"><img src="./create.png" alt="submit"></a>
+            <p class="btn_text">新建申请</p>
+          </li>
+          <li>
+            <a class="btn_a" href="javascript:;" @click="_Printapply"><img src="./Print.png" alt="submit"></a>
+            <p class="btn_text">打印登记申请</p>
+          </li>
+        </ul>
+        <div class="look">
           <span @click="_Look">查看登记申请书</span>
-        </div>
-        <div class="btns">
-          <el-button style="padding: 6px 4px;margin: 6px 0 10px 15px;" @click="_apply_submit">提交登记申请</el-button>
-          <el-button style="padding: 6px 4px;margin: 8px 0 10px 15px;" @click="_createnewapply">新建申请</el-button>
-          <el-button style="padding: 6px 4px;margin: 6px 0 20px 15px;" @click="_Printapply">打印登记申请书</el-button>
         </div>
       </div>
       <div class="lookcontent" ref="Looked">
@@ -199,7 +216,8 @@
                 wjmlxh: data[i].wjmlxh,
                 wjmlmc: data[i].wjmlmc,
                 wjxh: data[i].wjxh,
-                bjbh: data[i].bjbh
+                bjbh: data[i].bjbh,
+                wjunid: data[i].wjunid
               };
               arr.push(json);
             }
@@ -243,7 +261,7 @@
             jkzh: 200,
             bjbh: this.Bjbh,
             qyclmlxh: uploaded[index].wjmlxh,
-            qyclxh: uploaded[index].wjxh
+            wjunid: uploaded[index].wjunid
           }).then((response) => {
             response = response.body;
             if (response.status === '200') {
@@ -280,7 +298,12 @@
           }).then((response) => {
             response = response.body;
 //            window.open(response.message);
-//            this.Imageurl = response.message;
+            let img = document.createElement('img');
+            img.src = window.URL.createObjectURL(response.message);
+            img.onload = function(e) {
+              window.URL.revokeObjectURL(this.src);
+            };
+            document.body.appendChild(img);
           });
         });
       }
@@ -304,35 +327,85 @@
   .List_data
     width: 100%
     height: 100%
+    .t_head
+      border: 1px solid #DFE6EC
+      border-bottom: none
+      width: calc(100% - 2px)
+      height: 34px
+      line-height: 34px
+      font-size: 14px
+      background: #eef2f6
+      .t_point
+        width: 12px
+        height: 12px
+        margin-left: 15px
+        margin-right: 24px
+        vertical-align: middle
+      .t_title
+        vertical-align: middle
+      .t_num
+        float: right
+        margin-right: 30px
+        font-size: 14px
+        vertical-align: middle
     .header
       width: 100%
       .auto
-        border: 1px solid #DFE6EC
         overflow: hidden
+        .el-checkbox__inner
+          width: 16px
+          height: 16px
       .btn
         border-left: 1px solid #DFE6EC
         border-right: 1px solid #DFE6EC
         text-align: center
         padding: 12px 10px
+        .el-button
+          border-color: #148583
+          background: #148583
+          span
+            color: #fff
+        .el-button:active
+          border-color: #148583
+        .el-button:hover
+          border-color: #148583
     .uploaded
       text-align: left
       .auto
         overflow: hidden
     .service
       border: 1px solid #DFE6EC
-      font-size: 0
-      .check
+      margin-top: 10px
+      .look
         width: 100%
         text-align: right
         span
           display: inline-block
-          padding: 8px 20px
+          padding: 8px 10px
+          margin: 14px 0 16px 0
           font-size: 14px
           text-decoration: underline
-          color: rgba(138, 110, 110, 0.8)
+          color: #949494
           cursor: pointer
       .btns
         width: 100%
+        margin-top: 10px
+        text-align: center
+        li
+          display: inline-block
+          text-align: center
+          width: 86px
+          .btn_a
+            display: inline-block
+            border-radius: 50%
+            img
+              display: block
+              width: 60px
+              height: 60px
+          .btn_text
+            margin-top: 15px
+            font-size: 14px
+            color: #3a3a3a
     .el-table td, .el-table th
       height: 32px
     .lookcontent

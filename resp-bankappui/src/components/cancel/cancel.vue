@@ -3,63 +3,59 @@
     <div class="can_app">
       <div class="can_table">
         <div class="header">
-          <table class="table" cellpadding="10" cellspacing="0">
-            <tr>
-              <td>登记类型</td>
-              <td class="td_text" style="padding: 0;">
-                <el-select @change="_djlxchange" disabled v-model="djlx.djlxmc" placeholder="请选择"
-                           style="width: 140px;">
-                  <el-option
-                    v-for="item in djlxoptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </td>
-              <td>登记子类型</td>
-              <td class="td_text" style="padding: 0;">
-                <el-select @change="_djzlxchange" disabled v-model="djlx.djzlxmc" placeholder="请选择"
-                           style="width: 140px;">
-                  <el-option
-                    v-for="item in djzlxoptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </td>
-              <td>报件编号</td>
-              <td class="td_text" style="padding: 0;">
-                <input v-model="$store.state.Bjbh" class="input_text" type="text" value="" readonly="readonly"
-                       placeholder="">
-              </td>
-              <td>经办人姓名</td>
-              <td class="td_text" style="padding: 0;width: 40px;">
-                <input class="input_text" type="text" value="" readonly="readonly" placeholder="" style="width: 90px;">
-              </td>
-            </tr>
-          </table>
+          <ul>
+            <li>
+              <span class="title">登记类型:</span>
+              <el-select @change="_djlxchange" disabled v-model="djlx.djlxmc" placeholder="请选择"
+                         style="width: 140px;">
+                <el-option
+                  v-for="item in djlxoptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </li>
+            <li>
+              <span class="title">登记子类型:</span>
+              <el-select @change="_djzlxchange" disabled v-model="djlx.djzlxmc" placeholder="请选择"
+                         style="width: 140px;">
+                <el-option
+                  v-for="item in djzlxoptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </li>
+            <li>
+              <span class="title">报件编号:</span>
+              <input class="ipt_text" v-model="$store.state.Bjbh" type="text" value="" readonly="readonly"
+                     placeholder="" style="width: 130px;">
+            </li>
+            <li>
+              <span class="title">经办人姓名:</span>
+              <input class="ipt_text" type="text" value="" readonly="readonly" placeholder="" style="width: 94px;">
+            </li>
+          </ul>
         </div>
-        <div class="border-height"></div>
         <div class="proposer">
           <div class="inner">
             <table class="table">
               <tr>
-                <td :rowspan="20" style="padding: 0;min-width: 34px;vertical-align: middle;"><span
-                  class="proposer_situation">申请人情况</span></td>
-                <td></td>
-                <td>姓名/名称</td>
-                <td>证件类型</td>
-                <td>证件号</td>
-                <td>联系地址</td>
-                <td>电话</td>
-                <td>操作</td>
+                <th style="min-width: 100px;text-align: left">
+                  <img class="img_point" src="./red.png" alt="red">
+                  <span style="vertical-align: middle;">申请人情况 :</span>
+                </th>
+                <th>姓名/名称</th>
+                <th>证件类型</th>
+                <th>证件号</th>
+                <th>联系地址</th>
+                <th>电话</th>
+                <th>操作</th>
               </tr>
               <tr v-for="(item,index) in proposer.qlrs">
-                <td>权利人
-                  <span class="el-icon-plus proposer_add" @click="_application_add('权利人',proposer.qlrs)"></span>
-                </td>
+                <td>权利人</td>
                 <td class="td_text" style="padding: 0;">
                   <input v-model="item.qlrmc" class="input_text" type="text" readonly="readonly" placeholder=""
                          value="">
@@ -80,16 +76,17 @@
                   <input v-model="item.qlrdh" class="input_text" type="text" readonly="readonly" placeholder=""
                          value="">
                 </td>
-                <td class="sqrqk_caozuo">
+                <td class="sqrqk_caozuo" style="padding:0;min-width: 120px;">
+                  <a href="javascript:;" @click="_application_add('权利人',proposer.qlrs)"
+                     style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
                   <a href="javascript:;" @click="_edit_sqrqk(index,item,'权利人')"
                      style="margin-right: 2px;" title="修改"><i class="el-icon-edit"></i></a>
-                  <a href="javascript:;" @click="_delete_sqrqk(index,'权利人')" title="删除"><i class="el-icon-delete2"></i></a>
+                  <a href="javascript:;" @click="_delete_sqrqk(index,'权利人')" title="删除">
+                    <i class="el-icon-delete2"></i></a>
                 </td>
               </tr>
               <tr v-if="proposer.qlrdlr">
-                <td style="min-width: 110px;">权利人代理人
-                  <span class="el-icon-plus proposer_add" @click="_add_dlr('权利人代理人')"></span>
-                </td>
+                <td>权利人代理人</td>
                 <td class="td_text" style="padding: 0;">
                   <input v-model="proposer.qlrdlr.qlrdlrmc" class="input_text" type="text" readonly="readonly"
                          placeholder="" value="">
@@ -110,7 +107,9 @@
                   <input v-model="proposer.qlrdlr.qlrdlrdh" class="input_text" type="text" readonly="readonly"
                          placeholder="" value="">
                 </td>
-                <td class="sqrqk_caozuo">
+                <td class="sqrqk_caozuo" style="padding:0;">
+                  <a href="javascript:;" @click="_add_dlr('权利人代理人')"
+                     style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
                   <a href="javascript:;" @click="_edit_sqrqkdlr(proposer.qlrdlr,'权利人代理人')"
                      style="margin-right: 2px;" title="删除"><i class="el-icon-edit"></i></a>
                   <a href="javascript:;" @click="_clerar_sqrqkdlr(proposer.qlrdlr, '权利人代理人')" title="删除"><i
@@ -118,9 +117,7 @@
                 </td>
               </tr>
               <tr v-for="(item,index) in proposer.ywrs">
-                <td>义务人
-                  <span class="el-icon-plus proposer_add" @click="_application_add('义务人',proposer.ywrs)"></span>
-                </td>
+                <td>义务人</td>
                 <td class="td_text" style="padding: 0;">
                   <input v-model="item.ywrmc" class="input_text" type="text" readonly="readonly" placeholder=""
                          value="">
@@ -142,15 +139,15 @@
                          value="">
                 </td>
                 <td class="sqrqk_caozuo">
+                  <a href="javascript:;" @click="_application_add('义务人',proposer.ywrs)"
+                     style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
                   <a href="javascript:;" @click="_edit_sqrqk(index,item,'义务人')"
                      style="margin-right: 2px;" title="修改"><i class="el-icon-edit"></i></a>
                   <a href="javascript:;" @click="_delete_sqrqk(index,'义务人')" title="删除"><i class="el-icon-delete2"></i></a>
                 </td>
               </tr>
               <tr v-if="proposer.ywrdlr">
-                <td>义务人代理人
-                  <span class="el-icon-plus proposer_add" @click="_add_dlr('义务人代理人')"></span>
-                </td>
+                <td>义务人代理人</td>
                 <td class="td_text" style="padding: 0;">
                   <input v-model="proposer.ywrdlr.ywrdlrmc" class="input_text" type="text" readonly="readonly"
                          placeholder="" value="">
@@ -172,6 +169,8 @@
                          placeholder="" value="">
                 </td>
                 <td class="sqrqk_caozuo">
+                  <a href="javascript:;" @click="_add_dlr('义务人代理人')"
+                     style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
                   <a href="javascript:;" @click="_edit_sqrqkdlr(proposer.ywrdlr, '义务人代理人')" style="margin-right: 2px;"
                      title="修改"><i class="el-icon-edit"></i></a>
                   <a href="javascript:;" @click="_clerar_sqrqkdlr(proposer.ywrdlr,'义务人代理人')"><i class="el-icon-delete2"
@@ -181,29 +180,34 @@
             </table>
           </div>
         </div>
-        <div class="border-height"></div>
         <div class="mortgage">
           <table class="table">
             <tr>
-              <td rowspan="8" style="padding: 0;min-width: 34px;vertical-align: middle;text-align: center;"><span
-                class="mortgage_situation">不动产情况</span></td>
+              <th colspan="6"  style="min-width: 100px;text-align: left;">
+                <img class="img_point" src="./blue.png" alt="blue">
+                <span style="vertical-align: middle;">不动产情况 :</span>
+              </th>
+            </tr>
+            <tr>
               <td>坐落</td>
+              <td colspan="4" style="padding: 0;">
+                <table style="width: 100%;">
+                  <tr>
+                    <td class="td_text" style="padding: 0;border: none;">
+                      <input v-model="bdcqk.zl" class="input_text" type="text" placeholder="" value="">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="" style="min-width: 164px;">原不动产权证书号</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.zl" class="input_text" type="text" placeholder="" value="">
+                <input v-model="bdcqk.bdcqzshy" class="input_text" type="text" placeholder="" value="">
               </td>
               <td style="min-width: 164px;">不动产单元号</td>
               <td class="td_text" style="padding: 0;">
                 <input v-model="bdcqk.bdcdyh" class="input_text" type="text" placeholder="" value="">
-              </td>
-            </tr>
-            <tr>
-              <td colspan="" style="min-width: 164px;">不动产登记证明号</td>
-              <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqzhxt" class="input_text" type="text" placeholder="" value="">
-              </td>
-              <td colspan="" style="min-width: 164px;">原不动产权证书号</td>
-              <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.bdcqzshy" class="input_text" type="text" placeholder="" value="">
               </td>
             </tr>
             <tr>
@@ -294,13 +298,15 @@
             </tr>
           </table>
         </div>
-        <div class="border-height"></div>
         <div class="mortgage">
           <table class="table">
             <tr>
-              <td rowspan="5" style="padding: 0;min-width: 34px;vertical-align: middle;text-align: center;">
-                <span class="mortgage_situation">抵押情况</span>
-              </td>
+              <th colspan="6"  style="min-width: 100px;text-align: left;">
+                <img class="img_point" src="./orange.png" alt="orange">
+                <span style="vertical-align: middle;">抵押情况 :</span>
+              </th>
+            </tr>
+            <tr>
               <td style="min-width: 116px;">被担保债权数额</td>
               <td class="td_text" style="padding: 0;">
                 <input v-model="mortgage.bdbzqse" value="万元" class="input_text" type="text" placeholder="万元">
@@ -377,7 +383,7 @@
                     <td>担保范围</td>
                     <td class="td_text" style="padding: 0;">
                       <input v-model="mortgage.dbfw" class="input_text" type="text"
-                             placeholder="全部">
+                             placeholder="详见材料">
                     </td>
                     <td style="min-width: 126px;">在建建筑物抵押范围</td>
                     <td class="td_text" style="padding: 0;">
@@ -668,7 +674,7 @@
             82: '澳门',
             91: '国外 '
           };
-          if (!/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(value)) {
+          if (!/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(value)) {
             return callback(new Error('身份证号格式错误'));
           }
           if (!city[value.substr(0, 2)]) {
@@ -1370,7 +1376,7 @@
                     message: '删除成功',
                     type: 'success'
                   });
-                  if (index === 0 || index === '0') {
+                  if (this.proposer.qlrs.length === 1 || this.proposer.qlrs.length === '1') {
                     this.proposer.qlrs[0].qlrmc = '';
                     this.proposer.qlrs[0].qlrzjzlmc = '';
                     this.proposer.qlrs[0].qlrzjh = '';
@@ -1404,7 +1410,7 @@
                     message: '删除成功',
                     type: 'success'
                   });
-                  if (index === 0 || index === '0') {
+                  if (this.proposer.ywrs.length === 1 || this.proposer.ywrs.length === '1') {
                     this.proposer.ywrs[0].ywrmc = '';
                     this.proposer.ywrs[0].ywrzjzlmc = '';
                     this.proposer.ywrs[0].ywrzjh = '';
@@ -1471,14 +1477,14 @@
             this.AddForm.zjh = data.qlrdlrzjh;
             this.AddForm.address = data.qlrdlrdz;
             this.AddForm.telephone = data.qlrdlrdh;
-            this.AddForm.zjlxvalue = data.qlrdlrzjzl;
+            this.AddForm.zjlxvalue = data.qlrdlrzjzlmc;
             break;
           case '义务人代理人':
             this.AddForm.username = data.ywrdlrmc;
             this.AddForm.zjh = data.ywrdlrzjh;
             this.AddForm.address = data.ywrdlrdz;
             this.AddForm.telephone = data.ywrdlrdh;
-            this.AddForm.zjlxvalue = data.ywrdlrzjzl;
+            this.AddForm.zjlxvalue = data.ywrdlrzjzlmc;
             break;
         }
         this.add_dlr = true;
@@ -2149,6 +2155,25 @@
                   jkzh: 200,
                   bjbh: this.bjbh
                 }).then((response) => {
+                  response = response.body;
+                  if (response.body.body === null) {
+                    this.$message({
+                      message: response.body.message,
+                      type: 'error'
+                    });
+                    return false;
+                  }
+                  if (response.status === '200') {
+                    this.$message({
+                      message: '提交成功。',
+                      type: 'success'
+                    });
+                  } else {
+                    this.$message({
+                      message: '提交失败',
+                      type: 'error'
+                    });
+                  }
                 });
                 this.$message({
                   message: '提交成功。',
@@ -2347,6 +2372,7 @@
         this.SqrqkForm.address = '';
         this.SqrqkForm.telephone = '';
         this.$store.commit('newBjbh', '');
+        this.bjbh = '';
         this.$store.commit('application', '');
         this.$store.commit('upload', '');
         this.bjblztmc = '';
@@ -2403,36 +2429,61 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .can_app
     height: 100%
+    background: #f8f8f8
+    overflow: hidden
     .can_table
       float: left
-      width: 74%
-      height: 100%
+      width: 74.8%
       min-width: 776px
+      padding: 0 8px
       font-size: 14px
       overflow: hidden
       .header
         width: 100%
-        .table
-          width: 100%
-          border: 1px solid #DFE6EC
-          text-align: center
-          td
-            padding: 6px;
-            border-bottom: 1px solid #DFE6EC;
-            border-right: 1px solid #DFE6EC;
-            min-width: 70px
-            vertical-align: middle
-            overflow: hidden
+        li
+          display: inline-block
+          height: 74px
+          line-height: 74px
+          .title
+            padding: 6px
+            font-family: '微软雅黑'
+            font-size: 14px
+            font-weight: 500
+            color: #3a3a3a
+          .ipt_text
+            border: 1px solid #DFE6EC
+            height: 30px
+            text-indent: 10px
+          .el-input__inner
+            border: 1px solid #DFE6EC
+            height: 30px
+            border-radius: 0
       .proposer
         width: 100%
+        margin-bottom: 10px
+        background: #fff
         overflow: hidden
+        .el-input__inner
+          border: none
+          height: 28px
+          border-radius: 0
         .inner
           .table
             float: left
             border: 1px solid #DFE6EC
             width: 100%
-            margin-top: 4px
             text-align: center
+            th
+              border-bottom: 1px solid #DFE6EC;
+              padding: 8px;
+              min-width: 70px
+              vertical-align: middle
+              background: #eef2f6
+              .img_point
+                width: 12px
+                height: 12px
+                margin-right: 6px
+                vertical-align: middle
             td
               padding: 6px;
               border-bottom: 1px solid #DFE6EC;
@@ -2455,12 +2506,27 @@
           font-size: 12px
       .mortgage
         width: 100%
+        background: #fff
+        margin-bottom: 10px
+        .el-input__inner
+          border: none
+          height: 28px
+          border-radius: 0
         .table
           width: 100%
           border: 1px solid #DFE6EC
-          .mortgage_situation
-            display: inline-block
-            width: 15px
+          th
+            border-bottom: 1px solid #DFE6EC;
+            padding: 8px;
+            min-width: 70px
+            vertical-align: middle
+            background: #eef2f6
+            .img_point
+              width: 12px
+              height: 12px
+              margin-right: 6px
+              margin-top: -1px
+              vertical-align: middle
           td
             padding: 6px;
             border-bottom: 1px solid #DFE6EC
@@ -2502,16 +2568,12 @@
           white-space: nowrap
           overflow: hidden
           text-overflow: ellipsis
-      .el-input__inner
-        border: none
-        height: 28px
-        border-radius: 0
     .app_list
       float: left
-      border-left: 5px solid rgba(30, 133, 131, 0.9)
-      width: 24%
+      width: 23%
       height: 100%
-      min-width: 290px
+      margin-left: 0px
+      min-width: 270px
     .dialog
       .el-dialog__body
         padding: 12px 30px 10px 36px

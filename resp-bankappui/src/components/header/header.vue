@@ -7,21 +7,19 @@
         </div>
         <span class="bank">中国农业银行 | 不动产数据共享金融专用平台</span>
       </div>
-      <div class="content">
-        <div class="manager">
-          <ul>
-            <li class="account" @click="_account">账户管理</li>
-            |
-            <li class="pass" @click="_edit_password">修改密码</li>
-            |
-            <li class="back" @click="_go_back">退出</li>
-          </ul>
-        </div>
-        <div class="user">
-          <span class="company">{{Bankusename}}</span>
-          <span class="userName">{{$store.state.username}}</span>
-        </div>
-      </div>
+      <ul class="manager">
+        <li>
+          <span>{{Bankname}}</span>
+        </li>
+        <li>
+          <span>{{userName}}</span>
+        </li>
+        <li class="account" @click="_account">账户管理</li>
+        |
+        <li class="pass" @click="_edit_password">修改密码</li>
+        |
+        <li class="back" @click="_go_back">退出</li>
+      </ul>
     </nav>
   </div>
 </template>
@@ -30,7 +28,8 @@
   export default {
     data() {
       return {
-        Bankusename: '中国农业银行股份有限公司苏州分行'
+        Bankname: '中国农业银行股份有限公司苏州分行',
+        userName: 'admin'
       };
     },
     methods: {
@@ -48,7 +47,8 @@
       }
     },
     created() {
-      this.Bankusename = this.$store.state.Bankinfo.bankName;
+      this.userName = localStorage.getItem('username');
+      this.Bankname = this.$store.state.Bankinfo.bankName;
     }
   };
 </script>
@@ -60,50 +60,33 @@
     .login
       float: left
       width: 42%
-      min-width: 460px
       height: 60px
+      min-width: 600px
       line-height: 60px
       overflow: hidden
       .avatar
         float: left
-        width: 45px
-        height: 45px
+        width: 40px
+        height: 40px
         margin: 8px 10px 0 20px
         img
           width: 100%
           height: 100%
       .bank
-        flaot: left
-        height: 60px
-        line-height: 60px
-        font-size: 24px
+        font-size: 22px
         color: #fff
-    .content
-      float: left
-      width: calc(100% - 42%)
-      min-width: 500px
+    .manager
+      float: right
       height: 60px
-      overflow: hidden;
-      background-color: rgb(30, 133, 131)
-      .user
-        float: right
-        height: 60px
-        line-height: 80px
-        font-size: 14px
-        color: #fff
-        .userName
-          padding: 0 6px
-      .manager
-        float: right
-        height: 60px
-        padding: 0 15px
-        line-height: 80px
-        font-size: 14px
-        color: #fff
-        overflow: hidden
-        li
-          display: inline-block
-          padding: 0 3px
-          line-height: 26px
-          cursor: pointer
+      padding: 0 15px
+      background-color: rgb(30, 133, 131);
+      line-height: 80px
+      font-size: 14px
+      color: #fff
+      overflow: hidden
+      li
+        display: inline-block
+        padding: 0 3px
+        line-height: 26px
+        cursor: pointer
 </style>

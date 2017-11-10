@@ -1,15 +1,12 @@
 <template>
   <div class="manage">
     <div class="content">
-      <div class="acc_search">
-        <div class="title"><span>管理分支行</span></div>
-        <div class="btns">
-          <el-button :plain="true" type="info" icon="plus" style="float: right; margin: 6px 50px 0 0;"
-                     @click="_add_account">新增账号
-          </el-button>
-        </div>
+      <div class="text">
+        <img class="img_point" src="./account.png" alt="account">
+        <span class="title">管理分支行</span>
+        <span class="add" @click="_add_account">新增 <i class="el-icon-plus"></i></span>
       </div>
-      <div class="account_tables">
+      <div class="manage_tables">
         <el-table :data="manageData" border height="550" style="width: 100%">
           <el-table-column type="index" width="60"></el-table-column>
           <el-table-column prop="name" label="一级分支行" sortable></el-table-column>
@@ -28,17 +25,20 @@
       </div>
     </div>
     <div class="manage_dialog">
-      <el-dialog title="创建账号" :visible.sync="add_account" size="tiny">
-        <div style="width: 370px;">
+      <el-dialog title="新增账号" :visible.sync="add_account" size="000">
+        <div style="width: 370px;padding-right: 15px;">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="手机号码" prop="telephone">
-              <el-input v-model="ruleForm.telephone"></el-input>
-            </el-form-item>
-            <el-form-item label="登录密码" prop="password">
-              <el-input type="password" v-model="ruleForm.password"></el-input>
-            </el-form-item>
             <el-form-item label="姓名" prop="name">
               <el-input v-model="ruleForm.name"></el-input>
+            </el-form-item>
+            <el-form-item label="账号" prop="accountNumber">
+              <el-input v-model="ruleForm.accountNumber"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input type="password" v-model="ruleForm.password"></el-input>
+            </el-form-item>
+            <el-form-item label="手机号码" prop="telephone">
+              <el-input v-model="ruleForm.telephone"></el-input>
             </el-form-item>
             <el-form-item label="所在银行" prop="bank">
               <el-select v-model="ruleForm.bank" placeholder="请选择" @change="_bankchange" style="width: 268px;">
@@ -56,15 +56,32 @@
           <el-button type="primary" @click="_add_account_submit('ruleForm')">完 成</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="增加分支行" :visible.sync="add_bank" size="tiny">
-        <span style="display: inline-block;padding: 10px 15px 18px 46px;font-size: 14px;">所属行</span>
-        <span>{{brankname}}</span>
+      <el-dialog class="add_zhihang" title="创建分支行" :visible.sync="add_bank" size="000">
         <el-form :model="Bank_Form" :rules="rules" ref="Bank_Form" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="所属行" prop="pidbankname">
+            <el-input :disabled="true" type="text" v-model="Bank_Form.pidbankname"></el-input>
+          </el-form-item>
           <el-form-item label="下级分支行" prop="bankname">
             <el-input type="text" v-model="Bank_Form.bankname"></el-input>
           </el-form-item>
+          <el-form-item label="银行代码" prop="code">
+            <el-input v-model="Bank_Form.code"></el-input>
+          </el-form-item>
+          <el-form-item label="联系地址" prop="address">
+            <el-input v-model="Bank_Form.address"></el-input>
+          </el-form-item>
+          <el-form-item label="电话号码" prop="phone">
+            <el-input v-model="Bank_Form.phone"></el-input>
+          </el-form-item>
+          <el-form-item label="证件类型" prop="zjlx">
+            <el-input type="text" v-model="Bank_Form.zjlx"></el-input>
+          </el-form-item>
+          <el-form-item label="证件号" prop="zjlxmc">
+            <el-input v-model="Bank_Form.zjlxmc"></el-input>
+          </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
+          <span style="float: left;padding-left: 20px;font-size: 14px;color:red;">* 该信息将默认填写在不动产登记申报、注销页面</span>
           <el-button @click="_add_nextbank_submit">提 交</el-button>
         </span>
       </el-dialog>
@@ -89,6 +106,7 @@
         add_bank: false,
         ruleForm: {
           name: '',
+          accountNumber: '',
           password: '',
           bank: '',
           telephone: ''
@@ -105,7 +123,13 @@
         ],
         bankid: '',
         Bank_Form: {
-          bankname: ''
+          pidbankname: '',
+          bankname: '',
+          code: '',
+          zjlx: '',
+          zjlxmc: '',
+          address: '',
+          phone: ''
         },
         Manage_Form: {
           name: '',
@@ -117,8 +141,18 @@
           name: [
             {required: true, message: '请输入姓名', trigger: 'blur'}
           ],
+          telephone: [
+            {required: true, message: '请输入电话号码', trigger: 'change'},
+            {type: 'string', message: '请输入正确的手机号码', pattern: /^1[0-9]{10}$/, trigger: 'blur,change'}
+          ],
+          password: [
+            {required: true, message: '请输入密码', trigger: 'change'}
+          ],
           accountNumber: [
             {required: true, message: '请输入账号', trigger: 'change'}
+          ],
+          bank: [
+            {required: true, message: '请选择所在行', trigger: 'change'}
           ]
         },
         Edit_rules: {  // 修改账户验证
@@ -136,12 +170,11 @@
     },
     methods: {
       _add_nextbank(index, row) {
-        console.log(index);
         if (row.name !== '') {
-          this.brankname = row.name;
+          this.Bank_Form.pidbankname = row.name;
         }
         if (row.name1 !== '') {
-          this.brankname = row.name1;
+          this.Bank_Form.pidbankname = row.name1;
         }
         if (row.name2 !== '') {
           return false;
@@ -152,9 +185,22 @@
       _add_nextbank_submit() {
         this.$http.post(this.$store.state.Host + '/bankControl/saveBank', {
           name: this.Bank_Form.bankname,
-          id: this.pId
+          id: this.pId,
+          code: this.Bank_Form.code,
+          zjlx: this.Bank_Form.zjlx,
+          zjlxmc: this.Bank_Form.zjlxmc,
+          telephone: this.Bank_Form.phone,
+          address: this.Bank_Form.address
         }).then((response) => {
           response = response.body;
+          if (response.code === 5000) {
+            this.$notify({
+              title: '提示',
+              message: '没有权限，请联系管理员。',
+              type: 'error'
+            });
+            return false;
+          }
           if (response.code === 1000) {
             this.$notify({
               title: '成功',
@@ -183,9 +229,18 @@
               bankId: this.bankid,
               telephone: this.ruleForm.telephone,
               password: this.ruleForm.password,
-              accountNumber: this.ruleForm.name
+              name: this.ruleForm.name,
+              accountNumber: this.ruleForm.accountNumber
             }).then((response) => {
               response = response.body;
+              if (response.code === 5000) {
+                this.$notify({
+                  title: '提示',
+                  message: '没有权限，请联系管理员修改。',
+                  type: 'error'
+                });
+                return false;
+              }
               switch (response.code) {
                 case 1000:
                   this.$notify({
@@ -275,6 +330,14 @@
             }
           }).then((response) => {
             response = response.body;
+            if (response.code === 5000) {
+              this.$notify({
+                title: '提示',
+                message: '没有权限，请联系管理员。',
+                type: 'error'
+              });
+              return false;
+            }
             if (response.code === 1000) {
               this.$notify({
                 title: '成功',
@@ -387,52 +450,57 @@
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   .manage
-    border: 2px solid #DFE6EC
     width: 100%
-    .information
-      border-bottom: 1px solid #DFE6EC
+    .text
       width: 100%
-      overflow: hidden;
-      .text
-        float: left
-        height: 80px
-        line-height: 80px
-        span
-          font-size: 16px
-          padding: 0 15px
-      .info
-        float: left
-        padding-top: 16px;
-        span
-          font-size: 14px
-          display: inline-block
-          padding: 8px 10px
-        .edit
-          margin-left: 80px
-          color: #ccc
-          cursor: pointer
-        .edit:hover
-          font-weight: bolder
-          color: #ADADAD
+      height: 60px
+      line-height: 60px
+      .img_point
+        width: 30px
+        height: 20px
+        margin-top: -1px
+        padding: 0 10px 0 30px
+        vertical-align: middle
+      .title
+        color: #3a3a3a
+        font-size: 16px
+        vertical-align: middle
+      .add
+        float: right
+        margin-right: 100px
+        vertical-align: middle
+        font-size: 16px
+        color: #158684
+        cursor: pointer
     .content
       width: 100%
-      .acc_search
-        width: 100%
-        overflow: hidden
-        .title
-          float: left
-          height: 50px
-          line-height: 50px
-          span
-            padding: 0 15px
-        .btns
-          float: right
-          .btns_sub
-            float: left
-      .account_tables
-        width: 99%
+      .manage_tables
+        width: 96%
+        margin-left: 30px
         position: relative
         overflow: hidden
         .el-table td, .el-table th
           height: 34px
+        .el-table th
+          border-right: 1px solid #148583
+          border-bottom: 1px solid #148583
+          background: #148583
+          .cell
+            background: #148583
+            color: #fff
+        .el-table .sort-caret .ascending
+          border-bottom: 5px solid #97a8be
+        .el-table .sort-caret .descending
+          border-top: 5px solid #97a8be
+        .el-table .ascending .ascending
+          border-bottom: 5px solid #fff
+        .el-table .descending .descending
+          border-top: 5px solid #fff
+    .manage_dialog
+      .add_zhihang
+        .el-form
+          width: 800px
+          .el-form-item
+            display: inline-block
+            width: 390px
 </style>

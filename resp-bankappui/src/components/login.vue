@@ -1,22 +1,24 @@
 <template>
   <div class="Login" :style="{height: loginheight + 'px'}">
     <div class="title">
-      <span>苏州不动产抵押申报系统</span>
+      <img class="t_img" src="./img/login.png" alt="login">
+      <span>中国农业银行 | 不动产信息金融专用平台</span>
     </div>
     <div class="inputs">
+      <div class="user_title">
+        <span>用户登录</span>
+      </div>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0" class="demo-ruleForm"
-               style="width: 400px;margin: 0 auto;">
+               style="width: 340px;margin: 0 auto;">
         <el-form-item prop="username">
-          <el-input size="large" placeholder="请输入账号" v-model="ruleForm.username"
+          <el-input class="user_ipt" size="large" placeholder="请输入账号" v-model="ruleForm.username"
                     autofocus></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input size="large" type="password" placeholder="请输入密码" v-model="ruleForm.password"
+          <el-input class="pass_ipt" size="large" type="password" placeholder="请输入密码" v-model="ruleForm.password"
           ></el-input>
         </el-form-item>
-        <el-button type="danger" style="width: 400px;font-size: 16px;margin-top: 15px;" @click="submitForm('ruleForm')">
-          登录
-        </el-button>
+        <button class="submit" @click="submitForm('ruleForm')">登 录</button>
       </el-form>
       <span class="forget" @click="forget">忘记密码</span>
     </div>
@@ -54,12 +56,10 @@
           let admin = this.ruleForm.username;
           let password = this.ruleForm.password;
           if (valid) {
-            this.$http.get(this.$store.state.Host + '/logControl/getToken', {
-              params: {
-                username: admin,
-                password: password
-              }
-            }, {emulateJSON: true}).then((response) => {
+            this.$http.post(this.$store.state.Host + '/logControl/getToken', {
+              username: admin,
+              password: password
+            }).then((response) => {
               response = response.body;
 //              console.log(response);
               if (response.code === 5000) {
@@ -124,32 +124,72 @@
   .Login
     width: 100%
     height: 100%
-    background: rgba(9, 72, 105, 1)
+    background: url(img/bj.jpg) 0 0 no-repeat
+    background-size: 100% 100%
+    position: relative
     .title
       width: 100%
-      text-align: center
+      text-align: left
+      padding-top: 20px
+      .t_img
+        width: 60px
+        height: 60px
+        margin: 0 10px 0 15px
+        vertical-align: middle
       span
         display: inline-block
         padding: 15px 10px
-        margin-top: 100px
-        font-size: 36px
+        vertical-align: middle
+        font-size: 26px
         font-weight: bolder
         color: #fff
     .inputs
-      width: 500px
+      width: 460px
+      height: 340px
+      position: absolute
+      left: 50%
+      top: 50%
+      margin-left: -230px
+      margin-top: -170px
+      background: #fff
+      border-radius: 5px
       text-align: center
-      margin: 40px auto
-      position: relative
+      .user_title
+        width: 100%
+        height: 80px
+        line-height: 80px
+        span
+          font-size: 24px
+          color: #148583
+          font-weight: 600
+      .user_ipt
+        .el-input__inner
+          padding-left: 44px
+          background: url('img/user.png') 12px 8px no-repeat
+      .pass_ipt
+        .el-input__inner
+          padding-left: 44px
+          background: url('img/password.png') 12px 8px no-repeat
+      .submit
+        border: 1px solid #148583
+        width: 100%
+        height: 42px
+        line-height: 42px
+        margin-top: 15px
+        font-size: 16px
+        background: #148583
+        color: #fff
+        font-weight: 600
+        cursor: pointer
       .forget
         position: absolute
-        top: 112px
-        right: 40px
+        top: 190px
+        right: 50px
         padding: 6px 8px
         font-size: 14px
-        color: #fff
+        color: #148583
         cursor: pointer
       .forget:hover
-        color: #F4F4F4
         font-weight: bolder
     .support
       position: absolute

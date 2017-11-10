@@ -10,6 +10,9 @@ import account from '../components/account/account.vue';
 import Print from '../components/dialog/print.vue';
 import Manage from '../components/manage/manage.vue';
 import Shouye from '../components/shouye/shouye.vue';
+import Chafeng from '../components/chafeng/chafeng.vue';
+import Swdycx from '../components/swdycx/swdycx.vue';
+import Bdcdyztcx from '../components/bdcdyztcx/bdcdyztcx.vue';
 
 Vue.use(Router);
 const routes = [
@@ -45,6 +48,18 @@ const routes = [
       {
         path: 'shouye',
         component: Shouye
+      },
+      {
+        path: 'chafeng',
+        component: Chafeng
+      },
+      {
+        path: 'swdycx',
+        component: Swdycx
+      },
+      {
+        path: 'bdcdyztcx',
+        component: Bdcdyztcx
       }
     ]
   },

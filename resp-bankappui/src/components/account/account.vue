@@ -2,7 +2,9 @@
   <div class="accounts">
     <div class="information">
       <div class="text">
-        <span>基本信息</span>
+        <img class="img_point" src="./red.png" alt="red">
+        <span class="title">基本信息</span>
+        <span class="edit" @click="Edit">修改 <i class="el-icon-edit"></i></span>
       </div>
       <div class="info">
         <span>{{BankInfo.bankName}}</span>
@@ -10,66 +12,48 @@
         <span>证件号：{{BankInfo.zjlxmc}}</span><br>
         <span>联系地址：{{BankInfo.bankAddress}}</span>
         <span>电话：{{BankInfo.telephone}}</span>
-        <!--<span class="edit" @click="Edit">修改</span>-->
+      </div>
+      <div class="text">
+        <img class="img_point" src="./blue.png" alt="blue">
+        <span class="title">账号管理</span>
+      </div>
+      <div class="acc_seartch">
+        <div style="margin-left: 40px;display: inline-block;vertical-align: middle;">
+          <el-input v-model="search_value" placeholder="输入账号/姓名可查" style="width: 220px"></el-input>
+          <el-button @click="_search_submit">查询</el-button>
+        </div>
+        <span class="add" @click="_account_add">新增 <i class="el-icon-plus"></i></span>
       </div>
     </div>
-    <div class="content">
-      <div class="acc_search">
-        <div class="title"><span>账号管理</span></div>
-        <div class="btns">
-          <div class="btns_sub">
-            <el-input v-model="search_value" placeholder="输入账号/姓名可查" style="width: 220px"></el-input>
-            <el-button type="primary" icon="search" style="margin-left: 20px;" @click="_search_submit">查询</el-button>
-          </div>
-          <el-button :plain="true" type="info" icon="plus" style="float: right; margin-right: 50px;"
-                     @click="_account_add">新增账号
-          </el-button>
-          <el-button :plain="true" type="info" style="float: right; margin-right: 50px;"
-                     @click="_manage_add">管理分支行
-          </el-button>
-        </div>
-      </div>
-      <div class="account_tables">
-        <el-table :data="tableData" v-loading="tableloding" element-loading-text="拼命加载中" border height="450"
-                  style="width: 100%">
-          <el-table-column type="index" width="60"></el-table-column>
-          <el-table-column prop="account" label="账号" sortable></el-table-column>
-          <el-table-column prop="name" label="姓名"></el-table-column>
-          <el-table-column prop="belong" label="所属行"></el-table-column>
-          <el-table-column prop="role" label="角色"></el-table-column>
-          <el-table-column prop="telephone" label="电话"></el-table-column>
-          <el-table-column prop="create_time" label="创建日期"></el-table-column>
-          <el-table-column label="操作" width="110">
-            <template scope="scope">
-              <el-button v-if="scope.$index !== 0" type="text" size="small" @click="_bind(scope.$index,scope.row)">
-                禁 用
-              </el-button>
-              <el-button type="text" size="small" @click="manage_acount(scope.$index,scope.row)">修 改</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column prop="tag" label="标签" width="100"
-                           :filters="[{ text: '公司', value: '公司' }, { text: '部门', value: '部门' }]"
-                           :filter-method="filterTag"
-                           filter-placement="bottom-end">
-            <template scope="scope">
-              <el-tag
-                :type="scope.row.tag === '家' ? 'primary' : 'success'"
-                close-transition>{{scope.row.tag}}
-              </el-tag>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="Pages">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[10, 20, 30, 40]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total">
-          </el-pagination>
-        </div>
+    <div class="account_tables">
+      <el-table :data="tableData" v-loading="tableloding" element-loading-text="拼命加载中" border height="400"
+                style="width: 100%">
+        <el-table-column type="index" width="60"></el-table-column>
+        <el-table-column prop="account" label="账号" sortable></el-table-column>
+        <el-table-column prop="name" label="姓名"></el-table-column>
+        <el-table-column prop="belong" label="所属行"></el-table-column>
+        <el-table-column prop="role" label="角色"></el-table-column>
+        <el-table-column prop="telephone" label="电话"></el-table-column>
+        <el-table-column prop="create_time" label="创建日期"></el-table-column>
+        <el-table-column label="操作" width="110">
+          <template scope="scope">
+            <el-button v-if="scope.$index !== 0" type="text" size="small" @click="_bind(scope.$index,scope.row)">
+              删 除
+            </el-button>
+            <el-button type="text" size="small" @click="manage_acount(scope.$index,scope.row)">修 改</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="Pages">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
       </div>
     </div>
     <div class="acc_dialog">
@@ -82,11 +66,21 @@
             <el-form-item label="账号" prop="accountNumber">
               <el-input v-model="ruleForm.accountNumber"></el-input>
             </el-form-item>
-            <el-form-item label="新密码" prop="newpassword">
+            <el-form-item label="密码" prop="newpassword">
               <el-input type="password" v-model="ruleForm.newpassword"></el-input>
             </el-form-item>
             <el-form-item label="手机号码" prop="telephone">
               <el-input v-model="ruleForm.telephone"></el-input>
+            </el-form-item>
+            <el-form-item label="角色" prop="role">
+              <el-select v-model="ruleForm.role" placeholder="请选择" @change="_rolechange" style="width: 270px;">
+                <el-option
+                  v-for="item in Role"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="所在银行" prop="bank">
               <el-select v-model="ruleForm.bank" placeholder="请选择" @change="_bankchange" style="width: 270px;">
@@ -104,30 +98,32 @@
           <el-button type="primary" @click="_add_account_submit('ruleForm')">完 成</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="修改基本信息" :visible.sync="edit_account" size="tiny" :before-close="handleClose">
-        <el-form :model="EditForm" ref="EditForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="姓名" prop="username">
-            <el-input v-model="EditForm.username"></el-input>
-          </el-form-item>
-          <el-form-item label="证件类型" prop="password">
-            <el-input type="text" v-model="EditForm.type"></el-input>
-          </el-form-item>
-          <el-form-item label="证件号" prop="bank_cod">
-            <el-input v-model="EditForm.bank_cod"></el-input>
-          </el-form-item>
-          <el-form-item label="联系地址" prop="phone">
-            <el-input v-model="EditForm.address"></el-input>
-          </el-form-item>
-          <el-form-item label="电话号码" prop="phone">
-            <el-input v-model="EditForm.phone"></el-input>
-          </el-form-item>
-        </el-form>
+      <el-dialog title="修改基本信息" :visible.sync="edit_account" size="000">
+        <div class="add_form" style="width: 400px;">
+          <el-form :model="EditForm" ref="EditForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="姓名" prop="username">
+              <el-input v-model="EditForm.username"></el-input>
+            </el-form-item>
+            <el-form-item label="证件类型" prop="password">
+              <el-input type="text" v-model="EditForm.type"></el-input>
+            </el-form-item>
+            <el-form-item label="证件号" prop="bank_cod">
+              <el-input v-model="EditForm.bank_cod"></el-input>
+            </el-form-item>
+            <el-form-item label="联系地址" prop="phone">
+              <el-input v-model="EditForm.address"></el-input>
+            </el-form-item>
+            <el-form-item label="电话号码" prop="phone">
+              <el-input v-model="EditForm.phone"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="edit_account = false">取 消</el-button>
           <el-button type="primary" @click="_Edit_submit('EditForm')">确 定</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="账号修改" :visible.sync="manage_account" size="000" :before-close="handleClose">
+      <el-dialog title="账号修改" :visible.sync="manage_account" size="000">
         <div style="width: 420px;padding-right: 20px;">
           <el-form :model="Manage_Form" :rules="Edit_rules" ref="Manage_Form" label-width="100px" class="demo-ruleForm">
             <el-form-item label="姓名" prop="name">
@@ -155,7 +151,7 @@
           <el-button type="primary" @click="_manage_account_submit('Manage_Form')">确 定</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="账号修改" :visible.sync="manage_account1" size="000" :before-close="handleClose">
+      <el-dialog title="账号修改" :visible.sync="manage_account1" size="000">
         <div style="width: 420px;padding-right: 20px;">
           <el-form :model="Manage_Form" :rules="Edit_rules" ref="Manage_Form" label-width="100px" class="demo-ruleForm">
             <el-form-item label="原密码" prop="newpasswor">
@@ -214,6 +210,7 @@
           bank: '',
           telephone: '',
           email: '',
+          role: '',
           accountNumber: ''
         },
         rules: {
@@ -229,6 +226,9 @@
           ],
           accountNumber: [
             {required: true, message: '请输入账号', trigger: 'change'}
+          ],
+          role: [
+            {required: true, message: '请选角色', trigger: 'change'}
           ],
           bank: [
             {required: true, message: '请选择所在行', trigger: 'change'}
@@ -272,6 +272,16 @@
             value: '营业执照'
           }
         ],
+        Role: [
+          {
+            id: '',
+            value: '管理员'
+          },
+          {
+            id: '',
+            value: '操作员'
+          }
+        ],
         bankid: ''
       };
     },
@@ -295,7 +305,7 @@
               if (response.code === 5000) {
                 this.$notify({
                   title: '提示',
-                  message: response.message,
+                  message: '没有权限，请联系管理员修改。',
                   type: 'error'
                 });
                 return false;
@@ -338,9 +348,6 @@
           }
           this.add_account = false;
         });
-      },
-      _manage_add() {  // 管理分支行
-        this.$router.push({path: 'manage'});
       },
       _search_submit() {
         this.freshData(this.search_value);
@@ -402,6 +409,14 @@
           params: {userId: userId}
         }).then((response) => {
           response = response.body;
+          if (response.code === 5000) {
+            this.$notify({
+              title: '提示',
+              message: '没有权限，请联系管理员。',
+              type: 'error'
+            });
+            return false;
+          }
           switch (response.code) {
             case 1000:
               this.$notify({
@@ -442,6 +457,13 @@
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].value) > -1) {
             this.bankid = options[i].id;
+          }
+        }
+      },
+      _rolechange(val) {
+        let options = this.Role;
+        for (var i = 0; i < options.length; i++) {
+          if (val.indexOf(options[i].value) > -1) {
           }
         }
       },
@@ -538,9 +560,6 @@
       formatter(row, column) {
         return row.address;
       },
-      filterTag(value, row) {
-        return row.tag === value;
-      },
       handleClick() {
 //        console.log(1);
       },
@@ -620,14 +639,6 @@
           });
         }
       },
-      handleClose(done) {  // 弹框
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {
-          });
-      },
       _getDate(style) {
         let date = new Date();
         return formatDate(date, style);
@@ -641,68 +652,97 @@
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   .accounts
-    border: 2px solid #DFE6EC
     width: 100%
     .information
-      border-bottom: 1px solid #DFE6EC
       width: 100%
       overflow: hidden;
       .text
-        float: left
-        height: 66px
-        line-height: 66px
-        span
-          font-size: 16px
-          padding: 0 15px
-      .info
-        float: left
-        span
-          display: inline-block
-          min-width: 160px;
-          padding: 8px 10px
-          font-size: 14px
-        .edit
-          margin-left: 80px
-          color: #ccc
-          cursor: pointer
-        .edit:hover
-          font-weight: bolder
-          color: #ADADAD
-    .content
-      width: 100%
-      .acc_search
         width: 100%
-        overflow: hidden
+        height: 42px
+        line-height: 50px
+        .img_point
+          width: 12px
+          height: 12px
+          margin-top: -1px
+          padding: 0 10px 0 14px
+          vertical-align: middle
         .title
-          float: left
-          width: 110px
-          height: 50px
-          line-height: 50px
-          span
-            padding: 0 15px
-        .btns
-          float: left
-          width: calc(100% - 120px)
-          padding: 10px 0 10px 8px;
-          .btns_sub
-            float: left
-        .el-input__inner
-          height: 32px
-        .el-button
-          padding: 8px 15px
-      .account_tables
-        width: 100%
-        padding-bottom: 64px
-        position: relative
-        overflow: hidden
-        .el-table td, .el-table th
-          height: 34px
-        .Pages
+          color: #3a3a3a
+          font-size: 16px
+          vertical-align: middle
+        .edit
+          float: right
+          margin-right: 100px
+          vertical-align: middle
+          font-size: 15px
+          color: #158684
+          cursor: pointer
+      .info
+        padding-left: 26px
+        span
           display: inline-block
-          position: absolute
-          left: 26%
-          bottom: 10px
-
+          min-width: 180px
+          padding: 8px 15px
+          font-size: 14px
+          color: #3a3a3a
+      .acc_seartch
+        width: 100%
+        height: 40px
+        margin-bottom: 10px
+        line-height: 40px
+        .add
+          float: right
+          margin-right: 100px
+          vertical-align: middle
+          font-size: 15px
+          color: #158684
+          cursor: pointer
+        .el-input__inner
+          height: 34px
+          border-radius: 0
+        .el-input__inner:hover
+          border-color: #148583
+        .el-input__inner:active
+          border-color: #148583
+        .el-button
+          border-color: #148583
+          background: #148583
+          padding: 9px 30px
+          margin-left: 20px
+          border-radius: 0
+          span
+            color: #fff
+    .account_tables
+      width: 96%
+      margin-left: 38px
+      padding-bottom: 64px
+      position: relative
+      overflow: hidden
+      .el-table td, .el-table th
+        height: 34px
+      .el-table th
+        border-right: 1px solid #148583
+        border-bottom: 1px solid #148583
+        background: #148583
+        .cell
+          background: #148583
+          color: #fff
+      .el-table .sort-caret .ascending
+        border-bottom: 5px solid #97a8be
+      .el-table .sort-caret .descending
+        border-top: 5px solid #97a8be
+      .el-table .ascending .ascending
+        border-bottom: 5px solid #fff
+      .el-table .descending .descending
+        border-top: 5px solid #fff
+      .Pages
+        display: inline-block
+        position: absolute
+        left: 26%
+        bottom: 10px
+        .el-pager li.active
+          border-color: #148583
+          background-color: #148583
     .acc_dialog
       .add_form
         .el-form-item

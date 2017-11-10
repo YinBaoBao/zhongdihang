@@ -3,12 +3,12 @@
     <div class="search">
       <div class="header">
         <ul>
-          <!--<li class="type">-->
-          <!--<span>查询类型</span>-->
-          <!--<el-select v-model="type" placeholder="请选择" style="width: 110px;">-->
-          <!--<el-option v-for="item in Type" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
-          <!--</el-select>-->
-          <!--</li>-->
+          <li class="type">
+            <span>查询类型</span>
+            <el-select v-model="type" placeholder="请选择" style="width: 110px;">
+              <el-option v-for="item in Type" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+          </li>
           <li class="filter">
             <span>状态筛选</span>
             <el-select v-model="filter" placeholder="请选择" @change="_filterchange" style="width: 110px;">
@@ -17,11 +17,12 @@
           </li>
           <li class="search_btn">
             <el-input v-model="bjbh" placeholder="输入不动产证明号/报件编号/义务人可查" style="float: left;width: 280px;"></el-input>
-            <el-button type="primary" @click="_seartch" icon="search" style="float: left;margin-left: 18px;">查询
+            <el-button class="btn_1" type="primary" @click="_seartch" icon="search"
+                       style="float: left;margin-left: 18px;">查询
             </el-button>
           </li>
           <li class="export">
-            <el-button @click="export2Excel">导出</el-button>
+            <el-button class="btn_2" @click="export2Excel">导出</el-button>
           </li>
         </ul>
       </div>
@@ -169,63 +170,122 @@
         } else {
           query = JSON.stringify({bjbh: bjbh, bjblzt: bjblztmc});
         }
-        this.$http({
-          url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search/{jyczyzh}',
-          params: {
-            jkzh: 200,
-            jyczyzh: username,
-            query: query,
-            page: this.currentPage + '',
-            size: this.pageSize + ''
-          },
-          method: 'GET'
-        }).then((response) => {
-          response = response.body;
-          if (response.status === '200') {
-            if (response.body === null) {
-              return false;
+        if (username === 'admin') {
+          this.$http({
+            url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search',
+            params: {
+              jkzh: 200,
+              query: query,
+              page: this.currentPage + '',
+              size: this.pageSize + ''
+            },
+            method: 'GET'
+          }).then((response) => {
+            if (response.status === '401') {
+              this.$message({
+                message: '登录超时，请重新登录！',
+                type: 'warning'
+              });
             }
-            if (response.body.body === null) {
-              return false;
-            }
-            this.total = response.body.count;
-            let data = response.body.body;
-            let arr = [];
-            for (var i = 0; i < data.length; i++) {
-              let obligation = '';
-              let str = data[i].djjysj.jyrq + ' ' + data[i].djjysj.jysj;
-              if (data[i].djjysj.jyrq === null || data[i].djjysj.jysj === null) {
-                str = '';
+            response = response.body;
+            if (response.status === '200') {
+              if (response.body === null) {
+                return false;
               }
-              if (data[i].sqrqk.ywrs.length === 0) {
-                obligation = '';
-              } else {
-                obligation = data[i].sqrqk.ywrs[0].ywrmc;
+              if (response.body.body === null) {
+                return false;
               }
-              let obj = {
-                date: str,
-                prove: data[i].bdcqk.bdcqzshx,
-                Report: data[i].bjbh,
-                bdcqzhxt: data[i].bdcqzhxt,
-                register: data[i].sqdjsy.djlxmc,
-                obligation: obligation,
-                address: data[i].bdcqk.zl,
-                register_time: str,
-                state: data[i].bjblztmc,
-                remark: '',
-                bjblzt: data[i].bjblzt
-              };
-              arr.push(obj);
+              this.total = response.body.count;
+              let data = response.body.body;
+              let arr = [];
+              for (var i = 0; i < data.length; i++) {
+                let obligation = '';
+                let str = data[i].djjysj.jyrq + ' ' + data[i].djjysj.jysj;
+                if (data[i].djjysj.jyrq === null || data[i].djjysj.jysj === null) {
+                  str = '';
+                }
+                if (data[i].sqrqk.ywrs.length === 0) {
+                  obligation = '';
+                } else {
+                  obligation = data[i].sqrqk.ywrs[0].ywrmc;
+                }
+                let obj = {
+                  date: str,
+                  prove: data[i].bdcqk.bdcqzshx,
+                  Report: data[i].bjbh,
+                  bdcqzhxt: data[i].bdcqzhxt,
+                  register: data[i].sqdjsy.djlxmc,
+                  obligation: obligation,
+                  address: data[i].bdcqk.zl,
+                  register_time: str,
+                  state: data[i].bjblztmc,
+                  remark: '',
+                  bjblzt: data[i].bjblzt
+                };
+                arr.push(obj);
+              }
+              this.tableData = arr;
             }
-            this.tableData = arr;
-          }
-          if (response.status === '401') {
-            this.$message({
-              message: '登录超时，请重新登录！',
-              type: 'warning'
-            });
-          }
-        });
+          });
+        } else {
+          this.$http({
+            url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search/{jyczyzh}',
+            params: {
+              jkzh: 200,
+              jyczyzh: username,
+              query: query,
+              page: this.currentPage + '',
+              size: this.pageSize + ''
+            },
+            method: 'GET'
+          }).then((response) => {
+            if (response.status === '401') {
+              this.$message({
+                message: '登录超时，请重新登录！',
+                type: 'warning'
+              });
+            }
+            response = response.body;
+            if (response.status === '200') {
+              if (response.body === null) {
+                return false;
+              }
+              if (response.body.body === null) {
+                return false;
+              }
+              this.total = response.body.count;
+              let data = response.body.body;
+              let arr = [];
+              for (var i = 0; i < data.length; i++) {
+                let obligation = '';
+                let str = data[i].djjysj.jyrq + ' ' + data[i].djjysj.jysj;
+                if (data[i].djjysj.jyrq === null || data[i].djjysj.jysj === null) {
+                  str = '';
+                }
+                if (data[i].sqrqk.ywrs.length === 0) {
+                  obligation = '';
+                } else {
+                  obligation = data[i].sqrqk.ywrs[0].ywrmc;
+                }
+                let obj = {
+                  date: str,
+                  prove: data[i].bdcqk.bdcqzshx,
+                  Report: data[i].bjbh,
+                  bdcqzhxt: data[i].bdcqzhxt,
+                  register: data[i].sqdjsy.djlxmc,
+                  obligation: obligation,
+                  address: data[i].bdcqk.zl,
+                  register_time: str,
+                  state: data[i].bjblztmc,
+                  remark: '',
+                  bjblzt: data[i].bjblzt
+                };
+                arr.push(obj);
+              }
+              this.tableData = arr;
+            }
+          });
+        }
       },
       _seartch() {
         this.gettableData(this.bjbh, this.filecode);
@@ -354,16 +414,20 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .search
     float: left
-    border: 2px solid #DFE6EC;
     width: 99%
+    padding-left: 20px
     padding-bottom: 64px
     position: relative;
     .header
       width: 100%
       overflow: hidden
-      .type, .filter, .search_btn
+      .type, .search_btn
         float: left
         padding: 6px 15px
+        margin-top: 8px
+      .filter
+        float: left
+        padding: 6px 15px 0 0
         margin-top: 8px
       .export
         float: right
@@ -376,9 +440,26 @@
       .search_btn
         margin-left: 20px
       .el-input__inner
-        height: 32px
+        height: 34px
+        border-radius: 0
+      .el-input__inner:hover
+        border-color: #148583
+      .el-input__inner:active
+        border-color: #148583
       .el-button
-        padding: 8px 15px
+        border-radius: 0
+        span
+          color: #fff
+      .btn_1
+        border-color: #148583
+        background: #148583
+      .btn_2
+        border-color: #ff954d
+        background: #ff954d
+      .btn_1:active
+        border-color: #148583
+      .btn_1:hover
+        border-color: #148583
     .content
       width: 100%
       overflow: hidden;
@@ -388,9 +469,27 @@
         overflow: hidden
         .el-table td, .el-table th
           height: 34px
+        .el-table th
+          border-right: 1px solid #148583
+          border-bottom: 1px solid #148583
+          background: #148583
+          .cell
+            background: #148583
+            color: #fff
+        .el-table .sort-caret .ascending
+          border-bottom: 5px solid #97a8be
+        .el-table .sort-caret .descending
+          border-top: 5px solid #97a8be
+        .el-table .ascending .ascending
+          border-bottom: 5px solid #fff
+        .el-table .descending .descending
+          border-top: 5px solid #fff
     .pages
       display: inline-block
       position: absolute
       left: 30%
       bottom: 18px
+      .el-pager li.active
+        border-color: #148583
+        background-color: #148583
 </style>
