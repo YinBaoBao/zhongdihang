@@ -37,10 +37,13 @@
         <el-table-column prop="create_time" label="创建日期"></el-table-column>
         <el-table-column label="操作" width="110">
           <template scope="scope">
-            <el-button v-if="scope.$index !== 0" type="text" size="small" @click="_bind(scope.$index,scope.row)">
+            <el-button v-if="scope.row.admin !== 'admin'" type="text" size="small"
+                       @click="_bind(scope.$index,scope.row)">
               删 除
             </el-button>
-            <el-button type="text" size="small" @click="manage_acount(scope.$index,scope.row)">修 改</el-button>
+            <el-button v-if="scope.row.admin !== 'admin'" type="text" size="small"
+                       @click="manage_acount(scope.$index,scope.row)">修 改
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -123,7 +126,7 @@
           <el-button type="primary" @click="_Edit_submit('EditForm')">确 定</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="账号修改" :visible.sync="manage_account" size="000">
+      <el-dialog title="账户修改" :visible.sync="manage_account" size="000">
         <div style="width: 420px;padding-right: 20px;">
           <el-form :model="Manage_Form" :rules="Edit_rules" ref="Manage_Form" label-width="100px" class="demo-ruleForm">
             <el-form-item label="姓名" prop="name">
@@ -139,10 +142,10 @@
               <el-input v-model="Manage_Form.telephone"></el-input>
             </el-form-item>
             <el-form-item label="所属行" prop="belong">
-              <el-input v-model="Manage_Form.belong"></el-input>
+              <el-input disabled v-model="Manage_Form.belong"></el-input>
             </el-form-item>
-            <el-form-item label="角色 " prop="role">
-              <el-input v-model="Manage_Form.role"></el-input>
+            <el-form-item label="角色" prop="role">
+              <el-input disabled v-model="Manage_Form.role"></el-input>
             </el-form-item>
           </el-form>
         </div>
@@ -151,7 +154,7 @@
           <el-button type="primary" @click="_manage_account_submit('Manage_Form')">确 定</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="账号修改" :visible.sync="manage_account1" size="000">
+      <el-dialog title="账户修改" :visible.sync="manage_account1" size="000">
         <div style="width: 420px;padding-right: 20px;">
           <el-form :model="Manage_Form" :rules="Edit_rules" ref="Manage_Form" label-width="100px" class="demo-ruleForm">
             <el-form-item label="原密码" prop="newpasswor">
@@ -260,16 +263,19 @@
           ],
           account: [
             {required: true, message: '请输入账号', trigger: 'change'}
+          ],
+          password: [
+            {required: true, message: '请输入密码', trigger: 'change'}
           ]
         },
         bankoption: [
           {
             id: '',
-            value: '身份证'
+            value: ''
           },
           {
             id: '',
-            value: '营业执照'
+            value: ''
           }
         ],
         Role: [
@@ -282,24 +288,30 @@
             value: '操作员'
           }
         ],
+        roleid: '',
         bankid: ''
       };
     },
     methods: {
       _account_add() {   // 新增账号
         this.getbank();
+        this.getrole();
         this.add_account = true;
       },
-      _add_account_submit(ruleForm) { // 新增账号
+      _add_account_submit(ruleForm) { // 保存新增账号
         this.$refs[ruleForm].validate((valid) => {
           if (valid) {
+            let roleId = [];
+            roleId.push(this.roleid);
             this.$http.post(this.$store.state.Host + '/UserControl/saveUser', {
               bankId: this.bankid,
               telephone: this.ruleForm.telephone,
               password: this.ruleForm.newpassword,
               accountNumber: this.ruleForm.accountNumber,
+              roleId: roleId,
               name: this.ruleForm.name,
-              e_mail: this.ruleForm.email
+              e_mail: this.ruleForm.email,
+              is_Delete: false
             }).then((response) => {
               response = response.body;
               if (response.code === 5000) {
@@ -308,10 +320,11 @@
                   message: '没有权限，请联系管理员修改。',
                   type: 'error'
                 });
+                this.add_account = false;
                 return false;
               }
               switch (response.code) {
-                case 1000:
+                case 200:
                   this.$notify({
                     title: '提示',
                     message: '添加成功',
@@ -374,14 +387,14 @@
             }).then((response) => {
               response = response.body;
               switch (response.code) {
-                case 1000:
+                case 200:
                   this.$notify({
                     title: '提示',
                     message: '修改成功',
                     type: 'success'
                   });
-                  this.freshData();
-                  this.add_account = false;
+                  this.BankInfo = response.content;
+                  this.edit_account = false;
                   break;
                 default:
                   this.$notify({
@@ -418,7 +431,7 @@
             return false;
           }
           switch (response.code) {
-            case 1000:
+            case 200:
               this.$notify({
                 title: '提示',
                 message: '已禁用',
@@ -435,10 +448,14 @@
           }
         });
       },
-      getbank() {    // 获取证件种类
-        this.$http.get(this.$store.state.Host + '/bankControl/findAllBank').then((response) => {
+      getbank() {    // 获取所在银行
+        this.$http.get(this.$store.state.Host + '/bankControl/findSubordinateBank', {
+          params: {
+            bankId: this.$store.state.Bankinfo.id
+          }
+        }).then((response) => {
           response = response.body;
-          if (response.code === 1000) {
+          if (response.code === 200) {
             let data = response.content;
             let arr = [];
             for (var i = 0; i < data.length; i++) {
@@ -460,10 +477,26 @@
           }
         }
       },
+      getrole() {    // 获取所在银行
+        this.$http.get(this.$store.state.Host + '/RoleControl/findAllRole').then((response) => {
+          response = response.body;
+          let data = response;
+          let arr = [];
+          for (var i = 0; i < data.length; i++) {
+            let json = {
+              id: data[i].id,
+              value: data[i].roleName
+            };
+            arr.push(json);
+          }
+          this.Role = arr;
+        });
+      },
       _rolechange(val) {
         let options = this.Role;
         for (var i = 0; i < options.length; i++) {
           if (val.indexOf(options[i].value) > -1) {
+            this.roleid = options[i].id;
           }
         }
       },
@@ -497,7 +530,7 @@
             }).then((response) => {
               response = response.body;
               switch (response.code) {
-                case 1000:
+                case 200:
                   this.$notify({
                     title: '提示',
                     message: '修改成功',
@@ -533,7 +566,7 @@
               newPassword: this.Manage_Form.oldpassword
             }).then((response) => {
               response = response.body;
-              if (response.code === 1000) {
+              if (response.code === 200) {
                 this.$notify({
                   title: '提示',
                   message: '修改成功',
@@ -572,38 +605,58 @@
         this.freshData();
       },
       freshData(elements) {
-        if (this.$store.state.Role[0].description === 'admin') {
+        let description = localStorage.getItem('description');
+        if (description === 'admin' || description === 'bankAdmin') {
           this.$http.get(this.$store.state.Host + '/UserControl/list', {
             params: {
               pageNumber: this.currentPage,
               pageSize: this.pageSize,
-              condition: elements
+              condition: elements,
+              userId: this.$store.state.bankuser.id
             }
           }).then((response) => {
             response = response.body;
             this.tableloding = false;
-            if (response.code === 1000) {
+            if (response.code === 200) {
               this.total = response.content.totalElements;
-              this.tableData = [];
+              let arr = [];
               let data = response.content.content;
               for (var i = 0; i < data.length; i++) {
-                let json = {};
-                json['bankId'] = data[i].bankId;
-                json['id'] = data[i].id;
-                json['account'] = data[i].accountNumber;
-                json['name'] = data[i].name;
-                json['belong'] = data[i].bankName;
-                json['telephone'] = data[i].telephone;
-                json['role'] = data[i].roleStr[0].roleName;
-                json['create_time'] = data[i].creatTime;
-                json['tag'] = '部门';
-                this.tableData.splice(i, 1, json);
+                if (i === 0) {
+                  let json = {
+                    admin: 'admin',
+                    bankId: data[i].bankId,
+                    id: data[i].id,
+                    account: data[i].accountNumber,
+                    name: data[i].name,
+                    belong: data[i].bankName,
+                    telephone: data[i].telephone,
+                    role: data[i].roleStr[0].roleName,
+                    create_time: data[i].creatTime
+                  };
+                  arr.push(json);
+                } else {
+                  let json = {
+                    bankId: data[i].bankId,
+                    id: data[i].id,
+                    account: data[i].accountNumber,
+                    name: data[i].name,
+                    belong: data[i].bankName,
+                    telephone: data[i].telephone,
+                    role: data[i].roleStr[0].roleName,
+                    create_time: data[i].creatTime
+                  };
+                  arr.push(json);
+                }
               }
-            } else {
+              this.tableData = arr;
+            }
+          }, (error) => {
+            if (error.status === 401) {
               this.$notify({
                 title: '警告',
-                message: '暂无数据',
-                type: 'warning'
+                message: error.body,
+                type: 'error'
               });
             }
           });
@@ -615,7 +668,7 @@
           }).then((response) => {
             response = response.body;
             this.tableloding = false;
-            if (response.code === 1000) {
+            if (response.code === 200) {
               this.total = 100;
               let data = response.content;
               let json = {};
@@ -629,11 +682,13 @@
               json['create_time'] = data.creatTime;
               json['tag'] = '部门';
               this.tableData.push(json);
-            } else {
+            }
+          }, (error) => {
+            if (error.status === 401) {
               this.$notify({
                 title: '警告',
-                message: '暂无数据',
-                type: 'warning'
+                message: error.body,
+                type: 'error'
               });
             }
           });

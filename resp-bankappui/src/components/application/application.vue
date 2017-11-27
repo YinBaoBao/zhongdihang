@@ -1,625 +1,665 @@
 <template>
-  <div style="height: 100%;">
-    <div class="application">
-      <div class="app_table">
-        <div class="header">
-          <ul>
-            <li>
-              <span class="title">登记类型:</span>
-              <el-select @change="_djlxchange" v-model="djlx.djlxmc" placeholder="请选择"
-                         style="width: 140px;">
-                <el-option
-                  v-for="item in djlxoptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </li>
-            <li>
-              <span class="title">登记子类型:</span>
-              <el-select @change="_djzlxchange" v-model="djlx.djzlxmc" placeholder="请选择"
-                         style="width: 140px;">
-                <el-option
-                  v-for="item in djzlxoptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </li>
-            <li>
-              <span class="title">报件编号:</span>
-              <input class="ipt_text" v-model="$store.state.Bjbh" type="text" value="" readonly="readonly"
-                     placeholder="" style="width: 130px;">
-            </li>
-            <li>
-              <span class="title">经办人姓名:</span>
-              <input class="ipt_text" type="text" value="" readonly="readonly" placeholder="" style="width: 94px;">
-            </li>
-          </ul>
-        </div>
-        <div class="proposer">
-          <div class="inner">
-            <table class="table">
-              <tr>
-                <th style="min-width: 100px;text-align: left">
-                  <img class="img_point" src="./red.png" alt="red">
-                  <span style="vertical-align: middle;">申请人情况 :</span>
-                </th>
-                <th>姓名/名称</th>
-                <th>证件类型</th>
-                <th>证件号</th>
-                <th>联系地址</th>
-                <th>电话</th>
-                <th>操作</th>
-              </tr>
-              <tr v-for="(item,index) in proposer.qlrs">
-                <td>权利人</td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="item.qlrmc" class="input_text" type="text" readonly="readonly" placeholder=""
-                         value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="item.qlrzjzlmc" class="input_text" type="text" readonly="readonly" placeholder=""
-                         value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="item.qlrzjh" class="input_text" type="text" readonly="readonly" placeholder=""
-                         value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="item.qlrdz" class="input_text" type="text" readonly="readonly" placeholder=""
-                         value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="item.qlrdh" class="input_text" type="text" readonly="readonly" placeholder=""
-                         value="">
-                </td>
-                <td class="sqrqk_caozuo" style="padding:0;min-width: 120px;">
-                  <a href="javascript:;" @click="_application_add('权利人',proposer.qlrs)"
-                     style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
-                  <a href="javascript:;" @click="_edit_sqrqk(index,item,'权利人')"
-                     style="margin-right: 2px;" title="修改"><i class="el-icon-edit"></i></a>
-                  <a href="javascript:;" @click="_delete_sqrqk(index,'权利人')" title="删除">
-                    <i class="el-icon-delete2"></i></a>
-                </td>
-              </tr>
-              <tr v-if="proposer.qlrdlr">
-                <td>权利人代理人</td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="proposer.qlrdlr.qlrdlrmc" class="input_text" type="text" readonly="readonly"
-                         placeholder="" value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="proposer.qlrdlr.qlrdlrzjzlmc" class="input_text" type="text" readonly="readonly"
-                         placeholder="" value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="proposer.qlrdlr.qlrdlrzjh" class="input_text" type="text" readonly="readonly"
-                         placeholder="" value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="proposer.qlrdlr.qlrdlrdz" class="input_text" type="text" readonly="readonly"
-                         placeholder="" value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="proposer.qlrdlr.qlrdlrdh" class="input_text" type="text" readonly="readonly"
-                         placeholder="" value="">
-                </td>
-                <td class="sqrqk_caozuo" style="padding:0;">
-                  <a href="javascript:;" @click="_add_dlr('权利人代理人')"
-                     style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
-                  <a href="javascript:;" @click="_edit_sqrqkdlr(proposer.qlrdlr,'权利人代理人')"
-                     style="margin-right: 2px;" title="删除"><i class="el-icon-edit"></i></a>
-                  <a href="javascript:;" @click="_clerar_sqrqkdlr(proposer.qlrdlr, '权利人代理人')" title="删除"><i
-                    class="el-icon-delete2"></i></a>
-                </td>
-              </tr>
-              <tr v-for="(item,index) in proposer.ywrs">
-                <td>义务人</td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="item.ywrmc" class="input_text" type="text" readonly="readonly" placeholder=""
-                         value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="item.ywrzjzlmc" class="input_text" type="text" readonly="readonly" placeholder=""
-                         value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="item.ywrzjh" class="input_text" type="text" readonly="readonly" placeholder=""
-                         value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="item.ywrdz" class="input_text" type="text" readonly="readonly" placeholder=""
-                         value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="item.ywrdh" class="input_text" type="text" readonly="readonly" placeholder=""
-                         value="">
-                </td>
-                <td class="sqrqk_caozuo">
-                  <a href="javascript:;" @click="_application_add('义务人',proposer.ywrs)"
-                     style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
-                  <a href="javascript:;" @click="_edit_sqrqk(index,item,'义务人')"
-                     style="margin-right: 2px;" title="修改"><i class="el-icon-edit"></i></a>
-                  <a href="javascript:;" @click="_delete_sqrqk(index,'义务人')" title="删除"><i class="el-icon-delete2"></i></a>
-                </td>
-              </tr>
-              <tr v-if="proposer.ywrdlr">
-                <td>义务人代理人</td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="proposer.ywrdlr.ywrdlrmc" class="input_text" type="text" readonly="readonly"
-                         placeholder="" value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="proposer.ywrdlr.ywrdlrzjzlmc" class="input_text" type="text" readonly="readonly"
-                         placeholder="" value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="proposer.ywrdlr.ywrdlrzjh" class="input_text" type="text" readonly="readonly"
-                         placeholder="" value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="proposer.ywrdlr.ywrdlrdz" class="input_text" type="text" readonly="readonly"
-                         placeholder="" value="">
-                </td>
-                <td class="td_text" style="padding: 0;">
-                  <input v-model="proposer.ywrdlr.ywrdlrdh" class="input_text" type="text" readonly="readonly"
-                         placeholder="" value="">
-                </td>
-                <td class="sqrqk_caozuo">
-                  <a href="javascript:;" @click="_add_dlr('义务人代理人')"
-                     style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
-                  <a href="javascript:;" @click="_edit_sqrqkdlr(proposer.ywrdlr, '义务人代理人')" style="margin-right: 2px;"
-                     title="修改"><i class="el-icon-edit"></i></a>
-                  <a href="javascript:;" @click="_clerar_sqrqkdlr(proposer.ywrdlr,'义务人代理人')"><i class="el-icon-delete2"
-                                                                                                title="删除"></i></a>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="mortgage">
+  <div class="application">
+    <div class="app_table">
+      <ul class="header">
+        <li>
+          <span class="title" style="width: 66px;">登记类型:</span>
+          <el-select @change="_djlxchange" v-model="djlx.djlxmc" placeholder="请选择"
+                     style="flex: 1;">
+            <el-option
+              v-for="item in djlxoptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </li>
+        <li>
+          <span class="title" style="width: 80px;">登记子类型:</span>
+          <el-select @change="_djzlxchange" v-model="djlx.djzlxmc" placeholder="请选择"
+                     style="flex: 1;">
+            <el-option
+              v-for="item in djzlxoptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </li>
+        <li>
+          <span class="title" style="width:66px;">报件编号:</span>
+          <input class="ipt_text" v-model="$store.state.Bjbh" type="text" value="" readonly="readonly"
+                 placeholder="">
+        </li>
+        <li>
+          <span class="title" style="width:80px;">经办人姓名:</span>
+          <input class="ipt_text" type="text" value="" readonly="readonly" placeholder="">
+        </li>
+      </ul>
+      <div class="proposer">
+        <div class="inner">
           <table class="table">
             <tr>
-              <th colspan="6"  style="min-width: 100px;text-align: left;">
-                <img class="img_point" src="./blue.png" alt="blue">
-                <span style="vertical-align: middle;">不动产情况 :</span>
+              <th colspan="7" style="min-width: 100px;text-align: left">
+                <img class="img_point" src="./red.png" alt="red">
+                <span style="vertical-align: middle;">申请人情况</span>
+                <el-popover
+                  ref="popover"
+                  placement="right"
+                  width="600"
+                  trigger="click">
+                  <div style="padding: 0 10px;">
+                    <div style="height: 40px;line-height: 40px;">
+                      <h2 style="font-size: 16px;font-weight: 500;padding-left: 4px;">申请人信息须知</h2>
+                    </div>
+                    <el-table :data="gridData">
+                      <el-table-column property="djlx" label="登记类型"></el-table-column>
+                      <el-table-column property="qlr" label="权利人需填写内容"></el-table-column>
+                      <el-table-column property="ywr" label="义务人需填写内容"></el-table-column>
+                    </el-table>
+                    <div style="height: 40px;line-height: 40px;">
+                      <span style="font-size: 14px;">注: “转移登记（合并）”为转移合并抵押的登记类型。</span>
+                    </div>
+                  </div>
+                </el-popover>
+                <span class="el-icon-information infor" v-popover:popover></span>
               </th>
             </tr>
             <tr>
-              <td>坐落</td>
-              <td colspan="4" style="padding: 0;">
-                <table style="width: 100%;">
-                  <tr>
-                    <td class="td_text" style="padding: 0;border: none;">
-                      <input v-model="bdcqk.zl" class="input_text" type="text" placeholder="" value="">
-                    </td>
-                  </tr>
-                </table>
+              <td style="min-width: 100px;"></td>
+              <td>姓名/名称</td>
+              <td>证件类型</td>
+              <td>证件号</td>
+              <td>联系地址</td>
+              <td>电话</td>
+              <td>操作</td>
+            </tr>
+            <tr v-for="(item,index) in proposer.qlrs">
+              <td>权利人</td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="item.qlrmc" class="input_text" type="text" readonly="readonly" placeholder=""
+                       value="">
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="item.qlrzjzlmc" class="input_text" type="text" readonly="readonly" placeholder=""
+                       value="">
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="item.qlrzjh" class="input_text" type="text" readonly="readonly" placeholder=""
+                       value="">
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="item.qlrdz" class="input_text" type="text" readonly="readonly" placeholder=""
+                       value="">
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="item.qlrdh" class="input_text" type="text" readonly="readonly" placeholder=""
+                       value="">
+              </td>
+              <td class="sqrqk_caozuo" style="padding:0;min-width: 120px;">
+                <a href="javascript:;" @click="_application_add('权利人',proposer.qlrs)"
+                   style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
+                <a href="javascript:;" @click="_edit_sqrqk(index,item,'权利人')"
+                   style="margin-right: 2px;" title="修改"><i class="el-icon-edit"></i></a>
+                <a href="javascript:;" @click="_delete_sqrqk(index,'权利人')" title="删除">
+                  <i class="el-icon-delete2"></i></a>
               </td>
             </tr>
-            <tr>
-              <td colspan="" style="min-width: 164px;">原不动产权证书号</td>
+            <tr v-if="proposer.qlrdlr">
+              <td>权利人代理人</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.bdcqzshy" class="input_text" type="text" placeholder="" value="">
+                <input v-model="proposer.qlrdlr.qlrdlrmc" class="input_text" type="text" readonly="readonly"
+                       placeholder="" value="">
               </td>
-              <td style="min-width: 164px;">不动产单元号</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.bdcdyh" class="input_text" type="text" placeholder="" value="">
+                <input v-model="proposer.qlrdlr.qlrdlrzjzlmc" class="input_text" type="text" readonly="readonly"
+                       placeholder="" value="">
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="proposer.qlrdlr.qlrdlrzjh" class="input_text" type="text" readonly="readonly"
+                       placeholder="" value="">
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="proposer.qlrdlr.qlrdlrdz" class="input_text" type="text" readonly="readonly"
+                       placeholder="" value="">
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="proposer.qlrdlr.qlrdlrdh" class="input_text" type="text" readonly="readonly"
+                       placeholder="" value="">
+              </td>
+              <td class="sqrqk_caozuo" style="padding:0;">
+                <a href="javascript:;" @click="_add_dlr('权利人代理人')"
+                   style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
+                <a href="javascript:;" @click="_edit_sqrqkdlr(proposer.qlrdlr,'权利人代理人')"
+                   style="margin-right: 2px;" title="修改"><i class="el-icon-edit"></i></a>
+                <a href="javascript:;" @click="_clerar_sqrqkdlr(proposer.qlrdlr, '权利人代理人')" title="删除"><i
+                  class="el-icon-delete2"></i></a>
               </td>
             </tr>
-            <tr>
-              <td colspan="">房屋用途</td>
+            <tr v-for="(item,index) in proposer.ywrs">
+              <td>义务人</td>
               <td class="td_text" style="padding: 0;">
-                <el-select @change="_fwytchange" v-model="bdcqk.fwytmc" placeholder="请选择"
-                           style="width: 100%;margin-left: -1px;">
-                  <el-option
-                    v-for="item in fwytoptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
+                <input v-model="item.ywrmc" class="input_text" type="text" readonly="readonly" placeholder=""
+                       value="">
               </td>
-              <td>房屋面积</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.fwmj" class="input_text" type="text" placeholder="" value="">
+                <input v-model="item.ywrzjzlmc" class="input_text" type="text" readonly="readonly" placeholder=""
+                       value="">
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="item.ywrzjh" class="input_text" type="text" readonly="readonly" placeholder=""
+                       value="">
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="item.ywrdz" class="input_text" type="text" readonly="readonly" placeholder=""
+                       value="">
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="item.ywrdh" class="input_text" type="text" readonly="readonly" placeholder=""
+                       value="">
+              </td>
+              <td class="sqrqk_caozuo">
+                <a href="javascript:;" @click="_application_add('义务人',proposer.ywrs)"
+                   style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
+                <a href="javascript:;" @click="_edit_sqrqk(index,item,'义务人')"
+                   style="margin-right: 2px;" title="修改"><i class="el-icon-edit"></i></a>
+                <a href="javascript:;" @click="_delete_sqrqk(index,'义务人')" title="删除"><i
+                  class="el-icon-delete2"></i></a>
               </td>
             </tr>
-            <tr>
-              <td colspan="">土地用途</td>
+            <tr v-if="proposer.ywrdlr">
+              <td>义务人代理人</td>
               <td class="td_text" style="padding: 0;">
-                <el-select @change="_tdytchange" v-model="bdcqk.tdytmc" placeholder="请选择"
-                           style="width: 100%;margin-left: -1px;">
-                  <el-option
-                    v-for="item in tdytoptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
+                <input v-model="proposer.ywrdlr.ywrdlrmc" class="input_text" type="text" readonly="readonly"
+                       placeholder="" value="">
               </td>
-              <td>土地面积</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.tdmj" class="input_text" type="text" placeholder="" value="">
+                <input v-model="proposer.ywrdlr.ywrdlrzjzlmc" class="input_text" type="text" readonly="readonly"
+                       placeholder="" value="">
               </td>
-            </tr>
-            <tr>
-              <td style="min-width: 100px;">土地使用起始日</td>
               <td class="td_text" style="padding: 0;">
-                <el-date-picker
-                  v-model="bdcqk.tdsyqssj"
-                  type="date"
-                  placeholder="选择日期"
-                  :picker-options="pickerOptions"
-                  @change="_tdsyqssjtime"
-                  style="width: 100%; margin-left: -1px;">
-                </el-date-picker>
+                <input v-model="proposer.ywrdlr.ywrdlrzjh" class="input_text" type="text" readonly="readonly"
+                       placeholder="" value="">
               </td>
-              <td style="min-width: 100px;">土地使用结束日</td>
               <td class="td_text" style="padding: 0;">
-                <el-date-picker
-                  v-model="bdcqk.tdsyjssj"
-                  type="date"
-                  placeholder="选择日期"
-                  :picker-options="pickerOptions"
-                  @change="_tdsyjssjtime"
-                  style="width: 100%; margin-left: -1px;">
-                </el-date-picker>
+                <input v-model="proposer.ywrdlr.ywrdlrdz" class="input_text" type="text" readonly="readonly"
+                       placeholder="" value="">
               </td>
-            </tr>
-            <tr>
-              <td style="min-width: 58px;">权利性质</td>
               <td class="td_text" style="padding: 0;">
-                <el-select @change="_qlxzchange" v-model="bdcqk.qlxzmc" placeholder="请选择"
-                           style="width: 100%;margin-left: -1px;">
-                  <el-option
-                    v-for="item in qlxzoptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
+                <input v-model="proposer.ywrdlr.ywrdlrdh" class="input_text" type="text" readonly="readonly"
+                       placeholder="" value="">
               </td>
-              <td style="min-width: 58px;">所属区县</td>
-              <td class="td_text" style="padding: 0;border-right: none;">
-                <el-select @change="_ssqxchange" v-model="bdcqk.ssqxmc" placeholder="请选择"
-                           style="width: 100%;margin-left: -1px;">
-                  <el-option
-                    v-for="item in ssqxoptions1"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="mortgage">
-          <table class="table">
-            <tr>
-              <th colspan="6"  style="min-width: 100px;text-align: left;">
-                <img class="img_point" src="./orange.png" alt="orange">
-                <span style="vertical-align: middle;">抵押情况 :</span>
-              </th>
-            </tr>
-            <tr>
-              <td style="min-width: 116px;">被担保债权数额</td>
-              <td class="td_text" style="padding: 0;">
-                <input v-model="mortgage.bdbzqse" value="万元" class="input_text" type="text" placeholder="万元">
-              </td>
-              <td style="min-width: 116px;">抵押合同签署日期</td>
-              <td class="td_text" style="padding: 0;">
-                <el-date-picker
-                  v-model="mortgage.dyhtqdrq"
-                  type="date"
-                  format="yyyy-MM-dd"
-                  placeholder="选择日期"
-                  :picker-options="pickerOptions"
-                  @change="_dyhtqdrqtime"
-                  style="width: 100%;margin-left: -1px;">
-                </el-date-picker>
-              </td>
-              <td style="min-width: 100px;">银行抵押业务号</td>
-              <td class="td_text" style="padding: 0;min-width: 146px;">
-                <input v-model="mortgage.yhdyywh" class="input_text" type="text" placeholder="">
-              </td>
-            </tr>
-            <tr>
-              <td colspan="">债务履行开始时间</td>
-              <td class="td_text" style="padding: 0;">
-                <el-date-picker
-                  v-model="mortgage.zwlxqssj"
-                  type="date"
-                  format="yyyy-MM-dd"
-                  placeholder="选择日期"
-                  :picker-options="pickerOptions"
-                  @change="_zwlxqstime"
-                  style="width: 100%;margin-left: -1px;">
-                </el-date-picker>
-              </td>
-              <td>债务履行结束时间</td>
-              <td class="td_text" style="padding: 0;">
-                <el-date-picker
-                  v-model="mortgage.zwlxjssj"
-                  type="date"
-                  placeholder="选择日期"
-                  :picker-options="pickerOptions"
-                  @change="_zwlxjstime"
-                  style="width: 100%;margin-left: -1px;">
-                </el-date-picker>
-              </td>
-              <td colspan="">贷款业务编号</td>
-              <td class="td_text" style="padding: 0;">
-                <input v-model="mortgage.dkywbh" class="input_text" type="text" placeholder="">
-              </td>
-            </tr>
-            <tr>
-              <td colspan="6" style="padding: 0;">
-                <table class="table_1" cellpadding="10" cellspacing="0">
-                  <tr>
-                    <td style="min-width: 100px;">不动产评估价格</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.bdcpgjg" class="input_text" type="text" placeholder="万元">
-                    </td>
-                    <td style="min-width: 90px;">土地评估价格</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.tdpgjg" class="input_text" type="text" placeholder="万元">
-                    </td>
-                    <td style="min-width: 86px;">房产评估价格</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.fcpgjg" class="input_text" type="text"
-                             placeholder="万元">
-                    </td>
-                    <td>贷款账号</td>
-                    <td class="td_text" style="padding: 0;border-right: none;">
-                      <input v-model="mortgage.dkzh" class="input_text" type="text" placeholder="">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>担保范围</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.dbfw" class="input_text" type="text"
-                             placeholder="详见材料">
-                    </td>
-                    <td style="min-width: 126px;">在建建筑物抵押范围</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.zjjzwdyfw" class="input_text" type="text"
-                             placeholder="万元">
-                    </td>
-                    <td>房产抵押面积</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.fcdymj" class="input_text" type="text"
-                             placeholder="平方米">
-                    </td>
-                    <td style="min-width: 86px;">土地抵押面积</td>
-                    <td class="td_text" style="padding: 0;border-right: none;">
-                      <input v-model="mortgage.tddymj" class="input_text" type="text"
-                             placeholder="平方米">
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="8" style="padding: 0;">
-                <table class="table_2" cellpadding="10" cellspacing="0" style="width: 100%;">
-                  <tr>
-                    <td>抵押方式</td>
-                    <td class="td_text" style="padding: 0;">
-                      <el-select @change="_dyfschange" v-model="mortgage.dyfsmc" placeholder="请选择"
-                                 style="width:100%;margin-left: -1px;">
-                        <el-option
-                          v-for="item in dyfsoptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
-                      </el-select>
-                    </td>
-                    <td>债权人</td>
-                    <td class="td_text" style="padding: 0;">
-                      <input v-model="mortgage.zqr" class="input_text" type="text" placeholder=""
-                             value="中国建设银行股份有限公司苏州分行">
-                    </td>
-                    <td>债务人</td>
-                    <td class="td_text" style="padding: 0;border-right: none;">
-                      <input v-model="mortgage.zwr" class="input_text" type="text" placeholder=""
-                             value="">
-                    </td>
-                  </tr>
-                </table>
+              <td class="sqrqk_caozuo">
+                <a href="javascript:;" @click="_add_dlr('义务人代理人')"
+                   style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
+                <a href="javascript:;" @click="_edit_sqrqkdlr(proposer.ywrdlr, '义务人代理人')" style="margin-right: 2px;"
+                   title="修改"><i class="el-icon-edit"></i></a>
+                <a href="javascript:;" @click="_clerar_sqrqkdlr(proposer.ywrdlr,'义务人代理人')"><i class="el-icon-delete2"
+                                                                                              title="删除"></i></a>
               </td>
             </tr>
           </table>
         </div>
       </div>
-      <div class="app_list">
-        <list @appLook="Look_reg" @apply_submit="_apply_submit" @newcreateapply="_newcreateapply"
-              @Print="_printapply" :upDatalist="upDatalist" :bjblztmc="bjblztmc"></list>
+      <div class="mortgage">
+        <table class="table">
+          <tr>
+            <th colspan="6" style="min-width: 100px;text-align: left;">
+              <img class="img_point" src="./blue.png" alt="blue">
+              <span style="vertical-align: middle;">不动产情况</span>
+            </th>
+          </tr>
+          <tr>
+            <td>坐落</td>
+            <td colspan="4" style="padding: 0;">
+              <table style="width: 100%;">
+                <tr>
+                  <td class="td_text" style="padding: 0;border: none;">
+                    <input v-model="bdcqk.zl" class="input_text" type="text" placeholder="" value="">
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="" style="min-width: 164px;">
+              原不动产权证书号
+              <el-popover
+                ref="popover"
+                placement="right"
+                width="400"
+                trigger="click">
+                <div style="padding: 15px 10px">
+                  <p style="padding-bottom: 8px;font-size: 14px;line-height:18px;">
+                    原证为不动产证时填写不动产证号，否则填写原房产证号和原土地证号，中间用“，”区分。
+                  </p>
+                  <p style="padding-bottom: 8px;font-size: 14px;line-height:18px;">
+                    不动产证号举例：“苏（2017）苏州市不动产权第8019801号”;
+                  </p>
+                  <p style="padding-bottom: 8px;font-size: 14px;line-height:18px;">
+                    原房产证号和原土地证号举例：“苏房权证市区字第10106630号，苏国用（2004）第02008490号”。
+                  </p>
+                </div>
+              </el-popover>
+              <span class="el-icon-information infor" v-popover:popover></span>
+            </td>
+            <td class="td_text" style="padding: 0;">
+              <input v-model="bdcqk.bdcqzshy" class="input_text" type="text" placeholder="" value="">
+            </td>
+            <td style="min-width: 164px;">不动产单元号</td>
+            <td class="td_text" style="padding: 0;">
+              <input v-model="bdcqk.bdcdyh" class="input_text" type="text" placeholder="" value="">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="">房屋用途</td>
+            <td class="td_text" style="padding: 0;">
+              <el-select @change="_fwytchange" v-model="bdcqk.fwytmc" placeholder="请选择"
+                         style="width: 100%;margin-left: -1px;">
+                <el-option
+                  v-for="item in fwytoptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </td>
+            <td>房屋面积</td>
+            <td class="td_text" style="padding: 0;">
+              <input v-model="bdcqk.fwmj" class="input_text" type="text" placeholder="" value="">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="">土地用途</td>
+            <td class="td_text" style="padding: 0;">
+              <el-select @change="_tdytchange" v-model="bdcqk.tdytmc" placeholder="请选择"
+                         style="width: 100%;margin-left: -1px;">
+                <el-option
+                  v-for="item in tdytoptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </td>
+            <td>土地面积</td>
+            <td class="td_text" style="padding: 0;">
+              <input v-model="bdcqk.tdmj" class="input_text" type="text" placeholder="" value="">
+            </td>
+          </tr>
+          <tr>
+            <td style="min-width: 100px;">土地使用起始日</td>
+            <td class="td_text" style="padding: 0;">
+              <el-date-picker
+                v-model="bdcqk.tdsyqssj"
+                type="date"
+                placeholder="选择日期"
+                :picker-options="pickerOptions"
+                @change="_tdsyqssjtime"
+                style="width: 100%; margin-left: -1px;">
+              </el-date-picker>
+            </td>
+            <td style="min-width: 100px;">土地使用结束日</td>
+            <td class="td_text" style="padding: 0;">
+              <el-date-picker
+                v-model="bdcqk.tdsyjssj"
+                type="date"
+                placeholder="选择日期"
+                :picker-options="pickerOptions"
+                @change="_tdsyjssjtime"
+                style="width: 100%; margin-left: -1px;">
+              </el-date-picker>
+            </td>
+          </tr>
+          <tr>
+            <td style="min-width: 58px;">权利性质</td>
+            <td class="td_text" style="padding: 0;">
+              <el-select @change="_qlxzchange" v-model="bdcqk.qlxzmc" placeholder="请选择"
+                         style="width: 100%;margin-left: -1px;">
+                <el-option
+                  v-for="item in qlxzoptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </td>
+            <td style="min-width: 58px;">所属区县</td>
+            <td class="td_text" style="padding: 0;border-right: none;">
+              <el-select @change="_ssqxchange" v-model="bdcqk.ssqxmc" placeholder="请选择"
+                         style="width: 100%;margin-left: -1px;">
+                <el-option
+                  v-for="item in ssqxoptions1"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </td>
+          </tr>
+        </table>
       </div>
-      <div class="dialog">
-        <el-dialog :title="typename" :visible.sync="typeVisible" size="000">
-          <div style="width: 370px;">
-            <label>登记类型 :</label>
-            <el-cascader :options="Typeoption"
-                         @active-item-change="handleItemChange"
-                         @change="_checked"
-                         :props="props"
-                         style="width: 260px;margin: 12px 12px 30px 12px">
-            </el-cascader>
-          </div>
-          <div style="width: 370px;">
-            <label>所属区县 :</label>
-            <el-select @change="_Quxchange" v-model="ssqxvalue" placeholder="请选择"
-                       style="width: 260px;margin: 0 12px 30px 12px">
+      <div class="mortgage">
+        <table class="table">
+          <tr>
+            <th colspan="6" style="min-width: 100px;text-align: left;">
+              <img class="img_point" src="./orange.png" alt="orange">
+              <span style="vertical-align: middle;">抵押情况</span>
+            </th>
+          </tr>
+          <tr>
+            <td style="min-width: 116px;">被担保债权数额</td>
+            <td class="td_text" style="padding: 0;">
+              <input v-model="mortgage.bdbzqse" value="万元" class="input_text" type="text" placeholder="万元">
+            </td>
+            <td style="min-width: 116px;">抵押合同签署日期</td>
+            <td class="td_text" style="padding: 0;">
+              <el-date-picker
+                v-model="mortgage.dyhtqdrq"
+                type="date"
+                format="yyyy-MM-dd"
+                placeholder="选择日期"
+                :picker-options="pickerOptions"
+                @change="_dyhtqdrqtime"
+                style="width: 100%;margin-left: -1px;">
+              </el-date-picker>
+            </td>
+            <td style="min-width: 100px;">银行抵押业务号</td>
+            <td class="td_text" style="padding: 0;min-width: 146px;">
+              <input v-model="mortgage.yhdyywh" class="input_text" type="text" placeholder="">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="">债务履行开始时间</td>
+            <td class="td_text" style="padding: 0;">
+              <el-date-picker
+                v-model="mortgage.zwlxqssj"
+                type="date"
+                format="yyyy-MM-dd"
+                placeholder="选择日期"
+                :picker-options="pickerOptions"
+                @change="_zwlxqstime"
+                style="width: 100%;margin-left: -1px;">
+              </el-date-picker>
+            </td>
+            <td>债务履行结束时间</td>
+            <td class="td_text" style="padding: 0;">
+              <el-date-picker
+                v-model="mortgage.zwlxjssj"
+                type="date"
+                placeholder="选择日期"
+                :picker-options="pickerOptions"
+                @change="_zwlxjstime"
+                style="width: 100%;margin-left: -1px;">
+              </el-date-picker>
+            </td>
+            <td colspan="">贷款业务编号</td>
+            <td class="td_text" style="padding: 0;">
+              <input v-model="mortgage.dkywbh" class="input_text" type="text" placeholder="">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="6" style="padding: 0;">
+              <table class="table_1" cellpadding="10" cellspacing="0">
+                <tr>
+                  <td style="min-width: 100px;">不动产评估价格</td>
+                  <td class="td_text" style="padding: 0;">
+                    <input v-model="mortgage.bdcpgjg" class="input_text" type="text" placeholder="万元">
+                  </td>
+                  <td style="min-width: 90px;">土地评估价格</td>
+                  <td class="td_text" style="padding: 0;">
+                    <input v-model="mortgage.tdpgjg" class="input_text" type="text" placeholder="万元">
+                  </td>
+                  <td style="min-width: 86px;">房产评估价格</td>
+                  <td class="td_text" style="padding: 0;">
+                    <input v-model="mortgage.fcpgjg" class="input_text" type="text"
+                           placeholder="万元">
+                  </td>
+                  <td>贷款账号</td>
+                  <td class="td_text" style="padding: 0;border-right: none;">
+                    <input v-model="mortgage.dkzh" class="input_text" type="text" placeholder="">
+                  </td>
+                </tr>
+                <tr>
+                  <td>担保范围</td>
+                  <td class="td_text" style="padding: 0;">
+                    <input v-model="mortgage.dbfw" class="input_text" type="text"
+                           placeholder="详见合同">
+                  </td>
+                  <td style="min-width: 126px;">在建建筑物抵押范围</td>
+                  <td class="td_text" style="padding: 0;">
+                    <input v-model="mortgage.zjjzwdyfw" class="input_text" type="text"
+                           placeholder="万元">
+                  </td>
+                  <td>房产抵押面积</td>
+                  <td class="td_text" style="padding: 0;">
+                    <input v-model="mortgage.fcdymj" class="input_text" type="text"
+                           placeholder="平方米">
+                  </td>
+                  <td style="min-width: 86px;">土地抵押面积</td>
+                  <td class="td_text" style="padding: 0;border-right: none;">
+                    <input v-model="mortgage.tddymj" class="input_text" type="text"
+                           placeholder="平方米">
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="8" style="padding: 0;">
+              <table class="table_2" cellpadding="10" cellspacing="0" style="width: 100%;">
+                <tr>
+                  <td>抵押方式</td>
+                  <td class="td_text" style="padding: 0;">
+                    <el-select @change="_dyfschange" v-model="mortgage.dyfsmc" placeholder="请选择"
+                               style="width:100%;margin-left: -1px;">
+                      <el-option
+                        v-for="item in dyfsoptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </td>
+                  <td>债权人</td>
+                  <td class="td_text" style="padding: 0;">
+                    <input v-model="mortgage.zqr" class="input_text" type="text" placeholder=""
+                           value="中国建设银行股份有限公司苏州分行">
+                  </td>
+                  <td>债务人</td>
+                  <td class="td_text" style="padding: 0;border-right: none;">
+                    <input v-model="mortgage.zwr" class="input_text" type="text" placeholder=""
+                           value="">
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="app_list">
+      <list @appLook="Look_reg" @apply_submit="_apply_submit" @newcreateapply="_newcreateapply"
+            @Print="_printapply" :upDatalist="upDatalist" :bjblztmc="bjblztmc"></list>
+    </div>
+    <div class="dialog">
+      <el-dialog :title="typename" :visible.sync="typeVisible" size="000">
+        <div style="width: 370px;">
+          <label>登记类型 :</label>
+          <el-cascader :options="Typeoption"
+                       @active-item-change="handleItemChange"
+                       @change="_checked"
+                       :props="props"
+                       style="width: 260px;margin: 12px 12px 30px 12px">
+          </el-cascader>
+        </div>
+        <div style="width: 370px;">
+          <label>所属区县 :</label>
+          <el-select @change="_Quxchange" v-model="ssqxvalue" placeholder="请选择"
+                     style="width: 260px;margin: 0 12px 30px 12px">
+            <el-option
+              v-for="item in ssqxoptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="typeVisible = false">取 消</el-button>
+          <el-button type="primary" @click="_typeoption_submit">确 定</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog title="登记申请书" :visible.sync="regVisible" size="000" top="10%">
+        <Register v-if="regVisible" :Propose="proposer" :mortgage="mortgage" :bdcqk="bdcqk" :xwsx="xwsx"
+                  :bjbh="bjbh" ref="register"></Register>
+        <span slot="footer" class="dialog-footer">
+            <el-button :plain="true" type="success" style="padding: 8px 36px;"
+                       @click="regVisible = false">关 闭</el-button>
+            <el-button :plain="true" type="success" style="padding: 8px 36px;" @click="_print">打印</el-button>
+          </span>
+      </el-dialog>
+      <el-dialog :title="handTitle" :visible.sync="handVisible" size="000" top="10%" :close-on-click-modal="false">
+        <handsontable v-if="handVisible" :Handdata="Handdata" :Title="Titlestate" :bjbh="bjbh"
+                      ref=Keephand></handsontable>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="Close">取 消</el-button>
+            <el-button type="primary" @click="_Keephand">完 成</el-button>
+          </span>
+      </el-dialog>
+      <el-dialog :title="handTitle" :visible.sync="add_dlr" size="000" top="6%" :modal="false"
+                 :close-on-click-modal="false">
+        <el-form :model="AddForm" :rules="rules" ref="AddForm" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="姓名或名称" prop="username">
+            <el-input v-model="AddForm.username"></el-input>
+          </el-form-item>
+          <el-form-item label="证件类型" prop="zjlxvalue">
+            <el-select v-model="AddForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
               <el-option
-                v-for="item in ssqxoptions"
+                v-for="item in zjlx"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
-          </div>
-          <div slot="footer" class="dialog-footer">
-            <el-button @click="typeVisible = false">取 消</el-button>
-            <el-button type="primary" @click="_typeoption_submit">确 定</el-button>
-          </div>
-        </el-dialog>
-        <el-dialog title="登记申请书" :visible.sync="regVisible" size="000" top="10%">
-          <Register v-if="regVisible" :Propose="proposer" :mortgage="mortgage" :bdcqk="bdcqk" :xwsx="xwsx"
-                    :bjbh="bjbh" ref="register"></Register>
-          <span slot="footer" class="dialog-footer">
-            <el-button :plain="true" type="success" style="padding: 8px 36px;"
-                       @click="regVisible = false">关 闭</el-button>
-            <el-button :plain="true" type="success" style="padding: 8px 36px;" @click="_print">打印</el-button>
-          </span>
-        </el-dialog>
-        <el-dialog :title="handTitle" :visible.sync="handVisible" size="000" top="10%" :close-on-click-modal="false">
-          <handsontable v-if="handVisible" :Handdata="Handdata" :Title="Titlestate" :bjbh="bjbh"
-                        ref=Keephand></handsontable>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="Close">取 消</el-button>
-            <el-button type="primary" @click="_Keephand">完 成</el-button>
-          </span>
-        </el-dialog>
-        <el-dialog title="添加代理人" :visible.sync="add_dlr" size="000" top="6%" :modal="false"
-                   :close-on-click-modal="false">
-          <el-form :model="AddForm" :rules="rules" ref="AddForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="姓名或名称" prop="username">
-              <el-input v-model="AddForm.username"></el-input>
-            </el-form-item>
-            <el-form-item label="证件类型" prop="zjlxvalue">
-              <el-select v-model="AddForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
-                <el-option
-                  v-for="item in zjlx"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="证件号" prop="zjh">
-              <el-input v-model="AddForm.zjh"></el-input>
-            </el-form-item>
-            <el-form-item label="联系地址" prop="address">
-              <el-input v-model="AddForm.address"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号码" prop="telephone">
-              <el-input v-model="AddForm.telephone"></el-input>
-            </el-form-item>
-          </el-form>
-          <span slot="footer" class="dialog-footer">
+          </el-form-item>
+          <el-form-item label="证件号" prop="zjh">
+            <el-input v-model="AddForm.zjh"></el-input>
+          </el-form-item>
+          <el-form-item label="联系地址" prop="address">
+            <el-input v-model="AddForm.address"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号码" prop="telephone">
+            <el-input v-model="AddForm.telephone"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
           <el-button @click="add_dlr = false">关 闭</el-button>
           <el-button type="primary" @click="_add_qlr_submit('AddForm')">保 存</el-button>
         </span>
-        </el-dialog>
-        <el-dialog :title="handTitle" :visible.sync="add_sqrqk" size="000" top="6%" :modal="false"
-                   :close-on-click-modal="false">
-          <el-form :model="SqrqkForm" :rules="Sqrqkrules" ref="SqrqkForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="申请人性质" prop="applyvalue">
-              <el-select v-model="SqrqkForm.applyvalue" :disabled="Disablel" placeholder="请选择" @change="_qlrzlchange">
-                <el-option
-                  v-for="item in Qlrzl"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="权利人类型" prop="qlrlxvalue">
-              <el-select v-model="SqrqkForm.qlrlxvalue" placeholder="请选择" @change="_qlrlxchange">
-                <el-option
-                  v-for="item in Qlrlx"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="姓名或名称" prop="username">
-              <el-input v-model="SqrqkForm.username"></el-input>
-            </el-form-item>
-            <el-form-item label="证件类型" prop="zjlxvalue">
-              <el-select v-model="SqrqkForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
-                <el-option
-                  v-for="item in zjlx"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="证件号" prop="zjh">
-              <el-input v-model="SqrqkForm.zjh"></el-input>
-            </el-form-item>
-            <el-form-item label="联系地址" prop="address">
-              <el-input v-model="SqrqkForm.address"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号码" prop="telephone">
-              <el-input v-model="SqrqkForm.telephone"></el-input>
-            </el-form-item>
-          </el-form>
-          <span slot="footer" class="dialog-footer">
+      </el-dialog>
+      <el-dialog :title="handTitle" :visible.sync="add_sqrqk" size="000" top="6%" :modal="false"
+                 :close-on-click-modal="false">
+        <el-form :model="SqrqkForm" :rules="Sqrqkrules" ref="SqrqkForm" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="申请人性质" prop="applyvalue">
+            <el-select v-model="SqrqkForm.applyvalue" :disabled="Disablel" placeholder="请选择" @change="_qlrzlchange">
+              <el-option
+                v-for="item in Qlrzl"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="权利人类型" prop="qlrlxvalue">
+            <el-select v-model="SqrqkForm.qlrlxvalue" placeholder="请选择" @change="_qlrlxchange">
+              <el-option
+                v-for="item in Qlrlx"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="姓名或名称" prop="username">
+            <el-input v-model="SqrqkForm.username"></el-input>
+          </el-form-item>
+          <el-form-item label="证件类型" prop="zjlxvalue">
+            <el-select v-model="SqrqkForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
+              <el-option
+                v-for="item in zjlx"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="证件号" prop="zjh">
+            <el-input v-model="SqrqkForm.zjh"></el-input>
+          </el-form-item>
+          <el-form-item label="联系地址" prop="address">
+            <el-input v-model="SqrqkForm.address"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号码" prop="telephone">
+            <el-input v-model="SqrqkForm.telephone"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
           <el-button @click="add_sqrqk = false">关 闭</el-button>
           <el-button type="primary" @click="_application_add_submit('SqrqkForm')">保 存</el-button>
         </span>
-        </el-dialog>
-        <el-dialog title="修改申请人" :visible.sync="edit_sqrqk" size="000" top="6%" :modal="false"
-                   :close-on-click-modal="false">
-          <el-form :model="SqrqkForm" :rules="Sqrqkrules" ref="SqrqkForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="申请人性质" prop="applyvalue">
-              <el-select v-model="SqrqkForm.applyvalue" :disabled="Disablel" placeholder="请选择" @change="_qlrzlchange">
-                <el-option
-                  v-for="item in Qlrzl"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="申请人类型" prop="qlrlxvalue">
-              <el-select v-model="SqrqkForm.qlrlxvalue" placeholder="请选择" @change="_qlrlxchange">
-                <el-option
-                  v-for="item in Qlrlx"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="姓名或名称" prop="username">
-              <el-input v-model="SqrqkForm.username"></el-input>
-            </el-form-item>
-            <el-form-item label="证件类型" prop="zjlxvalue">
-              <el-select v-model="SqrqkForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
-                <el-option
-                  v-for="item in zjlx"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="证件号" prop="zjh">
-              <el-input v-model="SqrqkForm.zjh"></el-input>
-            </el-form-item>
-            <el-form-item label="联系地址" prop="address">
-              <el-input v-model="SqrqkForm.address"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号码" prop="telephone">
-              <el-input v-model="SqrqkForm.telephone"></el-input>
-            </el-form-item>
-          </el-form>
-          <span slot="footer" class="dialog-footer">
+      </el-dialog>
+      <el-dialog :title="handTitle" :visible.sync="edit_sqrqk" size="000" top="6%" :modal="false"
+                 :close-on-click-modal="false">
+        <el-form :model="SqrqkForm" :rules="Sqrqkrules" ref="SqrqkForm" label-width="100px" class="demo-ruleForm">
+          <el-form-item label="申请人性质" prop="applyvalue">
+            <el-select v-model="SqrqkForm.applyvalue" :disabled="Disablel" placeholder="请选择" @change="_qlrzlchange">
+              <el-option
+                v-for="item in Qlrzl"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="申请人类型" prop="qlrlxvalue">
+            <el-select v-model="SqrqkForm.qlrlxvalue" placeholder="请选择" @change="_qlrlxchange">
+              <el-option
+                v-for="item in Qlrlx"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="姓名或名称" prop="username">
+            <el-input v-model="SqrqkForm.username"></el-input>
+          </el-form-item>
+          <el-form-item label="证件类型" prop="zjlxvalue">
+            <el-select v-model="SqrqkForm.zjlxvalue" placeholder="请选择" @change="_zjlxchange">
+              <el-option
+                v-for="item in zjlx"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="证件号" prop="zjh">
+            <el-input v-model="SqrqkForm.zjh"></el-input>
+          </el-form-item>
+          <el-form-item label="联系地址" prop="address">
+            <el-input v-model="SqrqkForm.address"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号码" prop="telephone">
+            <el-input v-model="SqrqkForm.telephone"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
             <el-button @click="edit_sqrqk = false">关 闭</el-button>
             <el-button type="primary" @click="_edit_sqrqk_submit('SqrqkForm')">保 存</el-button>
           </span>
-        </el-dialog>
-      </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -1065,7 +1105,29 @@
             {type: 'string', message: '请输入正确的手机号码', pattern: /^1[0-9]{10}$/, trigger: 'blur,change'}
           ]
         },
-        bjblztmc: '' // 报件状态
+        bjblztmc: '', // 报件状态
+        gridData: [
+          {
+            djlx: '抵押登记',
+            qlr: '抵押权人信息',
+            ywr: '抵押人信息 '
+          },
+          {
+            djlx: '转移登记',
+            qlr: '买方信息',
+            ywr: '卖方信息 '
+          },
+          {
+            djlx: '变更登记',
+            qlr: '不动产权利人信息',
+            ywr: '不动产权利人信息 '
+          },
+          {
+            djlx: '转移登记（合并）',
+            qlr: '抵押权人和买方信息',
+            ywr: '卖方信息 '
+          }
+        ] // 提示信息弹框
       };
     },
     computed: {},
@@ -1077,10 +1139,10 @@
         this.$store.commit('newbdcqk', this.bdcqk);
         this.$store.commit('newxwsx', this.xwsx);
       },
-      _application_add(title, event) {    // 申请人情况添加
+      _application_add(title, event) {    // 添加权利人与代理人
         if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
           this.$message({
-            message: this.bjblztmc + '...',
+            message: this.bjblztmc + '中...',
             type: 'warning'
           });
           return false;
@@ -1214,11 +1276,11 @@
           }
         });
       },
-      _edit_sqrqk(index, element, title) {
+      _edit_sqrqk(index, element, title) { // 修改权利人与义务人
 //        console.log(element);
         if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
           this.$message({
-            message: this.bjblztmc + '...',
+            message: this.bjblztmc + '中...',
             type: 'warning'
           });
           return false;
@@ -1243,6 +1305,7 @@
             this.Qlrzlcode = handata.qlrzl;
             this.Qlrzjlxcode = handata.qlrzjzl;
             this.Qlrlxcode = handata.qlrlx;
+            this.handTitle = '修改权利人';
             this.edit_sqrqk = true;
             break;
           case '权利人代理人':
@@ -1261,6 +1324,7 @@
             this.Qlrlxcode = handata.ywrlx;
             this.SqrqkForm.applyvalue = '不动产权利人';
             this.Qlrzlcode = '1';
+            this.handTitle = '修改义务人';
             this.edit_sqrqk = true;
             break;
           case '义务人代理人':
@@ -1373,7 +1437,7 @@
       _delete_sqrqk(index, title) {
         if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
           this.$message({
-            message: this.bjblztmc + '...',
+            message: this.bjblztmc + '中...',
             type: 'warning'
           });
           return false;
@@ -1449,10 +1513,10 @@
             break;
         }
       },
-      _add_dlr(title) {  // 添加代理人
+      _add_dlr(title) {  // 添加权利人代理人与义务人代理人
         if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
           this.$message({
-            message: this.bjblztmc + '...',
+            message: this.bjblztmc + '中...',
             type: 'warning'
           });
           return false;
@@ -1463,6 +1527,7 @@
         this.AddForm.telephone = '';
         this.AddForm.zjlxvalue = '';
         this.Titlestate = title;
+        this.handTitle = '添加' + title;
         this.add_dlr = true;
         this.getzjlx();
       },
@@ -1490,10 +1555,10 @@
           }
         });
       },
-      _edit_sqrqkdlr(data, title) {
+      _edit_sqrqkdlr(data, title) {  // 修改权利人代理人与义务人代理人
         if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
           this.$message({
-            message: this.bjblztmc + '...',
+            message: this.bjblztmc + '中...',
             type: 'warning'
           });
           return false;
@@ -1502,6 +1567,7 @@
           return false;
         }
         this.Titlestate = title;
+        this.handTitle = '修改' + title;
         this.getzjlx();
         switch (title) {
           case '权利人代理人':
@@ -1833,11 +1899,13 @@
             let data = response.body;
             let arr = [];
             for (var i = 0; i < data.length; i++) {
-              let json = {
-                value: data[i].name,
-                code: data[i].code
-              };
-              arr.push(json);
+              if (data[i].name === '抵押登记') {
+                let json = {
+                  value: data[i].name,
+                  code: data[i].code
+                };
+                arr.push(json);
+              }
             }
             this.djlxoptions = arr;
           }
@@ -1900,13 +1968,15 @@
             let data = response.body;
             let arr = [];
             for (var i = 0; i < data.length; i++) {
-              let json = {
-                code: data[i].code,
-                subcode: data[i].subclass,
-                label: data[i].name,
-                cities: []
-              };
-              arr.push(json);
+              if (data[i].name === '抵押登记') {
+                let json = {
+                  code: data[i].code,
+                  subcode: data[i].subclass,
+                  label: data[i].name,
+                  cities: []
+                };
+                arr.push(json);
+              }
             }
             this.Typeoption = arr;
           }
@@ -2008,6 +2078,14 @@
           this.bjblztmc = '';
           this.typeVisible = false;
           this.checkeVsibke = false;
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+          }
         });
       },
       _typeoption_submit1() {  // 申请报件
@@ -2084,6 +2162,14 @@
           this.bjblztmc = '';
           this.typeVisible = false;
           this.checkeVsibke = false;
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+          }
         });
       },
       _Keephand() { // 保存权利人信息
@@ -2092,7 +2178,7 @@
       _apply_submit() {  // 申请提交
         if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
           this.$message({
-            message: this.bjblztmc + '...',
+            message: this.bjblztmc + '中...',
             type: 'warning'
           });
           return false;
@@ -2241,6 +2327,14 @@
                   message: '提交失败!',
                   type: 'error'
                 });
+            }
+          }, (error) => {
+            if (error.status === 401) {
+              this.$notify({
+                title: '警告',
+                message: error.body,
+                type: 'error'
+              });
             }
           });
         });
@@ -2442,164 +2536,166 @@
     mounted() {
     },
     activated() {
-      if (this.$store.state.application !== '') {
-        this.$emit('acIndex', '/index/application');
+      this.$nextTick(() => {
+        if (this.$store.state.application !== '') {
+          this.$emit('acIndex', '/index/application');
 //        console.log(this.$store.state.application);
-        this.checkeVsibke = false;
-        let Lookdata = this.$store.state.application;
-        this.djlx = Lookdata.sqdjsy;
-        this.bjbh = Lookdata.bjbh;
-        if (Lookdata.sqrqk.qlrs.length !== 0) {
-          this.proposer.qlrs = Lookdata.sqrqk.qlrs;
-        }
-        if (Lookdata.sqrqk.qlrdlr.length !== 0) {
-          this.proposer.qlrdlr = Lookdata.sqrqk.qlrdlr;
-        }
-        if (Lookdata.sqrqk.ywrdlr.length !== 0) {
-          this.proposer.ywrdlr = Lookdata.sqrqk.ywrdlr;
-        }
-        if (Lookdata.sqrqk.ywrs.length !== 0) {
-          this.proposer.ywrs = Lookdata.sqrqk.ywrs;
-        }
-        this.mortgage = Lookdata.dyqk;
-        this.bdcqk = Lookdata.bdcqk;
-        this.xwsx = Lookdata.xwsx;
-        this.upDatalist = Lookdata.qyclmls;
+          this.checkeVsibke = false;
+          let Lookdata = this.$store.state.application;
+          this.djlx = Lookdata.sqdjsy;
+          this.bjbh = Lookdata.bjbh;
+          if (Lookdata.sqrqk.qlrs.length !== 0) {
+            this.proposer.qlrs = Lookdata.sqrqk.qlrs;
+          }
+          if (Lookdata.sqrqk.qlrdlr.length !== 0) {
+            this.proposer.qlrdlr = Lookdata.sqrqk.qlrdlr;
+          }
+          if (Lookdata.sqrqk.ywrdlr.length !== 0) {
+            this.proposer.ywrdlr = Lookdata.sqrqk.ywrdlr;
+          }
+          if (Lookdata.sqrqk.ywrs.length !== 0) {
+            this.proposer.ywrs = Lookdata.sqrqk.ywrs;
+          }
+          this.mortgage = Lookdata.dyqk;
+          this.bdcqk = Lookdata.bdcqk;
+          this.xwsx = Lookdata.xwsx;
+          this.upDatalist = Lookdata.qyclmls;
 //        this.bdcqk.ssqx = this.ssqxvalue;
-        this.fwytcode = Lookdata.bdcqk.fwyt;
-        this.tdytcode = Lookdata.bdcqk.tdyt;
-        this.qlxzcode = Lookdata.bdcqk.qlxz;
-        this.selectcode.ssqx = Lookdata.bdcqk.ssqx;
-        this.qlrzjlxcode = Lookdata.sqrqk.qlrdlr.qlrdlrzjzl;
-        this.ywrzjlxcode = Lookdata.sqrqk.ywrdlr.ywrdlrzjzl;
-        this.djzlxvalue = Lookdata.sqdjsy.djzlxmc;
-        this.ssqxvalue = Lookdata.bdcqk.ssqxmc;
-        this.bjblztmc = Lookdata.bjblztmc;
-        this.$store.commit('newBjbh', Lookdata.bjbh);
-      } else {
-        let clearproposer = {
-          qlrs: [
+          this.fwytcode = Lookdata.bdcqk.fwyt;
+          this.tdytcode = Lookdata.bdcqk.tdyt;
+          this.qlxzcode = Lookdata.bdcqk.qlxz;
+          this.selectcode.ssqx = Lookdata.bdcqk.ssqx;
+          this.qlrzjlxcode = Lookdata.sqrqk.qlrdlr.qlrdlrzjzl;
+          this.ywrzjlxcode = Lookdata.sqrqk.ywrdlr.ywrdlrzjzl;
+          this.djzlxvalue = Lookdata.sqdjsy.djzlxmc;
+          this.ssqxvalue = Lookdata.bdcqk.ssqxmc;
+          this.bjblztmc = Lookdata.bjblztmc;
+          this.$store.commit('newBjbh', Lookdata.bjbh);
+        } else {
+          let clearproposer = {
+            qlrs: [
+              {
+                bjbh: '',
+                qlrunid: '',
+                qlrxh: '',
+                qlrzl: '',
+                qlrzlmc: '',
+                qlrlx: '',
+                qlrlxmc: '',
+                qlrmc: '',
+                qlrzjzl: '',
+                qlrzjzlmc: '',
+                qlrzjh: '',
+                qlrdh: '',
+                qlrdz: ''
+              }
+            ],
+            ywrs: [
+              {
+                bjbh: '',
+                ywrdh: '',
+                ywrdz: '',
+                ywrlx: '',
+                ywrlxmc: '',
+                ywrmc: '',
+                ywrunid: '',
+                ywrxh: '',
+                ywrzjh: '',
+                ywrzjzl: '',
+                ywrzjzlmc: '',
+                ywrzl: '',
+                ywrzlmc: ''
+              }
+            ],
+            qlrdlr: {
+              qlrdlrdh: '',
+              qlrdlrdz: '',
+              qlrdlrmc: '',
+              qlrdlrzjh: '',
+              qlrdlrzjzl: '',
+              qlrdlrzjzlmc: ''
+            },
+            ywrdlr: {
+              ywrdlrdh: '',
+              ywrdlrdz: '',
+              ywrdlrmc: '',
+              ywrdlrzjh: '',
+              ywrdlrzjzl: '',
+              ywrdlrzjzlmc: ''
+            }
+          };
+          let cleardjlx = {
+            djlx: '',
+            djlxmc: '',
+            djzlx: '',
+            djzlxmc: ''
+          };
+          let clearmortgage = {  // 抵押情况
+            dyfs: '',
+            dyfsmc: '',
+            bdcpgjg: '',
+            dbfw: '',
+            dkywbh: '',
+            dkzh: '',
+            dyhtqdrq: '',
+            fcdymj: '',
+            fcpgjg: '',
+            tddymj: '',
+            tdpgjg: '',
+            yhdyywh: '',
+            bdbzqse: '',
+            zjjzwdyfw: '',
+            zqr: '',
+            zwlxjssj: '',
+            zwlxqssj: '',
+            zwr: ''
+          };
+          let clearbdcqk = {    //  不动产情况
+            bdcqzshy: '',
+            bdcqzshx: '',
+            bdcdyh: '',
+            zl: '',
+            ssqx: '',
+            ssqxmc: '',
+            fwyt: '',
+            fwytmc: '',
+            fwmj: '',
+            tdyt: '',
+            tdytmc: '',
+            tdmj: '',
+            tdsyqssj: '',
+            tdsyjssj: '',
+            qlxz: '',
+            qlxzmc: ''
+          };
+          let clearupdatalist = [
             {
               bjbh: '',
-              qlrunid: '',
-              qlrxh: '',
-              qlrzl: '',
-              qlrzlmc: '',
-              qlrlx: '',
-              qlrlxmc: '',
-              qlrmc: '',
-              qlrzjzl: '',
-              qlrzjzlmc: '',
-              qlrzjh: '',
-              qlrdh: '',
-              qlrdz: ''
+              mlxh: '',
+              mlmc: '',
+              mlwjlx: '',
+              mlwjsl: '',
+              state: ''
             }
-          ],
-          ywrs: [
-            {
-              bjbh: '',
-              ywrdh: '',
-              ywrdz: '',
-              ywrlx: '',
-              ywrlxmc: '',
-              ywrmc: '',
-              ywrunid: '',
-              ywrxh: '',
-              ywrzjh: '',
-              ywrzjzl: '',
-              ywrzjzlmc: '',
-              ywrzl: '',
-              ywrzlmc: ''
-            }
-          ],
-          qlrdlr: {
-            qlrdlrdh: '',
-            qlrdlrdz: '',
-            qlrdlrmc: '',
-            qlrdlrzjh: '',
-            qlrdlrzjzl: '',
-            qlrdlrzjzlmc: ''
-          },
-          ywrdlr: {
-            ywrdlrdh: '',
-            ywrdlrdz: '',
-            ywrdlrmc: '',
-            ywrdlrzjh: '',
-            ywrdlrzjzl: '',
-            ywrdlrzjzlmc: ''
-          }
-        };
-        let cleardjlx = {
-          djlx: '',
-          djlxmc: '',
-          djzlx: '',
-          djzlxmc: ''
-        };
-        let clearmortgage = {  // 抵押情况
-          dyfs: '',
-          dyfsmc: '',
-          bdcpgjg: '',
-          dbfw: '',
-          dkywbh: '',
-          dkzh: '',
-          dyhtqdrq: '',
-          fcdymj: '',
-          fcpgjg: '',
-          tddymj: '',
-          tdpgjg: '',
-          yhdyywh: '',
-          bdbzqse: '',
-          zjjzwdyfw: '',
-          zqr: '',
-          zwlxjssj: '',
-          zwlxqssj: '',
-          zwr: ''
-        };
-        let clearbdcqk = {    //  不动产情况
-          bdcqzshy: '',
-          bdcqzshx: '',
-          bdcdyh: '',
-          zl: '',
-          ssqx: '',
-          ssqxmc: '',
-          fwyt: '',
-          fwytmc: '',
-          fwmj: '',
-          tdyt: '',
-          tdytmc: '',
-          tdmj: '',
-          tdsyqssj: '',
-          tdsyjssj: '',
-          qlxz: '',
-          qlxzmc: ''
-        };
-        let clearupdatalist = [
-          {
-            bjbh: '',
-            mlxh: '',
-            mlmc: '',
-            mlwjlx: '',
-            mlwjsl: '',
-            state: ''
-          }
-        ];
-        this.proposer = clearproposer;
-        this.djlx = cleardjlx;
-        this.mortgage = clearmortgage;
-        this.bdcqk = clearbdcqk;
-        this.upDatalist = clearupdatalist;
-        this.SqrqkForm.applyvalue = '';
-        this.SqrqkForm.username = '';
-        this.SqrqkForm.qlrlxvalue = '';
-        this.SqrqkForm.zjlxvalue = '';
-        this.SqrqkForm.zjh = '';
-        this.SqrqkForm.address = '';
-        this.SqrqkForm.telephone = '';
-        this.$store.commit('newBjbh', '');
-        this.$store.commit('application', '');
-        this.bjblztmc = '';
-        this.ssqxvalue = '';
-      }
+          ];
+          this.proposer = clearproposer;
+          this.djlx = cleardjlx;
+          this.mortgage = clearmortgage;
+          this.bdcqk = clearbdcqk;
+          this.upDatalist = clearupdatalist;
+          this.SqrqkForm.applyvalue = '';
+          this.SqrqkForm.username = '';
+          this.SqrqkForm.qlrlxvalue = '';
+          this.SqrqkForm.zjlxvalue = '';
+          this.SqrqkForm.zjh = '';
+          this.SqrqkForm.address = '';
+          this.SqrqkForm.telephone = '';
+          this.$store.commit('newBjbh', '');
+          this.$store.commit('application', '');
+          this.bjblztmc = '';
+          this.ssqxvalue = '';
+        }
+      });
       if (this.checkeVsibke === true) {
         setTimeout(() => {
           this.typeVisible = true;
@@ -2624,34 +2720,43 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .application
     height: 100%
-    background: #f8f8f8
     overflow: hidden
     .app_table
       float: left
-      width: 74.8%
+      width: 74.6%
       min-width: 776px
       padding: 0 8px
       font-size: 14px
       overflow: hidden
       .header
         width: 100%
+        display: flex
         li
-          display: inline-block
+          display: flex
+          flex: 1
           height: 74px
-          line-height: 74px
           .title
-            padding: 6px
+            display: inline-block
+            padding: 0 6px
+            margin-top: 30px
             font-family: '微软雅黑'
             font-size: 14px
             font-weight: 500
             color: #3a3a3a
+            vertical-align: middle
+          .el-select
+            min-width: 142px
+            margin-top: 20px
           .ipt_text
             border: 1px solid #DFE6EC
-            height: 30px
+            height: 34px
             text-indent: 10px
+            margin-top: 20px
+            @media all and (max-width: 1366px)
+              width: 110px
           .el-input__inner
             border: 1px solid #DFE6EC
-            height: 30px
+            height: 36px
             border-radius: 0
       .proposer
         width: 100%
@@ -2669,8 +2774,8 @@
             width: 100%
             text-align: center
             th
-              border-bottom: 1px solid #DFE6EC;
-              padding: 8px;
+              border-bottom: 1px solid #DFE6EC
+              padding: 8px
               min-width: 70px
               vertical-align: middle
               background: #eef2f6
@@ -2680,12 +2785,14 @@
                 margin-right: 6px
                 vertical-align: middle
             td
-              padding: 6px;
-              border-bottom: 1px solid #DFE6EC;
-              border-right: 1px solid #DFE6EC;
+              padding: 10px
+              border-bottom: 1px solid #DFE6EC
+              border-right: 1px solid #DFE6EC
               min-width: 70px
               vertical-align: middle
               overflow: hidden
+              @media all and (min-width: 1370px)
+                padding: 10px
               .proposer_situation
                 display: inline-block
                 width: 15px
@@ -2723,7 +2830,7 @@
               margin-top: -1px
               vertical-align: middle
           td
-            padding: 6px;
+            padding: 10px;
             border-bottom: 1px solid #DFE6EC
             border-right: 1px solid #DFE6EC
             min-width: 70px
@@ -2746,23 +2853,21 @@
         padding: 0
         font-size: 0
         vertical-align: middle
-        .textarea
-          width: 100%
-          border: none
-          padding: 2px 0
-          text-indent: 6px
-          font-size: 12px
-          resize: none
-          overflow: hidden
         .input_text
           width: 100%
-          padding: 6px 0
+          padding: 8px 0
           text-indent: 6px
           font-size: 14px
           line-height: 14px
           white-space: nowrap
           overflow: hidden
           text-overflow: ellipsis
+      .infor
+        margin-left: 6px
+        font-size: 14px
+        vertical-align: middle
+        color: #20A0FF
+        cursor: pointer
     .app_list
       float: left
       width: 23%
@@ -2785,3 +2890,4 @@
       .el-table td, .el-table th
         height: 32px
 </style>
+

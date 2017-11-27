@@ -1,7 +1,7 @@
 <template>
-  <div style="height: 100%;">
-    <vheader @account="_account"></vheader>
+  <div style="height:100%;">
     <div class="context">
+      <vheader @account="_account"></vheader>
       <div class="menu">
         <el-row class="tac">
           <el-col :span="24">
@@ -67,8 +67,8 @@
       </div>
       <div class="footer">
         <ul>
-          <li><span>技术支持：中地行信息技术有限公司</span></li>
-          <li><span>联系电话：0512-68258999</span></li>
+          <li><span>@ 2017 中地行信息技术有限有公司</span></li>
+          <li><span style="padding-left: 12px;">联系电话：0512-68258999</span></li>
         </ul>
       </div>
     </div>
@@ -108,18 +108,19 @@
   .context
     width: 100%
     height: 100%
-    min-width: 1354px
+    background: #f8f8f8
+    min-width: 1360px
+    overflow: auto
     .menu
       float: left
-      border-right: 1px solid #e2e2e2
       width: 16%
-      height: 100%
+      height: calc(100% - 102px)
+      border-right: 1px solid #e2e2e2
       min-width: 200px
       margin-top: 2px
       background-color: #f6f6f6
       overflow: hidden
       .apply
-        width: 100%
         height: 46px
         padding: 0 20px
         line-height: 46px
@@ -154,19 +155,21 @@
     .tables
       float: left
       width: 83.9%
-    .footer
-      width: 100%
-      height: 40px
-      line-height: 40px
-      margin-top: 2px
-      background-color: rgba(30, 133, 131, 0.9)
-      text-align: center
-      overflow: hidden
-      li
-        display: inline-block
-      span
-        display: inline-block
-        padding: 3px
-        color: #fff
-        font-size: 14px
+
+  .footer
+    width: 100%
+    height: 40px
+    line-height: 40px
+    margin-top: 2px
+    background-color: rgba(30, 133, 131, 0.9)
+    text-align: center
+    overflow: hidden
+    clear: both
+    li
+      display: inline-block
+    span
+      display: inline-block
+      padding: 3px
+      color: #fff
+      font-size: 14px
 </style>

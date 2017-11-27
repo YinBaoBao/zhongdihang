@@ -1,27 +1,25 @@
 <template>
-  <div>
-    <nav class="nav">
-      <div class="login">
-        <div class="avatar">
-          <img src="./login.png" alt="login">
-        </div>
-        <span class="bank">中国农业银行 | 不动产数据共享金融专用平台</span>
+  <nav class="nav">
+    <div class="login">
+      <div class="avatar">
+        <img src="./login.png" alt="login">
       </div>
-      <ul class="manager">
-        <li>
-          <span>{{Bankname}}</span>
-        </li>
-        <li>
-          <span>{{userName}}</span>
-        </li>
-        <li class="account" @click="_account">账户管理</li>
-        |
-        <li class="pass" @click="_edit_password">修改密码</li>
-        |
-        <li class="back" @click="_go_back">退出</li>
-      </ul>
-    </nav>
-  </div>
+      <span class="bank">中国农业银行 | 不动产数据共享金融专用平台</span>
+    </div>
+    <ul class="manager">
+      <li>
+        <span>{{Bankname}}</span>
+      </li>
+      <li>
+        <span>{{userName}}</span>
+      </li>
+      <li class="account" @click="_account">账户管理</li>
+      |
+      <li class="pass" @click="_edit_password">修改密码</li>
+      |
+      <li class="back" @click="_go_back">退出</li>
+    </ul>
+  </nav>
 </template>
 
 <script type="text/ecmascript-6">

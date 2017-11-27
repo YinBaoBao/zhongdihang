@@ -8,7 +8,7 @@
             <span class="t_title">需上传资料</span>
             <span class="t_num">数量</span>
           </div>
-          <el-table ref="multipleTable" height="230" :show-header="false" :data="upDatalist" highlight-current-row
+          <el-table ref="multipleTable" height="280" :show-header="false" :data="upDatalist" highlight-current-row
                     @current-change="needCurrentChange"
                     :row-class-name="tableRowClassName"
                     @select-all="_selectall"
@@ -40,7 +40,7 @@
             <img class="t_point" src="./purple.png" alt="purple">
             <span class="t_title">已上传资料</span>
           </div>
-          <el-table ref="uploaded" height="150" :show-header="false" :data="uploaded" highlight-current-row
+          <el-table ref="uploaded" height="200" :show-header="false" :data="uploaded" highlight-current-row
                     @row-dblclick="_doubleclick"
                     style="width: 100%">
             <el-table-column type="index" width="36"></el-table-column>
@@ -181,7 +181,7 @@
         this.$emit('apply_submit');
       },
       _createnewapply() {
-        this.$confirm('是否新建项目?', '提示', {
+        this.$confirm('是否新建申请?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'info'
@@ -223,6 +223,14 @@
             }
             this.uploaded = arr;
           }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+          }
         });
       },
       _selectall(row) {
@@ -245,7 +253,7 @@
       _deleteuploaded(index, row) { // 删除行
         if (this.bjblztmc === '待受理' || this.bjblztmc === '待接件' || this.bjblztmc === '已完成') {
           this.$message({
-            message: this.bjblztmc + '...',
+            message: this.bjblztmc + '中...',
             type: 'warning'
           });
           return false;
@@ -297,13 +305,21 @@
             wjunid: response.body.body[0].wjunid
           }).then((response) => {
             response = response.body;
-//            window.open(response.message);
-            let img = document.createElement('img');
-            img.src = window.URL.createObjectURL(response.message);
-            img.onload = function(e) {
-              window.URL.revokeObjectURL(this.src);
-            };
-            document.body.appendChild(img);
+            window.open(response.message, 'toolbar = no, menubar = no, scrollbars = no, resizable = no, location = no, status = no');
+//            window.opener = '';
+            let tempForm = document.createElement('form');
+            tempForm.id = 'tempForm1';
+            tempForm.method = 'post';
+            tempForm.action = response.message;
+            tempForm.target = name;
+            let hideInput = document.createElement('input');
+            hideInput.type = 'hidden';
+            hideInput.name = 'categoryid';
+            tempForm.appendChild(hideInput);
+            let hideInput2 = document.createElement('input');
+            hideInput2.type = 'hidden';
+            hideInput2.name = 'reportId';
+            tempForm.appendChild(hideInput2);
           });
         });
       }
@@ -389,12 +405,15 @@
           cursor: pointer
       .btns
         width: 100%
-        margin-top: 10px
+        margin-top: 22px
         text-align: center
         li
           display: inline-block
           text-align: center
-          width: 86px
+          @media all and (max-width:1366px)
+            width: 86px
+          @media all and (min-width:1367px)
+            width: 100px
           .btn_a
             display: inline-block
             border-radius: 50%

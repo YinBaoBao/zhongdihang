@@ -199,9 +199,19 @@
               message: '没有权限，请联系管理员。',
               type: 'error'
             });
+            this.add_bank = false;
             return false;
           }
-          if (response.code === 1000) {
+          if (response.code === 4000) {
+            this.$notify({
+              title: '警告!',
+              message: response.message,
+              type: 'warning'
+            });
+            this.freshTable();
+            return false;
+          }
+          if (response.code === 200) {
             this.$notify({
               title: '成功',
               message: '提交成功',
@@ -338,7 +348,7 @@
               });
               return false;
             }
-            if (response.code === 1000) {
+            if (response.code === 200) {
               this.$notify({
                 title: '成功',
                 message: '删除成功',
@@ -359,7 +369,7 @@
       getbank() {    // 获取证件种类
         this.$http.get(this.$store.state.Host + '/bankControl/findAllBank').then((response) => {
           response = response.body;
-          if (response.code === 1000) {
+          if (response.code === 200) {
             let data = response.content;
             let arr = [];
             for (var i = 0; i < data.length; i++) {
@@ -394,7 +404,7 @@
       freshTable() {
         this.$http.get(this.$store.state.Host + '/bankControl/findAllBank').then((response) => {
           response = response.body;
-          if (response.code === 1000) {
+          if (response.code === 200) {
             let data = response.content;
             let arr = [];
             let tree = this.List(data, '0');
@@ -438,6 +448,14 @@
               title: '警告',
               message: '暂无数据',
               type: 'warning'
+            });
+          }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
             });
           }
         });

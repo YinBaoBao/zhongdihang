@@ -6,19 +6,15 @@
       </div>
       <div class="content">
         <div class="checks">
-          <el-radio-group v-model="radio">
-            <el-radio :label="1">姑苏区</el-radio>
-            <el-radio :label="2">相城区</el-radio>
-            <el-radio :label="3">吴中区</el-radio>
-            <el-radio :label="4">高新区</el-radio>
-            <el-radio :label="5">园区</el-radio>
+          <el-radio-group v-model="radio" @change="_radiochange">
+            <el-radio v-for="item in radioData" :key="item.id" :label="item.label">{{item.value}}</el-radio>
           </el-radio-group>
         </div>
         <div class="time">
           <div class="area">
-            <el-input v-model="input" placeholder="输入不动产坐落信息"></el-input>
+            <el-input v-model="Input" placeholder="输入不动产坐落信息" @keyup.enter.native="_seartch"></el-input>
           </div>
-          <el-button class="btn_1" style="padding: 8px 30px;margin-right: 15px;margin-left: 50px;">
+          <el-button class="btn_1" @click="_seartch" style="padding: 8px 30px;margin-right: 15px;margin-left: 50px;">
             查询
           </el-button>
           <el-button class="btn_2" style="padding: 8px 30px" @click="export2Excel">导出</el-button>
@@ -26,8 +22,8 @@
       </div>
     </div>
     <div class="cf_table">
-      <el-table :data="tableData" border height="450"
-                style="width: 100%">
+      <el-table :data="tableData" border height="550" v-loading="tableloding" element-loading-text="拼命加载中..."
+                 style="width: 100%">
         <el-table-column type="index" width="60"></el-table-column>
         <el-table-column prop="bdcdyh" label="不动产单元号" sortable></el-table-column>
         <el-table-column prop="qlr" label="权利人"></el-table-column>
@@ -42,20 +38,82 @@
   export default {
     data() {
       return {
-        radio: 1,
-        input: '',
-        tableData: [
+        radio: '320508',
+        radioData: [
           {
-            bdcdyh: '',
-            qlr: '',
-            address: '',
-            zt: ''
+            label: '320508',
+            value: '姑苏区'
+          },
+          {
+            label: '320505',
+            value: '虎丘区'
           }
-        ]
+        ],
+        Input: '',
+        tableData: [],
+        tableloding: false
       };
     },
     methods: {
+      _seartch() {
+        this.tableloding = true;
+        this.freshData();
+      },
       _starttime() {
+      },
+      _radiochange() {
+      },
+      freshData() {
+        this.$http.post(this.$store.state.Host + '/bankSearch/getDYXX', {
+          jkzh: 200,
+          district: this.radio,
+          site: this.Input
+        }).then((response) => {
+          response = response.body;
+          if (response.content === null || response.content === '') {
+            this.$notify({
+              title: '警告',
+              message: '暂无数据!',
+              type: 'error'
+            });
+            this.tableData = [];
+            this.tableloding = false;
+            return false;
+          }
+          if (response.code === 200) {
+            let data = response.content;
+            let arr = [];
+            for (var i = 0; i < data.length; i++) {
+              let json = {
+                bdcdyh: data[i].bdcdyh,
+                qlr: data[i].qlr,
+                address: data[i].zl,
+                zt: data[i].dyztmc
+              };
+              arr.push(json);
+            }
+            this.tableloding = false;
+            this.tableData = arr;
+          } else {
+            this.$notify({
+              title: '警告',
+              message: '登录超时，请重新登录。',
+              type: 'error'
+            });
+            this.tableData = [];
+            this.tableloding = false;
+            return false;
+          }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+          }
+          this.tableloding = false;
+        });
       },
       export2Excel() {
         require.ensure([], () => {
@@ -70,12 +128,41 @@
       formatJson(filterVal, jsonData) {
         return jsonData.map(v => filterVal.map(j => v[j]));
       }
+    },
+    created() {
+      this.$http.get(this.$store.state.Host + '/bankSearch/getDistricts').then((response) => {
+        response = response.body;
+        if (response.code === 200) {
+          let arr = [];
+          let data = response.content.body;
+          for (var i = 0; i < data.length; i++) {
+            let json = {
+              label: data[i].code,
+              value: data[i].name
+            };
+            arr.push(json);
+          }
+          this.radioData = arr;
+        }
+      }, (error) => {
+        if (error.status === 401) {
+          this.$notify({
+            title: '警告',
+            message: error.body,
+            type: 'error'
+          });
+        }
+      });
+    },
+    activated() {
+      this.tableloding = false;
     }
   };
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   .bdcdyzt
     width: 100%
+    padding-bottom: 100px
     .header
       width: 100%
       margin: 20px 0 10px 0
@@ -107,6 +194,7 @@
           width: 100%
           .area
             display: inline-block
+            width: 220px
           .el-input__inner
             height: 34px
             border-radius: 0

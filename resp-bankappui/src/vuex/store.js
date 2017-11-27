@@ -111,6 +111,7 @@ const store = new Vuex.Store({
       sfgy: true,
       sfgymc: ''
     },
+    Applyselect: '',
     upload: '',
     value: '',
     token: '',
@@ -161,6 +162,9 @@ const store = new Vuex.Store({
     newBjbh(state, element) {
       state.Bjbh = element;
     },
+    Applyselect(state, element) {
+      state.Applyselect = element;
+    },
     newBank(state, element) {
       state.Bankinfo = element;
     },
@@ -184,5 +188,4 @@ const store = new Vuex.Store({
     }
   }
 });
-
 export default store;

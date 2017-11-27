@@ -6,12 +6,8 @@
       </div>
       <div class="content">
         <div class="checks">
-          <el-radio-group v-model="radio">
-            <el-radio :label="1">姑苏区</el-radio>
-            <el-radio :label="2">相城区</el-radio>
-            <el-radio :label="3">吴中区</el-radio>
-            <el-radio :label="4">高新区</el-radio>
-            <el-radio :label="5">园区</el-radio>
+          <el-radio-group v-model="radio" @change="_radiochange">
+            <el-radio v-for="item in radioData" :key="item.id" :label="item.label">{{item.value}}</el-radio>
           </el-radio-group>
         </div>
         <div class="time">
@@ -32,11 +28,11 @@
               format="yyyy-MM-dd"
               placeholder="选择日期"
               :picker-options="pickerOptions"
-              @change="_starttime"
+              @change="_endtime"
               style="width: 160px;">
             </el-date-picker>
           </div>
-          <el-button class="btn_1" style="padding: 8px 30px;margin-right: 15px;margin-left: 50px;">
+          <el-button class="btn_1" @click="_seartch" style="padding: 8px 30px;margin-right: 15px;margin-left: 50px;">
             查询
           </el-button>
           <el-button class="btn_2" style="padding: 8px 30px" @click="export2Excel">导出</el-button>
@@ -44,18 +40,20 @@
       </div>
     </div>
     <div class="cf_table">
-      <el-table :data="tableData" border height="450"
+      <el-table id='_tablecontent' ref="sort_table" :data="tableData" border height="550" v-loading="tableloding"
+                element-loading-text="拼命加载中..."
+                @sort-change="_sortchange"
                 style="width: 100%">
         <el-table-column type="index" width="60"></el-table-column>
-        <el-table-column prop="bdcdyh" label="不动产单元号" sortable></el-table-column>
+        <el-table-column prop="bdcqzh" label="不动产权证号" sortable></el-table-column>
         <el-table-column prop="starttime" label="查封起始时间"></el-table-column>
         <el-table-column prop="endtime" label="查封结束时间"></el-table-column>
         <el-table-column prop="cfjg" label="查封机关"></el-table-column>
         <el-table-column prop="cfxztzsh" label="查封协助通知书号"></el-table-column>
         <el-table-column prop="dyr" label="抵押人"></el-table-column>
         <el-table-column prop="dyqr" label="抵押权人"></el-table-column>
-        <el-table-column prop="address" label="坐落"></el-table-column>
-        <el-table-column prop="bdczmh" label="不动产证明号"></el-table-column>
+        <el-table-column prop="address" label="坐落" sortable></el-table-column>
+        <el-table-column prop="bdcdjzmh" label="不动产登记证明号"></el-table-column>
         <el-table-column prop="createtime" label="抵押登记时间"></el-table-column>
       </el-table>
     </div>
@@ -66,7 +64,17 @@
   export default {
     data() {
       return {
-        radio: 1,
+        radio: '320508',
+        radioData: [
+          {
+            label: '320508',
+            value: '姑苏区'
+          },
+          {
+            label: '320505',
+            value: '虎丘区'
+          }
+        ],
         pickerOptions: {
           shortcuts: [{
             text: '今天',
@@ -91,24 +99,22 @@
         },
         starttimevalue: '',
         endtimevalue: '',
-        tableData: [
-          {
-            bdcdyh: '',
-            starttime: '',
-            endtime: '',
-            cfjg: '',
-            cfxztzsh: '',
-            dyr: '',
-            dyqr: '',
-            address: '',
-            bdczmh: '',
-            createtime: ''
-          }
-        ]
+        tableData: [],
+        tableloding: false
       };
     },
     methods: {
-      _starttime() {
+      _seartch() {
+        this.tableloding = true;
+        this.freshData();
+      },
+      _radiochange(val) {
+      },
+      _starttime(date) {
+        this.starttimevalue = date;
+      },
+      _endtime(date) {
+        this.endtimevalue = date;
       },
       export2Excel() {
         require.ensure([], () => {
@@ -122,6 +128,161 @@
       },
       formatJson(filterVal, jsonData) {
         return jsonData.map(v => filterVal.map(j => v[j]));
+      },
+      freshData() {
+        this.$http.post(this.$store.state.Host + '/bankSearch/getCFDJ', {
+          jkzh: 200,
+          district: this.radio,
+          sdate: this.starttimevalue,
+          edate: this.endtimevalue
+        }).then((response) => {
+          response = response.body;
+          if (response.content === null || response.content === '') {
+            this.$notify({
+              title: '警告',
+              message: response.message,
+              type: 'error'
+            });
+            this.tableData = [];
+            this.tableloding = false;
+            return false;
+          }
+          if (response.code === 200) {
+            let data = response.content;
+            let arr = [];
+            for (var i = 0; i < data.length; i++) {
+              let json = {
+                bdcqzh: data[i].bdcqzh,
+                starttime: data[i].cfqssj,
+                endtime: data[i].cfjssj,
+                cfjg: data[i].cfjg,
+                cfxztzsh: data[i].cfwh,
+                dyr: data[i].dyr,
+                dyqr: data[i].dyqr,
+                address: data[i].zl,
+                bdcdjzmh: data[i].bdcdjzmh,
+                createtime: data[i].dydjsj
+              };
+              arr.push(json);
+            }
+            this.tableloding = false;
+            this.tableData = arr;
+          } else {
+            this.$notify({
+              title: '警告',
+              message: '登录超时，请重新登录。',
+              type: 'error'
+            });
+            this.tableData = [];
+            this.tableloding = false;
+            return false;
+          }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+          }
+          this.tableloding = false;
+        });
+      },
+      _sortchange(colum) {
+        let data = this.$refs.sort_table.tableData;
+        this._gettablelist(data);
+      },
+      _gettablelist(row) {
+        let arr = [];
+        let repeatarr = [];
+        let trastarr = [];
+        let colorlist = [
+          {
+            bgcolor: '#d9e0f7',
+            brclass: 'td-color1'
+          },
+          {
+            bgcolor: '#c4ead7',
+            brclass: 'td-color2'
+          }
+        ];
+        for (let i = 0; i < row.length; i++) {
+          arr.push(row[i].bdcqzh);
+        }
+        let newarr = arr.join(',') + ',';
+        for (let k = 0; k < row.length; k++) {
+          if (newarr.replace(row[k].bdcqzh + ',', '').indexOf(row[k].bdcqzh) > -1) {
+            let json = {
+              Indexkey: k,
+              value: row[k].bdcqzh
+            };
+            repeatarr.push(json);
+            if (trastarr.indexOf(row[k].bdcqzh) === -1) {
+              trastarr.push(row[k].bdcqzh);
+            }
+          }
+        }
+        this.$nextTick(() => {
+          let tableID = document.getElementById('_tablecontent'); // el-table__row
+          let tablelist = tableID.getElementsByClassName('el-table__row');
+          let cleartdclass = '';
+          for (let f = 0; f < tablelist.length; f++) {  // 清除表格样式
+            cleartdclass = tablelist[f].getElementsByTagName('td');
+            tablelist[f].style.background = '#fff';
+            for (let r = 0; r < cleartdclass.length; r++) {
+              cleartdclass[r].className = '';
+            }
+          }
+          for (let j = 0; j < trastarr.length; j++) {
+            for (let h = 0; h < repeatarr.length; h++) {
+              if (trastarr[j] === repeatarr[h].value) {
+                let index = parseInt(j % 2);
+                let tabIndex = repeatarr[h].Indexkey;
+                let tdlist = tablelist[tabIndex].getElementsByTagName('td');
+                tablelist[tabIndex].style.background = colorlist[index].bgcolor;
+                for (let g = 0; g < tdlist.length; g++) {
+                  tdlist[g].className = colorlist[index].brclass;
+                }
+              }
+            }
+          }
+        });
+      }
+    },
+    created() {
+      this.$http.get(this.$store.state.Host + '/bankSearch/getDistricts').then((response) => {
+        response = response.body;
+        if (response.code === 200) {
+          let arr = [];
+          let data = response.content.body;
+          for (var i = 0; i < data.length; i++) {
+            let json = {
+              label: data[i].code,
+              value: data[i].name
+            };
+            arr.push(json);
+          }
+          this.radioData = arr;
+        }
+      }, (error) => {
+        if (error.status === 401) {
+          this.$notify({
+            title: '警告',
+            message: error.body,
+            type: 'error'
+          });
+        }
+      });
+    },
+    activated() {
+      this.tableloding = false;
+    },
+    watch: {
+      tableData: {
+        handler(val, oldval) {
+          this._gettablelist(val);
+        },
+        deep: true
       }
     }
   };
@@ -129,6 +290,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   .chafeng
     width: 100%
+    padding-bottom: 100px
     .header
       width: 100%
       margin: 20px 0 10px 0
@@ -182,6 +344,12 @@
       margin-left: 38px
       .el-table td, .el-table th
         height: 34px
+      .el-table .td-color1
+        border-right: 1px solid #eceef5
+        border-top: 1px solid #d9e0f7
+      .el-table .td-color2
+        border-right: 1px solid #d9e0f7
+        border-top: 1px solid #c4ead7
       .el-table th
         border-right: 1px solid #148583
         border-bottom: 1px solid #148583

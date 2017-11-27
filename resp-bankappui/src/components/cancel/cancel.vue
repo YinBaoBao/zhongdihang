@@ -2,57 +2,78 @@
   <div style="height: 100%;">
     <div class="can_app">
       <div class="can_table">
-        <div class="header">
-          <ul>
-            <li>
-              <span class="title">登记类型:</span>
-              <el-select @change="_djlxchange" disabled v-model="djlx.djlxmc" placeholder="请选择"
-                         style="width: 140px;">
-                <el-option
-                  v-for="item in djlxoptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </li>
-            <li>
-              <span class="title">登记子类型:</span>
-              <el-select @change="_djzlxchange" disabled v-model="djlx.djzlxmc" placeholder="请选择"
-                         style="width: 140px;">
-                <el-option
-                  v-for="item in djzlxoptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </li>
-            <li>
-              <span class="title">报件编号:</span>
-              <input class="ipt_text" v-model="$store.state.Bjbh" type="text" value="" readonly="readonly"
-                     placeholder="" style="width: 130px;">
-            </li>
-            <li>
-              <span class="title">经办人姓名:</span>
-              <input class="ipt_text" type="text" value="" readonly="readonly" placeholder="" style="width: 94px;">
-            </li>
-          </ul>
-        </div>
+        <ul class="header">
+          <li>
+            <span class="title" style="width: 66px;">登记类型:</span>
+            <el-select @change="_djlxchange" disabled v-model="djlx.djlxmc" placeholder="请选择"
+                       style="flex: 1;">
+              <el-option
+                v-for="item in djlxoptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </li>
+          <li>
+            <span class="title" style="width: 80px;">登记子类型:</span>
+            <el-select @change="_djzlxchange" disabled v-model="djlx.djzlxmc" placeholder="请选择"
+                       style="flex: 1;">
+              <el-option
+                v-for="item in djzlxoptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </li>
+          <li>
+            <span class="title" style="width:66px;">报件编号:</span>
+            <input class="ipt_text" v-model="$store.state.Bjbh" type="text" value="" readonly="readonly"
+                   placeholder="">
+          </li>
+          <li>
+            <span class="title" style="width:80px;">经办人姓名:</span>
+            <input class="ipt_text" type="text" value="" readonly="readonly" placeholder="">
+          </li>
+        </ul>
         <div class="proposer">
           <div class="inner">
             <table class="table">
               <tr>
-                <th style="min-width: 100px;text-align: left">
+                <th colspan="7" style="min-width: 100px;text-align: left">
                   <img class="img_point" src="./red.png" alt="red">
-                  <span style="vertical-align: middle;">申请人情况 :</span>
+                  <span style="vertical-align: middle;">申请人情况</span>
+                  <el-popover
+                    ref="popover"
+                    placement="right"
+                    width="600"
+                    trigger="click">
+                    <div style="padding: 0 10px;">
+                      <div style="height: 40px;line-height: 40px;">
+                        <h2 style="font-size: 16px;font-weight: 500;padding-left: 4px;">申请人信息须知</h2>
+                      </div>
+                      <el-table :data="gridData">
+                        <el-table-column property="djlx" label="登记类型"></el-table-column>
+                        <el-table-column property="qlr" label="权利人需填写内容"></el-table-column>
+                        <el-table-column property="ywr" label="义务人需填写内容"></el-table-column>
+                      </el-table>
+                      <div style="height: 40px;line-height: 40px;">
+                        <span style="font-size: 14px;">注: “转移登记（合并）”为转移合并抵押的登记类型。</span>
+                      </div>
+                    </div>
+                  </el-popover>
+                  <span class="el-icon-information infor" v-popover:popover></span>
                 </th>
-                <th>姓名/名称</th>
-                <th>证件类型</th>
-                <th>证件号</th>
-                <th>联系地址</th>
-                <th>电话</th>
-                <th>操作</th>
+              </tr>
+              <tr>
+                <td style="min-width: 100px;"></td>
+                <td>姓名/名称</td>
+                <td>证件类型</td>
+                <td>证件号</td>
+                <td>联系地址</td>
+                <td>电话</td>
+                <td>操作</td>
               </tr>
               <tr v-for="(item,index) in proposer.qlrs">
                 <td>权利人</td>
@@ -111,7 +132,7 @@
                   <a href="javascript:;" @click="_add_dlr('权利人代理人')"
                      style="margin-right: 2px;" title="添加"><i class="el-icon-plus"></i></a>
                   <a href="javascript:;" @click="_edit_sqrqkdlr(proposer.qlrdlr,'权利人代理人')"
-                     style="margin-right: 2px;" title="删除"><i class="el-icon-edit"></i></a>
+                     style="margin-right: 2px;" title="修改"><i class="el-icon-edit"></i></a>
                   <a href="javascript:;" @click="_clerar_sqrqkdlr(proposer.qlrdlr, '权利人代理人')" title="删除"><i
                     class="el-icon-delete2"></i></a>
                 </td>
@@ -183,31 +204,49 @@
         <div class="mortgage">
           <table class="table">
             <tr>
-              <th colspan="6"  style="min-width: 100px;text-align: left;">
+              <th colspan="6" style="min-width: 100px;text-align: left;">
                 <img class="img_point" src="./blue.png" alt="blue">
-                <span style="vertical-align: middle;">不动产情况 :</span>
+                <span style="vertical-align: middle;">不动产情况</span>
               </th>
             </tr>
             <tr>
               <td>坐落</td>
-              <td colspan="4" style="padding: 0;">
-                <table style="width: 100%;">
-                  <tr>
-                    <td class="td_text" style="padding: 0;border: none;">
-                      <input v-model="bdcqk.zl" class="input_text" type="text" placeholder="" value="">
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="" style="min-width: 164px;">原不动产权证书号</td>
               <td class="td_text" style="padding: 0;">
-                <input v-model="bdcqk.bdcqzshy" class="input_text" type="text" placeholder="" value="">
+                <input v-model="bdcqk.zl" class="input_text" type="text" placeholder="" value="">
               </td>
               <td style="min-width: 164px;">不动产单元号</td>
               <td class="td_text" style="padding: 0;">
                 <input v-model="bdcqk.bdcdyh" class="input_text" type="text" placeholder="" value="">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="" style="min-width: 164px;">不动产登记证明号</td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="bdcqzhxt" class="input_text" type="text" placeholder="" value="">
+              </td>
+              <td colspan="" style="min-width: 164px;">
+                原不动产权证书号
+                <el-popover
+                  ref="popover"
+                  placement="right"
+                  width="400"
+                  trigger="click">
+                  <div style="padding: 15px 10px">
+                    <p style="padding-bottom: 8px;font-size: 14px;line-height:18px;">
+                      原证为不动产证时填写不动产证号，否则填写原房产证号和原土地证号，中间用“，”区分。
+                    </p>
+                    <p style="padding-bottom: 8px;font-size: 14px;line-height:18px;">
+                      不动产证号举例：“苏（2017）苏州市不动产权第8019801号”;
+                    </p>
+                    <p style="padding-bottom: 8px;font-size: 14px;line-height:18px;">
+                      原房产证号和原土地证号举例：“苏房权证市区字第10106630号，苏国用（2004）第02008490号”。
+                    </p>
+                  </div>
+                </el-popover>
+                <span class="el-icon-information infor" v-popover:popover></span>
+              </td>
+              <td class="td_text" style="padding: 0;">
+                <input v-model="bdcqk.bdcqzshy" class="input_text" type="text" placeholder="" value="">
               </td>
             </tr>
             <tr>
@@ -301,9 +340,9 @@
         <div class="mortgage">
           <table class="table">
             <tr>
-              <th colspan="6"  style="min-width: 100px;text-align: left;">
+              <th colspan="6" style="min-width: 100px;text-align: left;">
                 <img class="img_point" src="./orange.png" alt="orange">
-                <span style="vertical-align: middle;">抵押情况 :</span>
+                <span style="vertical-align: middle;">抵押情况</span>
               </th>
             </tr>
             <tr>
@@ -383,7 +422,7 @@
                     <td>担保范围</td>
                     <td class="td_text" style="padding: 0;">
                       <input v-model="mortgage.dbfw" class="input_text" type="text"
-                             placeholder="详见材料">
+                             placeholder="详见合同">
                     </td>
                     <td style="min-width: 126px;">在建建筑物抵押范围</td>
                     <td class="td_text" style="padding: 0;">
@@ -486,7 +525,7 @@
             <el-button type="primary" @click="_Keephand">完 成</el-button>
           </span>
         </el-dialog>
-        <el-dialog title="添加代理人" :visible.sync="add_dlr" size="000" top="6%" :modal="false"
+        <el-dialog :title="handTitle" :visible.sync="add_dlr" size="000" top="6%" :modal="false"
                    :close-on-click-modal="false">
           <el-form :model="AddForm" :rules="rules" ref="AddForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="姓名或名称" prop="username">
@@ -568,7 +607,7 @@
           <el-button type="primary" @click="_application_add_submit('SqrqkForm')">保 存</el-button>
         </span>
         </el-dialog>
-        <el-dialog title="修改申请人" :visible.sync="edit_sqrqk" size="000" top="6%" :modal="false"
+        <el-dialog :title="handTitle" :visible.sync="edit_sqrqk" size="000" top="6%" :modal="false"
                    :close-on-click-modal="false">
           <el-form :model="SqrqkForm" :rules="Sqrqkrules" ref="SqrqkForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="申请人性质" prop="applyvalue">
@@ -1072,7 +1111,29 @@
             {type: 'string', message: '请输入正确的手机号码', pattern: /^1[0-9]{10}$/, trigger: 'blur,change'}
           ]
         },
-        bjblztmc: '' // 报件状态
+        bjblztmc: '', // 报件状态
+        gridData: [
+          {
+            djlx: '抵押登记',
+            qlr: '抵押权人信息',
+            ywr: '抵押人信息 '
+          },
+          {
+            djlx: '转移登记',
+            qlr: '买方信息',
+            ywr: '卖方信息 '
+          },
+          {
+            djlx: '变更登记',
+            qlr: '不动产权利人信息',
+            ywr: '不动产权利人信息 '
+          },
+          {
+            djlx: '转移登记（合并）',
+            qlr: '抵押权人和买方信息',
+            ywr: '卖方信息 '
+          }
+        ] // 提示信息弹框
       };
     },
     computed: {},
@@ -1214,12 +1275,13 @@
           }
         });
       },
-      _edit_sqrqk(index, element, title) {
+      _edit_sqrqk(index, element, title) {  // 修改权利人与代理人
         if (element === '' || element === null) {
           return false;
         }
         this.Editindex = index;
         this.Titlestate = title;
+        this.handTitle = '修改' + title;
         let handata = element;
         switch (title) {
           case '权利人':
@@ -1431,13 +1493,14 @@
             break;
         }
       },
-      _add_dlr(title) {  // 添加代理人
+      _add_dlr(title) {  // 添加权利人代理人与义务人代理人
         this.AddForm.username = '';
         this.AddForm.zjh = '';
         this.AddForm.address = '';
         this.AddForm.telephone = '';
         this.AddForm.zjlxvalue = '';
         this.Titlestate = title;
+        this.handTitle = '添加' + title;
         this.add_dlr = true;
         this.getzjlx();
       },
@@ -1465,11 +1528,12 @@
           }
         });
       },
-      _edit_sqrqkdlr(data, title) {
+      _edit_sqrqkdlr(data, title) {  // 修改权利人代理人与义务人代理人
         if (data === '') {
           return false;
         }
         this.Titlestate = title;
+        this.handTitle = '修改' + title;
         this.getzjlx();
         switch (title) {
           case '权利人代理人':
@@ -1960,6 +2024,14 @@
           }
           this.typeVisible = false;
           this.checkeVsibke = false;
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+          }
         });
       },
       _typeoption_submit1() {  // 申请报件
@@ -2036,6 +2108,14 @@
           }
           this.typeVisible = false;
           this.checkeVsibke = false;
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+          }
         });
       },
       _Keephand() { // 保存权利人信息
@@ -2205,6 +2285,14 @@
                 type: 'error'
               });
               return false;
+            }
+          }, (error) => {
+            if (error.status === 401) {
+              this.$notify({
+                title: '警告',
+                message: error.body,
+                type: 'error'
+              });
             }
           });
         });
@@ -2433,30 +2521,39 @@
     overflow: hidden
     .can_table
       float: left
-      width: 74.8%
+      width: 74.6%
       min-width: 776px
       padding: 0 8px
       font-size: 14px
       overflow: hidden
       .header
         width: 100%
+        display: flex
         li
-          display: inline-block
+          display: flex
+          flex: 1
           height: 74px
-          line-height: 74px
           .title
-            padding: 6px
+            display: inline-block
+            padding: 0 6px
+            margin-top: 30px
             font-family: '微软雅黑'
             font-size: 14px
             font-weight: 500
             color: #3a3a3a
+          .el-select
+            min-width: 142px
+            margin-top: 20px
           .ipt_text
             border: 1px solid #DFE6EC
-            height: 30px
+            height: 34px
             text-indent: 10px
+            margin-top: 20px
+            @media all and (max-width: 1366px)
+              width: 110px
           .el-input__inner
             border: 1px solid #DFE6EC
-            height: 30px
+            height: 36px
             border-radius: 0
       .proposer
         width: 100%
@@ -2475,7 +2572,7 @@
             text-align: center
             th
               border-bottom: 1px solid #DFE6EC;
-              padding: 8px;
+              padding: 10px;
               min-width: 70px
               vertical-align: middle
               background: #eef2f6
@@ -2485,7 +2582,7 @@
                 margin-right: 6px
                 vertical-align: middle
             td
-              padding: 6px;
+              padding: 10px;
               border-bottom: 1px solid #DFE6EC;
               border-right: 1px solid #DFE6EC;
               min-width: 70px
@@ -2517,7 +2614,7 @@
           border: 1px solid #DFE6EC
           th
             border-bottom: 1px solid #DFE6EC;
-            padding: 8px;
+            padding: 10px;
             min-width: 70px
             vertical-align: middle
             background: #eef2f6
@@ -2528,7 +2625,7 @@
               margin-top: -1px
               vertical-align: middle
           td
-            padding: 6px;
+            padding: 10px;
             border-bottom: 1px solid #DFE6EC
             border-right: 1px solid #DFE6EC
             min-width: 70px
@@ -2551,23 +2648,21 @@
         padding: 0
         font-size: 0
         vertical-align: middle
-        .textarea
-          width: 100%
-          border: none
-          padding: 2px 0
-          text-indent: 6px
-          font-size: 12px
-          resize: none
-          overflow: hidden
         .input_text
           width: 100%
-          padding: 6px 0
+          padding: 8px 0
           text-indent: 6px
           font-size: 14px
           line-height: 14px
           white-space: nowrap
           overflow: hidden
           text-overflow: ellipsis
+      .infor
+        margin-left: 6px
+        font-size: 14px
+        vertical-align: middle
+        color: #20A0FF
+        cursor: pointer
     .app_list
       float: left
       width: 23%
@@ -2584,7 +2679,6 @@
             display: inline-block
             .el-form-item__content
               width: 212px
-
         .el-input__inner
           height: 32px
       .el-table td, .el-table th

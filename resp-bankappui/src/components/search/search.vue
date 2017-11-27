@@ -3,12 +3,12 @@
     <div class="search">
       <div class="header">
         <ul>
-          <li class="type">
-            <span>查询类型</span>
-            <el-select v-model="type" placeholder="请选择" style="width: 110px;">
-              <el-option v-for="item in Type" :key="item.value" :label="item.label" :value="item.value"></el-option>
-            </el-select>
-          </li>
+          <!--<li class="type">-->
+          <!--<span>查询类型</span>-->
+          <!--<el-select v-model="type" placeholder="请选择" style="width: 110px;">-->
+          <!--<el-option v-for="item in Type" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
+          <!--</el-select>-->
+          <!--</li>-->
           <li class="filter">
             <span>状态筛选</span>
             <el-select v-model="filter" placeholder="请选择" @change="_filterchange" style="width: 110px;">
@@ -163,14 +163,14 @@
         });
       },
       gettableData(bjbh, bjblztmc) {    // 获取表格数据
-        let username = localStorage.getItem('username');
         let query = '';
         if (bjblztmc === '' || bjblztmc === null) {
           query = JSON.stringify({bjbh: bjbh});
         } else {
           query = JSON.stringify({bjbh: bjbh, bjblzt: bjblztmc});
         }
-        if (username === 'admin') {
+        let description = localStorage.getItem('description');
+        if (description === 'admin' || description === 'bankAdmin') {
           this.$http({
             url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search',
             params: {
@@ -181,12 +181,6 @@
             },
             method: 'GET'
           }).then((response) => {
-            if (response.status === '401') {
-              this.$message({
-                message: '登录超时，请重新登录！',
-                type: 'warning'
-              });
-            }
             response = response.body;
             if (response.status === '200') {
               if (response.body === null) {
@@ -226,13 +220,21 @@
               }
               this.tableData = arr;
             }
+          }, (error) => {
+            if (error.status === 401) {
+              this.$notify({
+                title: '警告',
+                message: error.body,
+                type: 'error'
+              });
+            }
           });
         } else {
           this.$http({
             url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search/{jyczyzh}',
             params: {
               jkzh: 200,
-              jyczyzh: username,
+              jyczyzh: description,
               query: query,
               page: this.currentPage + '',
               size: this.pageSize + ''
@@ -283,6 +285,14 @@
                 arr.push(obj);
               }
               this.tableData = arr;
+            }
+          }, (error) => {
+            if (error.status === 401) {
+              this.$notify({
+                title: '警告',
+                message: error.body,
+                type: 'error'
+              });
             }
           });
         }

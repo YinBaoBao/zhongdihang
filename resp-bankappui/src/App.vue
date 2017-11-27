@@ -13,4 +13,7 @@
 <style lang="stylus" rel="stylesheet/stylus">
   #app
     height: 100%
+  .el-popover
+    .el-table th,.el-table td
+      height: 36px
 </style>
