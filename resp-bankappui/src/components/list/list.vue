@@ -305,6 +305,14 @@
             wjunid: response.body.body[0].wjunid
           }).then((response) => {
             response = response.body;
+//            let a = document.createElement('a');
+//            let Img = document.createElement('img');
+//            Img.style.flex = 'fixed';
+//            a.herf = response.message;
+//            a.download = '预览';
+//            Img.src = response.message;
+//            document.body.appendChild(Img);
+//            document.body.appendChild(a);
             window.open(response.message, 'toolbar = no, menubar = no, scrollbars = no, resizable = no, location = no, status = no');
 //            window.opener = '';
             let tempForm = document.createElement('form');
