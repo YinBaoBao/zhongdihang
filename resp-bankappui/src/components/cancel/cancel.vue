@@ -30,12 +30,12 @@
           <li>
             <span class="title" style="width:66px;">报件编号:</span>
             <input class="ipt_text" v-model="$store.state.Bjbh" type="text" value="" readonly="readonly"
-                   placeholder="">
+                   placeholder="" style="flex: 1;">
           </li>
-          <li>
-            <span class="title" style="width:80px;">经办人姓名:</span>
-            <input class="ipt_text" type="text" value="" readonly="readonly" placeholder="">
-          </li>
+          <!--<li>-->
+            <!--<span class="title" style="width:80px;">经办人姓名:</span>-->
+            <!--<input class="ipt_text" type="text" value="" readonly="readonly" placeholder="">-->
+          <!--</li>-->
         </ul>
         <div class="proposer">
           <div class="inner">
@@ -669,7 +669,6 @@
   import handsontable from '../../components/dialog/handsontable.vue';
   import {formatDate} from '../../common/js/date.js';
   export default {
-    props: {},
     data() {
       let zjhvalidata = (rule, value, callback) => {
         if (!value) {
@@ -1217,6 +1216,21 @@
                       });
                   }
                   this.add_sqrqk = false;
+                }, (error) => {
+                  if (error.status === 401) {
+                    this.$notify({
+                      title: '警告',
+                      message: error.body,
+                      type: 'error'
+                    });
+                    this.$confirm('是否重新登录?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'info'
+                    }).then(() => {
+                      this.$router.push({path: '/login'});
+                    });
+                  }
                 });
                 break;
               case '义务人':
@@ -1260,6 +1274,21 @@
                         message: '保存失败',
                         type: 'error'
                       });
+                  }
+                }, (error) => {
+                  if (error.status === 401) {
+                    this.$notify({
+                      title: '警告',
+                      message: error.body,
+                      type: 'error'
+                    });
+                    this.$confirm('是否重新登录?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'info'
+                    }).then(() => {
+                      this.$router.push({path: '/login'});
+                    });
                   }
                 });
                 break;
@@ -1365,6 +1394,21 @@
                     });
                   }
                   this.edit_sqrqk = false;
+                }, (error) => {
+                  if (error.status === 401) {
+                    this.$notify({
+                      title: '警告',
+                      message: error.body,
+                      type: 'error'
+                    });
+                    this.$confirm('是否重新登录?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'info'
+                    }).then(() => {
+                      this.$router.push({path: '/login'});
+                    });
+                  }
                 });
                 break;
               case '代理人':
@@ -1408,6 +1452,21 @@
                     });
                   }
                   this.edit_sqrqk = false;
+                }, (error) => {
+                  if (error.status === 401) {
+                    this.$notify({
+                      title: '警告',
+                      message: error.body,
+                      type: 'error'
+                    });
+                    this.$confirm('是否重新登录?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'info'
+                    }).then(() => {
+                      this.$router.push({path: '/login'});
+                    });
+                  }
                 });
                 break;
             }
@@ -1455,6 +1514,21 @@
                     type: 'error'
                   });
               }
+            }, (error) => {
+              if (error.status === 401) {
+                this.$notify({
+                  title: '警告',
+                  message: error.body,
+                  type: 'error'
+                });
+                this.$confirm('是否重新登录?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'info'
+                }).then(() => {
+                  this.$router.push({path: '/login'});
+                });
+              }
             });
             break;
           case '义务人':
@@ -1488,6 +1562,21 @@
                     message: '删除失败',
                     type: 'error'
                   });
+              }
+            }, (error) => {
+              if (error.status === 401) {
+                this.$notify({
+                  title: '警告',
+                  message: error.body,
+                  type: 'error'
+                });
+                this.$confirm('是否重新登录?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'info'
+                }).then(() => {
+                  this.$router.push({path: '/login'});
+                });
               }
             });
             break;
@@ -1569,6 +1658,21 @@
               arr.push(json);
             }
             this.Qlrzl = arr;
+          }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否重新登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
           }
         });
       },
@@ -1689,6 +1793,21 @@
               arr.push(json);
             }
             this.dyfsoptions = arr;
+          }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否重新登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
           }
         });
       },
@@ -1949,6 +2068,21 @@
             }
             this.Typeoption[index].cities = arr;
           }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否重新登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
+          }
         });
       },
       handleItemChange(val) {  // 级联选择
@@ -2030,6 +2164,21 @@
               title: '警告',
               message: error.body,
               type: 'error'
+            });
+          }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否重新登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
             });
           }
         });
@@ -2114,6 +2263,21 @@
               title: '警告',
               message: error.body,
               type: 'error'
+            });
+          }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否重新登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
             });
           }
         });
@@ -2215,13 +2379,20 @@
             yhdyywh: this.mortgage.yhdyywh,
             zqr: this.mortgage.zqr,
             zwr: this.mortgage.zwr,
-            sfgy: '1',  // 是否共有
-            gyfs: '1',
+            sfgy: '',  // 是否共有
+            gyfs: '',
             afgyfeqk: '',
-            sffbcz: '1',
+            sffbcz: '',
             qtsm: ''
           }).then((response) => {
             response = response.body;
+            if (response.body === null || response.body === '') {
+              this.$message({
+                message: '提交失败',
+                type: 'error'
+              });
+              return false;
+            }
             if (response.body.body === null) {
               this.$message({
                 message: response.body.message,
@@ -2254,10 +2425,6 @@
                       type: 'error'
                     });
                   }
-                });
-                this.$message({
-                  message: '提交成功。',
-                  type: 'success'
                 });
                 break;
               case '40002001':
@@ -2295,6 +2462,21 @@
               });
             }
           });
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否重新登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
+          }
         });
       },
       handleClose(done) {  // 弹框
@@ -2465,6 +2647,11 @@
         this.$store.commit('upload', '');
         this.bjblztmc = '';
         this.ssqxvalue = '';
+        this.selectcode.ssqx = '';
+        this.fwytcode = '';
+        this.tdytcode = '';
+        this.qlxzcode = '';
+        this.dyfscode = '';
         setTimeout(() => {
           this.typeVisible = true;
         }, 1000);
@@ -2549,8 +2736,6 @@
             height: 34px
             text-indent: 10px
             margin-top: 20px
-            @media all and (max-width: 1366px)
-              width: 110px
           .el-input__inner
             border: 1px solid #DFE6EC
             height: 36px

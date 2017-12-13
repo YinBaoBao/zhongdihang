@@ -29,12 +29,12 @@
         <li>
           <span class="title" style="width:66px;">报件编号:</span>
           <input class="ipt_text" v-model="$store.state.Bjbh" type="text" value="" readonly="readonly"
-                 placeholder="">
+                 placeholder="" style="flex: 1;">
         </li>
-        <li>
-          <span class="title" style="width:80px;">经办人姓名:</span>
-          <input class="ipt_text" type="text" value="" readonly="readonly" placeholder="">
-        </li>
+        <!--<li>-->
+        <!--<span class="title" style="width:80px;">经办人姓名:</span>-->
+        <!--<input class="ipt_text" type="text" value="" readonly="readonly" placeholder="">-->
+        <!--</li>-->
       </ul>
       <div class="proposer">
         <div class="inner">
@@ -489,6 +489,7 @@
           <el-cascader :options="Typeoption"
                        @active-item-change="handleItemChange"
                        @change="_checked"
+                       v-model="selectdjlx"
                        :props="props"
                        style="width: 260px;margin: 12px 12px 30px 12px">
           </el-cascader>
@@ -797,6 +798,7 @@
             code: ''
           }
         ],
+        selectdjlx: [],  // 弹框登记类型选项value值
         props: {
           value: 'label',
           children: 'cities'
@@ -869,13 +871,9 @@
         ssqxvalue: '',
         djlxoptions: [
           {
-            value: '',
-            label: '',
-            code: ''
-          }, {
-            value: '',
-            label: '',
-            code: ''
+            value: '抵押登记',
+            label: '抵押登记',
+            code: '910'
           }
         ],
         djlxcode: '',
@@ -995,9 +993,9 @@
           gyfs: '',
           gyfsmc: '',
           qtsm: '',
-          sffbcz: false,
+          sffbcz: '',
           sffbczmc: '',
-          sfgy: false,
+          sfgy: '',
           sfgymc: ''
         },
         upDatalist: [
@@ -1130,7 +1128,6 @@
         ] // 提示信息弹框
       };
     },
-    computed: {},
     methods: {
       Look_reg() {  // 查看登记申请书
         this.regVisible = true;
@@ -1378,6 +1375,21 @@
                   }
                   this.edit_sqrqk = false;
                   this.zjlxvalidator = '';
+                }, (error) => {
+                  if (error.status === 401) {
+                    this.$notify({
+                      title: '警告',
+                      message: error.body,
+                      type: 'error'
+                    });
+                    this.$confirm('是否重新登录?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'info'
+                    }).then(() => {
+                      this.$router.push({path: '/login'});
+                    });
+                  }
                 });
                 break;
               case '代理人':
@@ -1422,6 +1434,21 @@
                   }
                   this.edit_sqrqk = false;
                   this.zjlxvalidator = '';
+                }, (error) => {
+                  if (error.status === 401) {
+                    this.$notify({
+                      title: '警告',
+                      message: error.body,
+                      type: 'error'
+                    });
+                    this.$confirm('是否重新登录?', '提示', {
+                      confirmButtonText: '确定',
+                      cancelButtonText: '取消',
+                      type: 'info'
+                    }).then(() => {
+                      this.$router.push({path: '/login'});
+                    });
+                  }
                 });
                 break;
             }
@@ -1475,6 +1502,21 @@
                     type: 'error'
                   });
               }
+            }, (error) => {
+              if (error.status === 401) {
+                this.$notify({
+                  title: '警告',
+                  message: error.body,
+                  type: 'error'
+                });
+                this.$confirm('是否重新登录?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'info'
+                }).then(() => {
+                  this.$router.push({path: '/login'});
+                });
+              }
             });
             break;
           case '义务人':
@@ -1509,6 +1551,21 @@
                     type: 'error'
                   });
               }
+            }, (error) => {
+              if (error.status === 401) {
+                this.$notify({
+                  title: '警告',
+                  message: error.body,
+                  type: 'error'
+                });
+                this.$confirm('是否重新登录?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'info'
+                }).then(() => {
+                  this.$router.push({path: '/login'});
+                });
+              }
             });
             break;
         }
@@ -1540,14 +1597,14 @@
                 this.proposer.qlrdlr.qlrdlrzjh = this.AddForm.zjh;
                 this.proposer.qlrdlr.qlrdlrdz = this.AddForm.address;
                 this.proposer.qlrdlr.qlrdlrdh = this.AddForm.telephone;
-                this.proposer.qlrdlr.qlrdlrzjzl = this.AddForm.zjlxvalue;
+                this.proposer.qlrdlr.qlrdlrzjzlmc = this.AddForm.zjlxvalue;
                 break;
               case '义务人代理人':
                 this.proposer.ywrdlr.ywrdlrmc = this.AddForm.username;
                 this.proposer.ywrdlr.ywrdlrzjh = this.AddForm.zjh;
                 this.proposer.ywrdlr.ywrdlrdz = this.AddForm.address;
                 this.proposer.ywrdlr.ywrdlrdh = this.AddForm.telephone;
-                this.proposer.ywrdlr.ywrdlrzjzl = this.AddForm.zjlxvalue;
+                this.proposer.ywrdlr.ywrdlrzjzlmc = this.AddForm.zjlxvalue;
                 break;
             }
             this.add_dlr = false;
@@ -1582,7 +1639,7 @@
             this.AddForm.zjh = data.ywrdlrzjh;
             this.AddForm.address = data.ywrdlrdz;
             this.AddForm.telephone = data.ywrdlrdh;
-            this.AddForm.zjlxvalue = data.qlrdlrzjzlmc;
+            this.AddForm.zjlxvalue = data.ywrdlrzjzlmc;
             break;
         }
         this.add_dlr = true;
@@ -1663,6 +1720,9 @@
       _qlrlxchange(val) {
         let options = this.Qlrlx;
         for (var i = 0; i < options.length; i++) {
+          if (options[i].code === '' || options[i].code === null) {
+            return false;
+          }
           if (val.indexOf(options[i].value) > -1) {
             this.Qlrlxcode = options[i].code;
           }
@@ -1688,6 +1748,21 @@
             }
             this.zjlx = arr;
           }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否重新登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
+          }
         });
       },
       _zjlxchange(val) {
@@ -1697,6 +1772,9 @@
         this.zjlxvalidator = val;
         let options = this.zjlx;
         for (var i = 0; i < options.length; i++) {
+          if (options[i].code === '' || options[i].code === null) {
+            return false;
+          }
           if (val.indexOf(options[i].value) > -1) {
             switch (this.Titlestate) {
               case '权利人':
@@ -1707,11 +1785,9 @@
                 break;
               case '权利人代理人':
                 this.qlrdlrzjlxcode = options[i].code;
-                this.proposer.qlrdlr.qlrdlrzjzlmc = val;
                 break;
               case '义务人代理人':
                 this.ywrdlrzjlxcode = options[i].code;
-                this.proposer.ywrdlr.ywrdlrzjzlmc = val;
                 break;
             }
           }
@@ -1745,6 +1821,9 @@
         }
         let options = this.dyfsoptions;
         for (var i = 0; i < options.length; i++) {
+          if (options[i].code === '' || options[i].code === null) {
+            return false;
+          }
           if (val.indexOf(options[i].value) > -1) {
             this.dyfscode = options[i].code;
           }
@@ -1775,6 +1854,9 @@
         }
         let options = this.tdytoptions;
         for (var i = 0; i < options.length; i++) {
+          if (options[i].code === '' || options[i].code === null) {
+            return false;
+          }
           if (val.indexOf(options[i].value) > -1) {
             this.tdytcode = options[i].code;
           }
@@ -1805,6 +1887,9 @@
         }
         let options = this.fwytoptions;
         for (var i = 0; i < options.length; i++) {
+          if (options[i].code === '' || options[i].code === null) {
+            return false;
+          }
           if (val.indexOf(options[i].value) > -1) {
             this.fwytcode = options[i].code;
           }
@@ -1838,6 +1923,9 @@
         }
         let options = this.qlxzoptions;
         for (var i = 0; i < options.length; i++) {
+          if (options[i].code === '' || options[i].code === null) {
+            return false;
+          }
           if (val.indexOf(options[i].value) > -1) {
             this.qlxzcode = options[i].code;
           }
@@ -1870,6 +1958,9 @@
         }
         let options = this.ssqxoptions1;
         for (var i = 0; i < options.length; i++) {
+          if (options[i].code === '' || options[i].code === null) {
+            return false;
+          }
           if (val.indexOf(options[i].value) > -1) {
             this.selectcode.ssqx = options[i].code;
             this._typeoption_submit1();
@@ -1884,6 +1975,9 @@
         }
         let options = this.ssqxoptions;
         for (var i = 0; i < options.length; i++) {
+          if (options[i].code === '' || options[i].code === null) {
+            return false;
+          }
           if (val.indexOf(options[i].value) > -1) {
             this.selectcode.ssqx = options[i].code;
           }
@@ -1917,6 +2011,9 @@
         }
         let options = this.djlxoptions;
         for (var i = 0; i < options.length; i++) {
+          if (options[i].code === '' || options[i].code === null) {
+            return false;
+          }
           if (val.indexOf(options[i].value) > -1) {
             this.selectcode.djlx = options[i].code;
             this.getdjzlx(options[i].code);
@@ -1952,6 +2049,9 @@
         }
         let options = this.djzlxoptions;
         for (var i = 0; i < options.length; i++) {
+          if (options[i].code === '' || options[i].code === null) {
+            return false;
+          }
           if (val.indexOf(options[i].value) > -1) {
             this.selectcode.djzlx = options[i].code;
             this._typeoption_submit1();
@@ -2085,6 +2185,13 @@
               message: error.body,
               type: 'error'
             });
+            this.$confirm('是否重新登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
           }
         });
       },
@@ -2168,6 +2275,13 @@
               title: '警告',
               message: error.body,
               type: 'error'
+            });
+            this.$confirm('是否重新登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
             });
           }
         });
@@ -2268,10 +2382,10 @@
             yhdyywh: this.mortgage.yhdyywh,
             zqr: this.mortgage.zqr,
             zwr: this.mortgage.zwr,
-            sfgy: '1',  // 是否共有
-            gyfs: '1',
+            sfgy: '',  // 是否共有
+            gyfs: '',
             afgyfeqk: '',
-            sffbcz: '1',
+            sffbcz: '',
             qtsm: ''
           }).then((response) => {
             response = response.body;
@@ -2334,6 +2448,13 @@
                 title: '警告',
                 message: error.body,
                 type: 'error'
+              });
+              this.$confirm('是否重新登录?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'info'
+              }).then(() => {
+                this.$router.push({path: '/login'});
               });
             }
           });
@@ -2506,196 +2627,206 @@
         this.$store.commit('application', '');
         this.bjblztmc = '';
         this.ssqxvalue = '';
+        this.selectdjlx = [];
+        this.selectcode.ssqx = '';
+        this.fwytcode = '';
+        this.tdytcode = '';
+        this.qlxzcode = '';
+        this.dyfscode = '';
         setTimeout(() => {
           this.typeVisible = true;
         }, 1000);
       }
     },
     created() {
-      this.$nextTick(() => {
-        this.$http.post(this.$store.state.Host + '/TokrnControl/getzdfl', {}).then((response) => {
-          response = response.body;
-          if (response.body === null || response.body === '') {
-            return false;
-          }
-          if (response.status === '200') {
-            this.code = response.body[1].code;
-            this.typename = '请选择' + response.body[1].name;
-            this.typeoption_1(this.code);
-          }
-        });
-        this.getzjlx();
-        this.getdyfs();
-        this.getfwyt();
-        this.gettdyt();
-        this.getqlxz();
-        this.getssqx();
-        this.getdjlx();
+      this.$http.post(this.$store.state.Host + '/TokrnControl/getzdfl', {}).then((response) => {
+        response = response.body;
+        if (response.body === null || response.body === '') {
+          return false;
+        }
+        if (response.status === '200') {
+          this.code = response.body[1].code;
+          this.typename = '请选择' + response.body[1].name;
+          this.typeoption_1(this.code);
+        }
       });
+      this.getzjlx();
+      this.getdyfs();
+      this.getfwyt();
+      this.gettdyt();
+      this.getqlxz();
+      this.getssqx();
+      this.getdjlx();
     },
     mounted() {
     },
     activated() {
-      this.$nextTick(() => {
-        if (this.$store.state.application !== '') {
-          this.$emit('acIndex', '/index/application');
+      this.checkeVsibke = false;
+      if (this.$store.state.application !== '') {
+        this.$emit('acIndex', '/index/application');
 //        console.log(this.$store.state.application);
-          this.checkeVsibke = false;
-          let Lookdata = this.$store.state.application;
-          this.djlx = Lookdata.sqdjsy;
-          this.bjbh = Lookdata.bjbh;
-          if (Lookdata.sqrqk.qlrs.length !== 0) {
-            this.proposer.qlrs = Lookdata.sqrqk.qlrs;
-          }
-          if (Lookdata.sqrqk.qlrdlr.length !== 0) {
-            this.proposer.qlrdlr = Lookdata.sqrqk.qlrdlr;
-          }
-          if (Lookdata.sqrqk.ywrdlr.length !== 0) {
-            this.proposer.ywrdlr = Lookdata.sqrqk.ywrdlr;
-          }
-          if (Lookdata.sqrqk.ywrs.length !== 0) {
-            this.proposer.ywrs = Lookdata.sqrqk.ywrs;
-          }
-          this.mortgage = Lookdata.dyqk;
-          this.bdcqk = Lookdata.bdcqk;
-          this.xwsx = Lookdata.xwsx;
-          this.upDatalist = Lookdata.qyclmls;
-//        this.bdcqk.ssqx = this.ssqxvalue;
-          this.fwytcode = Lookdata.bdcqk.fwyt;
-          this.tdytcode = Lookdata.bdcqk.tdyt;
-          this.qlxzcode = Lookdata.bdcqk.qlxz;
-          this.selectcode.ssqx = Lookdata.bdcqk.ssqx;
-          this.qlrzjlxcode = Lookdata.sqrqk.qlrdlr.qlrdlrzjzl;
-          this.ywrzjlxcode = Lookdata.sqrqk.ywrdlr.ywrdlrzjzl;
-          this.djzlxvalue = Lookdata.sqdjsy.djzlxmc;
-          this.ssqxvalue = Lookdata.bdcqk.ssqxmc;
-          this.bjblztmc = Lookdata.bjblztmc;
-          this.$store.commit('newBjbh', Lookdata.bjbh);
-        } else {
-          let clearproposer = {
-            qlrs: [
-              {
-                bjbh: '',
-                qlrunid: '',
-                qlrxh: '',
-                qlrzl: '',
-                qlrzlmc: '',
-                qlrlx: '',
-                qlrlxmc: '',
-                qlrmc: '',
-                qlrzjzl: '',
-                qlrzjzlmc: '',
-                qlrzjh: '',
-                qlrdh: '',
-                qlrdz: ''
-              }
-            ],
-            ywrs: [
-              {
-                bjbh: '',
-                ywrdh: '',
-                ywrdz: '',
-                ywrlx: '',
-                ywrlxmc: '',
-                ywrmc: '',
-                ywrunid: '',
-                ywrxh: '',
-                ywrzjh: '',
-                ywrzjzl: '',
-                ywrzjzlmc: '',
-                ywrzl: '',
-                ywrzlmc: ''
-              }
-            ],
-            qlrdlr: {
-              qlrdlrdh: '',
-              qlrdlrdz: '',
-              qlrdlrmc: '',
-              qlrdlrzjh: '',
-              qlrdlrzjzl: '',
-              qlrdlrzjzlmc: ''
-            },
-            ywrdlr: {
-              ywrdlrdh: '',
-              ywrdlrdz: '',
-              ywrdlrmc: '',
-              ywrdlrzjh: '',
-              ywrdlrzjzl: '',
-              ywrdlrzjzlmc: ''
-            }
-          };
-          let cleardjlx = {
-            djlx: '',
-            djlxmc: '',
-            djzlx: '',
-            djzlxmc: ''
-          };
-          let clearmortgage = {  // 抵押情况
-            dyfs: '',
-            dyfsmc: '',
-            bdcpgjg: '',
-            dbfw: '',
-            dkywbh: '',
-            dkzh: '',
-            dyhtqdrq: '',
-            fcdymj: '',
-            fcpgjg: '',
-            tddymj: '',
-            tdpgjg: '',
-            yhdyywh: '',
-            bdbzqse: '',
-            zjjzwdyfw: '',
-            zqr: '',
-            zwlxjssj: '',
-            zwlxqssj: '',
-            zwr: ''
-          };
-          let clearbdcqk = {    //  不动产情况
-            bdcqzshy: '',
-            bdcqzshx: '',
-            bdcdyh: '',
-            zl: '',
-            ssqx: '',
-            ssqxmc: '',
-            fwyt: '',
-            fwytmc: '',
-            fwmj: '',
-            tdyt: '',
-            tdytmc: '',
-            tdmj: '',
-            tdsyqssj: '',
-            tdsyjssj: '',
-            qlxz: '',
-            qlxzmc: ''
-          };
-          let clearupdatalist = [
+        let Lookdata = this.$store.state.application;
+        this.djlx = Lookdata.sqdjsy;
+        this.bjbh = Lookdata.bjbh;
+        if (Lookdata.sqrqk.qlrs.length !== 0) {
+          this.proposer.qlrs = Lookdata.sqrqk.qlrs;
+        }
+        if (Lookdata.sqrqk.qlrdlr.length !== 0) {
+          this.proposer.qlrdlr = Lookdata.sqrqk.qlrdlr;
+        }
+        if (Lookdata.sqrqk.ywrdlr.length !== 0) {
+          this.proposer.ywrdlr = Lookdata.sqrqk.ywrdlr;
+        }
+        if (Lookdata.sqrqk.ywrs.length !== 0) {
+          this.proposer.ywrs = Lookdata.sqrqk.ywrs;
+        }
+        this.mortgage = Lookdata.dyqk;
+        this.bdcqk = Lookdata.bdcqk;
+        this.xwsx = Lookdata.xwsx;
+        this.upDatalist = Lookdata.qyclmls;
+        this.fwytcode = Lookdata.bdcqk.fwyt;
+        this.tdytcode = Lookdata.bdcqk.tdyt;
+        this.qlxzcode = Lookdata.bdcqk.qlxz;
+        this.bdcqk.ssqxmc = Lookdata.bjssqxmc;
+        this.selectcode.ssqx = Lookdata.bjssqx;
+        this.selectcode.djlx = Lookdata.sqdjsy.djlx;
+        this.selectcode.djzlx = Lookdata.sqdjsy.djzlx;
+        this.qlrzjlxcode = Lookdata.sqrqk.qlrdlr.qlrdlrzjzl;
+        this.ywrzjlxcode = Lookdata.sqrqk.ywrdlr.ywrdlrzjzl;
+        this.djzlxvalue = Lookdata.sqdjsy.djzlxmc;
+        this.ssqxvalue = Lookdata.bdcqk.ssqxmc;
+        this.bjblztmc = Lookdata.bjblztmc;
+        this.$store.commit('newBjbh', Lookdata.bjbh);
+      } else {
+        let clearproposer = {
+          qlrs: [
             {
               bjbh: '',
-              mlxh: '',
-              mlmc: '',
-              mlwjlx: '',
-              mlwjsl: '',
-              state: ''
+              qlrunid: '',
+              qlrxh: '',
+              qlrzl: '',
+              qlrzlmc: '',
+              qlrlx: '',
+              qlrlxmc: '',
+              qlrmc: '',
+              qlrzjzl: '',
+              qlrzjzlmc: '',
+              qlrzjh: '',
+              qlrdh: '',
+              qlrdz: ''
             }
-          ];
-          this.proposer = clearproposer;
-          this.djlx = cleardjlx;
-          this.mortgage = clearmortgage;
-          this.bdcqk = clearbdcqk;
-          this.upDatalist = clearupdatalist;
-          this.SqrqkForm.applyvalue = '';
-          this.SqrqkForm.username = '';
-          this.SqrqkForm.qlrlxvalue = '';
-          this.SqrqkForm.zjlxvalue = '';
-          this.SqrqkForm.zjh = '';
-          this.SqrqkForm.address = '';
-          this.SqrqkForm.telephone = '';
-          this.$store.commit('newBjbh', '');
-          this.$store.commit('application', '');
-          this.bjblztmc = '';
-          this.ssqxvalue = '';
-        }
-      });
+          ],
+          ywrs: [
+            {
+              bjbh: '',
+              ywrdh: '',
+              ywrdz: '',
+              ywrlx: '',
+              ywrlxmc: '',
+              ywrmc: '',
+              ywrunid: '',
+              ywrxh: '',
+              ywrzjh: '',
+              ywrzjzl: '',
+              ywrzjzlmc: '',
+              ywrzl: '',
+              ywrzlmc: ''
+            }
+          ],
+          qlrdlr: {
+            qlrdlrdh: '',
+            qlrdlrdz: '',
+            qlrdlrmc: '',
+            qlrdlrzjh: '',
+            qlrdlrzjzl: '',
+            qlrdlrzjzlmc: ''
+          },
+          ywrdlr: {
+            ywrdlrdh: '',
+            ywrdlrdz: '',
+            ywrdlrmc: '',
+            ywrdlrzjh: '',
+            ywrdlrzjzl: '',
+            ywrdlrzjzlmc: ''
+          }
+        };
+        let cleardjlx = {
+          djlx: '',
+          djlxmc: '',
+          djzlx: '',
+          djzlxmc: ''
+        };
+        let clearmortgage = {  // 抵押情况
+          dyfs: '',
+          dyfsmc: '',
+          bdcpgjg: '',
+          dbfw: '',
+          dkywbh: '',
+          dkzh: '',
+          dyhtqdrq: '',
+          fcdymj: '',
+          fcpgjg: '',
+          tddymj: '',
+          tdpgjg: '',
+          yhdyywh: '',
+          bdbzqse: '',
+          zjjzwdyfw: '',
+          zqr: '',
+          zwlxjssj: '',
+          zwlxqssj: '',
+          zwr: ''
+        };
+        let clearbdcqk = {    //  不动产情况
+          bdcqzshy: '',
+          bdcqzshx: '',
+          bdcdyh: '',
+          zl: '',
+          ssqx: '',
+          ssqxmc: '',
+          fwyt: '',
+          fwytmc: '',
+          fwmj: '',
+          tdyt: '',
+          tdytmc: '',
+          tdmj: '',
+          tdsyqssj: '',
+          tdsyjssj: '',
+          qlxz: '',
+          qlxzmc: ''
+        };
+        let clearupdatalist = [
+          {
+            bjbh: '',
+            mlxh: '',
+            mlmc: '',
+            mlwjlx: '',
+            mlwjsl: '',
+            state: ''
+          }
+        ];
+        this.proposer = clearproposer;
+        this.djlx = cleardjlx;
+        this.mortgage = clearmortgage;
+        this.bdcqk = clearbdcqk;
+        this.upDatalist = clearupdatalist;
+        this.SqrqkForm.applyvalue = '';
+        this.SqrqkForm.username = '';
+        this.SqrqkForm.qlrlxvalue = '';
+        this.SqrqkForm.zjlxvalue = '';
+        this.SqrqkForm.zjh = '';
+        this.SqrqkForm.address = '';
+        this.SqrqkForm.telephone = '';
+        this.$store.commit('newBjbh', '');
+        this.$store.commit('application', '');
+        this.bjblztmc = '';
+        this.ssqxvalue = '';
+        this.selectdjlx = [];
+        this.selectcode.ssqx = '';
+        this.fwytcode = '';
+        this.tdytcode = '';
+        this.qlxzcode = '';
+        this.dyfscode = '';
+      }
       if (this.checkeVsibke === true) {
         setTimeout(() => {
           this.typeVisible = true;
@@ -2752,8 +2883,6 @@
             height: 34px
             text-indent: 10px
             margin-top: 20px
-            @media all and (max-width: 1366px)
-              width: 110px
           .el-input__inner
             border: 1px solid #DFE6EC
             height: 36px

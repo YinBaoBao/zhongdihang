@@ -15,8 +15,8 @@
       </li>
       <li class="account" @click="_account">账户管理</li>
       |
-      <li class="pass" @click="_edit_password">修改密码</li>
-      |
+      <!--<li class="pass" @click="_edit_password">修改密码</li>-->
+      <!--|-->
       <li class="back" @click="_go_back">退出</li>
     </ul>
   </nav>

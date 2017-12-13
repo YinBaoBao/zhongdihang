@@ -36,8 +36,16 @@
     },
     methods: {
       _print() {
-        this.$router.push({path: '/print'});
-        this.$refs.print.winprint();
+        this.$confirm('打印后页面数据将清空,请保存申请后在打印，是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'info'
+        }).then(() => {
+          setTimeout(_ => {
+            this.$router.push({path: '/print'});
+            this.$refs.print.winprint();
+          }, 500);
+        });
       }
     },
     created() {

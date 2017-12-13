@@ -28,19 +28,20 @@
       </div>
       <div class="content">
         <div class="tables">
-          <el-table :data="tableData" border style="width: 100%;" height="550"
+          <el-table :data="tableData" border v-loading="tableloding" element-loading-text="拼命加载中" style="width: 100%;"
+                    height="550" @sort-change="_sortchange"
                     :default-sort="{prop: 'date', order: 'descending'}">
             <el-table-column type="index" width="60"></el-table-column>
             <el-table-column prop="date" label="申请时间" sortable width="180"></el-table-column>
-            <el-table-column prop="prove" label="不动产权证号" sortable width="180"></el-table-column>
-            <el-table-column prop="bdcqzhxt" label="不动产权证明号" sortable width="180"></el-table-column>
-            <el-table-column prop="Report" label="报件编号" sortable width="166"></el-table-column>
+            <el-table-column prop="prove" label="不动产权证号" width="180"></el-table-column>
+            <el-table-column prop="bdcqzhxt" label="不动产权证明号" width="180"></el-table-column>
+            <el-table-column prop="Report" label="报件编号" width="166"></el-table-column>
             <el-table-column prop="register" label="登记类型" width="100"></el-table-column>
             <el-table-column prop="obligation" label="义务人"></el-table-column>
             <el-table-column prop="address" label="坐落" :formatter="formatter" width="150"></el-table-column>
             <el-table-column prop="register_time" label="登记时间" width="180"></el-table-column>
             <el-table-column prop="state" label="状态"></el-table-column>
-            <el-table-column prop="remark" label="备注"></el-table-column>
+            <el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
             <el-table-column label="操作" width="120">
               <template scope="scope">
                 <el-button type="text" size="small" @click="_apply_look(scope.$index,scope.row)">查看</el-button>
@@ -90,6 +91,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {formatDate} from '../../common/js/date.js';
   export default {
     data() {
       return {
@@ -134,7 +136,8 @@
         currentPage: 1, // 当前页
         pageSize: 10,  // 每页显示的条数
         total: 100,     // 每页显示的条数
-        application: ''
+        application: '',
+        tableloding: false  // loading
       };
     },
     methods: {
@@ -163,6 +166,7 @@
         });
       },
       gettableData(bjbh, bjblztmc) {    // 获取表格数据
+        this.tableloding = true;
         let query = '';
         if (bjblztmc === '' || bjblztmc === null) {
           query = JSON.stringify({bjbh: bjbh});
@@ -170,6 +174,7 @@
           query = JSON.stringify({bjbh: bjbh, bjblzt: bjblztmc});
         }
         let description = localStorage.getItem('description');
+        let username = localStorage.getItem('username');
         if (description === 'admin' || description === 'bankAdmin') {
           this.$http({
             url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search',
@@ -177,12 +182,14 @@
               jkzh: 200,
               query: query,
               page: this.currentPage + '',
-              size: this.pageSize + ''
+              size: this.pageSize + '',
+              sort: JSON.stringify({'jlcjsj': 'desc'})
             },
             method: 'GET'
           }).then((response) => {
             response = response.body;
             if (response.status === '200') {
+              this.tableloding = false;
               if (response.body === null) {
                 return false;
               }
@@ -204,7 +211,7 @@
                   obligation = data[i].sqrqk.ywrs[0].ywrmc;
                 }
                 let obj = {
-                  date: str,
+                  date: this.formatDate(data[i].jlcjsj),
                   prove: data[i].bdcqk.bdcqzshx,
                   Report: data[i].bjbh,
                   bdcqzhxt: data[i].bdcqzhxt,
@@ -213,7 +220,7 @@
                   address: data[i].bdcqk.zl,
                   register_time: str,
                   state: data[i].bjblztmc,
-                  remark: '',
+                  remark: data[i].bjthyy,
                   bjblzt: data[i].bjblzt
                 };
                 arr.push(obj);
@@ -221,11 +228,19 @@
               this.tableData = arr;
             }
           }, (error) => {
+            this.tableloding = false;
             if (error.status === 401) {
               this.$notify({
                 title: '警告',
                 message: error.body,
                 type: 'error'
+              });
+              this.$confirm('是否新建登录?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'info'
+              }).then(() => {
+                this.$router.push({path: '/login'});
               });
             }
           });
@@ -234,10 +249,11 @@
             url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search/{jyczyzh}',
             params: {
               jkzh: 200,
-              jyczyzh: description,
+              jyczyzh: username,
               query: query,
               page: this.currentPage + '',
-              size: this.pageSize + ''
+              size: this.pageSize + '',
+              sort: JSON.stringify({'jlcjsj': 'desc'})
             },
             method: 'GET'
           }).then((response) => {
@@ -249,6 +265,7 @@
             }
             response = response.body;
             if (response.status === '200') {
+              this.tableloding = false;
               if (response.body === null) {
                 return false;
               }
@@ -270,7 +287,7 @@
                   obligation = data[i].sqrqk.ywrs[0].ywrmc;
                 }
                 let obj = {
-                  date: str,
+                  date: this.formatDate(data[i].jlcjsj),
                   prove: data[i].bdcqk.bdcqzshx,
                   Report: data[i].bjbh,
                   bdcqzhxt: data[i].bdcqzhxt,
@@ -279,7 +296,7 @@
                   address: data[i].bdcqk.zl,
                   register_time: str,
                   state: data[i].bjblztmc,
-                  remark: '',
+                  remark: data[i].bjthyy,
                   bjblzt: data[i].bjblzt
                 };
                 arr.push(obj);
@@ -287,6 +304,7 @@
               this.tableData = arr;
             }
           }, (error) => {
+            this.tableloding = false;
             if (error.status === 401) {
               this.$notify({
                 title: '警告',
@@ -295,6 +313,243 @@
               });
             }
           });
+        }
+      },
+      formatDate(time) {
+        let date = new Date(time);
+        return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
+      },
+      _sortchange(colum) {
+        let query = '';
+        let description = localStorage.getItem('description');
+        let username = localStorage.getItem('username');
+        if (colum.order === 'ascending') {
+          if (description === 'admin' || description === 'bankAdmin') {
+            this.$http({
+              url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search',
+              params: {
+                jkzh: 200,
+                query: query,
+                page: this.currentPage + '',
+                size: this.pageSize + '',
+                sort: JSON.stringify({'jlcjsj': 'asc'})
+              },
+              method: 'GET'
+            }).then((response) => {
+              response = response.body;
+              if (response.status === '200') {
+                if (response.body === null) {
+                  return false;
+                }
+                if (response.body.body === null) {
+                  return false;
+                }
+                this.total = response.body.count;
+                let data = response.body.body;
+                let arr = [];
+                for (var i = 0; i < data.length; i++) {
+                  let obligation = '';
+                  let str = data[i].djjysj.jyrq + ' ' + data[i].djjysj.jysj;
+                  if (data[i].djjysj.jyrq === null || data[i].djjysj.jysj === null) {
+                    str = '';
+                  }
+                  if (data[i].sqrqk.ywrs.length === 0) {
+                    obligation = '';
+                  } else {
+                    obligation = data[i].sqrqk.ywrs[0].ywrmc;
+                  }
+                  let obj = {
+                    date: this.formatDate(data[i].jlcjsj),
+                    prove: data[i].bdcqk.bdcqzshx,
+                    Report: data[i].bjbh,
+                    bdcqzhxt: data[i].bdcqzhxt,
+                    register: data[i].sqdjsy.djlxmc,
+                    obligation: obligation,
+                    address: data[i].bdcqk.zl,
+                    register_time: str,
+                    state: data[i].bjblztmc,
+                    remark: '',
+                    bjblzt: data[i].bjblzt
+                  };
+                  arr.push(obj);
+                }
+                this.tableData = arr;
+              }
+            });
+          } else {
+            this.$http({
+              url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search/{jyczyzh}',
+              params: {
+                jkzh: 200,
+                jyczyzh: username,
+                query: query,
+                page: this.currentPage + '',
+                size: this.pageSize + '',
+                sort: JSON.stringify({'jlcjsj': 'asc'})
+              },
+              method: 'GET'
+            }).then((response) => {
+              if (response.status === '401') {
+                this.$message({
+                  message: '登录超时，请重新登录！',
+                  type: 'warning'
+                });
+              }
+              response = response.body;
+              if (response.status === '200') {
+                if (response.body === null) {
+                  return false;
+                }
+                if (response.body.body === null) {
+                  return false;
+                }
+                this.total = response.body.count;
+                let data = response.body.body;
+                let arr = [];
+                for (var i = 0; i < data.length; i++) {
+                  let obligation = '';
+                  let str = data[i].djjysj.jyrq + ' ' + data[i].djjysj.jysj;
+                  if (data[i].djjysj.jyrq === null || data[i].djjysj.jysj === null) {
+                    str = '';
+                  }
+                  if (data[i].sqrqk.ywrs.length === 0) {
+                    obligation = '';
+                  } else {
+                    obligation = data[i].sqrqk.ywrs[0].ywrmc;
+                  }
+                  let obj = {
+                    date: str,
+                    prove: data[i].bdcqk.bdcqzshx,
+                    Report: data[i].bjbh,
+                    bdcqzhxt: data[i].bdcqzhxt,
+                    register: data[i].sqdjsy.djlxmc,
+                    obligation: obligation,
+                    address: data[i].bdcqk.zl,
+                    register_time: str,
+                    state: data[i].bjblztmc,
+                    remark: '',
+                    bjblzt: data[i].bjblzt
+                  };
+                  arr.push(obj);
+                }
+                this.tableData = arr;
+              }
+            });
+          }
+        }
+        if (colum.order === 'descending') {
+          if (description === 'admin' || description === 'bankAdmin') {
+            this.$http({
+              url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search',
+              params: {
+                jkzh: 200,
+                query: query,
+                page: this.currentPage + '',
+                size: this.pageSize + '',
+                sort: JSON.stringify({'jlcjsj': 'desc'})
+              },
+              method: 'GET'
+            }).then((response) => {
+              response = response.body;
+              if (response.status === '200') {
+                if (response.body === null) {
+                  return false;
+                }
+                if (response.body.body === null) {
+                  return false;
+                }
+                this.total = response.body.count;
+                let data = response.body.body;
+                let arr = [];
+                for (var i = 0; i < data.length; i++) {
+                  let obligation = '';
+                  let str = data[i].djjysj.jyrq + ' ' + data[i].djjysj.jysj;
+                  if (data[i].djjysj.jyrq === null || data[i].djjysj.jysj === null) {
+                    str = '';
+                  }
+                  if (data[i].sqrqk.ywrs.length === 0) {
+                    obligation = '';
+                  } else {
+                    obligation = data[i].sqrqk.ywrs[0].ywrmc;
+                  }
+                  let obj = {
+                    date: this.formatDate(data[i].jlcjsj),
+                    prove: data[i].bdcqk.bdcqzshx,
+                    Report: data[i].bjbh,
+                    bdcqzhxt: data[i].bdcqzhxt,
+                    register: data[i].sqdjsy.djlxmc,
+                    obligation: obligation,
+                    address: data[i].bdcqk.zl,
+                    register_time: str,
+                    state: data[i].bjblztmc,
+                    remark: '',
+                    bjblzt: data[i].bjblzt
+                  };
+                  arr.push(obj);
+                }
+                this.tableData = arr;
+              }
+            });
+          } else {
+            this.$http({
+              url: this.$store.state.Host + '/BDCDJSQControl/{jkzh}/bdcdj/search/{jyczyzh}',
+              params: {
+                jkzh: 200,
+                jyczyzh: username,
+                query: query,
+                page: this.currentPage + '',
+                size: this.pageSize + '',
+                sort: JSON.stringify({'jlcjsj': 'desc'})
+              },
+              method: 'GET'
+            }).then((response) => {
+              if (response.status === '401') {
+                this.$message({
+                  message: '登录超时，请重新登录！',
+                  type: 'warning'
+                });
+              }
+              response = response.body;
+              if (response.status === '200') {
+                if (response.body === null) {
+                  return false;
+                }
+                if (response.body.body === null) {
+                  return false;
+                }
+                this.total = response.body.count;
+                let data = response.body.body;
+                let arr = [];
+                for (var i = 0; i < data.length; i++) {
+                  let obligation = '';
+                  let str = data[i].djjysj.jyrq + ' ' + data[i].djjysj.jysj;
+                  if (data[i].djjysj.jyrq === null || data[i].djjysj.jysj === null) {
+                    str = '';
+                  }
+                  if (data[i].sqrqk.ywrs.length === 0) {
+                    obligation = '';
+                  } else {
+                    obligation = data[i].sqrqk.ywrs[0].ywrmc;
+                  }
+                  let obj = {
+                    date: str,
+                    prove: data[i].bdcqk.bdcqzshx,
+                    Report: data[i].bjbh,
+                    bdcqzhxt: data[i].bdcqzhxt,
+                    register: data[i].sqdjsy.djlxmc,
+                    obligation: obligation,
+                    address: data[i].bdcqk.zl,
+                    register_time: str,
+                    state: data[i].bjblztmc,
+                    remark: '',
+                    bjblzt: data[i].bjblzt
+                  };
+                  arr.push(obj);
+                }
+                this.tableData = arr;
+              }
+            });
+          }
         }
       },
       _seartch() {
@@ -355,6 +610,21 @@
             });
             return false;
           }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否新建登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
+          }
         });
       },
       _apply_look(index, row) {
@@ -371,6 +641,21 @@
             }
             this.$store.commit('application', response.body.body);
             this.$router.push({path: '/index/application'});
+          }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否新建登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
           }
         });
       },
@@ -484,6 +769,10 @@
           border-bottom: 1px solid #148583
           background: #148583
           .cell
+            overflow: hidden !important
+            text-overflow: ellipsis !important
+            white-space: nowrap !important
+            vertical-align: middle
             background: #148583
             color: #fff
         .el-table .sort-caret .ascending

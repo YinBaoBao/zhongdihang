@@ -282,7 +282,7 @@
             {
               id: 'a',
               value: '国有建设用地使用权',
-              cheched: 'checkbox'
+              cheched: ''
             },
             {
               id: 'b',
@@ -462,16 +462,20 @@
     },
     computed: {
       _sfgyIs() {
-        return this.xwsx.sfgy === true ? 'checked' : '';
+//        return this.xwsx.sfgy === true ? 'checked' : '';
+        return '';
       },
       _sfgyNo() {
-        return this.xwsx.sfgy === true ? '' : 'chechbox';
+//        return this.xwsx.sfgy === true ? '' : 'chechbox';
+        return '';
       },
       _sffbczIs() {
-        return this.xwsx.sffbcz === true ? 'chechbox' : '';
+//        return this.xwsx.sffbcz === true ? 'chechbox' : '';
+        return '';
       },
       _sffbczNo() {
-        return this.xwsx.sffbcz === true ? '' : 'chechbox';
+//        return this.xwsx.sffbcz === true ? '' : 'chechbox';
+        return '';
       }
     },
     methods: {

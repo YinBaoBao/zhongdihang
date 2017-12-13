@@ -12,11 +12,11 @@
                style="margin: 0 auto;">
         <el-form-item prop="username">
           <el-input class="user_ipt" size="large" placeholder="请输入账号" v-model="ruleForm.username"
-                    @keyup.enter.native="submitForm('ruleForm')"  autofocus></el-input>
+                    @keyup.enter.native="submitForm('ruleForm')" autofocus></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input class="pass_ipt" size="large" type="password" placeholder="请输入密码" v-model="ruleForm.password"
-                    @keyup.enter.native="submitForm('ruleForm')" ></el-input>
+                    @keyup.enter.native="submitForm('ruleForm')"></el-input>
         </el-form-item>
         <span class="submit" @click="submitForm('ruleForm')">登 录</span>
       </el-form>
@@ -80,12 +80,18 @@
                 return false;
               }
               if (response.status === '200') {
+                if (response.body.Role.length === 0) {
+                  this.$message.error('用户名或密码错误！');
+                  return false;
+                }
                 this.$store.commit('newRole', response.body.Role);
-                this.$store.commit('newBank', response.body.bank);
                 this.$store.commit('newbankUser', response.body.User);
                 this.$store.commit('newtoken', response.body.Token);
                 this.$store.commit('newname', admin);
                 localStorage.setItem('username', admin);
+                localStorage.setItem('userId', response.body.User.id);
+                localStorage.setItem('bankId', response.body.bank.id);
+                localStorage.setItem('bankinfo', JSON.stringify(response.body.bank));
                 localStorage.setItem('description', response.body.Role[0].description);
                 localStorage.setItem('headertoken', response.body.Token);
                 this.$message({

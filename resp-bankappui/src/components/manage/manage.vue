@@ -226,6 +226,21 @@
             });
           }
           this.add_bank = false;
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否新建登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
+          }
         });
       },
       _add_account() {
@@ -275,6 +290,21 @@
               }
               this.add_account = false;
               this.$router.push({path: 'account'});
+            }, (error) => {
+              if (error.status === 401) {
+                this.$notify({
+                  title: '警告',
+                  message: error.body,
+                  type: 'error'
+                });
+                this.$confirm('是否新建登录?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'info'
+                }).then(() => {
+                  this.$router.push({path: '/login'});
+                });
+              }
             });
           } else {
             this.$notify.info({
@@ -364,6 +394,21 @@
             }
             this.freshTable();
           });
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否新建登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
+          }
         });
       },
       getbank() {    // 获取证件种类
@@ -380,6 +425,21 @@
               arr.push(json);
             }
             this.bankoption = arr;
+          }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否新建登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
           }
         });
       },
@@ -456,6 +516,21 @@
               title: '警告',
               message: error.body,
               type: 'error'
+            });
+          }
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否新建登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
             });
           }
         });

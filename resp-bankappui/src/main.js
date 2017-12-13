@@ -15,6 +15,16 @@ Vue.use(ElementUI);
 
 Vue.use(VueResource); // 全局安装路由功能
 
+Vue.config.productionTip = false;
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app');
+
 Vue.http.interceptors.push((request, next) => {
   let headertoken = localStorage.getItem('headertoken');
   let username = localStorage.getItem('username');
@@ -31,12 +41,3 @@ Vue.http.interceptors.push((request, next) => {
   }
 });
 
-Vue.config.productionTip = false;
-
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app');

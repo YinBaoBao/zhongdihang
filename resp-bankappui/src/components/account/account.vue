@@ -37,11 +37,13 @@
         <el-table-column prop="create_time" label="创建日期"></el-table-column>
         <el-table-column label="操作" width="110">
           <template scope="scope">
-            <el-button v-if="scope.row.admin !== 'admin'" type="text" size="small"
+            <el-button v-if="scope.row.description!=='admin' && scope.row.description!=='bankAdmin'" type="text"
+                       size="small"
                        @click="_bind(scope.$index,scope.row)">
               删 除
             </el-button>
-            <el-button v-if="scope.row.admin !== 'admin'" type="text" size="small"
+            <el-button v-if="scope.row.description!=='admin' && scope.row.description!=='bankAdmin'" type="text"
+                       size="small"
                        @click="manage_acount(scope.$index,scope.row)">修 改
             </el-button>
           </template>
@@ -133,7 +135,7 @@
               <el-input v-model="Manage_Form.name"></el-input>
             </el-form-item>
             <el-form-item label="账号" prop="account">
-              <el-input type="text" v-model="Manage_Form.account"></el-input>
+              <el-input disabled type="text" v-model="Manage_Form.account"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
               <el-input type="password" v-model="Manage_Form.password"></el-input>
@@ -434,7 +436,7 @@
             case 200:
               this.$notify({
                 title: '提示',
-                message: '已禁用',
+                message: '已删除',
                 type: 'success'
               });
               this.freshData();
@@ -449,9 +451,10 @@
         });
       },
       getbank() {    // 获取所在银行
+        let bankId = localStorage.getItem('bankId');
         this.$http.get(this.$store.state.Host + '/bankControl/findSubordinateBank', {
           params: {
-            bankId: this.$store.state.Bankinfo.id
+            bankId: bankId
           }
         }).then((response) => {
           response = response.body;
@@ -501,7 +504,8 @@
         }
       },
       manage_acount(index, row) {   // 修改账户信息
-        if (this.$store.state.Role[0].description === 'admin') {
+        let description = localStorage.getItem('description');
+        if (description === 'admin' || description === 'bankAdmin') {
           this.manage_account = true;
         } else {
           this.manage_account1 = true;
@@ -606,13 +610,14 @@
       },
       freshData(elements) {
         let description = localStorage.getItem('description');
+        let userId = localStorage.getItem('userId');
         if (description === 'admin' || description === 'bankAdmin') {
           this.$http.get(this.$store.state.Host + '/UserControl/list', {
             params: {
               pageNumber: this.currentPage,
               pageSize: this.pageSize,
               condition: elements,
-              userId: this.$store.state.bankuser.id
+              userId: userId
             }
           }).then((response) => {
             response = response.body;
@@ -622,32 +627,26 @@
               let arr = [];
               let data = response.content.content;
               for (var i = 0; i < data.length; i++) {
-                if (i === 0) {
-                  let json = {
-                    admin: 'admin',
-                    bankId: data[i].bankId,
-                    id: data[i].id,
-                    account: data[i].accountNumber,
-                    name: data[i].name,
-                    belong: data[i].bankName,
-                    telephone: data[i].telephone,
-                    role: data[i].roleStr[0].roleName,
-                    create_time: data[i].creatTime
-                  };
-                  arr.push(json);
-                } else {
-                  let json = {
-                    bankId: data[i].bankId,
-                    id: data[i].id,
-                    account: data[i].accountNumber,
-                    name: data[i].name,
-                    belong: data[i].bankName,
-                    telephone: data[i].telephone,
-                    role: data[i].roleStr[0].roleName,
-                    create_time: data[i].creatTime
-                  };
-                  arr.push(json);
+                let json = {
+                  bankId: data[i].bankId,
+                  id: data[i].id,
+                  account: data[i].accountNumber,
+                  name: data[i].name,
+                  belong: data[i].bankName,
+                  telephone: data[i].telephone,
+                  role: data[i].roleStr[0].roleName,
+                  create_time: this.formatDate(data[i].creatTime)
+                };
+                if (description === 'admin') {
+                  json['description'] = data[i].roleStr[0].description;
                 }
+                if (description === 'bankAdmin') {
+                  json['description'] = data[i].roleStr[0].description;
+                }
+                if (description === 'admin' && data[i].roleStr[0].description === 'bankAdmin') {
+                  json['description'] = '';
+                }
+                arr.push(json);
               }
               this.tableData = arr;
             }
@@ -658,30 +657,40 @@
                 message: error.body,
                 type: 'error'
               });
+              this.$confirm('是否新建登录?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'info'
+              }).then(() => {
+                this.$router.push({path: '/login'});
+              });
             }
           });
         } else {
           this.$http.get(this.$store.state.Host + '/UserControl/findOneUser', {
             params: {
-              userId: this.$store.state.bankuser.id
+              userId: userId
             }
           }).then((response) => {
             response = response.body;
             this.tableloding = false;
             if (response.code === 200) {
               this.total = 100;
+              let arr = [];
               let data = response.content;
-              let json = {};
-              json['bankId'] = data.bankId;
-              json['id'] = data.id;
-              json['account'] = data.accountNumber;
-              json['name'] = data.name;
-              json['belong'] = data.bankName;
-              json['telephone'] = data.telephone;
-              json['role'] = data.roleStr[0].roleName;
-              json['create_time'] = data.creatTime;
-              json['tag'] = '部门';
-              this.tableData.push(json);
+              let json = {
+                bankId: data.bankId,
+                id: data.id,
+                account: data.accountNumber,
+                name: data.name,
+                belong: data.bankName,
+                telephone: data.telephone,
+                role: data.roleStr[0].roleName,
+                description: data.roleStr[0].description,
+                create_time: this.formatDate(data.creatTime)
+              };
+              arr.push(json);
+              this.tableData = arr;
             }
           }, (error) => {
             if (error.status === 401) {
@@ -690,18 +699,26 @@
                 message: error.body,
                 type: 'error'
               });
+              this.$confirm('是否新建登录?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'info'
+              }).then(() => {
+                this.$router.push({path: '/login'});
+              });
             }
           });
         }
       },
-      _getDate(style) {
-        let date = new Date();
-        return formatDate(date, style);
+      formatDate(time) {
+        let date = new Date(time);
+        return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
       }
     },
     created() {
       this.freshData();
-      this.BankInfo = this.$store.state.Bankinfo;
+      let data = JSON.parse(localStorage.getItem('bankinfo'));
+      this.BankInfo = data;
     }
   };
 </script>

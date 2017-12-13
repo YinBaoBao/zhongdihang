@@ -28,22 +28,22 @@
                 <span style="padding-left: 36px;">申请状态查询</span>
                 <i class="el-icon-caret-right tab_icon"></i>
               </el-menu-item>
-              <div class="apply">
-                <img src="./img/inquire.png" alt="批量查询">
-                <span>批量查询</span>
-              </div>
-              <el-menu-item index="/index/chafeng">
-                <span style="padding-left: 36px;">查封查询</span>
-                <i class="el-icon-caret-right tab_icon"></i>
-              </el-menu-item>
-              <el-menu-item index="/index/swdycx">
-                <span style="padding-left: 36px;">顺位抵押查询</span>
-                <i class="el-icon-caret-right tab_icon"></i>
-              </el-menu-item>
-              <el-menu-item index="/index/bdcdyztcx">
-                <span style="padding-left: 36px;">不动产单元状态查询</span>
-                <i class="el-icon-caret-right tab_icon"></i>
-              </el-menu-item>
+              <!--<div class="apply">-->
+                <!--<img src="./img/inquire.png" alt="批量查询">-->
+                <!--<span>批量查询</span>-->
+              <!--</div>-->
+              <!--<el-menu-item index="/index/chafeng">-->
+                <!--<span style="padding-left: 36px;">查封查询</span>-->
+                <!--<i class="el-icon-caret-right tab_icon"></i>-->
+              <!--</el-menu-item>-->
+              <!--<el-menu-item index="/index/swdycx">-->
+                <!--<span style="padding-left: 36px;">顺位抵押查询</span>-->
+                <!--<i class="el-icon-caret-right tab_icon"></i>-->
+              <!--</el-menu-item>-->
+              <!--<el-menu-item index="/index/bdcdyztcx">-->
+                <!--<span style="padding-left: 36px;">不动产单元状态查询</span>-->
+                <!--<i class="el-icon-caret-right tab_icon"></i>-->
+              <!--</el-menu-item>-->
               <div class="apply">
                 <img src="./img/account.png" alt="账户管理">
                 <span>账户管理</span>

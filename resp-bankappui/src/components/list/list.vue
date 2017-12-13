@@ -58,7 +58,7 @@
         <ul class="btns">
           <li>
             <a class="btn_a" href="javascript:;" @click="_apply_submit"><img src="./submit.png" alt="submit"></a>
-            <p class="btn_text">提交登记申请</p>
+            <p class="btn_text">保存并提交登记申请</p>
           </li>
           <li>
             <a class="btn_a" href="javascript:;" @click="_createnewapply"><img src="./create.png" alt="submit"></a>
@@ -212,6 +212,7 @@
             let data = response.body.body;
             for (var i = 0; i < data.length; i++) {
               let json = {
+                index: i,
                 state: data[i].wjmlmc + '(' + (i + 1) + ')',
                 wjmlxh: data[i].wjmlxh,
                 wjmlmc: data[i].wjmlmc,
@@ -229,6 +230,13 @@
               title: '警告',
               message: error.body,
               type: 'error'
+            });
+            this.$confirm('是否新建登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
             });
           }
         });
@@ -289,9 +297,18 @@
         });
       },
       _Printapply() {
-        this.$emit('Print');
+        this.$confirm('打印后页面数据将清空,请保存申请后在打印，是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'info'
+        }).then(() => {
+          setTimeout(_ => {
+            this.$emit('Print');
+          }, 500);
+        });
       },
       _doubleclick(row) {
+        let index = row.index;
         this.$http.post(this.$store.state.Host + '/BDCDJSQControl/findOneQYCL', {
           jkzh: 200,
           bjbh: row.bjbh,
@@ -300,9 +317,9 @@
           response = response.body;
           this.$http.post(this.$store.state.Host + '/BDCDJSQControl/getFile', {
             jkzh: 200,
-            bjbh: response.body.body[0].bjbh,
-            wjmlxh: response.body.body[0].wjmlxh,
-            wjunid: response.body.body[0].wjunid
+            bjbh: response.body.body[index].bjbh,
+            wjmlxh: response.body.body[index].wjmlxh,
+            wjunid: response.body.body[index].wjunid
           }).then((response) => {
             response = response.body;
 //            let a = document.createElement('a');
@@ -315,20 +332,35 @@
 //            document.body.appendChild(a);
             window.open(response.message, 'toolbar = no, menubar = no, scrollbars = no, resizable = no, location = no, status = no');
 //            window.opener = '';
-            let tempForm = document.createElement('form');
-            tempForm.id = 'tempForm1';
-            tempForm.method = 'post';
-            tempForm.action = response.message;
-            tempForm.target = name;
-            let hideInput = document.createElement('input');
-            hideInput.type = 'hidden';
-            hideInput.name = 'categoryid';
-            tempForm.appendChild(hideInput);
-            let hideInput2 = document.createElement('input');
-            hideInput2.type = 'hidden';
-            hideInput2.name = 'reportId';
-            tempForm.appendChild(hideInput2);
+//            let tempForm = document.createElement('form');
+//            tempForm.id = 'tempForm1';
+//            tempForm.method = 'post';
+//            tempForm.action = response.message;
+//            tempForm.target = name;
+//            let hideInput = document.createElement('input');
+//            hideInput.type = 'hidden';
+//            hideInput.name = 'categoryid';
+//            tempForm.appendChild(hideInput);
+//            let hideInput2 = document.createElement('input');
+//            hideInput2.type = 'hidden';
+//            hideInput2.name = 'reportId';
+//            tempForm.appendChild(hideInput2);
           });
+        }, (error) => {
+          if (error.status === 401) {
+            this.$notify({
+              title: '警告',
+              message: error.body,
+              type: 'error'
+            });
+            this.$confirm('是否新建登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
+          }
         });
       }
     },
@@ -418,10 +450,11 @@
         li
           display: inline-block
           text-align: center
-          @media all and (max-width:1366px)
+          vertical-align: top
+          @media all and (max-width: 1366px)
             width: 86px
-          @media all and (min-width:1367px)
-            width: 100px
+          @media all and (min-width: 1367px)
+            width: 90px
           .btn_a
             display: inline-block
             border-radius: 50%

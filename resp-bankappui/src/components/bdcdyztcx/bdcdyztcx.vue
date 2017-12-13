@@ -111,6 +111,13 @@
               message: error.body,
               type: 'error'
             });
+            this.$confirm('是否新建登录?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+            }).then(() => {
+              this.$router.push({path: '/login'});
+            });
           }
           this.tableloding = false;
         });
@@ -150,6 +157,13 @@
             title: '警告',
             message: error.body,
             type: 'error'
+          });
+          this.$confirm('是否新建登录?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'info'
+          }).then(() => {
+            this.$router.push({path: '/login'});
           });
         }
       });
