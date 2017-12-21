@@ -36,7 +36,7 @@
 
   export default {
     data() {
-      var validateoldPass = (rule, value, callback) => {  // 动态验证
+      let validateoldPass = (rule, value, callback) => {  // 动态验证
         if (!value) {
           return callback(new Error('请输入原密码'));
         }
@@ -46,12 +46,15 @@
           } else {
             callback();
           }
-        }, 1000);
+        }, 500);
       };
       let validatenewPass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
+          if (value.length < 6) {
+            callback(new Error('密码至少6位数'));
+          }
           if (this.MimaForm.repass !== '') {
             this.$refs.MimaForm.validateField('repass');
           }
@@ -102,6 +105,7 @@
     margin: auto
     margin-top: 26px
     background: #fff
+    box-shadow: 0 0 10px rgba(69, 149, 255, 0.4)
     border-radius: 5px
     position: relative
     .header

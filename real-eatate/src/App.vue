@@ -1,20 +1,30 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-};
+  export default {
+    name: 'app'
+  };
 </script>
 
 <style>
-#app {
-  height: 100%;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  #app {
+    height: 100%;
+  }
+
+  .el-dropdown-menu .imgs{
+    width: 16px;
+    height: 16px;
+    padding-right: 6px;
+    vertical-align: middle;
+  }
+  .el-dropdown-menu .text{
+    vertical-align: middle;
+  }
+
 </style>

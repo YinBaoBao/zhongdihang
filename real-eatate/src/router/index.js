@@ -9,6 +9,9 @@ import Role from '@/components/role/role';
 import AddRole from '@/components/role/addrole';
 import Gongneng from '@/components/gongneng/gongneng';
 import Addgn from '@/components/gongneng/addgn';
+import Cxyj from '@/components/gongneng/cxyj';
+import Content from '@/components/gongneng/content';
+import Qymanage from '@/components/gongneng/qymanage';
 import Department from '@/components/department/department';
 import Departmanage from '@/components/department/departmanage';
 import Mima from '@/components/mima/mima';
@@ -61,7 +64,21 @@ export default new Router({
         },
         {
           path: 'addgn',
-          component: Addgn
+          component: Addgn,
+          children: [
+            {
+              path: 'cxyj',
+              component: Cxyj
+            },
+            {
+              path: 'content',
+              component: Content
+            }
+          ]
+        },
+        {
+          path: 'qymanage',
+          component: Qymanage
         },
         {
           path: 'department',

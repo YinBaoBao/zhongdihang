@@ -8,15 +8,12 @@
     <div class="Gn-table">
       <template>
         <el-table :data="GnData" ref="Gntable" style="width: 100%;height:100%;" max-height="600">
-          <el-table-column prop="index" label="序号" width="150"></el-table-column>
-          <el-table-column prop="date" label="用户账号" width="150"></el-table-column>
-          <el-table-column prop="name" label="姓名" width="120"></el-table-column>
-          <el-table-column prop="province" label="所属部门" width="120"></el-table-column>
-          <el-table-column prop="city" label="角色" width="120"></el-table-column>
-          <el-table-column prop="address" label="U盾密码" width="300"></el-table-column>
-          <el-table-column prop="zip" label="创建时间" width="120"></el-table-column>
-          <el-table-column prop="zip" label="状态" width="120"></el-table-column>
-          <el-table-column label="操作" width="120">
+          <el-table-column prop="index" label="序号" width="60"></el-table-column>
+          <el-table-column prop="gn" label="功能"></el-table-column>
+          <el-table-column prop="cxyj" label="查询依据"></el-table-column>
+          <el-table-column prop="zcnr" label="显示组成内容"></el-table-column>
+          <el-table-column prop="creat_time" label="创建时间"></el-table-column>
+          <el-table-column label="操作" width="100">
             <template slot-scope="scope">
               <el-button @click.native.prevent="deleteRow(scope.$index, userData)"
                          type="text"><i class="el-icon-edit-outline"></i>
@@ -26,8 +23,22 @@
               </el-button>
             </template>
           </el-table-column>
+          <el-table-column label="功能图标" width="100">
+            <template slot-scope="scope">
+              <el-dropdown trigger="click" :hide-on-click="false">
+                <span class="el-dropdown-link">
+                  <img class="hh_imgs" src="./fcslzm.png" alt=""><i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item v-if="Icondata" v-for="item in Icondata" :key="item.index">
+                    <img class="imgs" :src="item.url" alt="">
+                    <span class="text">{{item.name}}</span>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </template>
+          </el-table-column>
           <div slot="append">
-            <span class="app-index"></span>
             <span class="add-cont" @click="_ddGn">新增功能名称 <i class="el-icon-plus"></i></span>
           </div>
         </el-table>
@@ -44,36 +55,61 @@
       return {
         GnData: [
           {
-            date: '2016-05-01',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
+            index: '1',
+            gn: '合法住所',
+            cxyj: '权利人证件号',
+            zcnr: '统计信息(合法住所)',
+            creat_time: '2017-12-20 10:40'
+          }
+        ],
+        Icondata: [
+          {
+            url: require('./fcslzm.png'),
+            name: '房产数量证明'
           },
           {
-            date: '2016-05-08',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
+            url: require('./hfzs.png'),
+            name: '合法住所'
           },
           {
-            date: '2016-05-06',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
+            url: './jbxx.png',
+            name: '基本信息'
           },
           {
-            date: '2016-05-07',
-            name: '王小虎',
-            province: '上海',
-            city: '普陀区',
-            address: '上海市普陀区金沙江路 1518 弄',
-            zip: 200333
+            url: './jcxx.png',
+            name: '基础信息'
+          },
+          {
+            url: './qlr.png',
+            name: '权利人'
+          },
+          {
+            url: './qlrxm.png',
+            name: '权利人姓名'
+          },
+          {
+            url: './qlrzjh.png',
+            name: '权利人证件号'
+          },
+          {
+            url: './qzh.png',
+            name: '权证号'
+          },
+          {
+            url: './wts.png',
+            name: '委托书'
+          },
+          {
+            url: './yfczm.png',
+            name: '原房产证号'
+          },
+          {
+            url: './zjh.png',
+            name: '证件号'
+          },
+          {
+            url: './zl.png',
+            name: '坐落'
           }
         ]
       }
@@ -100,6 +136,7 @@
     margin: auto
     margin-top: 26px
     background: #fff
+    box-shadow: 0 0 10px rgba(69, 149, 255, 0.4)
     border-radius: 5px
     .header
       width: 100%
@@ -126,18 +163,21 @@
         background: #f4f8f9
         font-size: 16px
       .el-table td
-        padding: 6px 0
+        padding: 4px 0
+      .el-dropdown .hh_imgs
+        width: 16px
+        height: 16px
+        padding-right: 6px
+        vertical-align: middle
       .el-table__append-wrapper
-        height: 36px
-        line-height: 36px
+        height: 48px
+        line-height: 48px
         overflow: hidden
       .el-table__append-wrapper:hover
         background-color: #f5f7fa
-      .app-index
-        display: inline-block
-        width: 100px
       .add-cont
         display: inline-block
-        width: 120px
+        padding: 0 4px 0 10px
+        margin-left: 60px
         cursor: pointer
 </style>

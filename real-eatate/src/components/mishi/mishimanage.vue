@@ -7,13 +7,14 @@
       </el-breadcrumb>
     </div>
     <div class="mishi-form">
-      <el-form :model="DepartForm" :rules="departrule" ref="DepartForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="请将U盾插入USB接口后打开" prop="departname">
-          <el-input v-model="DepartForm.departname" value="" placeholder="请输入部门名称"></el-input>
+      <el-form :model="DepartForm" :rules="departrule" ref="DepartForm" class="demo-ruleForm">
+        <el-form-item label="1.请将U盾插入USB接口后打开" prop="departname">
+          <el-button type="primary">打开U盾</el-button>
         </el-form-item>
-        <el-form-item label="然后点击获取密匙" prop="departuser">
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 6}" v-model="DepartForm.departuser" placeholder="请输入部门用户">
+        <el-form-item label="2.然后点击获取密匙" prop="departuser">
+          <el-input type="text" v-model="DepartForm.departuser" placeholder="点击右侧获取">
           </el-input>
+          <el-button type="primary">获取</el-button>
         </el-form-item>
         <div class="form-submit">
           <el-button round @click="_Close()" style="padding: 14px 70px;">取 消</el-button>
@@ -64,6 +65,7 @@
     margin: auto
     margin-top: 26px
     background: #fff
+    box-shadow: 0 0 10px rgba(69, 149, 255, 0.4)
     border-radius: 5px
     position: relative
     .header
@@ -87,16 +89,20 @@
         font-size: 16px
         font-family: '微软雅黑'
     .mishi-form
-      width: 40%
+      width: 46%
       height: calc(100% - 80px)
       min-width: 420px
       max-width: 600px
       margin: 0 auto
       margin-top: 20px
       .el-form-item__label
+        width: 240px
         font-size: 16px
         font-family: '微软雅黑'
+        text-align: left
         color: #33363f
+      .el-input
+        width: 160px
       .form-submit
         height: 60px
         margin-top: 160px

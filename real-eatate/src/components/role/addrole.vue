@@ -63,6 +63,7 @@
     margin: auto
     margin-top: 26px
     background: #fff
+    box-shadow: 0 0 10px rgba(69, 149, 255, 0.4)
     border-radius: 5px
     .header
       width: 100%

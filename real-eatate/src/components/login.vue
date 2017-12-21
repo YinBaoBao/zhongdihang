@@ -11,16 +11,16 @@
       <el-form :model="loginForm" :rules="loginrule" ref="loginForm" label-width="0" class="demo-ruleForm"
                style="margin: 0 auto;">
         <el-form-item prop="username">
-          <el-input class="user_ipt" size="large" placeholder="请输入账号" v-model="loginForm.username"
+          <el-input class="user_ipt" size="large" placeholder="请输入账号" v-model.trim="loginForm.username"
                     @keyup.enter.native="submitForm('loginForm')" autofocus></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input class="pass_ipt" size="large" type="password" placeholder="请输入密码" v-model="loginForm.password"
+          <el-input class="pass_ipt" size="large" type="password" placeholder="请输入密码" v-model.trim="loginForm.password"
                     @keyup.enter.native="submitForm('loginForm')"></el-input>
         </el-form-item>
-        <div class="mima">
+        <div class="lo-mima">
           <span style="display: inline-block;cursor: pointer;" @click="_savemima" onselectstart="return false">
-            <i class="fontfamily my-icon-success_fill check_icon" :class="{'active': isActive}"></i>
+            <i class="fontfamily my-icon-success_fill check_icon" :class="{'active': IsActive}"></i>
             <span class="text" onselectstart="return false">记住密码</span>
           </span>
         </div>
@@ -35,10 +35,11 @@
 
 <script type="text/ecmascript-6">
   // eslint-disable-next-line semi
+  import { Md5 } from '../common/js/md5.js';
   export default {
     data() {
       return {
-        isActive: false,
+        IsActive: false,
         Iserror: false,
         errortext: '*无效用户名，请重新输入。',
         loginForm: {
@@ -72,10 +73,10 @@
         });
       },
       _savemima() {  // 记住密码
-        this.isActive = !this.isActive;
+        this.IsActive = !this.IsActive;
         let user = this.loginForm.username;
         let pass = this.loginForm.password;
-        if (this.isActive === true) {
+        if (this.IsActive === true) {
           if (user !== '' && pass !== '') {
             this.setcookie('User', user, 7);
             this.setcookie('Pass', pass, 7);
@@ -108,12 +109,10 @@
       }
     },
     created() {
+      console.log(Md5('123456'));
       if (this.getcookie('User') !== '') { // 获取cookie
         this.loginForm.username = this.getcookie('User');
         this.loginForm.password = this.getcookie('Pass');
-        if (this.getcookie('Pass') !== '') {
-          this.isActive = true;
-        }
       }
       this._Freshdata();
     },
@@ -182,7 +181,7 @@
         .el-input__inner
           background: url('../assets/image/loginpass.png') 16px 6px no-repeat
           background-size: 24px 24px
-      .mima
+      .lo-mima
         width: 100%
         height: 34px
         line-height: 34px

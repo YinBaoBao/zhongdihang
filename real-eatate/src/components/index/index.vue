@@ -7,7 +7,10 @@
       </div>
       <ul class="list">
         <li>
-          <img class="avatar" src="./navuser.png" alt="navuser">
+          <div class="fileinput">
+            <img class="avatar" :src="dataUrl" alt="">
+            <input type="file" name="file" title="" value="" ref="uploadImg" class="img_upload" @change="_upload">
+          </div>
         </li>
         <li><span>欢迎,{{username}}</span></li>
         |
@@ -72,6 +75,7 @@
   export default {
     data() {
       return {
+        dataUrl: require('./navuser.png'),
         username: '李延亮',
         Menuitem: '/index/home',
         itemactive: 'home'
@@ -83,6 +87,34 @@
       }
     },
     methods: {
+      _upload(e) {  // 上传头像图片
+        console.log(e.currentTarget.files[0]);
+        let file = this.$refs.uploadImg.files[0];
+        this.imgPreview(file);
+      },
+      imgPreview(file) {
+        let self = this;
+        if (!file || !window.FileReader) {
+          return false;
+        }
+        const isJPG = /^image/.test(file.type);
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG/PNG 格式!');
+          return false;
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+          return false;
+        }
+        const reader = new FileReader();
+        reader.onloadend = (event) => {
+          self.dataUrl = event.target.result;
+        }
+        reader.readAsDataURL(file);
+        let formdata = new FormData();
+        console.log(formdata);
+      },
       _editmima() {  // 修改密码
         this.$router.push({path: '/index/mima'});
       },
@@ -113,10 +145,18 @@
             this.itemactive = 'Password';
             break;
         }
+      },
+      _Freshdata() {
       }
     },
     created() {
+      this._Freshdata();
+    },
+    activated() {
       this.$router.push({path: '/index/home'});
+    },
+    watch: {
+      '$route': '_Freshdata'
     }
   };
 </script>
@@ -148,12 +188,30 @@
           display: inline-block
           height: 60px
           line-height: 60px
-          .avatar
+          vertical-align: middle
+          .fileinput
+            display: inline-block
+            position: relative
             width: 34px
             height: 34px
-            margin-top: -4px
-            margin-right: 6px
-            vertical-align: middle
+            margin-top: 12px
+            border-radius: 50%
+            cursor: pointer
+            overflow: hidden
+            .avatar
+              width: 34px
+              height: 34px
+              display: block
+              border-radius: 50%
+            .img_upload
+              position: absolute
+              right: 0px
+              top: 0px
+              height: 34px
+              cursor: pointer
+              outline: none
+              color: transparent
+              opacity: 1
           span
             padding: 0 3px
             font-size: 16px
@@ -165,12 +223,15 @@
       .menu
         float: left
         width: 240px
+        height: 100%
         overflow: hidden
+        .el-menu
+          height: 100%
         .imgs
           width: 20px
           height: 20px
           margin-left: 2px
-          margin-top: -6px
+          margin-top: -2px
           vertical-align: middle
       .Tabs
         float: left
