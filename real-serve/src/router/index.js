@@ -2,8 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import login from '@/components/login';
 import index from '@/components/index/index';
-import Houseinfo from '@/components/houseinfo/houseinfo';
-import Housenum from '@/components/housenum/housenum';
+import Xq from '@/components/houseinfo/xq';
 
 Vue.use(Router);
 
@@ -23,17 +22,15 @@ export default new Router({
     },
     {
       path: '/index',
-      component: index,
-      children: [
-        {
-          path: 'houseinfo',
-          component: Houseinfo
-        },
-        {
-          path: 'housenum',
-          component: Housenum
-        }
-      ]
+      component: index
+    },
+    {
+      path: '/',
+      redirect: 'xq'
+    },
+    {
+      path: '/xq',
+      component: Xq
     }
   ]
 });

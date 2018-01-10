@@ -3,7 +3,7 @@
     <div class="header">
       <el-breadcrumb separator-class="el-icon-arrow-right" replace>
         <el-breadcrumb-item :to="{ path: '/index/department' }">部门管理</el-breadcrumb-item>
-        <el-breadcrumb-item>管理部门</el-breadcrumb-item>
+        <el-breadcrumb-item>{{departTile}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="depart-form">
@@ -12,7 +12,8 @@
           <el-input v-model="DepartForm.departname" value="" placeholder="请输入部门名称"></el-input>
         </el-form-item>
         <el-form-item label="部门用户" prop="departuser">
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 6}" v-model="DepartForm.departuser" placeholder="请输入部门用户">
+          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 6}" v-model="DepartForm.departuser"
+                    placeholder="请输入部门用户">
           </el-input>
         </el-form-item>
         <div class="form-submit">
@@ -35,6 +36,7 @@
   export default {
     data() {
       return {
+        departTile: '',
         DepartForm: {
           departname: '',
           departuser: ''
@@ -54,6 +56,17 @@
       },
       _Reader() {  // 读取U盾
       }
+    },
+    created() {
+      let data = this.$store.state.departmanage;
+      this.DepartForm.departname = data.depart;
+      this.departTile = this.$store.state.departTitle;
+      if (this.departTile === '新增部门') {
+        this.DepartForm.departname = '';
+        this.DepartForm.departuser = '';
+      }
+    },
+    mounted() {
     }
   };
 </script>

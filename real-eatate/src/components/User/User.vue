@@ -19,7 +19,7 @@
           <el-table-column prop="state" label="状态"></el-table-column>
           <el-table-column label="操作" width="120">
             <template slot-scope="scope">
-              <el-button @click.native.prevent="deleteRow(scope.$index, userData)"
+              <el-button @click.native.prevent="_edituser(scope.$index, scope.row)"
                          type="text"><i class="el-icon-edit-outline"></i>
               </el-button>
               <el-button @click.native.prevent="deleteRow(scope.$index, userData)"
@@ -55,6 +55,12 @@
     },
     methods: {
       _adduser() {
+        this.$store.commit('userTitle', '新增用户');
+        this.$router.push({path: '/index/adduser'});
+      },
+      _edituser(index, row) {
+        this.$store.commit('useredit', row);
+        this.$store.commit('userTitle', '修改用户');
         this.$router.push({path: '/index/adduser'});
       },
       deleteRow(index, rows) {
@@ -98,4 +104,5 @@
         font-size: 16px
       .el-table td
         padding: 4px 0
+
 </style>

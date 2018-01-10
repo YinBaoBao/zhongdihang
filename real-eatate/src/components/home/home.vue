@@ -11,6 +11,8 @@
       return {
         username: '李延亮'
       };
+    },
+    created() {
     }
   };
 </script>
@@ -21,7 +23,7 @@
     background: url("./wellcom.png") 0 0 no-repeat
     background-size: 100% 100%
     text-align: center
-    .username,.text
+    .username, .text
       font-size: 24px
       font-family: '微软雅黑'
       color: #97a8bb

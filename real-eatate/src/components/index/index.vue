@@ -5,18 +5,20 @@
         <img class="imglogo" src="./navlogo.png" alt="navlogo">
         <span class="text">苏州不动产数据集成服务管理后台</span>
       </div>
-      <ul class="list">
-        <li>
+      <ul class="in-list">
+        <li class="inlist-item">
           <div class="fileinput">
             <img class="avatar" :src="dataUrl" alt="">
-            <input type="file" name="file" title="" value="" ref="uploadImg" class="img_upload" @change="_upload">
+            <label for="file" class="lab_upload"></label>
+            <input type="file" name="file" id="file" class="ipt_upload" title="" value="" ref="uploadImg"
+                   @change="_upload">
           </div>
         </li>
-        <li><span>欢迎,{{username}}</span></li>
-        |
-        <li><span @click="_editmima">修改密码</span></li>
-        |
-        <li><span @click="_goback">安全退出</span></li>
+        <li class="inlist-item"><span class="list-text">欢迎,{{username}}</span></li>
+        <span style="vertical-align: middle;">|</span>
+        <li class="inlist-item"><span class="list-text" @click="_editmima">修改密码</span></li>
+        <span style="vertical-align: middle;">|</span>
+        <li class="inlist-item"><span class="list-text" @click="_goback">安全退出</span></li>
       </ul>
     </div>
     <div class="content">
@@ -66,6 +68,11 @@
         <p class="footer">技术支持: 苏州中地行信息技术有限公司</p>
       </div>
     </div>
+    <transition name="pr_fade">
+      <div v-if="showpercent" class="progress">
+        <el-progress :text-inside="true" :stroke-width="14" :percentage="percent"></el-progress>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -78,7 +85,9 @@
         dataUrl: require('./navuser.png'),
         username: '李延亮',
         Menuitem: '/index/home',
-        itemactive: 'home'
+        itemactive: 'home',
+        percent: 0,
+        showpercent: false
       }
     },
     computed: {
@@ -88,7 +97,7 @@
     },
     methods: {
       _upload(e) {  // 上传头像图片
-        console.log(e.currentTarget.files[0]);
+//        console.log(e.currentTarget.files[0]);
         let file = this.$refs.uploadImg.files[0];
         this.imgPreview(file);
       },
@@ -108,8 +117,22 @@
           return false;
         }
         const reader = new FileReader();
-        reader.onloadend = (event) => {
+        reader.onloadstart = (e) => {
+          self.showpercent = true;
+          self.percent = 0;
+        };
+        reader.onprogress = (e) => {
+          let percentLoaded = Math.round((e.loaded / e.total) * 100);
+          if (percentLoaded < 100) {
+            self.percent = percentLoaded;
+          }
+        };
+        reader.onload = (event) => {
+          self.percent = 100;
           self.dataUrl = event.target.result;
+          setTimeout(_ => {
+            self.showpercent = false;
+          }, 1500);
         }
         reader.readAsDataURL(file);
         let formdata = new FormData();
@@ -180,11 +203,11 @@
           font-size: 24px
           color: #33363f
           vertical-align: middle
-      .list
+      .in-list
         float: right
         margin-right: 15px
         overflow: hidden
-        li
+        .inlist-item
           display: inline-block
           height: 60px
           line-height: 60px
@@ -203,23 +226,27 @@
               height: 34px
               display: block
               border-radius: 50%
-            .img_upload
+            .lab_upload
               position: absolute
-              right: 0px
+              left: 0px
               top: 0px
+              width: 34px
               height: 34px
               cursor: pointer
+              z-index: 100
+            .ipt_upload
               outline: none
+              /*visibility: hidden*/
+              display: none
               color: transparent
-              opacity: 1
-          span
+          .list-text
             padding: 0 3px
             font-size: 16px
             vertical-align: middle
             cursor: pointer
     .content
       width: 100%
-      height: calc(100% - 60px)
+      height: calc(100% - 62px)
       .menu
         float: left
         width: 240px
@@ -248,4 +275,14 @@
           font-weight: 600
           text-align: center
           color: #97a8bb
+    .progress
+      width: 300px
+      height: 40px
+      position: absolute
+      right: 12px
+      top: 76px
+      &.pr_fade-enter, &.pr_fade-leave-active
+        top: 60px
+      &.pr_fade-enter-active, &.pr_fade-leave-active
+        transition: all 0.3s linear
 </style>

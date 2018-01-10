@@ -14,7 +14,9 @@
           <el-menu-item index="显示组成内容">显示组成内容</el-menu-item>
         </el-menu>
       </div>
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>

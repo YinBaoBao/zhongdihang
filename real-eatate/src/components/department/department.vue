@@ -7,26 +7,11 @@
     </div>
     <div class="main">
       <div class="inner">
-        <div class="List" v-for="item in DepartData" :key="item.index">
-          <departList :departData="item"></departList>
+        <div v-if="DepartData" class="List" v-for="(item,index) in DepartData" :key="item.id">
+          <departList :departData="item" :Index="index" @deletedepart="_deletedepart"></departList>
         </div>
-        <div class="List1">
-          <ul class="list-header">
-            <li class="edit"><span>编辑</span></li>
-            <li class="logo">
-              <el-upload
-                class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload">
-                <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                <div v-else class="logo-icon"><span class="add">添加</span><span class="logos">LOGO</span></div>
-              </el-upload>
-              <div class="addbumen"><span class="text">增加部门名称<i class="el-icon-plus"></i></span></div>
-            </li>
-            <li class="delete"><span>删除</span></li>
-          </ul>
+        <div class="add-List" @click="_addList">
+          <i class="el-icon-plus text-icon"></i>
         </div>
         <div class="footer-message">
           <span class="text">*您可以增加或删除区域，填写新区域后点击空白处，即可继续新增区域，点击"保存"可将变化后的区域保存。</span>
@@ -43,7 +28,6 @@
   export default {
     data() {
       return {
-        imageUrl: '',
         DepartData: [
           {
             Url: 'http://c.hiphotos.baidu.com/image/h%3D300/sign=0637c5e533292df588c3aa158c335ce2/9345d688d43f8794361b48e4db1b0ef41ad53a17.jpg',
@@ -85,51 +69,36 @@
               }
             ],
             bcolor: 'orange'
-          },
-          {
-            Url: '',
-            departname: '公检法',
-            partlist: [
-              {
-                depart: '信息处'
-              },
-              {
-                depart: '不动产登记局'
-              }
-            ],
-            bcolor: 'pink'
-          },
-          {
-            Url: '',
-            departname: '公检法',
-            partlist: [
-              {
-                depart: '信息处'
-              },
-              {
-                depart: '不动产登记局'
-              }
-            ],
-            bcolor: 'skyblue'
           }
         ]
       };
     },
     methods: {
-      handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+      _addList() {  // 增加部门
+        let data = {
+          Url: '',
+          departname: '',
+          partlist: [
+            {
+              depart: ''
+            }
+          ],
+          bcolor: 'red'
+        }
+        this.DepartData.push(data);
       },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
+      _deletedepart(index) {   // 删除部门
+        console.log(index);
+        this.DepartData.splice(index, 1);
+      }
+    },
+    watch: {
+      DepartData: {
+        handler(newValue, oldValue) {
+//          console.log(newValue);
+//          this.DepartData = newValue;
+        },
+        deep: true
       }
     },
     components: {
@@ -173,76 +142,21 @@
           margin-bottom: 30px
           margin-right: 22px
           vertical-align: top
-        .List1
+        .add-List
           display: inline-block
-          width: 30%
-          height: 352px
-          max-width: 560px
-          border-color(#FE707D)
-          background: #fff
-          box-shadow: 0 0 10px rgba(69, 149, 255, 0.4)
-          margin-left: -4px
-          vertical-align: top
-          .list-header
-            display: flex
-          .edit, .delete
-            flex: 1
-            display: inline-block
-            vertical-align: top
-          .edit, .delete
-            span
-              display: inline-block
-              margin: 10px 10px
-              padding: 10px
-              font-size: 16px
-              color: #D3D3D3
-              cursor: pointer
-          .edit
-            text-align: left
-          .delete
-            text-align: right
-          .logo
-            flex: 0 1 140px
-            .addbumen
-              height: 40px
-              line-height: 40px
-              text-align: center
-              .text
-                font-size: 16px
-                color: #D3D3D3
-                cursor: pointer
-          .avatar-uploader
-            margin-top: 16px
-            text-align: center
-            .el-upload
-              border: 1px solid #ccc;
-              width: 100px
-              height: 100px
-              border-radius: 50%
-              background: #EEE
-              text-align: center
-              cursor: pointer
-              position: relative
-              overflow: hidden
-          .avatar-uploader .el-upload:hover
-            border-color: #409EFF
-          .logo-icon
-            display: inline-block
-            width: 100px
-            height: 100px
-            font-size: 14px
-            color: #8c939d
-            text-align: center
-            .add, .logos
-              display: block
-              height: 20px
-              line-height: 20px
-            .add
-              margin-top: 28px
-          .avatar
-            width: 100px
-            height: 100px
-            display: block
+          border: 1px dashed #D9D9D9
+          width: 200px
+          height: 200px
+          line-height: 200px
+          text-align: center
+          cursor: pointer
+          .text-icon
+            font-size: 30px
+            color: #8C939D
+        .add-List:hover
+          border-color: #409EFF
+          .text-icon
+            color: #409EFF
         .footer-message
           position: absolute
           left: 0px

@@ -3,7 +3,7 @@
     <div class="header">
       <el-breadcrumb separator-class="el-icon-arrow-right" replace>
         <el-breadcrumb-item :to="{ path: '/index/user' }">用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>新增用户</el-breadcrumb-item>
+        <el-breadcrumb-item>{{addTitle}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="user-form">
@@ -26,7 +26,7 @@
             <el-option label="角色" value="beijing"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="U盾密码" prop="mima" class="mima">
+        <el-form-item label="U盾密码" prop="mima" class="u-mima">
           <el-input v-model="AddForm.mima"></el-input>
           <el-button type="primary" @click="_Reader()" style="float: right;">读 取</el-button>
         </el-form-item>
@@ -53,6 +53,7 @@
   export default {
     data() {
       return {
+        addTitle: '',
         AddForm: {
           account: '',
           name: '',
@@ -62,9 +63,11 @@
           state: ''
         },
         addrule: {
+          account: [
+            {required: true, message: '请输入账号', trigger: 'blur'}
+          ],
           name: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
-            {min: 3, message: '长度最少 3 个字符', trigger: 'blur'}
+            {required: true, message: '请输入姓名', trigger: 'blur'}
           ]
         }
       }
@@ -76,6 +79,24 @@
       _SaveForm(AddForm) {  // 保存
       },
       _Reader() {  // 读取U盾
+      }
+    },
+    created() {
+      let data = this.$store.state.useredit;
+      this.AddForm.account = data.account;
+      this.AddForm.name = data.name;
+      this.AddForm.bumen = data.depart;
+      this.AddForm.role = data.role;
+      this.AddForm.mima = data.password;
+      this.AddForm.state = data.state;
+      this.addTitle = this.$store.state.userTitle;
+      if (this.addTitle === '新增用户') {
+        this.AddForm.account = '';
+        this.AddForm.name = '';
+        this.AddForm.bumen = '';
+        this.AddForm.role = '';
+        this.AddForm.mima = '';
+        this.AddForm.state = '';
       }
     }
   };
@@ -115,12 +136,16 @@
       max-width: 600px
       margin: 0 auto
       .el-form-item__label
-        font-size: 16px
         font-family: '微软雅黑'
         color: #33363f
+        vertical-align: middle
       .el-select
         width: 100%
-      .mima
+        vertical-align: middle
+        .el-input
+          overflow: hidden
+          height: 40px
+      .u-mima
         .el-input
           width: 70%
       .form-submit

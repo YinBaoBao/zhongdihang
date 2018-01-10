@@ -1,0 +1,58 @@
+{
+  "content": {
+    "body": [
+      {
+        "remark": null,
+        "unid": "64c4a7fc19654de792990f54917dab1a",
+        "id": "e214851161dd4554be7d43edb0594593",
+        "description": "不动产共享平台不动产登记模块",
+        "name": "不动产登记",
+        "number": "17100201",
+        "outlines": [
+          {
+            "remark": null,
+            "unid": "bda66d8ce71f433c8373cf24edc3f34d",
+            "id": "99729a05115847e0b799c85e01275037",
+            "description": "房屋基本信息查询的大纲",
+            "name": "房屋基本信息查询",
+            "number": "171002001",
+            "path": "/",
+            "iconfont": null,
+            "children": [],
+            "zindex": 0,
+            "base": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAYCAYAAADkgu3FAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo0ZTAxZjU3Yy0xZmVkLWJlNGMtYmQ4MS00OGRlM2NiNmE5MmEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjREREEyNjJEQkMxMTFFN0FBMTlDOEFEMzRCMThEREEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjREREEyNjFEQkMxMTFFN0FBMTlDOEFEMzRCMThEREEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OWE2MTg2MTYtYmM0ZC02NTQxLTgzOTItYTQ1OTg1M2FlYWY4IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjRlMDFmNTdjLTFmZWQtYmU0Yy1iZDgxLTQ4ZGUzY2I2YTkyYSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PrLwDzYAAAFpSURBVHja3NVPK0RRGMfxcxmUjVIsEKVYyCtgY2OD1Sws2JnCQlmwoERZsEFSFE1sZqXYKPIGvIMpYiMLi5E/K3ExvqeexeTee+6cObMxT32amebc++s599xzvHTmREVUDRaQQoeKrzv0Iff3j9R4UlUZLtzEapEhuhpwIZ+BigqqxaSyq0Nc41Sujwyqxhoe8YE6y6A8JuT7sdwvNEhP0yJusKPsK4FPJNGJXXhhQdM4xwCWSwgaRQ/eMIRhmaFAUCPuVenVjqxM4QPaZNUaF0PZq/KCEhZjX5HGt+Hdm0K9a1BWlv+XIWgQva5B/fAr6hndYtbQld6y9tHq2lHesBB0/cgY5466cflvX9h3OSpc6zkuSG/3B2UI2ivmGc3hCTNosgzQh+cGtsM60m12Ffz25TBslgMszpFMt94hWrAlKzHQkW5zCWe4KhwUU54ceGNyDz9uea/gBfMYsZyqnHS/HjXgV4ABAPLiQ/QygHIeAAAAAElFTkSuQmCC"
+          }
+        ],
+        "path": "/**/bdcdj/**",
+        "zindex": 1
+      },
+      {
+        "remark": null,
+        "unid": "91efee964dbb4501a14c51885935b328",
+        "id": "e8ec619e57bf48aca47f195fe8402187",
+        "description": "登记审核接口",
+        "name": "不动产审核",
+        "number": "17100202",
+        "outlines": [
+          {
+            "remark": null,
+            "unid": "bda66d8ce71f433c8373cf24edc3f34d",
+            "id": "99729a05115847e0b799c85e01275037",
+            "description": "房产数查询的大纲",
+            "name": "房产数查询",
+            "number": "171002001",
+            "path": "/",
+            "iconfont": null,
+            "children": [],
+            "zindex": 0,
+            "base": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAYCAYAAADkgu3FAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo0ZTAxZjU3Yy0xZmVkLWJlNGMtYmQ4MS00OGRlM2NiNmE5MmEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkU5RDgxMkREQkMxMTFFN0JBRjJCRjQzNTY4Nzk2NDEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkU5RDgxMkNEQkMxMTFFN0JBRjJCRjQzNTY4Nzk2NDEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OWE2MTg2MTYtYmM0ZC02NTQxLTgzOTItYTQ1OTg1M2FlYWY4IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjRlMDFmNTdjLTFmZWQtYmU0Yy1iZDgxLTQ4ZGUzY2I2YTkyYSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgHrzywAAAJvSURBVHjapFZLSBVhFP69d3xm+QrNLCNJDaxsIYIYtRCSFkYLAxcXhQS32s6FoAiC4KaiVbYoCnUjBa7cFW6CtrVRQTAjLAzxhl5t9Pod+QaO4z+Xe50DH+fjzOOc/7xmst68mzaUDmACKAX2zEmJAEngG9ALrImxJ9Zl0hGHOgt4DZSn8cxFYByImQwkorSTwXPnTYYSUTyewXPxMI7KABfoByZpGwCekT8FhsjzwzgqBHaBF+rlz4FRcrGNkeeGceQ1hdZ+fmrRDbABlACzQBVtH9juIh+BHPLtMI5cRn+TaRRpUPUQHiU/COOogpHWAU3AV/JLwA+glvclVSBH8vb9TK4aaK8kexhmN6hGSUvEqaLPh5N56J/ALwa0Rr6Ka8M2R9Jx2cAd4D5td4GH5Pe4pkT+Uz/mvTIaRRxk4eeASmAEzur8qfvDNC0o22fFPym+o9aR4dzJ9VfAF66zQaCR6V/UJ7rAU0kt+miTmzoVbyYv8DmcQj2mWOMF8Bno77yW8J/IoaNl4AxtS8CW4rYmEtm31PmYdgIGuErZLite7GsQ72UTqMUq6xQDvwHdGtTe62zxReCaSk0e+V91um2fo6scdoefmlsqKGvXGdYowRTK9X9Mm7zoii9V3vPdqEs9g3kJfh16LshRVPHbdCiDeJaN8CTF/ttVJ3QtdQv82Nl2WcJi81LXjrpEmeZG8Dam84SjffWQUXXRkmNx4EU/SIg8Io51ZCRg1fy2ONq0DOxWGvt04yjX+AsagX6ghtFw2OKqFnKCarUJXC7dGnZqKlmRreGw35sZpas+Can+FaRBWtL8f5Ba5R0KMAB9Kpk7/SDAgwAAAABJRU5ErkJggg=="
+          }
+        ],
+        "path": "/bdcdj/audit/**",
+        "zindex": 2
+      }
+    ],
+    "message": "OK",
+    "status": "200"
+  }
+}

@@ -15,10 +15,10 @@
           <el-table-column prop="creat_time" label="创建时间" width=""></el-table-column>
           <el-table-column label="操作" width="120">
             <template slot-scope="scope">
-              <el-button @click.native.prevent="_EditRow(scope.$index, userData)"
+              <el-button @click.native.prevent="_EditRow(scope.$index, scope.row)"
                          type="text"><i class="el-icon-edit-outline"></i>
               </el-button>
-              <el-button @click.native.prevent="_DeleteRow(scope.$index, userData)"
+              <el-button @click.native.prevent="_DeleteRow(scope.$index, scope.row)"
                          type="text"><i class="el-icon-delete"></i>
               </el-button>
             </template>

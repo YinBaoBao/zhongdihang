@@ -1,0 +1,60 @@
+{
+  "body": [
+    {
+      "name": "查询条件",
+      "roles": [
+        {
+          "id": "5acd68bad2b947bcb8c4d26778b91f3f",
+          "number": "ROLE_BDCH",
+          "name": "不动产证",
+          "description": "查询条件——权利人证件号",
+          "moduleId": "b175017d03b5481c9f635d0238e15231",
+          "outlineId": "6fd6218c3eaa4e0b97bd2ca94d8becbb",
+          "elementId": "55ccbb05959b42019264e99b79164159",
+          "appId": "3a400ae59a1c4fb696cbc3b1d17670dd",
+          "type": 3
+        },
+        {
+          "id": "802a5a4fb57e491da03a15efb4da6b94",
+          "number": "ROLE_QLRXM",
+          "name": "权利人姓名",
+          "description": "查询条件——权利人姓名",
+          "moduleId": "b175017d03b5481c9f635d0238e15231",
+          "outlineId": "6fd6218c3eaa4e0b97bd2ca94d8becbb",
+          "elementId": "55ccbb05959b42019264e99b79164159",
+          "appId": "3a400ae59a1c4fb696cbc3b1d17670dd",
+          "type": 3
+        },
+        {
+          "id": "c57e331ddb4e4beeaf54eabe832e7f07",
+          "number": "ROLE_QLRZJH",
+          "name": "权利人证件号",
+          "description": "查询条件——权利人证件号",
+          "moduleId": "b175017d03b5481c9f635d0238e15231",
+          "outlineId": "6fd6218c3eaa4e0b97bd2ca94d8becbb",
+          "elementId": "55ccbb05959b42019264e99b79164159",
+          "appId": "3a400ae59a1c4fb696cbc3b1d17670dd",
+          "type": 3
+        }
+      ]
+    },
+    {
+      "name": "查询区域",
+      "roles": [
+        {
+          "id": "cef67da151da4552b21268409d66f94d",
+          "number": "REGION_WZ",
+          "name": "吴中",
+          "description": "吴中",
+          "moduleId": "b175017d03b5481c9f635d0238e15231",
+          "outlineId": "6fd6218c3eaa4e0b97bd2ca94d8becbb",
+          "elementId": "c2fe0bf9b8dd4b4eaa5812938b246815",
+          "appId": "3a400ae59a1c4fb696cbc3b1d17670dd",
+          "type": 3
+        }
+      ]
+    }
+  ],
+  "message": "OK",
+  "status": "200"
+}

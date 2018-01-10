@@ -6,12 +6,7 @@
       </div>
       <div class="selects">
         <el-checkbox-group v-model="Cxtjck" @change="_cxtjchange">
-          <el-checkbox label="权利人姓名"></el-checkbox>
-          <el-checkbox label="权利人证件号"></el-checkbox>
-          <el-checkbox label="不动产号"></el-checkbox>
-          <el-checkbox label="坐落"></el-checkbox>
-          <el-checkbox label="上传授权委托书"></el-checkbox>
-          <el-checkbox label="在线智能授权"></el-checkbox>
+          <el-checkbox v-for="item in Cxtjoption" :label="item" :key="item.id"></el-checkbox>
         </el-checkbox-group>
       </div>
     </div>
@@ -24,14 +19,7 @@
         <div class="ckarea">
           <p class="quyu">区域选择</p>
           <el-checkbox-group v-model="Cxqyck" @change="_cxqychange">
-            <el-checkbox label="姑苏"></el-checkbox>
-            <el-checkbox label="相城"></el-checkbox>
-            <el-checkbox label="园区"></el-checkbox>
-            <el-checkbox label="吴中"></el-checkbox>
-            <el-checkbox label="新区"></el-checkbox>
-            <el-checkbox label="吴江"></el-checkbox>
-            <el-checkbox label="太仓"></el-checkbox>
-            <el-checkbox label="昆山"></el-checkbox>
+            <el-checkbox v-for="item in Cxqyoption" :label="item" :key="item.id"></el-checkbox>
           </el-checkbox-group>
         </div>
         <div class="ckareafs">
@@ -50,13 +38,23 @@
   export default {
     data() {
       return {
-        Cxtjck: [],                  // 查询条件
+        Cxtjck: [],
+        Cxtjoption: [
+          '权利人姓名',
+          '权利人证件号',
+          '不动产号',
+          '坐落',
+          '上传授权委托书',
+          '在线智能授权'
+        ],                  // 查询条件
         Cxqyck: [],                  // 查询区域
+        Cxqyoption: ['姑苏', '相城', '园区', '吴中', '新区', '吴江', '太仓', '昆山'],
         arearadio: 1                // 区域组合方式单选
       };
     },
     methods: {
-      _cxtjchange() {   // 查询条件
+      _cxtjchange(val) {   // 查询条件
+        console.log(val);
       },
       _cxqychange() {   // 查询区域
       },

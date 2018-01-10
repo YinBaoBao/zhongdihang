@@ -1,7 +1,7 @@
 <template>
   <div class="departList" :class="'border-'+departData.bcolor">
     <ul class="list-header">
-      <li class="edit"><span @click="_editdepart">编辑</span></li>
+      <li class="edit"><span id="editdepart" @click="_editdepart">编辑</span></li>
       <li class="logo">
         <el-upload
           class="avatar-uploader"
@@ -13,19 +13,21 @@
           <div v-else class="logo-icon"><span class="add">添加</span><span class="logos">LOGO</span></div>
         </el-upload>
         <p v-if="editdepart" class="text">{{departData.departname}}</p>
-        <el-input v-else v-model="departData.departname" placeholder="请输入部门名称" autofocus="true" clearable @blur="_editsave">
+        <el-input v-else v-model="departData.departname" id="departipt" placeholder="请输入部门名称" autofocus
+                  @blur="_editsave" @keyup.enter.native="_editsave">
         </el-input>
+        <span v-if="departtext" class="add-text" @click="_editdepart">增加部门名称 <i class="el-icon-plus"></i></span>
       </li>
-      <li class="delete"><span>删除</span></li>
+      <li class="delete"><span @click="_deletedepart">删除</span></li>
     </ul>
     <div class="list-content">
       <el-table :data="DataList" :show-header="false" style="width: 100%;" height="150">
         <el-table-column prop="depart" label="部门"></el-table-column>
         <el-table-column label="操作" width="80">
           <template slot-scope="scope">
-            <el-button @click.native.prevent="_EditRow(scope.$index, tableData4)"
+            <el-button @click.native.prevent="_EditRow(scope.$index, scope.row)"
                        type="text"><i class="el-icon-edit"></i></el-button>
-            <el-button @click.native.prevent="_DeleteRow(scope.$index, tableData4)"
+            <el-button @click.native.prevent="_DeleteRow(scope.$index, scope.row)"
                        type="text"><i class="el-icon-delete"></i></el-button>
           </template>
         </el-table-column>
@@ -41,12 +43,16 @@
     props: {
       departData: {
         type: Object
+      },
+      Index: {
+        type: Number
       }
     },
     data() {
       return {
         editdepart: true,
-        imageUrl: this.departData.Url,
+        departtext: false,
+        imageUrl: '',
         DataList: [
           {
             depart: ''
@@ -54,22 +60,35 @@
         ]
       };
     },
-    computed: {},
     methods: {
       _editdepart() {  // 编辑部门
+        this.departtext = false;
         this.editdepart = false;
       },
       _editsave() {  // 保存编辑部门
         this.editdepart = true;
+        if (this.departData.departname === '') {
+          this.departtext = true;
+        }
       },
-      _EditRow() {      // 修改信息
+      _deletedepart() {
+        let index = this.Index;
+        this.$emit('deletedepart', index);
       },
-      _DeleteRow() {    // 删除信息
+      _EditRow(index, row) {      // 修改部门
+        this.$store.commit('departmanage', row);
+        this.$store.commit('departTitle', '修改部门');
+        this.$router.push({path: '/index/departmanage'});
+      },
+      _DeleteRow(index, row) {    // 删除信息
+        this.DataList.splice(index, 1);
       },
       _Addpart() {      // 新增部门
+        this.$store.commit('departTitle', '新增部门');
         this.$router.push({path: '/index/departmanage'});
       },
       handleAvatarSuccess(res, file) {
+        console.log(file);
         this.imageUrl = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
@@ -84,10 +103,27 @@
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
         return isJPG && isLt2M;
+      },
+      freshData() {
+        this.DataList = this.departData.partlist;
+        this.imageUrl = this.departData.Url;
       }
     },
     created() {
-      this.DataList = this.departData.partlist;
+      this.freshData();
+      if (this.departData.departname === '') {
+        this.departtext = true;
+      }
+    },
+    watch: {
+      departData: {
+        handler(newValue, oldValue) {
+          this.freshData();
+//          console.log(newValue);
+//          console.log(oldValue);
+        },
+        deep: true
+      }
     }
   };
 </script>
@@ -101,15 +137,17 @@
     border-radius: 0 0 5px 5px
     vertical-align: top
     &.border-blue
-      border-color(#4595FF)
+      border-colors(#4595FF)
     &.border-orange
-      border-color(#FFAA45)
+      border-colors(#FFAA45)
     &.border-pink
-      border-color(#FEADBD)
+      border-colors(#FEADBD)
     &.border-skyblue
-      border-color(#8ACFF3)
+      border-colors(#8ACFF3)
     &.border-green
-      border-color(#64B86E)
+      border-colors(#64B86E)
+    &.border-red
+      border-colors(#FE707D)
     .list-header
       display: flex
       .edit, .delete
@@ -129,7 +167,8 @@
       .delete
         text-align: right
       .logo
-        flex: 0 1 140px
+        flex: 0 1 150px
+        position: relative
         .text
           height: 40px
           line-height: 40px
@@ -141,6 +180,18 @@
           height: 40px
           font-size: 16px
           color: #33363f
+        .add-text
+          position: absolute
+          left: 0px
+          bottom: 0px
+          display: block
+          width: 100%
+          height: 40px
+          line-height: 40px
+          text-align: center
+          font-size: 16px
+          color: #CFCFCF
+          cursor: pointer
       .avatar-uploader
         margin-top: 16px
         text-align: center

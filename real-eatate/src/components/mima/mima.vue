@@ -8,7 +8,7 @@
     <div class="mima-form">
       <el-form :model="MimaForm" status-icon :rules="mimarule" ref="MimaForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="原密码" prop="oldpass">
-          <el-input type="password" v-model="MimaForm.oldpass" value="" placeholder="请输入原密码"></el-input>
+          <el-input ref="Oldpass" type="password" v-model="MimaForm.oldpass" value="" placeholder="请输入原密码"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newpass">
           <el-input type="password" v-model="MimaForm.newpass" value="" placeholder="请输入新密码"
@@ -26,7 +26,7 @@
       </el-form>
     </div>
     <div class="depart-message">
-      <span class="text">*以上操作需要在IE浏览器完成。</span>
+      <span class="text"></span>
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@
       };
       let validatenewPass = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入密码'));
+          callback(new Error('请输入新密码'));
         } else {
           if (value.length < 6) {
             callback(new Error('密码至少6位数'));
@@ -63,7 +63,7 @@
       };
       let validaterePass = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请再次输入密码'));
+          callback(new Error('请输入确认密码'));
         } else if (value !== this.MimaForm.newpass) {
           callback(new Error('两次输入密码不一致!'));
         } else {
@@ -141,7 +141,7 @@
         color: #33363f
       .form-submit
         height: 60px
-        margin-top: 160px
+        margin-top: 120px
         text-align: center
 
     .depart-message

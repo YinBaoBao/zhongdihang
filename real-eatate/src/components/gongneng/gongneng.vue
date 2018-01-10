@@ -70,47 +70,47 @@
           {
             url: require('./hfzs.png'),
             name: '合法住所'
-          },
-          {
-            url: './jbxx.png',
-            name: '基本信息'
-          },
-          {
-            url: './jcxx.png',
-            name: '基础信息'
-          },
-          {
-            url: './qlr.png',
-            name: '权利人'
-          },
-          {
-            url: './qlrxm.png',
-            name: '权利人姓名'
-          },
-          {
-            url: './qlrzjh.png',
-            name: '权利人证件号'
-          },
-          {
-            url: './qzh.png',
-            name: '权证号'
-          },
-          {
-            url: './wts.png',
-            name: '委托书'
-          },
-          {
-            url: './yfczm.png',
-            name: '原房产证号'
-          },
-          {
-            url: './zjh.png',
-            name: '证件号'
-          },
-          {
-            url: './zl.png',
-            name: '坐落'
           }
+//          {
+//            url: './jbxx.png',
+//            name: '基本信息'
+//          },
+//          {
+//            url: './jcxx.png',
+//            name: '基础信息'
+//          },
+//          {
+//            url: './qlr.png',
+//            name: '权利人'
+//          },
+//          {
+//            url: './qlrxm.png',
+//            name: '权利人姓名'
+//          },
+//          {
+//            url: './qlrzjh.png',
+//            name: '权利人证件号'
+//          },
+//          {
+//            url: './qzh.png',
+//            name: '权证号'
+//          },
+//          {
+//            url: './wts.png',
+//            name: '委托书'
+//          },
+//          {
+//            url: './yfczm.png',
+//            name: '原房产证号'
+//          },
+//          {
+//            url: './zjh.png',
+//            name: '证件号'
+//          },
+//          {
+//            url: './zl.png',
+//            name: '坐落'
+//          }
         ]
       }
     },

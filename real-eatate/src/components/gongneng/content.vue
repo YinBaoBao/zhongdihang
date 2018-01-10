@@ -6,17 +6,7 @@
       </div>
       <div class="selects">
         <el-checkbox-group v-model="Djxxck" @change="_djxxchange">
-          <el-checkbox label="房地产权"></el-checkbox>
-          <el-checkbox label="土地所有权"></el-checkbox>
-          <el-checkbox label="建设用地使用权"></el-checkbox>
-          <el-checkbox label="海域使用权"></el-checkbox>
-          <el-checkbox label="土地承包经营权、农用地的其他使用权"></el-checkbox>
-          <el-checkbox label="林权"></el-checkbox>
-          <el-checkbox label="其他相关权利(取水权)"></el-checkbox>
-          <el-checkbox label="抵押权"></el-checkbox>
-          <el-checkbox label="预告"></el-checkbox>
-          <el-checkbox label="查封"></el-checkbox>
-          <el-checkbox label="异议"></el-checkbox>
+          <el-checkbox v-for="item in Djxxoption" :label="item" :key="item.id"></el-checkbox>
         </el-checkbox-group>
       </div>
     </div>
@@ -26,17 +16,7 @@
       </div>
       <div class="selects">
         <el-checkbox-group v-model="Jbxxck" @change="_jbxxchange">
-          <el-checkbox label="不动产单元号"></el-checkbox>
-          <el-checkbox label="权证号"></el-checkbox>
-          <el-checkbox label="坐落"></el-checkbox>
-          <el-checkbox label="权利人姓名"></el-checkbox>
-          <el-checkbox label="权利人证件号"></el-checkbox>
-          <el-checkbox label="状态"></el-checkbox>
-          <el-checkbox label="登簿时间"></el-checkbox>
-          <el-checkbox label="不动产面积"></el-checkbox>
-          <el-checkbox label="抵押数"></el-checkbox>
-          <el-checkbox label="查封数"></el-checkbox>
-          <el-checkbox label="行政区编码"></el-checkbox>
+          <el-checkbox v-for="item in Jbxxoption" :label="item" :key="item.id"></el-checkbox>
         </el-checkbox-group>
       </div>
     </div>
@@ -78,7 +58,33 @@
     data() {
       return {
         Djxxck: [],                    // 登记信息类型
+        Djxxoption: [
+          '房地产权',
+          '土地所有权',
+          '建设用地使用权',
+          '海域使用权',
+          '土地承包经营权、农用地的其他使用权',
+          '林权',
+          '其他相关权利(取水权)',
+          '抵押权',
+          '预告',
+          '查封',
+          '异议'
+        ],
         Jbxxck: [],                    // 基本信息
+        Jbxxoption: [
+          '不动产单元号',
+          '权证号',
+          '坐落',
+          '权利人姓名',
+          '权利人证件号',
+          '状态',
+          '登簿时间',
+          '不动产面积',
+          '抵押数',
+          '查封数',
+          '行政区编码'
+        ],
         Limitck: [],                   // 查询/显示限制
         Tjck: []                       // 统计信息
       };

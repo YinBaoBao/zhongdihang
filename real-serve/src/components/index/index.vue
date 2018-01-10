@@ -7,19 +7,19 @@
       </div>
       <ul class="list">
         <li class="list-item">
-          <a class="cont" href="javascript:;" @click="_navcont('print')">
+          <a class="cont" href="javascript:;" @click="_navcont('print')" title="打印">
             <img v-if="navcont!== 'print'" class="imgs" src="./print.png" alt="">
             <img v-else class="imgs" src="./print_blue.png" alt="">
           </a>
         </li>
         <li class="list-item">
-          <a class="cont" href="javascript:;" @click="_navcont('qudong')">
+          <a class="cont" href="javascript:;" @click="_navcont('qudong')" title="驱动">
             <img v-if="navcont!== 'qudong'" class="imgs" src="./qudong.png" alt="">
             <img v-else class="imgs" src="./qudong_blue.png" alt="">
           </a>
         </li>
         <li class="list-item">
-          <a class="cont" href="javascript:;" @click="_navcont('export')">
+          <a class="cont" href="javascript:;" @click="_navcont('export')" title="导出excel">
             <img v-if="navcont!== 'export'" class="imgs" src="./export.png" alt="">
             <img v-else class="imgs" src="./export_blue.png" alt="">
           </a>
@@ -36,26 +36,25 @@
         <li class="list-item" style="margin-right: 15px;">
           <div class="fileinput">
             <img class="avatar" :src="dataUrl" alt="">
-            <input type="file" name="file" title="" value="" ref="uploadImg" class="img_upload" @change="_upload">
+            <label for="file" class="lab_upload"></label>
+            <input type="file" id="file" class="img_upload" name="file" title="" value="" ref="uploadImg"
+                   @change="_upload">
           </div>
         </li>
       </ul>
     </div>
     <div class="content">
       <div class="menu">
-        <el-menu :default-active="Menuitem" router class="el-menu-vertical-demo">
-          <el-menu-item index="/index/houseinfo">
-            <img class="imgs" src="./houseinfo.png" alt="houseinfo">
-            <span slot="title">房屋基本信息查询</span>
-          </el-menu-item>
-          <el-menu-item index="/index/housenum">
-            <img class="imgs" src="./housenum.png" alt="num">
-            <span slot="title">房产数查询</span>
+        <el-menu default-active="1" class="el-menu-vertical-demo">
+          <el-menu-item v-if="MenuData" v-for="(item,index) in MenuData" :key="item.id" index="index"
+                        @click="_MenuSelect(index,item)">
+            <img class="imgs" :src="item.outlines[0].base" alt="">
+            <span slot="title">{{item.outlines[0].name}}</span>
           </el-menu-item>
         </el-menu>
       </div>
       <div class="Tabs">
-        <router-view></router-view>
+        <HouseBase></HouseBase>
         <p class="footer">技术支持: 苏州中地行信息技术有限公司</p>
       </div>
     </div>
@@ -85,7 +84,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  /* eslint-disable semi */
+  import HouseBase from '../houseinfo/houseinfo.vue';
 
   export default {
     data() {
@@ -140,11 +139,11 @@
         },
         dataUrl: require('./navuser.png'),
         username: '李延亮',
-        Menuitem: '/index/houseinfo',
+        MenuData: '',
         editpassVisible: false,
         Navmenu: '1',
         navcont: ''  // 导航栏功能选项
-      }
+      };
     },
     computed: {},
     methods: {
@@ -190,10 +189,23 @@
       },
       _goback() { // 安全退出
         this.$router.push({path: '/login'});
+      },
+      _MenuSelect(index, data) {  // 菜单栏点击事件
+        console.log(index);
+        console.log(data);
       }
     },
     created() {
-      this.$router.push({path: '/index/houseinfo'});
+      this.$http.get('/api/menu').then((response) => {
+        let data = response.body.data;
+        console.log(data);
+        this.MenuData = data.body;
+      });
+      console.log(window.history);
+      console.log(URL);
+    },
+    components: {
+      HouseBase
     }
   };
 </script>
@@ -266,15 +278,19 @@
               height: 34px
               display: block
               border-radius: 50%
-            .img_upload
+            .lab_upload
               position: absolute
-              right: 0px
+              left: 0px
               top: 0px
+              width: 34px
               height: 34px
               cursor: pointer
+              z-index: 100
+            .img_upload
               outline: none
+              /*visibility: hidden*/
+              display: none
               color: transparent
-              opacity: 1
           span
             padding: 0 3px
             font-size: 16px
@@ -282,7 +298,7 @@
             cursor: pointer
     .content
       width: 100%
-      height: calc(100% - 60px)
+      height: calc(100% - 62px)
       .menu
         float: left
         width: 240px
