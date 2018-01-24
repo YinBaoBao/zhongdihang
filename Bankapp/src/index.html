@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" href="assets/layui/css/layui.css">
+    <link rel="stylesheet" href="assets/fonts/iconfonts.css">
+    <link rel="stylesheet" href="common/style/dydj_index.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" style="background: #fff;border-bottom: 2px solid #ccc;">
+        <div class="layui-logo">
+            <img class="hedaer_login" src="images/login.png" alt="">
+        </div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+       <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    贤心
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">退了</a></li>
+        </ul>
+        <div class="layui-tab header_tabs" lay-filter="demo" lay-allowclose="true">
+            <span class="header_text">功能</span>
+            <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="11">网站设置</li>
+                <li lay-id="22">用户管理</li>
+                <li lay-id="33">权限分配</li>
+                <li lay-id="44">商品管理</li>
+                <li lay-id="55">订单管理</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">所有商品</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="javascript:;">列表三</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">解决方案</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">云市场</a></li>
+                <li class="layui-nav-item"><a href="">发布商品</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body" style="padding: 12px 15px;">
+        <div class="layui-form layui-form-pane" action="">
+            <ul class="dydj_header_list layui-form-item">
+                <li class="dydj_header_list_item">
+                     <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                            <select name="quiz1">
+                                <option value="">请选登记类型</option>
+                                <option value="抵押登记">抵押登记</option>
+                                <option value="变更登记">变更登记</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="dydj_header_list_item">
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                            <select name="quiz2">
+                                <option value="">状态</option>
+                                <option value="草稿">草稿</option>
+                                <option value="待受理">待受理</option>
+                                <option value="已完成">已完成</option>
+                                <option value="退回">退回</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="dydj_header_list_item">
+                    <div class="layui-form-item">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="报件编号/权利人/义务人" class="layui-input" style="min-width: 180px;">
+                    </div>
+                </li>
+                <li class="dydj_header_list_item">
+                    <button class="layui-btn layui-btn-normal">查询</button>
+                </li>
+                <li class="dydj_header_list_item">
+                    <button class="layui-btn layui-btn-normal"><i class="fontfamily my-icon-add"></i>新建注销申请</button>
+                </li>
+                <li class="dydj_header_list_item">
+                    <button class="layui-btn layui-btn-normal"><i class="fontfamily my-icon-add"></i>新建登记申请</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+<script src="assets/layui/layui.js"></script>
+<script>
+    layui.use(['form','layer','element'], function(){
+        var form = layui.form,
+            layer = layui.layer,
+            elemet = layui.element;
+    });
+</script>
+</body>
+</html>
