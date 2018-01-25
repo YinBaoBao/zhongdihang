@@ -1,0 +1,74 @@
+.apply_body{
+    padding: 10px 20px;
+}
+.tabs_header{
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+.header_input{
+    display: inline-block;
+    width: 364px;
+    height: 36px;
+    vertical-align: middle;
+    position: relative;
+}
+.input_inner{
+    display: inline-block;
+    border: 1px solid #F1F1F1;
+    width: 100%;
+    height: inherit;
+    line-height: inherit;
+    text-indent: 10px;
+    font-size: 14px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.tianchong{
+    display: inline-block;
+    width: 36px;
+    height: 38px;
+    margin-top: 2px;
+    margin-left: -2px;
+    vertical-align: middle;
+    background: blue;
+}
+.tainchong_a{
+    display: block;
+    width: 36px;
+    height: 38px;
+    line-height: 44px;
+    text-align: center;
+}
+.tainchong_img{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+.tabs_content{
+    width: 80%;
+    margin: 0 auto;
+}
+.apply_table,.tabs_inner{
+    width: 100%;
+}
+.apply_table{
+    border-top: 1px solid #F2F2F2;
+    border-left: 1px solid #F2F2F2;
+}
+.apply_table td{
+    border-right: 1px solid #F2F2F2;
+    border-bottom: 1px solid #F2F2F2;
+    padding: 8px;
+    min-width: 80px;
+    color: #525762;
+    text-align: center;
+}
+.tabs_inner tr:last-child td{
+    border-bottom: none;
+}
+.tabs_inner tr td:last-child {
+    border-right: none;
+}
