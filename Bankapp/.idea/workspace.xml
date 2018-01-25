@@ -54,11 +54,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="login.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/login/login.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
               <caret line="59" column="43" lean-forward="false" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/home/home.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="27" column="21" lean-forward="false" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -100,8 +110,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="CSS File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -118,6 +128,7 @@
         <option value="$PROJECT_DIR$/src/common/style/apply.css" />
         <option value="$PROJECT_DIR$/src/login/login.html" />
         <option value="$PROJECT_DIR$/src/login/login.css" />
+        <option value="$PROJECT_DIR$/src/home/home.html" />
       </list>
     </option>
   </component>
@@ -128,8 +139,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="y" value="83" />
+    <option name="x" value="25" />
+    <option name="y" value="70" />
     <option name="width" value="1276" />
     <option name="height" value="640" />
   </component>
@@ -191,7 +202,7 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="login">
+            <PATH_ELEMENT USER_OBJECT="home">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -313,11 +324,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\ZDH\Bankapp\src\home" />
       <recent name="D:\ZDH\Bankapp\src\login" />
       <recent name="D:\ZDH\Bankapp\src\apply" />
       <recent name="D:\ZDH\Bankapp\src\images" />
       <recent name="D:\ZDH\Bankapp\src\assets" />
-      <recent name="D:\ZDH\Bankapp\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\ZDH\Bankapp\src" />
@@ -421,15 +432,15 @@
       <workItem from="1516682555943" duration="878000" />
       <workItem from="1516718247580" duration="6573000" />
       <workItem from="1516754893451" duration="2994000" />
-      <workItem from="1516848011771" duration="12193000" />
+      <workItem from="1516848011771" duration="13450000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28581000" />
+    <option name="totallyTimeSpent" value="29838000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="83" width="1276" height="640" extended-state="1" />
+    <frame x="25" y="70" width="1276" height="640" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35714287" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -747,6 +758,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="59" column="43" lean-forward="false" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/home/home_bg.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/home/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="27" column="21" lean-forward="false" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
           <folding />
         </state>
       </provider>
