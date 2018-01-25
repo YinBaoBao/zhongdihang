@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>新建登记申请</title>
     <link rel="stylesheet" href="../common/style/reset.css">
-    <link rel="stylesheet" href="../common/style/apply.css">
+    <link rel="stylesheet" href="apply.css">
+    <link rel="stylesheet" href="../assets/layui/css/layui.css">
 </head>
 <body>
     <div class="huiyaya-body apply_body">
@@ -20,39 +21,61 @@
         </div>
         <div class="apply_content">
             <div class="tabs_content">
+                <div class="tabel_header">
+                    <span class="table_title">抵押信息</span>
+                    <span class="tabel_icon"></span>
+                </div>
                 <table class="apply_table" cellpadding="8" cellspacing="0">
                     <tr>
-                        <td>抵押合同编号</td>
-                        <td></td>
-                        <td>银行抵押业务号</td>
-                        <td></td>
-                        <td>银行业务编号</td>
-                        <td></td>
-                        <td>贷款账号</td>
-                        <td></td>
+                        <td style="min-width: 100px;">抵押合同编号</td>
+                        <td style="padding: 0;">
+                            <input class="table_input" type="text" value="" placeholder="">
+                        </td>
+                        <td style="min-width: 100px;">银行抵押业务号</td>
+                        <td style="padding: 0;">
+                            <input class="table_input" type="text" value="" placeholder="">
+                        </td>
+                        <td style="min-width: 100px;">银行业务编号</td>
+                        <td style="padding: 0;">
+                            <input class="table_input" type="text" value="" placeholder="">
+                        </td>
+                        <td style="min-width: 100px;">贷款账号</td>
+                        <td style="padding: 0;">
+                            <input class="table_input" type="text" value="" placeholder="">
+                        </td>
                     </tr>
                     <tr>
                         <td>债权人</td>
-                        <td colspan="3"></td>
+                        <td colspan="3" style="padding: 0;">
+                            <input class="table_input" type="text" value="" placeholder="">
+                        </td>
                         <td>债务人</td>
-                        <td colspan="3"></td>
+                        <td colspan="3" style="padding: 0;">
+                            <input class="table_input" type="text" value="" placeholder="">
+                        </td>
                     </tr>
                     <tr>
                         <td style="padding: 0;" colspan="4">
                             <table class="tabs_inner" cellpadding="8" cellspacing="0">
                                 <tr>
-                                    <td>抵押合同签署日期</td>
-                                    <td></td>
-                                    <td>债务履行开始时间</td>
+                                    <td style="min-width: 120px;">抵押合同签署日期</td>
+                                    <td style="padding: 0 8px 0 0;">
+                                        <input type="text" class="layui-input tabel_time" id="dyht_time" style="border: none;">
+                                    </td>
+                                    <td style="min-width: 120px;">债务履行开始时间</td>
                                 </tr>
                             </table>
                         </td>
                         <td style="padding: 0;" colspan="4">
                             <table class="tabs_inner" cellpadding="8" cellspacing="0">
                                 <tr>
-                                    <td></td>
-                                    <td>债务履行结束时间</td>
-                                    <td></td>
+                                    <td style="padding: 0 8px 0 0;">
+                                        <input type="text" class="layui-input tabel_time" id="start_time" style="border: none;">
+                                    </td>
+                                    <td class="min_w120">债务履行结束时间</td>
+                                    <td style="padding: 0 8px 0 0;">
+                                        <input type="text" class="layui-input tabel_time" id="end_time" style="border: none;">
+                                    </td>
                                 </tr>
                             </table>
                         </td>
@@ -81,4 +104,17 @@
         </div>
     </div>
 </body>
+<script type="text/javascript" src="../assets/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#dyht_time' //指定元素
+        });
+        laydate.render({elem:'#start_time'});
+        laydate.render({elem:'#end_time'});
+    });
+</script>
 </html>

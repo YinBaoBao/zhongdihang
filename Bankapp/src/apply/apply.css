@@ -33,7 +33,7 @@
     margin-top: 2px;
     margin-left: -2px;
     vertical-align: middle;
-    background: blue;
+    background: #2D89F0;
 }
 .tainchong_a{
     display: block;
@@ -50,6 +50,35 @@
 .tabs_content{
     width: 80%;
     margin: 0 auto;
+}
+.tabel_header{
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    border-bottom: 4px solid #F2A553;
+    margin-bottom: 6px;
+    font-size: 0;
+}
+.table_title{
+    display: inline-block;
+    width: 90px;
+    height: inherit;
+    background: #F2A553;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    vertical-align: top;
+}
+.tabel_icon{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 18px 18px;
+    border-style: solid;
+    border-color: #F2A553;
+    vertical-align: top;
+    border-top-color: transparent;
+    border-right-color: transparent;
 }
 .apply_table,.tabs_inner{
     width: 100%;
@@ -71,4 +100,24 @@
 }
 .tabs_inner tr td:last-child {
     border-right: none;
+}
+.table_input{
+    border: none;
+    width: 100%;
+    height: inherit;
+    padding: 8px 6px;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #525762;
+}
+.tabel_time{
+    border: none;
+    box-sizing: border-box;
+    padding-right: 20px;
+    background: url("time_icon.png") right center no-repeat;
+    background-size: 20px 20px;
+}
+.min_w120{
+    min-width: 120px;
 }
