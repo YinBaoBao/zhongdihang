@@ -1,0 +1,78 @@
+html,body{
+    height: 100%;
+    font-family: MicrosoftYaHei;
+}
+.tj_out{
+    padding: 10px;
+    background: #f4f4f4;
+}
+.tj_header{
+    display: flex;
+    padding: 20px;
+    background: white;
+    font-size: 0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.tj_item{
+    flex: 1;
+    height: 60px;
+    line-height: 60px;
+}
+.tj_margin{
+    margin-right: 20px;
+}
+.tj_item .layui-unselect{
+    height: inherit;
+    font-size: 20px;
+    color: #8c8c8c;
+}
+.tj_select{
+    flex: 0 1 330px;
+}
+.tj_select .layui-input-inline{
+    width: 164px;
+    height: inherit;
+}
+.tj_item .layui-select-title{
+    height: inherit;
+}
+.tj_item .layui-input,.tj_item .layui-select {
+    border: none;
+    height: inherit;
+    background: #f4f4f4;
+}
+.tj_button{
+    width: 120px;
+    height: 50px;
+    line-height: 50px;
+    outline: none;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    background-color: #fa9e45;
+    border-radius: 25px;
+}
+.tj_content{
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+}
+.tj_title{
+    height: 60px;
+    line-height: 60px;
+}
+.tj_title_text{
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    border-left: 6px solid #2d88ef;
+    padding-left: 15px;
+    font-size: 20px;
+    color: #343a47;
+    vertical-align: middle;
+}
+.tj_chart{
+    width: 100%;
+    height: 400px;
+}
