@@ -1,0 +1,47 @@
+.layui-header{
+    height: 80px;
+    position: relative;
+}
+.hedaer_login{
+    width: 200px;
+    height: 40px;
+}
+.layui-layout-admin .layui-side {
+    top: 80px;
+}
+.header_tabs{
+    position: absolute;
+    left: 200px;
+    bottom: 0;
+    margin: 0;
+}
+.header_text{
+    display: inline-block;
+    height: 40px;
+    margin-right: -4px;
+    line-height: 40px;
+    font-size: 14px;
+    padding: 0 40px;
+    background: skyblue;
+    color: #fff;
+    vertical-align: middle;
+}
+.layui-tab-title{
+    display: inline-block;
+    vertical-align: middle;
+    border-bottom: 1px solid #fff;
+}
+.layui-layout-admin .layui-body {
+    top: 80px;
+}
+.dydj_header_list{
+    display: flex;
+}
+.dydj_header_list_item{
+    flex: 1;
+    margin-right: 20px;
+}
+.layui-form-item .layui-input-inline {
+    float: left;
+    width: 100%;
+}

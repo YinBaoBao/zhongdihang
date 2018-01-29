@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登记状态查询</title>
+    <link rel="stylesheet" href="../common/style/reset.css">
+    <link rel="stylesheet" href="all.css">
+    <link rel="stylesheet" href="../assets/layui/css/layui.css">
+</head>
+<body>
+<div class="layui-form layui-form-pane" action="">
+    <ul class="dydj_header_list layui-form-item">
+        <li class="dydj_header_list_item">
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <select name="quiz1">
+                        <option value="">请选登记类型</option>
+                        <option value="抵押登记">抵押登记</option>
+                        <option value="变更登记">变更登记</option>
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li class="dydj_header_list_item">
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <select name="quiz2">
+                        <option value="">状态</option>
+                        <option value="草稿">草稿</option>
+                        <option value="待受理">待受理</option>
+                        <option value="已完成">已完成</option>
+                        <option value="退回">退回</option>
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li class="dydj_header_list_item">
+            <div class="layui-form-item">
+                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="报件编号/权利人/义务人" class="layui-input" style="min-width: 180px;">
+            </div>
+        </li>
+        <li class="dydj_header_list_item">
+            <button class="layui-btn layui-btn-normal">查询</button>
+        </li>
+        <li class="dydj_header_list_item">
+            <button class="layui-btn layui-btn-normal"><i class="fontfamily my-icon-add"></i>新建注销申请</button>
+        </li>
+        <li class="dydj_header_list_item">
+            <button class="layui-btn layui-btn-normal"><i class="fontfamily my-icon-add"></i>新建登记申请</button>
+        </li>
+    </ul>
+</div>
+</body>
+<script type="text/javascript" src="../assets/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['form','layer','element'], function(){
+        var form = layui.form,
+            layer = layui.layer,
+            elemet = layui.element;
+    });
+</script>
+</html>

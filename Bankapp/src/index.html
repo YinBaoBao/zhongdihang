@@ -73,7 +73,7 @@
                 <li class="dydj_header_list_item">
                      <div class="layui-form-item">
                         <div class="layui-input-inline">
-                            <select name="quiz1">
+                            <select class="dydj_select" name="quiz1">
                                 <option value="">请选登记类型</option>
                                 <option value="抵押登记">抵押登记</option>
                                 <option value="变更登记">变更登记</option>
@@ -84,7 +84,7 @@
                 <li class="dydj_header_list_item">
                     <div class="layui-form-item">
                         <div class="layui-input-inline">
-                            <select name="quiz2">
+                            <select class="dydj_select" name="quiz2">
                                 <option value="">状态</option>
                                 <option value="草稿">草稿</option>
                                 <option value="待受理">待受理</option>
@@ -100,15 +100,23 @@
                     </div>
                 </li>
                 <li class="dydj_header_list_item">
-                    <button class="layui-btn layui-btn-normal">查询</button>
+                    <button class="layui-btn layui-btn-normal dydj_button dydj_btn_search">查询</button>
                 </li>
                 <li class="dydj_header_list_item">
-                    <button class="layui-btn layui-btn-normal"><i class="fontfamily my-icon-add"></i>新建注销申请</button>
+                    <button class="layui-btn layui-btn-normal dydj_button dydj_btn_cancel">新建注销申请</button>
                 </li>
                 <li class="dydj_header_list_item">
-                    <button class="layui-btn layui-btn-normal"><i class="fontfamily my-icon-add"></i>新建登记申请</button>
+                    <button class="layui-btn layui-btn-normal dydj_button dydj_btn_apply">新建登记申请</button>
                 </li>
             </ul>
+            <div class="dydj_content">
+                <div class="dydj_title">
+                    <span class="dydj_title_text">查询结果</span>
+                </div>
+                <div class="table_content">
+                    <table id="dydj_table" lay-filter="test"></table>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -1,3 +1,7 @@
+html,body{
+    height: 100%;
+    font-family: MicrosoftYaHei;
+}
 .layui-header{
     height: 80px;
     position: relative;
@@ -36,15 +40,58 @@
 }
 .dydj_header_list{
     display: flex;
+    padding: 18px 0;
+    border-bottom: 12px solid #f4f4f4;
 }
 .dydj_header_list_item{
     flex: 1;
+    height: 50px;
+    line-height: 50px;
     margin-right: 20px;
 }
-.layui-form-item .layui-input-inline {
-    float: left;
+.layui-form-item,.layui-form-select,.layui-select-title,.layui-input{
     width: 100%;
+    height: inherit;
+}
+.layui-form-item .layui-input-inline{
+    width: 100%;
+    height: inherit;
+}
+.dydj_select{
+    font-size: 20px;
+    color: #8c8c8c;
+}
+.dydj_button{
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    border-radius: 25px;
+}
+.dydj_btn_search{
+    width: 120px;
+    background-color: #2d88ef;
+}
+.dydj_btn_cancel{
+    width: 170px;
+    background-color: #fa9e45;
+}
+.dydj_btn_apply{
+    width: 170px;
+    border: solid 1px #b3b3b3;
+    color: #b3b3b3;
+    background: #fff;
 }
 
-
-
+.dydj_content{
+}
+.dydj_title{
+    height: 80px;
+    line-height: 80px;
+}
+.dydj_title_text{
+    border-left: 4px solid #2d88ef;
+    padding-left: 16px;
+    font-size: 20px;
+    color: #343a47;
+    vertical-align: middle;
+}
