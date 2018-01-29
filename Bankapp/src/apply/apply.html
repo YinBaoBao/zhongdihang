@@ -7,114 +7,377 @@
     <link rel="stylesheet" href="apply.css">
     <link rel="stylesheet" href="../assets/layui/css/layui.css">
 </head>
-<body>
+<body id="apply_body">
     <div class="huiyaya-body apply_body">
-        <div class="tabs_header">
-            <div class="header_input">
-                <input class="input_inner" type="text" value="" placeholder="请输入抵押合同编号，自动填充">
-            </div>
-            <div class="tianchong">
-                <a class="tainchong_a" href="">
-                    <img class="tainchong_img" src="tianchong_icon.png" alt="">
-                </a>
-            </div>
-        </div>
-        <div class="apply_content">
-            <div class="tabs_content">
-                <div class="tabel_header">
-                    <span class="table_title">抵押信息</span>
-                    <span class="tabel_icon"></span>
+        <div id="applay_conten" class="apply_content">
+            <div class="tabs_header">
+                <div class="header_input">
+                    <input class="input_inner" type="text" value="" placeholder="请输入抵押合同编号，自动填充">
                 </div>
-                <table class="apply_table" cellpadding="8" cellspacing="0">
-                    <tr>
-                        <td style="min-width: 100px;">抵押合同编号</td>
-                        <td style="padding: 0;">
-                            <input class="table_input" type="text" value="" placeholder="">
-                        </td>
-                        <td style="min-width: 100px;">银行抵押业务号</td>
-                        <td style="padding: 0;">
-                            <input class="table_input" type="text" value="" placeholder="">
-                        </td>
-                        <td style="min-width: 100px;">银行业务编号</td>
-                        <td style="padding: 0;">
-                            <input class="table_input" type="text" value="" placeholder="">
-                        </td>
-                        <td style="min-width: 100px;">贷款账号</td>
-                        <td style="padding: 0;">
-                            <input class="table_input" type="text" value="" placeholder="">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>债权人</td>
-                        <td colspan="3" style="padding: 0;">
-                            <input class="table_input" type="text" value="" placeholder="">
-                        </td>
-                        <td>债务人</td>
-                        <td colspan="3" style="padding: 0;">
-                            <input class="table_input" type="text" value="" placeholder="">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0;" colspan="4">
-                            <table class="tabs_inner" cellpadding="8" cellspacing="0">
-                                <tr>
-                                    <td style="min-width: 120px;">抵押合同签署日期</td>
-                                    <td style="padding: 0 8px 0 0;">
-                                        <input type="text" class="layui-input tabel_time" id="dyht_time" style="border: none;">
-                                    </td>
-                                    <td style="min-width: 120px;">债务履行开始时间</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td style="padding: 0;" colspan="4">
-                            <table class="tabs_inner" cellpadding="8" cellspacing="0">
-                                <tr>
-                                    <td style="padding: 0 8px 0 0;">
-                                        <input type="text" class="layui-input tabel_time" id="start_time" style="border: none;">
-                                    </td>
-                                    <td class="min_w120">债务履行结束时间</td>
-                                    <td style="padding: 0 8px 0 0;">
-                                        <input type="text" class="layui-input tabel_time" id="end_time" style="border: none;">
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0;" colspan="4">
-                            <table class="tabs_inner" cellpadding="8" cellspacing="0">
-                                <tr>
-                                    <td>被担保债权数额</td>
-                                    <td></td>
-                                    <td>担保范围</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td style="padding: 0;" colspan="4">
-                            <table class="tabs_inner" cellpadding="8" cellspacing="0">
-                                <tr>
-                                    <td></td>
-                                    <td>抵押方式</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
+                <div class="tianchong">
+                    <a class="tainchong_a" href="javascript:;">
+                        <img class="tainchong_img" src="img/tianchong_icon.png" alt="">
+                    </a>
+                </div>
             </div>
+            <form class="layui-form layui-form-pane" action="">
+                <div class="tabs_content">
+                    <div class="tabel_header">
+                        <span class="table_title">抵押信息</span>
+                        <span class="tabel_icon"></span>
+                    </div>
+                    <table class="apply_table" cellpadding="8" cellspacing="0">
+                        <tr>
+                            <td style="min-width: 100px;">抵押合同编号</td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="" placeholder="">
+                            </td>
+                            <td style="min-width: 100px;">银行抵押业务号</td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="" placeholder="">
+                            </td>
+                            <td style="min-width: 100px;">银行业务编号</td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="" placeholder="">
+                            </td>
+                            <td style="min-width: 100px;">贷款账号</td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="" placeholder="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>债权人</td>
+                            <td colspan="3" style="padding: 0;">
+                                <input class="table_input" type="text" value="" placeholder="">
+                            </td>
+                            <td>债务人</td>
+                            <td colspan="3" style="padding: 0;">
+                                <input class="table_input" type="text" value="" placeholder="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0;" colspan="4">
+                                <table class="tabs_inner" cellpadding="8" cellspacing="0">
+                                    <tr>
+                                        <td class="min_w120">抵押合同签署日期</td>
+                                        <td class="td_time" style="padding: 0;">
+                                            <input type="text" class="layui-input" id="dyht_time" style="border: none;">
+                                            <img class="tabel_time_img" src="img/time_icon.png" alt="">
+                                        </td>
+                                        <td class="min_w120">债务履行开始时间</td>
+                                    </tr>
+                                    <tr>
+                                        <td>被担保债权数额</td>
+                                        <td style="padding: 0;">
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                        <td>担保范围</td>
+                                    </tr>
+                                    <tr>
+                                        <td>不动产评估价格</td>
+                                        <td style="padding: 0;">
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                        <td>土地评估价格</td>
+                                    </tr>
+                                    <tr>
+                                        <td>在建建筑物抵押范围</td>
+                                        <td style="padding: 0;">
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                        <td>房产抵押面积</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="padding: 0;" colspan="4">  <!--==========================-->
+                                <table class="tabs_inner" cellpadding="8" cellspacing="0">
+                                    <tr>
+                                        <td class="td_time" style="padding: 0;">  <!-- 债务履行开始时间-->
+                                            <input type="text" class="layui-input" id="start_time" style="border: none;">
+                                            <img class="tabel_time_img" src="img/time_icon.png" alt="">
+                                        </td>
+                                        <td class="min_w120">债务履行结束时间</td>
+                                        <td class="td_time" style="padding: 0;">
+                                            <input type="text" class="layui-input tabel_time" id="end_time" style="border: none;">
+                                            <img class="tabel_time_img" src="img/time_icon.png" alt="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0;">  <!-- 担保范围 -->
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                        <td>抵押方式</td>
+                                        <td style="padding: 0;">
+                                            <select class="tabel_select" name="interest" lay-filter="aihao" style="margin: 0;">
+                                                <option value=""></option>
+                                                <option value="0">一般抵押</option>
+                                                <option value="2">最高抵押</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0;">  <!-- 土地评估价格-->
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                        <td>房产评估价格</td>
+                                        <td style="padding: 0;">
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0;">  <!-- 房产抵押面积-->
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                        <td>土地抵押面积</td>
+                                        <td style="padding: 0;">
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tabs_content">
+                    <div class="tabel_header">
+                        <span class="table_title">申请人信息</span>
+                        <span class="tabel_icon"></span>
+                    </div>
+                    <table class="apply_table" cellpadding="8" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>姓名/名称</th>
+                                <th>证件类型</th>
+                                <th>证件号</th>
+                                <th>联系地址</th>
+                                <th>电话</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td style="min-width: 100px;">抵押权人</td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="中国农业银行股份有限公司苏州分行" placeholder="">
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="营业执照" placeholder="">
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="320500000010314" placeholder="">
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="苏州市姑苏区阊胥路88号" placeholder="">
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="0512-68268179" placeholder="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="min-width: 100px;">抵押人1</td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="黄敬" placeholder="">
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="身份证" placeholder="">
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="320500000010314" placeholder="">
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="苏州市姑苏区阊胥路88号" placeholder="">
+                            </td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="0512-68268179" placeholder="">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tabs_content">
+                    <div class="tabel_header">
+                        <span class="table_title">上传资料</span>
+                        <span class="tabel_icon"></span>
+                    </div>
+                    <div class="updata">
+                        <ul class="updata_list">
+                            <li class="updata_list_header">
+                                <img class="updata_title_img" src="img/upload_title_icon.png" alt="">
+                                <span class="updata_list_title">请上传材料</span>
+                            </li>
+                            <li class="updata_list_item">
+                                <span class="updata_list_text">1.不动产登记申请书</span>
+                                <a class="upload_text" href="">
+                                    <img class="updata_list_icon" src="img/upload_icon.png" alt="">
+                                </a>
+                            </li>
+                            <li class="updata_list_item">
+                                <span class="updata_list_text">2.申请人身份证明</span>
+                                <a class="upload_text" href="">
+                                    <img class="updata_list_icon" src="img/upload_icon.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="updata_list" style="float: right;">
+                            <li class="updata_list_header">
+                                <img class="updata_title_img" src="img/uploaded_title_icon.png" alt="">
+                                <span class="updata_list_title">已上传文件</span>
+                            </li>
+                            <li class="updata_list_item">
+                                <span class="updata_list_text">1.不动产权证书第1页</span>
+                                <a class="upload_text" href="">
+                                    <img class="updata_list_icon" src="img/upoad_delet_icon.png" alt="">
+                                </a>
+                            </li>
+                            <li class="updata_list_item">
+                                <span class="updata_list_text">2.不动产权证书第2页</span>
+                                <a class="upload_text" href="">
+                                    <img class="updata_list_icon" src="img/upoad_delet_icon.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tabs_content">
+                    <div class="tabs_header bdcInfo">
+                        <div class="header_input">
+                            <input class="input_inner" type="text" value="" placeholder="输入现不动产权利人证件号，自动获取数据">
+                        </div>
+                        <div class="tianchong">
+                            <a class="tainchong_a" href="javascript:;">
+                                <img class="tainchong_img" src="img/tianchong_icon.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tabel_header">
+                        <span class="table_title">不动产信息</span>
+                        <span class="tabel_icon"></span>
+                    </div>
+                    <table class="apply_table" cellpadding="8" cellspacing="0">
+                        <tr>
+                            <td style="min-width: 100px;">报件区域</td>
+                            <td style="padding: 0;">
+                                <select class="tabel_select" name="interest" lay-filter="aihao" style="margin: 0;">
+                                    <option value=""></option>
+                                    <option value="0">姑苏区</option>
+                                    <option value="2">吴中</option>
+                                </select>
+                            </td>
+                            <td style="min-width: 100px;">坐落</td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="" placeholder="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="min_w120">原不动产权证书号</td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="" placeholder="">
+                            </td>
+                            <td>不动产单元号</td>
+                            <td style="padding: 0;">
+                                <input class="table_input" type="text" value="" placeholder="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0;" colspan="2">
+                                <table class="tabs_inner" cellpadding="8" cellspacing="0">
+                                    <tr>
+                                        <td>房屋用途</td>
+                                        <td style="padding: 0 8px 0 0;">
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                        <td>土地用途</td>
+                                        <td style="padding: 0 8px 0 0;">  <!-- 土地用途-->
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="min_w120">土地使用起始日</td>
+                                        <td class="td_time" style="padding: 0;">  <!-- 土地使用结束日-->
+                                            <input type="text" class="layui-input" id="tdqssj" style="border: none;">
+                                            <img class="tabel_time_img" src="img/time_icon.png" alt="">
+                                        </td>
+                                        <td class="min_w120">土地使用结束日</td>
+                                        <td class="td_time" style="padding: 0;">  <!-- 土地使用结束日-->
+                                            <input type="text" class="layui-input" id="tdjssj" style="border: none;">
+                                            <img class="tabel_time_img" src="img/time_icon.png" alt="">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="padding: 0;" colspan="2">  <!--==========================-->
+                                <table class="tabs_inner" cellpadding="8" cellspacing="0">
+                                    <tr>
+                                        <td>房屋面积</td>
+                                        <td style="padding: 0 8px 0 0;">
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                        <td>土地面积</td>
+                                        <td style="padding: 0 8px 0 0;">
+                                            <input class="table_input" type="text" value="" placeholder="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>权利性质</td>
+                                        <td style="padding: 0;" colspan="3">
+                                            <select class="tabel_select" name="interest" lay-filter="aihao" style="width: 100%;margin: 0;">
+                                                <option value=""></option>
+                                                <option value="0">国有土地出让</option>
+                                                <option value="2">国有土地出让</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                   </div>
+            </form>
+        </div>
+        <div id="apply_footer" class="footer">
+            <button class="ap_sub sub_text_blue">暂存草稿</button>
+            <button class="ap_sub ap_sub_blue">提交申请</button>
         </div>
     </div>
 </body>
+<script type="text/javascript" src="jquery-3.2.1.js"></script>
 <script type="text/javascript" src="../assets/layui/layui.js"></script>
 <script type="text/javascript">
-    layui.use('laydate', function(){
-        var laydate = layui.laydate;
+    layui.use(['form','laydate','element'], function(){
+        var form = layui.form,
+            laydate = layui.laydate,
+            elemet = layui.element;
 
         //执行一个laydate实例
-        laydate.render({
+        laydate.render({  // 抵押合同签署日期
             elem: '#dyht_time' //指定元素
         });
-        laydate.render({elem:'#start_time'});
-        laydate.render({elem:'#end_time'});
+        laydate.render({  // 债务履行开始时间
+            elem:'#start_time'});
+        laydate.render({  // 债务履行结束时间
+            elem:'#end_time'});
+        laydate.render({  // 土地使用起始日
+            elem:'#tdqssj'});
+        laydate.render({  // 土地使用结束日
+            elem:'#tdjssj'});
     });
+    window.onload = function () {
+        resetHeight();
+        clear_item()
+    };
+    function resetHeight() {
+        var apply_body = document.getElementById("apply_body");
+        var apply_content = document.getElementById("applay_conten");
+        var apply_footer = document.getElementById("apply_footer");
+        var body_Height = apply_body.clientHeight;
+        var footer_Height = apply_footer.offsetHeight;
+        apply_content.style.height = (body_Height - footer_Height) + 'px';
+    }
+    function clear_item() {  // 修改上传资料表格样式
+        var ul = document.querySelectorAll(".updata_list");
+        for (var i = 0; i< ul.length;i++) {
+            var List = ul[i].getElementsByClassName("updata_list_item");
+            var listindex  = List.length;
+            List[listindex - 1].className = 'clear_last_item';
+        }
+    }
 </script>
 </html>

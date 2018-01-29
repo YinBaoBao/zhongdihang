@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../common/style/reset.css">
+    <style>
+        html,body{
+            height: 100%;
+        }
+        .apply_success{
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .suc_content{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 520px;
+            height: 400px;
+            margin-left: -260px;
+            margin-top: -200px;
+        }
+        .suc_item{
+            padding: 10px;
+        }
+        .suc_img{
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+            margin-right: 15px;
+        }
+        .suc_bjbh_text,.suc_message_text{
+            display: inline-block;
+            font-family: MicrosoftYaHei-Bold;
+            line-height: 36px;
+            color: #272b2e;
+            vertical-align: middle;
+        }
+        .suc_bjbh_text{
+            font-size: 30px;
+        }
+        .suc_message_text{
+            font-size: 24px;
+            padding-left: 20px;
+            text-align: left;
+        }
+        .sub_text{
+            display: inline-block;
+            margin-top: 40px;
+            text-align: center;
+        }
+        .suc_button{
+            border: none;
+            width: 220px;
+            height: 60px;
+            margin: 0 10px;
+            font-family: MicrosoftYaHei;
+            font-size: 22px;
+            border-radius: 30px;
+            outline: none;
+            cursor: pointer;
+        }
+        .suc_button:focus{
+            outline: none;
+        }
+        .suc_button_info{
+            color: #fff;
+            background-color: #2d88ef;
+        }
+        .suc_text_info{
+            background-color: #EBF3FE;
+            border: solid 1px #B7CEEB;
+            color: #2d88ef;
+        }
+    </style>
+</head>
+<body>
+<body>
+    <div class="huiyaya-body apply_success">
+        <ul class="suc_content">
+            <li class="suc_item">
+                <img class="suc_img" src="img/success_icon.png" alt="">
+                <span class="suc_bjbh_text">
+                    报件编号：201708000000010
+                </span>
+            </li>
+            <li class="suc_item">
+                <span class="suc_message_text">恭喜，您已报件成功，您可以在“办理状态查询”随时查询您的登记办理进度。</span>
+            </li>
+            <li class="suc_item">
+                <a class="sub_text" href="javascript:;">
+                    <button class="suc_button suc_button_info">打印申请书</button>
+                    <button class="suc_button suc_text_info">新建申请</button>
+                </a>
+            </li>
+        </ul>
+    </div>
+</body>
+</body>
+</html>

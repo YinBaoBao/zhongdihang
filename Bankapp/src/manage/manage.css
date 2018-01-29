@@ -1,0 +1,36 @@
+body,html{
+    height: 100%;
+    font-family: MicrosoftYaHei;
+}
+.manage_body{
+    height: 100%;
+}
+.manage_header{
+    padding: 10px;
+}
+.chart_title{
+    display: inline-block;
+    width: 200px;
+    margin: 42px 0 0 86px;
+    vertical-align: top;
+}
+.chart_title_text{
+    display: inline-block;
+    width: inherit;
+    line-height: 33px;
+    color: #343a47;
+}
+.chart_title_num{
+    display: inline-block;
+    width: inherit;
+    margin-top: 15px;
+    font-size: 30px;
+    line-height: 33px;
+    color: #2d88ef;
+}
+.managechart{
+    display: inline-block;
+    width: 600px;
+    height: 260px;
+    vertical-align: top;
+}

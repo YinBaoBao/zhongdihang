@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>抵押到期监管</title>
+    <link rel="stylesheet" href="../common/style/reset.css">
+    <link rel="stylesheet" href="manage.css">
+</head>
+<body>
+<div class="manage_body">
+    <div class="manage_header">
+        <div class="chart_title">
+            <span class="chart_title_text">抵押总数</span>
+            <sapn class="chart_title_num">24,653</sapn>
+        </div>
+        <div id="managechart" class="managechart"></div>
+    </div>
+    <div class="manage_content">
+        <div class="manage_tab">
+            <ul class="manage_tab_list">
+                <li class="manage_tab_item">
+                    <span class="manage_tab_text">全部抵押</span>
+                </li>
+                <li class="manage_tab_item">
+                    <span class="manage_tab_text">1个月以内</span>
+                </li>
+                <li class="manage_tab_item">
+                    <span class="manage_tab_text">1-3个月</span>
+                </li>
+                <li class="manage_tab_item">
+                    <span class="manage_tab_text">3个月以后</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+<script src="echarts.min.js"></script>
+<script type="text/javascript">
+    var mychart = document.getElementById('managechart');
+    var Managechart = echarts.init(mychart);
+    var option = {
+        title: {
+            text: ''
+        },
+        tooltip: {},
+        roseType: false,
+        legend: {
+            type: 'plain',
+            data: ['全部抵押'],
+            itemStyle: {
+                color: '#F3C81C'
+            }
+        },
+        series: [{
+            name: '全部抵押',
+            type: 'pie',
+            data: [
+                {
+                    value: 100,
+                    name: '1个月以内到期',
+                    itemStyle: {
+                        color: '#F3C81C'
+                    }
+                },
+                {
+                    value: 222,
+                    name: '1-3个月到期',
+                    itemStyle: {
+                        color: '#65DAF1'
+                    }
+                },
+                {
+                    value: 310,
+                    name: '3个月以后到期',
+                    itemStyle: {
+                        color: '#06A5FE'
+                    }
+                }
+            ]
+        }]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    Managechart.setOption(option);
+</script>
+</html>
