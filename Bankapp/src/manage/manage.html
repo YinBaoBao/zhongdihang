@@ -39,20 +39,20 @@
         <div class="manage_table_content">
             <table class="manage_table">
                 <thead>
-                    <tr>
-                        <th>抵押人</th>
-                        <th>抵押合同编号</th>
-                        <th>坐落</th>
-                        <th>抵押到期时间</th>
-                    </tr>
+                <tr>
+                    <th>抵押人</th>
+                    <th>抵押合同编号</th>
+                    <th>坐落</th>
+                    <th>抵押到期时间</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>小张</td>
-                        <td>37088319880</td>
-                        <td>津梁街188号149栋701室</td>
-                        <td>2018-01-31</td>
-                    </tr>
+                <tr>
+                    <td>小张</td>
+                    <td>37088319880</td>
+                    <td>津梁街188号149栋701室</td>
+                    <td>2018-01-31</td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -64,6 +64,7 @@
     window.onload = function () {
         var mychart = document.getElementById('managechart');
         var Managechart = echarts.init(mychart);
+        Managechart.showLoading();
         var option = {
             title: {
                 text: ''
@@ -72,14 +73,19 @@
             roseType: false,
             legend: {
                 type: 'plain',
-                data: [{
-                    name: '全部抵押',
-                    textStyle: {
-                        color: '#343a47'
+                data: [
+                    {
+                        name: '1个月以内到期'
+                    },
+                    {
+                        name: '1-3个月到期'
+                    },
+                    {
+                        name: '3个月以后到期'
                     }
-                }],
-                left: '60px',
-                top: '0px'
+                ],
+                top: -2,
+                left: 'center'
             },
             series: [{
                 name: '全部抵押',
@@ -111,21 +117,25 @@
         };
         // 使用刚指定的配置项和数据显示图表。
         Managechart.setOption(option);
+        setTimeout(function () {
+            Managechart.hideLoading();
+        },1000);
         RsetStyle();
         tabitemactive();
         function tabitemactive() {  // tab选中样式
             var list = document.querySelectorAll(".manage_tab_item");
-           for (var i = 0;i< list.length;i++) {
-               list[i].onclick = function () {
-                  for (var i = 0;i < list.length;i++) {
-                      list[i].className = "manage_tab_item";
-                      if (list[i] == this) {
-                          list[i].className = addClassName(list[i],'manage_tab_active');
-                      }
-                  }
-               }
-           }
+            for (var i = 0; i < list.length; i++) {
+                list[i].onclick = function () {
+                    for (var i = 0; i < list.length; i++) {
+                        list[i].className = "manage_tab_item";
+                        if (list[i] == this) {
+                            list[i].className = addClassName(list[i], 'manage_tab_active');
+                        }
+                    }
+                }
+            }
         }
+
         function RsetStyle() { // 页面样式重置
             var manage_body = document.getElementById("manage_body");
             var manage_out = document.getElementById("manage_out");
@@ -138,9 +148,10 @@
             manage_out.style.height = Out_H + "px";
             manage_content.style.height = (Out_H - header_H - 40) + "px";
         }
-        function addClassName(event,newclass) {  // 增加类名
+
+        function addClassName(event, newclass) {  // 增加类名
             var oldclass = event.className;
-            return oldclass == ''? newclass: oldclass +" "+ newclass;
+            return oldclass == '' ? newclass : oldclass + " " + newclass;
         }
     }
 </script>

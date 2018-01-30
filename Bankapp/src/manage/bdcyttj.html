@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>抵押登记统计</title>
+    <link rel="stylesheet" href="../common/style/reset.css">
+    <link rel="stylesheet" href="../assets/layui/css/layui.css">
+    <link rel="stylesheet" href="managecommon.css">
+</head>
+<body id="manage_body">
+<div class="layui-form tj_out">
+    <ul class="tj_header">
+        <li class="tj_item tj_select tj_margin">
+            <div class="layui-input-inline">
+                <select name="quiz1">
+                    <option value="">请选择省</option>
+                    <option value="浙江" selected="">浙江省</option>
+                    <option value="你的工号">江西省</option>
+                    <option value="你最喜欢的老师">福建省</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="quiz2">
+                    <option value="">请选择市</option>
+                    <option value="杭州">杭州</option>
+                    <option value="宁波" disabled="">宁波</option>
+                    <option value="温州">温州</option>
+                    <option value="温州">台州</option>
+                    <option value="温州">绍兴</option>
+                </select>
+            </div>
+        </li>
+        <li class="tj_item tj_select tj_margin">
+            <div class="layui-input-inline">
+                <select name="quiz1">
+                    <option value="">请选择省</option>
+                    <option value="浙江" selected="">浙江省</option>
+                    <option value="你的工号">江西省</option>
+                    <option value="你最喜欢的老师">福建省</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="quiz2">
+                    <option value="">请选择市</option>
+                    <option value="杭州">杭州</option>
+                    <option value="宁波" disabled="">宁波</option>
+                    <option value="温州">温州</option>
+                    <option value="温州">台州</option>
+                    <option value="温州">绍兴</option>
+                </select>
+            </div>
+        </li>
+        <li class="tj_item tj_margin">
+            <select name="interest" lay-filter="aihao">
+                <option value=""></option>
+                <option value="0">写作</option>
+                <option value="2">游戏</option>
+                <option value="3">音乐</option>
+                <option value="4">旅行</option>
+            </select>
+        </li>
+        <li class="tj_item">
+            <select name="interest" lay-filter="aihao">
+                <option value=""></option>
+                <option value="0">写作</option>
+                <option value="2">游戏</option>
+                <option value="3">音乐</option>
+                <option value="4">旅行</option>
+            </select>
+        </li>
+        <li class="tj_item" style="text-align: right;">
+            <button class="layui-btn layui-btn-normal tj_button">统计</button>
+        </li>
+    </ul>
+    <div class="tj_content">
+        <div class="tj_title">
+            <span class="tj_title_text">统计结果 (单位: 万元)</span>
+        </div>
+        <div id="Tjchart" class="tj_chart"></div>
+    </div>
+</div>
+</body>
+<script src="echarts.min.js"></script>
+<script type="text/javascript" src="../assets/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['form', 'element'], function () {
+        var form = layui.form
+            ,layer = layui.layer;
+    });
+    window.onload = function () {
+        var Tjchart = echarts.init(document.getElementById("Tjchart"));
+        Tjchart.showLoading();
+        var colors = ['#5793f3', '#675bba'];
+        var Tioption = {
+            color: colors,
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                }
+            },
+            grid: {
+                right: '15%'
+            },
+            toolbox: {
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            legend: {
+                data:['单价','平均值']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#343a47'
+                        }
+                    },
+                    data: ['住宅', '工业', '商业', '教育', '文化', '办公', '军事', '其他']
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '单价',
+                    position: 'left',
+                    axisLine: {
+                        lineStyle: {
+                            color: colors[0]
+                        }
+                    },
+                    axisLabel: {
+                        formatter: '{value} 万元'
+                    }
+                }
+            ],
+            series: [
+                {
+                    name:'单价',
+                    type:'bar',
+                    barWidth: '50%',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'inside',
+                            color: 'white',
+                            fontSize: '14'
+                        }
+                    },
+                    data: [23000, 8000, 6000, 6000, 6000, 6000, 3000, 7000]
+                },
+                {
+                    name:'平均值',
+                    type:'line',
+                    yAxisIndex: 0,
+                    data:[23000, 8000, 6000, 6000, 6000, 6000, 3000, 7000]
+                }
+            ]
+        };
+        Tjchart.setOption(Tioption);
+        setTimeout(function () {
+            Tjchart.hideLoading();
+        },1000)
+    }
+    //[23000, 8000, 6000, 6000, 6000, 6000, 3000, 7000]
+    // ['住宅', '工业', '商业', '教育', '文化', '办公', '军事', '其他']
+</script>
+</html>
