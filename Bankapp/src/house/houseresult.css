@@ -1,0 +1,124 @@
+html,body{
+    height: 100%;
+    font-family: PingFang-SC-Medium;
+}
+.house-result{
+    width: 100%;
+    padding: 15px 0;
+    background: #f4f4f4;
+}
+.result-content{
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px 0;
+    background: white;
+    text-align: center;
+    border-radius: 5px;
+}
+.result-form{
+    display: inline-block;
+    width: 740px;
+}
+.result-form .layui-form-item{
+    height: 70px;
+    margin: 0;
+    padding-right: 120px;
+    position: relative;
+}
+.result-form .layui-input{
+    height: inherit;
+    line-height: inherit;
+    margin: 0;
+    font-size: 22px;
+    color: #343a47;
+}
+.result-search{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 120px;
+}
+.result-search .layui-btn{
+    width: 120px;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+    padding: 0;
+    font-size: 22px;
+    background: #2d88ef;
+    border-radius: 0;
+}
+.result-list{
+    padding: 15px 0;
+    margin-top: 10px;
+    text-align: left;
+    background-color: #fefefe;
+    box-shadow: 0px 2px 13px 0px rgba(18, 37, 58, 0.08);
+}
+.result-item{
+    padding: 0 30px;
+    height: 60px;
+    line-height: 60px;
+    position: relative;
+}
+.result-item:after{
+    position: absolute;
+    right: 30px;
+    bottom: 0;
+    width: 78%;
+    border: 1px solid #e0e0e0;
+    content: '';
+}
+.result-item-img{
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    margin-right: 60px;
+    margin-top: -4px;
+    vertical-align: middle;
+}
+.result-item-text{
+    display: inline-block;
+    font-size: 24px;
+    color: #343a47;
+    vertical-align: middle;
+}
+.result-print{
+    width: 100%;
+    height: 120px;
+    line-height: 120px;
+}
+.result-print .layui-btn{
+    width: 220px;
+    height: 60px;
+    padding: 0;
+    text-align: center;
+    font-size: 24px;
+    background-color: #fa9e45;
+    border-radius: 30px;
+}
+.result-success{
+    /*//display: none;*/
+}
+.result-error{
+    height: 480px;
+    padding: 15px 0;
+    margin-top: 10px;
+    background-color: #fefefe;
+    box-shadow: 0px 2px 13px 0px rgba(18, 37, 58, 0.08);
+}
+.result-error-content{
+    margin-top: 120px;
+    text-align: center;
+}
+.result-error-img{
+    width: 128px;
+    height: 128px;
+    margin-bottom: 15px;
+}
+.result-error-text{
+    display: inline-block;
+    width: 100%;
+    font-size: 22px;
+    color: #bbbbbb;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <title>慧呀呀--登录</title>
+    <link rel="stylesheet" href="../common/style/reset.css">
+    <link rel="stylesheet" href="houseresult.css">
+    <link rel="stylesheet" href="../assets/layui/css/layui.css">
+</head>
+<body>
+<div class="huiyaya-body house-result">
+    <div class="result-content">
+        <form class="result-form"  method="post">
+            <div class="layui-form-item">
+                <input  class="layui-input" type="text" name="certificate" required="required" placeholder="请输入不动产权证号或房产证号" autocomplete="off">
+                <div class="result-search">
+                    <input class="layui-btn" type="submit" value="搜索"/>
+                </div>
+            </div>
+           <div class="result-success">
+               <ul class="result-list">
+                   <li class="result-item">
+                       <img class="result-item-img" src="img/house-point.png" alt="">
+                       <span class="result-item-text">苏州工业园区会新街99号148</span>
+                   </li>
+                   <li class="result-item">
+                       <img class="result-item-img" src="img/house-bdcqzh.png" alt="">
+                       <span class="result-item-text">苏州工业园区会新街99号148</span>
+                   </li>
+                   <li class="result-item">
+                       <img class="result-item-img" src="img/house-address.png" alt="">
+                       <span class="result-item-text">苏州工业园区会新街99号148</span>
+                   </li>
+                   <li class="result-item">
+                       <img class="result-item-img" src="img/hosue-zt.png" alt="">
+                       <span class="result-item-text">苏州工业园区会新街99号148</span>
+                   </li>
+                   <li class="result-item">
+                       <img class="result-item-img" src="img/house-bdcdycs.png" alt="">
+                       <span class="result-item-text">苏州工业园区会新街99号148</span>
+                   </li>
+                   <li class="result-item">
+                       <img class="result-item-img" src="img/house-cxsj.png" alt="">
+                       <span class="result-item-text">苏州工业园区会新街99号148</span>
+                   </li>
+               </ul>
+               <div class="result-print">
+                   <input type="button" value="打印" class="layui-btn" id="print"/>
+               </div>
+           </div>
+            <div class="result-error">
+                <div class="result-error-content">
+                    <img class="result-error-img" src="img/house-error.png" alt="">
+                    <span class="result-error-text">暂未获得该不动产权利人的查询授权!</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../assets/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(["jquery","form"],function () {
+        var $ = layui.$;
+        var form = layui.form;
+        $("#print").click(function () {
+
+        });
+    })
+</script>
+</html>
