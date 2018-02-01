@@ -125,7 +125,26 @@ html,body{
     text-align: center;
     vertical-align: middle;
 }
-
+.apply-table-add{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    position: relative;
+    z-index: 100;
+    vertical-align: top;
+    overflow: hidden;
+    cursor: pointer;
+}
+.apply_table-imgs{
+    display: inline-block;
+    position: relative;
+    z-index: -1;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    vertical-align: middle;
+}
 .tabs_inner tr:last-child td {
     border-bottom: none;
 }

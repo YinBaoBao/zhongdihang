@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <title>慧呀呀--分支行管理</title>
+    <link rel="stylesheet" href="../common/style/reset.css">
+    <link rel="stylesheet" href="../assets/layui/css/layui.css">
+    <link rel="stylesheet" href="add.css">
+</head>
+<body id="add_body">
+<div id="add_out" class="huiyaya-body account-add">
+    <div id="add_content" class="add-content">
+        <form id="add_form" class="layui-form add-form" action="" method="get">
+            <ul class="add-list">
+                <li class="add-item">
+                    <span class="add-item-text">简称</span>
+                    <input class="layui-input" type="text" name="telephone" placeholder="该行简称，仅限于本行系统显示"/>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">全称</span>
+                    <input class="layui-input" type="text" name="name" placeholder="该行全称"/>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">统一信用代码</span>
+                    <input class="layui-input" type="text" name="dm" placeholder="该行统一信用代码"/>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">地址</span>
+                    <input class="layui-input" type="text" name="dz" placeholder="该行所在地址"/>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">联系电话</span>
+                    <input class="layui-input" type="text" name="phone" placeholder="该行联系电话"/>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">所属城市</span>
+                    <select name="city" lay-filter="aihao">
+                        <option value=""></option>
+                        <option value="0">写作</option>
+                        <option value="2">游戏</option>
+                    </select>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">上级银行</span>
+                    <input class="layui-input" type="text" name="phone" value="兴业银行" placeholder=""/>
+                </li>
+            </ul>
+            <div class="add-submit">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">完成</button>
+            </div>
+            <div class="add-message">
+                <span class="add-message-text">* “全称、地址、统一信用代码、联系电话”将用于银行抵押申报等功能，请认真填写。</span>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../assets/js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="../assets/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(["jquery", "form", "element"], function () {
+        var $ = layui.$;
+        var form = layui.form,
+            element = layui.element;
+        $("#print").click(function () {
+        });
+    });
+    window.onload = function () {
+        var type = $("#typeSel").children("option");
+        for (var i = 0; i < type.length; i++) {
+            if (type[i].value == 2) {
+                type[i].selected = true;
+            }
+        }
+    };
+    resetHeight();
+    function resetHeight() {
+        var add_body = document.getElementById("add_body");
+        var add_out = document.getElementById("add_out");
+        var add_content = document.getElementById("add_content");
+        var add_form = document.getElementById("add_form");
+        var body_Height = add_body.clientHeight;
+        var out_H = body_Height - 20;
+        var content_H = body_Height - 60;
+        var form_H = body_Height - 80;
+        add_out.style.height = out_H + 'px';
+        add_content.style.height = content_H + 'px';
+        add_form.style.height = form_H + 'px';
+    }
+</script>
+</html>

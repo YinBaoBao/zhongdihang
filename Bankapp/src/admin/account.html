@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <title>慧呀呀--登录</title>
+    <link rel="stylesheet" href="../common/style/reset.css">
+    <link rel="stylesheet" href="account.css">
+    <link rel="stylesheet" href="../assets/layui/css/layui.css">
+</head>
+<body>
+<div class="huiyaya-body house-result">
+</div>
+</body>
+<script type="text/javascript" src="../assets/js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="../assets/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(["jquery","form"],function () {
+        var $ = layui.$;
+        var form = layui.form;
+        $("#print").click(function () {
+
+        });
+    })
+    window.onload = function () {
+        var type = $("#typeSel").children("option");
+        for (var i =0;i<type.length ;i++){
+            if (type[i].value == 2){
+                type[i].selected = true;
+            }
+        }
+    }
+</script>
+</html>

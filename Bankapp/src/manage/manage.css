@@ -62,16 +62,27 @@ body, html {
     font-size: 0;
 }
 .manage_tab_item{
-    border: solid 1px #e3e3e3;
+    width: 140px;
     height: 54px;
-    margin-left: -1px;
     line-height: 54px;
     text-align: center;
     color: #a7a7a7;
+    position: relative;
 }
-.manage_tab_active{
+.manage_tab_item:after{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    width: 139px;
+    height: 54px;
+    border: solid 1px #e3e3e3;
+    content: '';
+}
+.manage_tab_active:after{
     border: solid 1px #2d88ef;
     color: #2d88ef;
+    z-index: 101;
 }
 .manage_tab_text{
     display: inline-block;
@@ -80,6 +91,8 @@ body, html {
     font-size: 20px;
     text-align: center;
     cursor: pointer;
+    position: relative;
+    z-index: 108;
 }
 .exccell{
     float: right;

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <title>慧呀呀--登录</title>
+    <link rel="stylesheet" href="../common/style/reset.css">
+    <link rel="stylesheet" href="../assets/layui/css/layui.css">
+    <link rel="stylesheet" href="add.css">
+</head>
+<body id="add_body">
+<div id="add_out" class="huiyaya-body account-add">
+    <div id="add_content" class="add-content">
+        <form id="add_form" class="layui-form add-form" action="" method="get">
+            <div class="add-title">
+                <span class="add-title-text">基本信息</span>
+            </div>
+            <ul class="add-list">
+                <li class="add-item">
+                    <span class="add-item-text">手机</span>
+                    <input class="layui-input" type="text" name="telephone" placeholder="用户手机号码"/>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">姓名</span>
+                    <input class="layui-input" type="text" name="name" placeholder="用户姓名"/>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">所属银行</span>
+                    <select name="bankId" lay-filter="aihao">
+                        <option value=""></option>
+                        <option value="0">写作</option>
+                        <option value="2">游戏</option>
+                    </select>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">描述</span>
+                    <textarea placeholder="如：风控人员" name="note" class="layui-textarea"></textarea>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">委托人</span>
+                    <div class="layui-input-block">
+                        <input type="radio" name="name" value="管理员" title="管理员" checked="">
+                        <input type="radio" name="name" value="操作员" title="操作员">
+                    </div>
+                </li>
+                <li class="add-item">
+                    <span class="add-item-text">状态</span>
+                    <div class="layui-input-block">
+                        <input type="radio" name="zt" value="可用" title="可用" checked="">
+                        <input type="radio" name="zt" value="禁用" title="禁用">
+                    </div>
+                </li>
+            </ul>
+            <div class="add-title">
+                <span class="add-title-text">权限设置</span>
+            </div>
+            <div class="add-list">
+                <ul class="add-table">
+                    <li class="add-item check-item">
+                        <div class="check-box">
+                            <input type="checkbox" name="like1[fyjz]" lay-skin="primary" title="房源鉴真">
+                        </div>
+                        <div class="check-box check-item">
+                            <input type="checkbox" name="like1[dydjsb]" lay-skin="primary" title="抵押登记申报">
+                        </div>
+                    </li>
+                    <li class="add-item check-item">
+                        <div class="check-box">
+                            <input type="checkbox" name="like1[dydjyy]" lay-skin="primary" title="抵押登记预约">
+                        </div>
+                        <div class="check-box">
+                            <input type="checkbox" name="like1[plcx]" lay-skin="primary" title="批量查询">
+                        </div>
+                    </li>
+                    <li class="add-item">
+                        <div class="check-box">
+                            <input type="checkbox" name="like1[dydjjg]" lay-skin="primary" title="抵押登记监管与统计">
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="add-submit">
+                <button class="layui-btn" lay-submit="" lay-filter="demo1">完成</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../assets/js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="../assets/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(["jquery", "form", "element"], function () {
+        var $ = layui.$;
+        var form = layui.form,
+            element = layui.element;
+        $("#print").click(function () {
+        });
+    });
+    window.onload = function () {
+        var type = $("#typeSel").children("option");
+        for (var i = 0; i < type.length; i++) {
+            if (type[i].value == 2) {
+                type[i].selected = true;
+            }
+        }
+    };
+    resetHeight();
+    function resetHeight() {
+        var add_body = document.getElementById("add_body");
+        var add_out = document.getElementById("add_out");
+        var add_content = document.getElementById("add_content");
+        var add_form = document.getElementById("add_form");
+        var body_Height = add_body.clientHeight;
+        var out_H = body_Height - 20;
+        var content_H = body_Height - 60;
+        var form_H = body_Height - 80;
+        add_out.style.height = out_H + 'px';
+        add_content.style.height = content_H + 'px';
+        add_form.style.height = form_H + 'px';
+    }
+</script>
+</html>

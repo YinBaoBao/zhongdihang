@@ -154,42 +154,47 @@
                                 <th>电话</th>
                             </tr>
                         </thead>
-                        <tr>
-                            <td style="min-width: 100px;">抵押权人</td>
-                            <td style="padding: 0;">
-                                <input class="table_input" type="text" value="中国农业银行股份有限公司苏州分行" placeholder="">
-                            </td>
-                            <td style="padding: 0;">
-                                <input class="table_input" type="text" value="营业执照" placeholder="">
-                            </td>
-                            <td style="padding: 0;">
-                                <input class="table_input" type="text" value="320500000010314" placeholder="">
-                            </td>
-                            <td style="padding: 0;">
-                                <input class="table_input" type="text" value="苏州市姑苏区阊胥路88号" placeholder="">
-                            </td>
-                            <td style="padding: 0;">
-                                <input class="table_input" type="text" value="0512-68268179" placeholder="">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="min-width: 100px;">抵押人1</td>
-                            <td style="padding: 0;">
-                                <input class="table_input" type="text" value="黄敬" placeholder="">
-                            </td>
-                            <td style="padding: 0;">
-                                <input class="table_input" type="text" value="身份证" placeholder="">
-                            </td>
-                            <td style="padding: 0;">
-                                <input class="table_input" type="text" value="320500000010314" placeholder="">
-                            </td>
-                            <td style="padding: 0;">
-                                <input class="table_input" type="text" value="苏州市姑苏区阊胥路88号" placeholder="">
-                            </td>
-                            <td style="padding: 0;">
-                                <input class="table_input" type="text" value="0512-68268179" placeholder="">
-                            </td>
-                        </tr>
+                       <tr>
+                           <td style="min-width: 100px;">抵押权人 </td>
+                           <td style="padding: 0;">
+                               <input class="table_input" type="text" value="中国农业银行股份有限公司苏州分行" placeholder="">
+                           </td>
+                           <td style="padding: 0;">
+                               <input class="table_input" type="text" value="营业执照" placeholder="">
+                           </td>
+                           <td style="padding: 0;">
+                               <input class="table_input" type="text" value="320500000010314" placeholder="">
+                           </td>
+                           <td style="padding: 0;">
+                               <input class="table_input" type="text" value="苏州市姑苏区阊胥路88号" placeholder="">
+                           </td>
+                           <td style="padding: 0;">
+                               <input class="table_input" type="text" value="0512-68268179" placeholder="">
+                           </td>
+                       </tr>
+                       <tr>
+                           <td style="min-width: 100px;" onselectstart="return false;">
+                               <span style="vertical-align: middle;">抵押人1</span>
+                               <span class="apply-table-add" onclick="_adddyqr(event);">
+                                   <img class="apply_table-imgs" src="img/add-icon.png" alt="" onclick="return false;">
+                               </span>
+                           </td>
+                           <td style="padding: 0;">
+                               <input class="table_input" type="text" value="黄敬" placeholder="">
+                           </td>
+                           <td style="padding: 0;">
+                               <input class="table_input" type="text" value="身份证" placeholder="">
+                           </td>
+                           <td style="padding: 0;">
+                               <input class="table_input" type="text" value="320500000010314" placeholder="">
+                           </td>
+                           <td style="padding: 0;">
+                               <input class="table_input" type="text" value="苏州市姑苏区阊胥路88号" placeholder="">
+                           </td>
+                           <td style="padding: 0;">
+                               <input class="table_input" type="text" value="0512-68268179" placeholder="">
+                           </td>
+                       </tr>
                     </table>
                 </div>
                 <div class="tabs_content">
@@ -205,13 +210,13 @@
                             </li>
                             <li class="updata_list_item">
                                 <span class="updata_list_text">1.不动产登记申请书</span>
-                                <a class="upload_text" href="">
+                                <a class="upload_text" href="javascript:;">
                                     <img class="updata_list_icon" src="img/upload_icon.png" alt="">
                                 </a>
                             </li>
                             <li class="updata_list_item">
                                 <span class="updata_list_text">2.申请人身份证明</span>
-                                <a class="upload_text" href="">
+                                <a class="upload_text" href="javascript:;">
                                     <img class="updata_list_icon" src="img/upload_icon.png" alt="">
                                 </a>
                             </li>
@@ -223,13 +228,13 @@
                             </li>
                             <li class="updata_list_item">
                                 <span class="updata_list_text">1.不动产权证书第1页</span>
-                                <a class="upload_text" href="">
+                                <a class="upload_text" href="javascript:;">
                                     <img class="updata_list_icon" src="img/upoad_delet_icon.png" alt="">
                                 </a>
                             </li>
                             <li class="updata_list_item">
                                 <span class="updata_list_text">2.不动产权证书第2页</span>
-                                <a class="upload_text" href="">
+                                <a class="upload_text" href="javascript:;">
                                     <img class="updata_list_icon" src="img/upoad_delet_icon.png" alt="">
                                 </a>
                             </li>
@@ -369,8 +374,75 @@
     });
     window.onload = function () {
         resetHeight();
-        clear_item()
+        clear_item();
     };
+    function _adddyqr(event) {  // table增加下一行
+        var e=event||window.event;
+        if (e.preventDefault||e.stopPropagation) {
+            e.preventDefault();//W3C标准阻止默认
+            e.stopPropagation();
+        } else{
+            e.returnValue=false;
+            e.cancelable = true; //IE阻止事件冒泡
+        };
+        var self = event.target;
+        var rowIndex = self.parentNode.parentNode;
+        var tr = document.createElement('tr');
+            tr.innerHTML = ''+
+                '<tr>'+
+                    '<td style="min-width: 100px;" onselectstart="return false;">'+
+                        '<span style="vertical-align: middle;">'+'抵押人2 '+'</span>'+
+                        '<span class="apply-table-add" onclick="_deleterow(event);">'+
+                            '<img class="apply_table-imgs table-delete-img" src="" alt="">'+
+                        '</span>'+
+                    '</td>'+
+                    '<td style="padding: 0;">'+
+                        '<input class="table_input" type="text" value="" placeholder="">'+
+                    '</td>'+
+                    '<td style="padding: 0;">'+
+                        '<input class="table_input" type="text" value="" placeholder="">'+
+                    '</td>'+
+                    '<td style="padding: 0;">'+
+                        '<input class="table_input" type="text" value="" placeholder="">'+
+                    '</td>'+
+                    '<td style="padding: 0;">'+
+                        '<input class="table_input" type="text" value="" placeholder="">'+
+                    '</td>'+
+                    '<td style="padding: 0;">'+
+                        '<input class="table_input" type="text" value="" placeholder="">'+
+                    '</td>'+
+                '</tr>';
+        insertAfter(tr,rowIndex);
+    }
+    function _deleterow(event) {  // 删除当前行
+        var e=event||window.event;
+        if (e.preventDefault) {
+            e.preventDefault();//W3C标准阻止默认
+        } else{
+            e.returnValue=false;
+        };
+        var self = event.target;
+        var rowIndex = self.parentNode.parentNode;
+        var parent = self.parentNode.parentNode.parentNode;
+        parent.removeChild(rowIndex);
+    }
+    function insertAfter( newElement, targetElement){ // 在元素之后添加
+        var parent = targetElement.parentNode;
+        if ( parent.lastChild == targetElement ){
+            // 如果最后的节点是目标元素，则直接添加。因为默认是最后
+            parent.a( newElement );
+        }else{
+            //如果不是，则插入在目标元素的下一个兄弟节点的前面。也就是目标元素的后面
+            parent.insertBefore( newElement, targetElement.nextSibling );
+        }
+        ImgSrc();
+    }
+    function ImgSrc() {  // 动态添加src路径
+        var Images = document.querySelectorAll('.table-delete-img');
+        for (var i=0;i<Images.length;i++) {
+            Images[i].src = 'img/delete-icon.png';
+        }
+    }
     function resetHeight() {
         var apply_body = document.getElementById("apply_body");
         var apply_content = document.getElementById("applay_conten");
