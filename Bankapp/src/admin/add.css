@@ -37,7 +37,7 @@ html, body {
 
 .add-list {
     display: inline-block;
-    width: 400px;
+    width: 450px;
     text-align: left;
 }
 
@@ -78,22 +78,19 @@ html, body {
 .add-item .layui-form-radio .layui-anim{
    margin-top: 2px;
 }
-.add-table{
-    display: table;
+.add-checks{
+   width: 100%;
 }
 .check-item{
-    display: table-row;
-    margin: 0 auto;
-}
-.check-box{
-    display: table-cell;
-    padding: 6px 0;
+    display: inline-block;
+    min-width: 220px;
     vertical-align: middle;
+    margin-bottom: 10px;
 }
-.add-item .layui-form-checkbox[lay-skin=primary]{
+.check-item .layui-form-checkbox[lay-skin=primary]{
     height: 24px!important;
 }
-.add-item .layui-form-checkbox span{
+.check-item .layui-form-checkbox span{
     font-size: 20px;
     color: #343a47;
 }
